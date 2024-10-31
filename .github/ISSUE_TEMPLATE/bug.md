@@ -19,5 +19,3 @@ assignees: ""
 ## Specifications
 
 - Version:
-- Platform:
-- Subsystem:
