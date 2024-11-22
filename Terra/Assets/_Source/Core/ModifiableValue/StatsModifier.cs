@@ -1,4 +1,6 @@
 
+using System;
+
 namespace Core.ModifiableValue
 {
 
@@ -9,10 +11,11 @@ namespace Core.ModifiableValue
         PercentMult = 300,
     }
 
+    [Serializable]
     public class ValueModifier
     {
-        public readonly float Value;
-        public readonly StatModType Type;
+        public float Value;
+        public StatModType Type;
         public readonly int Order;
         public readonly object Source;
 

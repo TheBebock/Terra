@@ -15,12 +15,12 @@ namespace Inventory
         
         public void EquipItem(Item newItem)
         {
-            
+            //TODO: PlayerStatsManager.Instance.AddStats(newItem.itemData.stats)   
         }
 
-        public void UnEquipItem()
+        public void UnEquipItem(Item newItem)
         {
-            
+            //TODO: PlayerStatsManager.Instance.Remove(newItem.itemData.stats)   
         }
     }
     

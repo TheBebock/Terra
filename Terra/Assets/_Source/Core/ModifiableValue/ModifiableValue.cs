@@ -1,21 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEngine;
 
 namespace Core.ModifiableValue
 {
    [Serializable]
    public class ModifiableValue
    {
-      public float BaseValua;
+      [SerializeField] private float baseValue;
 
       public float Value
       {
          get
          {
-            if (IsDirty || BaseValua != LastBaseValue)
+            if (IsDirty || baseValue != LastBaseValue)
             {
-               LastBaseValue = BaseValua;
+               LastBaseValue = baseValue;
                _value = CalculateFinalValua();
                IsDirty = false;
             }
@@ -27,18 +28,16 @@ namespace Core.ModifiableValue
       protected bool IsDirty = true;
       protected float _value;
       protected float LastBaseValue = float.MinValue;
-      protected readonly List<ValueModifier> StatModifiers;
-      public readonly ReadOnlyCollection<ValueModifier> StatModifiersReadOnly;
+      [SerializeField] protected List<ValueModifier> StatModifiers;
 
       public ModifiableValue()
       {
          StatModifiers = new List<ValueModifier>();
-         StatModifiersReadOnly = StatModifiers.AsReadOnly();
       }
 
       public ModifiableValue(float baseValue) : this()
       {
-         BaseValua = baseValue;
+         baseValue = baseValue;
       }
 
       public virtual void AddStatModifier(ValueModifier mod)
@@ -86,29 +85,32 @@ namespace Core.ModifiableValue
 
       protected virtual float CalculateFinalValua()
       {
-         float finalValue = BaseValua;
+         float finalValue = baseValue;
          float sumPercentAdd = 0;
          for (int i = 0; i < StatModifiers.Count; i++)
          {
             ValueModifier mod = StatModifiers[i];
-            if (mod.Type == StatModType.Flat)
+            switch (mod.Type)
             {
-               finalValue += mod.Value;
-            }
-            else if (mod.Type == StatModType.PercentAdd)
-            {
-               sumPercentAdd += mod.Value;
-               if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentAdd)
-               {
-                  finalValue *= 1 + sumPercentAdd;
-                  sumPercentAdd = 0;
-               }
-            }
-            else if (mod.Type == StatModType.PercentMult)
-            {
-               finalValue *= 1 + mod.Value;
+               case StatModType.Flat:
+                  finalValue += mod.Value;
+                  break;
+
+               case StatModType.PercentAdd:
+                  sumPercentAdd += mod.Value;
+                  if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentAdd)
+                  {
+                     finalValue *= 1 + sumPercentAdd;
+                     sumPercentAdd = 0;
+                  }
+                  break;
+
+               case StatModType.PercentMult:
+                  finalValue *= 1 + mod.Value;
+                  break;
             }
          }
+
 
          return (float)Math.Round(finalValue, 4);
       }
