@@ -27,12 +27,12 @@ namespace Core.ModifiableValue
       protected bool IsDirty = true;
       protected float _value;
       protected float LastBaseValue = float.MinValue;
-      protected readonly List<StatsModifier> StatModifiers;
-      public readonly ReadOnlyCollection<StatsModifier> StatModifiersReadOnly;
+      protected readonly List<ValueModifier> StatModifiers;
+      public readonly ReadOnlyCollection<ValueModifier> StatModifiersReadOnly;
 
       public ModifiableValue()
       {
-         StatModifiers = new List<StatsModifier>();
+         StatModifiers = new List<ValueModifier>();
          StatModifiersReadOnly = StatModifiers.AsReadOnly();
       }
 
@@ -41,14 +41,14 @@ namespace Core.ModifiableValue
          BaseValua = baseValue;
       }
 
-      public virtual void AddStatModifier(StatsModifier mod)
+      public virtual void AddStatModifier(ValueModifier mod)
       {
          IsDirty = true;
          StatModifiers.Add(mod);
          StatModifiers.Sort(CompareModifierOrder);
       }
 
-      protected virtual int CompareModifierOrder(StatsModifier a, StatsModifier b)
+      protected virtual int CompareModifierOrder(ValueModifier a, ValueModifier b)
       {
          if (a.Order < b.Order)
             return -1;
@@ -57,7 +57,7 @@ namespace Core.ModifiableValue
          return 0;
       }
 
-      public virtual bool RemoveStatModifier(StatsModifier mod)
+      public virtual bool RemoveStatModifier(ValueModifier mod)
       {
          if (StatModifiers.Remove(mod))
          {
@@ -90,7 +90,7 @@ namespace Core.ModifiableValue
          float sumPercentAdd = 0;
          for (int i = 0; i < StatModifiers.Count; i++)
          {
-            StatsModifier mod = StatModifiers[i];
+            ValueModifier mod = StatModifiers[i];
             if (mod.Type == StatModType.Flat)
             {
                finalValua += mod.Value;
