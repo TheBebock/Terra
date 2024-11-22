@@ -4,7 +4,7 @@ using Generic;
 using Inventory.Items;
 using UnityEngine;
 
-namespace Inventory
+namespace Player
 {
     public class PlayerInventory : MonoBehaviourSingleton<PlayerInventory>
     {

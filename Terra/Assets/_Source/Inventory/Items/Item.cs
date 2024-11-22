@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Inventory;
 using Inventory.Items.Definitions;
-using UnityEngine;
+using Player;
 
 namespace Inventory.Items
 {
