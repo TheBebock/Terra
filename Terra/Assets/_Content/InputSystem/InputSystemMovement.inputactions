@@ -1,0 +1,34 @@
+{
+    "name": "InputSystemMovement",
+    "maps": [
+        {
+            "name": "AllTime",
+            "id": "2410fd40-d1ef-442a-a02a-90e8d0726988",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "e3af951a-5b4e-45e4-b2ae-bf375405748b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "dab7213b-c391-424d-a153-d68eb9203ac7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
