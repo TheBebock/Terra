@@ -86,31 +86,31 @@ namespace Core.ModifiableValue
 
       protected virtual float CalculateFinalValua()
       {
-         float finalValua = BaseValua;
+         float finalValue = BaseValua;
          float sumPercentAdd = 0;
          for (int i = 0; i < StatModifiers.Count; i++)
          {
             ValueModifier mod = StatModifiers[i];
             if (mod.Type == StatModType.Flat)
             {
-               finalValua += mod.Value;
+               finalValue += mod.Value;
             }
             else if (mod.Type == StatModType.PercentAdd)
             {
                sumPercentAdd += mod.Value;
                if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentAdd)
                {
-                  finalValua += sumPercentAdd;
+                  finalValue *= 1 + sumPercentAdd;
                   sumPercentAdd = 0;
                }
             }
             else if (mod.Type == StatModType.PercentMult)
             {
-               finalValua *= 1 + mod.Value;
+               finalValue *= 1 + mod.Value;
             }
          }
 
-         return (float)Math.Round(finalValua, 4);
+         return (float)Math.Round(finalValue, 4);
       }
    }
 
