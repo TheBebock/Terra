@@ -13,7 +13,7 @@ public class LookAtCameraComponent : MonoBehaviour
 
     private Vector3 originalRotation;
 
-    public enum LookAtType { LookAtCamera, CameraForward };
+    enum LookAtType { LookAtCamera, CameraForward };
 
     private void Awake()
     {
