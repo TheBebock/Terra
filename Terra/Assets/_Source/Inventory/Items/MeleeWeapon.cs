@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Inventory.Items;
 using UnityEngine;
 
-public interface IEquipable<T> 
-where T : Item
+namespace Inventory.Items
 {
-    public void Equip(T item);
+    public class MeleeWeapon : Weapon
+    {
+
+    }
 }
