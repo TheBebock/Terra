@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Source.StatisticsSystem 
 {
     [DisallowMultipleComponent]
-    public class CharacterStats : MonoBehaviour
+    public class CharacterStats 
     {
         [Header("Character Stats")]
         [SerializeField] private ModifiableValue strength;
