@@ -12,5 +12,10 @@ namespace Inventory.Items
         {
             PlayerInventory.Instance.EquipItem(this);
         }
+        public void Unequip(Item item)
+        {
+            PlayerInventory.Instance.UnEquipItem(this);
+        }
+        
     }
 }
