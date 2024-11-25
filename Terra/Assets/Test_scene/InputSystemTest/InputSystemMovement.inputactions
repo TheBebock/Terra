@@ -147,44 +147,39 @@
                 {
                     "name": "",
                     "id": "6d50e56f-0dc0-460f-b24c-23f378631f64",
-                    "path": "<Keyboard>/w",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "New action map",
+            "id": "0486e878-4830-439f-ba8b-26bfd98df683",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "3ab1f6ed-a2a6-4c18-9a8e-2f3b94f334e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "45718996-dea6-4675-8324-304f95711170",
-                    "path": "<Keyboard>/a",
+                    "id": "3cdd9ffc-8184-4cba-be8b-a17fc122c94f",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "237ee6fc-ffa1-4925-9db9-b0a73e453b28",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "48bf21a6-5ad2-467c-b170-c61bd2b7fc96",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
