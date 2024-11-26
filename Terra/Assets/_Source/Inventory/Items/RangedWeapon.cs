@@ -6,13 +6,14 @@ using UnityEngine;
 
 namespace Inventory.Items
 {
+    [CreateAssetMenu(fileName = "rangedWeapon_", menuName = "TheBebocks/Weapons/Ranged")]
     public class RangedWeapon : Weapon
     {
-        public RangedWeaponData rangedWeaponData;
-
+        
+        public RangedWeaponData rangedData;
         public void Shoot()
         {
-            if (rangedWeaponData.isExplosive)
+            if (rangedData.isExplosive)
             {
                 ThrowExplosive();
             }
@@ -24,17 +25,17 @@ namespace Inventory.Items
 
         private void ThrowExplosive()
         {
-            if (rangedWeaponData.projectilePrefab != null)
+            if (rangedData.projectilePrefab != null)
             {
                 //TODO: throw logic
             }
 
-            if (rangedWeaponData.explosionSound != null)
+            if (rangedData.explosionSound != null)
             {
                 //AudioSource.PlayClipAtPoint(rangedWeaponData.explosionSound, transform.position);
             }
 
-            if (rangedWeaponData.explosionEffect != null)
+            if (rangedData.explosionEffect != null)
             {
                 //TODO: explosion effect
             }

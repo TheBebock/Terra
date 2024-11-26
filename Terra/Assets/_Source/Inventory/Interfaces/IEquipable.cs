@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Inventory.Items;
-using UnityEngine;
 
-public interface IEquipable<T> 
-where T : Item
+public interface IEquipable
 {
-    public void Equip(T item);
+    public bool CanBeRemoved { get; }
+    public void Equip();
+    public void UnEquip();
+    
 }

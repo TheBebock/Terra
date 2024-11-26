@@ -1,26 +1,63 @@
-using Inventory.Items;
+
+using Inventory.Abstracts;
 using Player;
 using UnityEngine;
 public class ItemContainer : MonoBehaviour, IInteractable
 {
+    public bool CanBeInteractedWith => true;
+
     [SerializeField] private Item _item;
-    public void Interact()
+
+    //TODO: Delete
+    private void Update()
     {
-        OnInteraction();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Interact();
+        }
     }
 
-    private void OnInteraction()
+    public void Interact() 
     {
-        if (_item is IEquipable<Item> equipable)
+        if (PlayerInventoryManager.Instance.TryToEquipItem(_item))
         {
-            PlayerInventory.Instance.EquipItem(_item);
-            Debug.Log($"Player equipped: {_item.data.itemName}");
-            Destroy(gameObject);
-        }
-        else
-        {
-            Debug.LogError($"Item is not equipable");
+            OnInteraction();
         }
     }
-    
+
+    public void OnInteraction()
+    {
+        //TODO: Display VFX
+    }
+
+
+    public void ShowVisualisation()
+    {
+        
+        if (CanBeInteractedWith)
+        {
+            if (PlayerInventoryManager.Instance.CanEquipItem(_item))
+            {
+                ShowAvailableVisualization();
+                return;
+            }
+            ShowUnAvailableVisualization();
+        }
+    }
+
+
+    public void ShowAvailableVisualization()
+    {
+        //TODO:Implement UI display
+    }
+
+    public void ShowUnAvailableVisualization()
+    {
+        //TODO:Implement UI display
+    }
+
+    public void StopVisualization()
+    {
+        //TODO:Stop UI display
+    }
 }

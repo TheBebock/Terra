@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Generic;
+using Core.Generics;
 using UnityEngine;
 
 namespace Managers
