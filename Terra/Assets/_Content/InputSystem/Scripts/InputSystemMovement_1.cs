@@ -52,17 +52,17 @@ public partial class @InputSystemMovement: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""ControlScheme"",
+            ""name"": ""PlayerControls"",
             ""id"": ""aeedc490-2d77-4603-bec0-393438b5e74f"",
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d0071202-755e-4982-ac72-0f390d849832"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""MelleAttack"",
@@ -167,48 +167,59 @@ public partial class @InputSystemMovement: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""6d50e56f-0dc0-460f-b24c-23f378631f64"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""35ec0c1f-8abe-4c95-b51f-a251d3599e28"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""0bd05991-6671-4138-b7e4-c428434e7169"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""45718996-dea6-4675-8324-304f95711170"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""237ee6fc-ffa1-4925-9db9-b0a73e453b28"",
+                    ""name"": ""down"",
+                    ""id"": ""d33582b6-8e33-4a24-b373-413ad2d35a95"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""48bf21a6-5ad2-467c-b170-c61bd2b7fc96"",
+                    ""name"": ""left"",
+                    ""id"": ""f3288b7c-16d1-4dcc-8419-925dfd887962"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""08ab30b6-4c06-4f6a-857f-ccbcb0a01135"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -218,14 +229,14 @@ public partial class @InputSystemMovement: IInputActionCollection2, IDisposable
         // AllTime
         m_AllTime = asset.FindActionMap("AllTime", throwIfNotFound: true);
         m_AllTime_Pause = m_AllTime.FindAction("Pause", throwIfNotFound: true);
-        // ControlScheme
-        m_ControlScheme = asset.FindActionMap("ControlScheme", throwIfNotFound: true);
-        m_ControlScheme_Movement = m_ControlScheme.FindAction("Movement", throwIfNotFound: true);
-        m_ControlScheme_MelleAttack = m_ControlScheme.FindAction("MelleAttack", throwIfNotFound: true);
-        m_ControlScheme_DistanceAttack = m_ControlScheme.FindAction("DistanceAttack", throwIfNotFound: true);
-        m_ControlScheme_UseItem = m_ControlScheme.FindAction("UseItem", throwIfNotFound: true);
-        m_ControlScheme_Interaction = m_ControlScheme.FindAction("Interaction", throwIfNotFound: true);
-        m_ControlScheme_Dash = m_ControlScheme.FindAction("Dash", throwIfNotFound: true);
+        // PlayerControls
+        m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
+        m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
+        m_PlayerControls_MelleAttack = m_PlayerControls.FindAction("MelleAttack", throwIfNotFound: true);
+        m_PlayerControls_DistanceAttack = m_PlayerControls.FindAction("DistanceAttack", throwIfNotFound: true);
+        m_PlayerControls_UseItem = m_PlayerControls.FindAction("UseItem", throwIfNotFound: true);
+        m_PlayerControls_Interaction = m_PlayerControls.FindAction("Interaction", throwIfNotFound: true);
+        m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -330,34 +341,34 @@ public partial class @InputSystemMovement: IInputActionCollection2, IDisposable
     }
     public AllTimeActions @AllTime => new AllTimeActions(this);
 
-    // ControlScheme
-    private readonly InputActionMap m_ControlScheme;
-    private List<IControlSchemeActions> m_ControlSchemeActionsCallbackInterfaces = new List<IControlSchemeActions>();
-    private readonly InputAction m_ControlScheme_Movement;
-    private readonly InputAction m_ControlScheme_MelleAttack;
-    private readonly InputAction m_ControlScheme_DistanceAttack;
-    private readonly InputAction m_ControlScheme_UseItem;
-    private readonly InputAction m_ControlScheme_Interaction;
-    private readonly InputAction m_ControlScheme_Dash;
-    public struct ControlSchemeActions
+    // PlayerControls
+    private readonly InputActionMap m_PlayerControls;
+    private List<IPlayerControlsActions> m_PlayerControlsActionsCallbackInterfaces = new List<IPlayerControlsActions>();
+    private readonly InputAction m_PlayerControls_Movement;
+    private readonly InputAction m_PlayerControls_MelleAttack;
+    private readonly InputAction m_PlayerControls_DistanceAttack;
+    private readonly InputAction m_PlayerControls_UseItem;
+    private readonly InputAction m_PlayerControls_Interaction;
+    private readonly InputAction m_PlayerControls_Dash;
+    public struct PlayerControlsActions
     {
         private @InputSystemMovement m_Wrapper;
-        public ControlSchemeActions(@InputSystemMovement wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_ControlScheme_Movement;
-        public InputAction @MelleAttack => m_Wrapper.m_ControlScheme_MelleAttack;
-        public InputAction @DistanceAttack => m_Wrapper.m_ControlScheme_DistanceAttack;
-        public InputAction @UseItem => m_Wrapper.m_ControlScheme_UseItem;
-        public InputAction @Interaction => m_Wrapper.m_ControlScheme_Interaction;
-        public InputAction @Dash => m_Wrapper.m_ControlScheme_Dash;
-        public InputActionMap Get() { return m_Wrapper.m_ControlScheme; }
+        public PlayerControlsActions(@InputSystemMovement wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
+        public InputAction @MelleAttack => m_Wrapper.m_PlayerControls_MelleAttack;
+        public InputAction @DistanceAttack => m_Wrapper.m_PlayerControls_DistanceAttack;
+        public InputAction @UseItem => m_Wrapper.m_PlayerControls_UseItem;
+        public InputAction @Interaction => m_Wrapper.m_PlayerControls_Interaction;
+        public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ControlSchemeActions set) { return set.Get(); }
-        public void AddCallbacks(IControlSchemeActions instance)
+        public static implicit operator InputActionMap(PlayerControlsActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerControlsActions instance)
         {
-            if (instance == null || m_Wrapper.m_ControlSchemeActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_ControlSchemeActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PlayerControlsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerControlsActionsCallbackInterfaces.Add(instance);
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
@@ -378,7 +389,7 @@ public partial class @InputSystemMovement: IInputActionCollection2, IDisposable
             @Dash.canceled += instance.OnDash;
         }
 
-        private void UnregisterCallbacks(IControlSchemeActions instance)
+        private void UnregisterCallbacks(IPlayerControlsActions instance)
         {
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
@@ -400,26 +411,26 @@ public partial class @InputSystemMovement: IInputActionCollection2, IDisposable
             @Dash.canceled -= instance.OnDash;
         }
 
-        public void RemoveCallbacks(IControlSchemeActions instance)
+        public void RemoveCallbacks(IPlayerControlsActions instance)
         {
-            if (m_Wrapper.m_ControlSchemeActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PlayerControlsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IControlSchemeActions instance)
+        public void SetCallbacks(IPlayerControlsActions instance)
         {
-            foreach (var item in m_Wrapper.m_ControlSchemeActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PlayerControlsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_ControlSchemeActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PlayerControlsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public ControlSchemeActions @ControlScheme => new ControlSchemeActions(this);
+    public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
     public interface IAllTimeActions
     {
         void OnPause(InputAction.CallbackContext context);
     }
-    public interface IControlSchemeActions
+    public interface IPlayerControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnMelleAttack(InputAction.CallbackContext context);
