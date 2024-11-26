@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement_1 : MonoBehaviour
 {
     public Camera playerCamera;
-    public float walkSpeed = 6f
+    public float walkSpeed = 6f;
     public float gravity = 10f;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
