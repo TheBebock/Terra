@@ -7,17 +7,12 @@ public class PlayerMovement_1 : MonoBehaviour
 {
     public Camera playerCamera;
     public float walkSpeed = 6f;
-    public float jumpPower = 6f;
     public float gravity = 10f;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
-
-    public GameObject meleeWeapon;
-    public GameObject rangedWeapon;
-    public GameObject activeItem;
 
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
@@ -58,18 +53,13 @@ public class PlayerMovement_1 : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (!characterController.isGrounded)
         {
-            moveDirection.y = jumpPower;
+            moveDirection.y = movementDirectionY - gravity * Time.deltaTime;
         }
         else
         {
-            moveDirection.y = movementDirectionY;
-        }
-
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
+            moveDirection.y = 0; // Reset vertical movement if grounded
         }
 
         characterController.Move(moveDirection * Time.deltaTime);
@@ -117,30 +107,30 @@ public class PlayerMovement_1 : MonoBehaviour
     private void PerformMeleeAttack()
     {
         Debug.Log("Performing melee attack.");
-        // Tutaj możesz dodać logikę dla ataku wręcz, np. aktywacja animacji lub wykrycie trafienia.
+        // Logic for melee attack can be implemented here (e.g., animations or damage application).
     }
 
     private void PerformRangedAttack()
     {
         Debug.Log("Performing ranged attack.");
-        // Tutaj możesz dodać logikę dla ataku dystansowego, np. strzelanie pociskami.
+        // Logic for ranged attack can be implemented here (e.g., projectile shooting).
     }
 
     private void UseActiveItem()
     {
         Debug.Log("Using active item.");
-        // Tutaj możesz zaimplementować działanie aktywnego przedmiotu.
+        // Implement logic for using an active item here.
     }
 
     private void Interact()
     {
         Debug.Log("Interacting.");
-        // Raycast do wykrycia obiektów do interakcji.
+        // Raycast to detect objects to interact with.
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
         {
             Debug.Log("Interacted with: " + hit.collider.name);
-            // Tutaj dodaj logikę interakcji.
+            // Add logic for interacting with the detected object.
         }
     }
 
