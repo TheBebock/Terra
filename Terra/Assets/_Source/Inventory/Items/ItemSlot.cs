@@ -1,0 +1,51 @@
+using System;
+using Inventory.Abstracts;
+
+namespace Inventory
+{
+
+
+    [Serializable]
+    public class ItemSlot<T> : ItemSlotBase
+        where T : Item
+    {
+        public T EquippedItem { get; private set; }
+        public override bool IsSlotTaken { get; set; }
+
+        //NOTE: isSlotTaken == false means that EquippedItem is null, and it will throw a null reference.
+        //That's why it just returns false
+        public bool CanItemBeRemoved => IsSlotTaken ? EquippedItem.data.canBeRemoved : false;
+
+
+        public override bool CanEquip()
+        {
+            return IsSlotTaken ? EquippedItem.data.canBeRemoved : true;
+        }
+
+        public override bool Swap(Item item)
+        {
+            if(!UnEquip()) return false;
+            if(!Equip(item)) return false;
+            return true;
+        }
+
+        public override bool Equip(Item newItem)
+        {
+            if(newItem is not T item) return false;
+            if (!CanEquip()) return false;
+            IsSlotTaken = true;
+            EquippedItem = item;
+            EquippedItem.Equip();
+            return true;
+        }
+
+        public override bool UnEquip()
+        {
+            if (!CanItemBeRemoved) return false;
+            EquippedItem.UnEquip();
+            IsSlotTaken = false;
+            EquippedItem = null;
+            return true;
+        }
+    }
+}

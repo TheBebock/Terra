@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Generic;
+using Core.Generics;
 using UnityEngine;
 
 public class InputManager : MonoBehaviourSingleton<InputManager>

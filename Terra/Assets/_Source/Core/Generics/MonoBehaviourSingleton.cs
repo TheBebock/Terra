@@ -1,12 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using OdinSerializer;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Generic
+namespace Core.Generics
 {
-    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour 
+    public abstract class MonoBehaviourSingleton<T> : SerializedMonoBehaviour 
         where T : class
     {
         
@@ -27,6 +26,7 @@ namespace Generic
                     if (obj.Length > 1)
                     {
                         Debug.LogWarning($"Found duplicate of singleton {type.Name}!" );
+                        Destroy(obj[1]);
                     }
 
                     return obj[0] as T;

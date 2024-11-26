@@ -1,3 +1,4 @@
+using Inventory.Abstracts;
 using Inventory.Items.Definitions;
 using UnityEngine;
 

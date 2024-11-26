@@ -1,8 +1,10 @@
 using Inventory.Items.Definitions;
+using UnityEngine;
 
 
 namespace Inventory.Items
 {
+    [CreateAssetMenu(fileName = "meleeWeapon_", menuName = "TheBebocks/Weapons/Melee")]
     public class MeleeWeapon : Weapon
     {
         public MeleeWeaponData meleeWeaponData;

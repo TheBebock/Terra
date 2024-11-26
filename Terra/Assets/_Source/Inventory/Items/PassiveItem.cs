@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace Inventory.Items
 {
-    public abstract class Weapon : Item
+    public class PassiveItem : Item
     {
-        public void Attack()
-        {
-            
-        }
+        public PassiveItemData passiveItemData;
     }
 }
