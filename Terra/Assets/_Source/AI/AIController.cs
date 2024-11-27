@@ -21,7 +21,7 @@ namespace AI
             _previous = _current;  
             _current = newState;   
         }
-
+/*
         
         protected virtual void Start()
         {
@@ -75,5 +75,6 @@ namespace AI
         {
             Debug.Log("Default death behaviour.");
         }
+        */
     }
 }
