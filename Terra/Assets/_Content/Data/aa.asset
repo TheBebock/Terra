@@ -16,7 +16,6 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   icon: {fileID: 0}
-  canBeEquipped: 0
   canBeRemoved: 0
   stats: []
   damage: 0

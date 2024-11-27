@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Inventory.Items.Definitions
@@ -19,5 +17,6 @@ namespace Inventory.Items.Definitions
         public AudioClip firingSound;
         public ParticleSystem explosionEffect;
         public AudioClip explosionSound;
+        
     }
 }

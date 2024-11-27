@@ -13,7 +13,8 @@ public class ItemContainer : MonoBehaviour, IInteractable
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Interact();
+            //Interact();
+            ShowVisualisation();
         }
     }
 
@@ -36,7 +37,7 @@ public class ItemContainer : MonoBehaviour, IInteractable
         
         if (CanBeInteractedWith)
         {
-            if (PlayerInventoryManager.Instance.CanEquipItem(_item))
+            if (PlayerInventoryManager.Instance.CanEquipItem(_item ))
             {
                 ShowAvailableVisualization();
                 return;
@@ -49,11 +50,13 @@ public class ItemContainer : MonoBehaviour, IInteractable
     public void ShowAvailableVisualization()
     {
         //TODO:Implement UI display
+        Debug.Log("Available visualization");
     }
 
     public void ShowUnAvailableVisualization()
     {
         //TODO:Implement UI display
+        Debug.Log("Unavailable visualization");
     }
 
     public void StopVisualization()

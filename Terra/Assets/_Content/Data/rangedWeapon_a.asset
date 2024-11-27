@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f640bf7819b37aa41a49014f15a6dd34, type: 3}
   m_Name: rangedWeapon_a
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemType: 3
   rangedData: {fileID: 11400000, guid: 04b3550f87340df419d8c3bf52c73c66, type: 2}

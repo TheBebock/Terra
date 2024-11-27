@@ -1,9 +1,6 @@
 using System;
 using Inventory.Items.Definitions;
-using OdinSerializer;
-using Player;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Inventory.Abstracts
 {

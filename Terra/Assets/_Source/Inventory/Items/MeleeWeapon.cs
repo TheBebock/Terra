@@ -8,7 +8,10 @@ namespace Inventory.Items
     public class MeleeWeapon : Weapon
     {
         public MeleeWeaponData meleeWeaponData;
-
+        private void OnValidate()
+        {
+            itemType = ItemType.Melee;
+        }
         public void PerformAttack(bool isThrust)
         {
             if (isThrust)
@@ -32,5 +35,7 @@ namespace Inventory.Items
         {
         
         }
+        
+
     }
 }
