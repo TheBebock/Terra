@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Inventory.Items;
 using Inventory.Items.Definitions;
 using UnityEngine;
 
@@ -11,6 +10,10 @@ namespace Inventory.Items
     {
         
         public RangedWeaponData rangedData;
+        private void OnValidate()
+        {
+            itemType = ItemType.Ranged;
+        }
         public void Shoot()
         {
             if (rangedData.isExplosive)

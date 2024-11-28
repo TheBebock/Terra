@@ -4,7 +4,9 @@ using Inventory.Abstracts;
 namespace Inventory
 {
 
-
+//Note: ItemSlot cannot be a struct, because casting it to correct class, for example as ItemSlot<MeleeWeapon> is costly
+//involving a wrapper and a heap. 
+    
     [Serializable]
     public class ItemSlot<T> : ItemSlotBase
         where T : Item
@@ -31,6 +33,7 @@ namespace Inventory
 
         public override bool Equip(Item newItem)
         {
+            if(newItem == null) return false;
             if(newItem is not T item) return false;
             if (!CanEquip()) return false;
             IsSlotTaken = true;
@@ -42,7 +45,7 @@ namespace Inventory
         public override bool UnEquip()
         {
             if (!CanItemBeRemoved) return false;
-            EquippedItem.UnEquip();
+            EquippedItem?.UnEquip();
             IsSlotTaken = false;
             EquippedItem = null;
             return true;
