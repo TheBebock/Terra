@@ -1,7 +1,7 @@
 using Core.ModifiableValue;
 using UnityEngine;
 
-namespace _Source.StatisticsSystem 
+namespace StatisticsSystem 
 {
     [DisallowMultipleComponent]
     public class CharacterStats 

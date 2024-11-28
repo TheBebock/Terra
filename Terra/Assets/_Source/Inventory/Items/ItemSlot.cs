@@ -38,14 +38,14 @@ namespace Inventory
             if (!CanEquip()) return false;
             IsSlotTaken = true;
             EquippedItem = item;
-            EquippedItem.Equip();
+            EquippedItem.OnEquip();
             return true;
         }
 
         public override bool UnEquip()
         {
             if (!CanItemBeRemoved) return false;
-            EquippedItem?.UnEquip();
+            EquippedItem?.OnUnEquip();
             IsSlotTaken = false;
             EquippedItem = null;
             return true;

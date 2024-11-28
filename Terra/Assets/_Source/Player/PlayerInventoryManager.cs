@@ -56,7 +56,7 @@ namespace Player
 
             if (itemType == ItemType.Passive)
             {
-                newItem.Equip();
+                newItem.OnEquip();
                 passiveItems.Add(newItem as PassiveItem);
                 return true;
             }

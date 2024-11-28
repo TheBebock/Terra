@@ -22,9 +22,10 @@ namespace Inventory.Items.Definitions
         public string itemDescription;
         public Sprite icon;
         public bool canBeRemoved;
-        public List<ValueModifier> stats;
-    
-        
+        public List<ValueModifier> strengthModifiers;
+        public List<ValueModifier> maxHealthModifiers;
+        public List<ValueModifier> speedModifiers;
+        public List<ValueModifier> luckModifiers;
     }
 }
 

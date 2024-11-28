@@ -1,5 +1,6 @@
 using System;
 using Inventory.Items.Definitions;
+using Player;
 using UnityEngine;
 
 namespace Inventory.Abstracts
@@ -11,17 +12,21 @@ namespace Inventory.Abstracts
         
         public ItemType itemType;
         public ItemData data { get; private set; }
-        public void Equip() => Equip(this);
-        public void UnEquip() => UnEquip(this);
-
-        protected virtual void Equip(Item item)
+        
+        public virtual void OnEquip()
         {
-            
+            //TODO: add luck
+            PlayerStatsManager.Instance.AddStrength(data.strengthModifiers);
+            PlayerStatsManager.Instance.AddMaxHealth(data.maxHealthModifiers);
+            PlayerStatsManager.Instance.AddSpeed(data.speedModifiers);
         }
         
-        protected virtual void UnEquip(Item item)
+        public virtual void OnUnEquip()
         {
-            
+            //TODO: add luck
+            PlayerStatsManager.Instance.RemoveStrength(data.strengthModifiers);
+            PlayerStatsManager.Instance.RemoveMaxHealth(data.maxHealthModifiers);
+            PlayerStatsManager.Instance.RemoveSpeed(data.speedModifiers);
         }
     }
 }

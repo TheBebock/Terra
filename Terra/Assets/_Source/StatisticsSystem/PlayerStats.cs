@@ -1,5 +1,7 @@
 using UnityEngine;
 using Core.ModifiableValue;
+using StatisticsSystem;
+
 namespace _Source.StatisticsSystem
 {
     [DisallowMultipleComponent]
