@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem; 
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement_1 : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float walkSpeed = 6f; // Prędkość poruszania się
     public float gravity = 10f; // Grawitacja -  nie wiem czy będzie nam potrzebna w grze( bo chyba wsm RigidBody to robi) ale narazie zostawiam
@@ -18,12 +18,12 @@ public class PlayerMovement_1 : MonoBehaviour
     private float dashCooldownTimer = 0f;
 
     // Input Actions
-    private InputSystemMovement inputActions; // Klasa wygenerowana przez Input System
+    private InputSystem inputActions; // Klasa wygenerowana przez Input System
     private Vector2 movementInput; // Wektor wejścia dla ruchu
 
     private void Awake()
     {
-        inputActions = new InputSystemMovement(); // Inicjalizacja klasy akcji
+        inputActions = new InputSystem(); // Inicjalizacja klasy akcji
     }
 
     private void OnEnable()
