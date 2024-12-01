@@ -8,7 +8,6 @@ namespace Inventory.Items.Definitions
     public class ActiveItemData : ItemData
     {
         public float cooldown;
-        public string effectDescription;
         public AnimationClip activationAnimationClip;
     }
 }

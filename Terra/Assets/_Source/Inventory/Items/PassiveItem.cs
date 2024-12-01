@@ -16,7 +16,4 @@ namespace Inventory.Items
             itemType = ItemType.Passive;
         }
     }
-    
-    
-    
 }
