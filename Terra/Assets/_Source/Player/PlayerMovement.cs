@@ -6,11 +6,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed = 6f; // Prędkość poruszania się
-    public float gravity = 10f; // Grawitacja -  nie wiem czy będzie nam potrzebna w grze( bo chyba wsm RigidBody to robi) ale narazie zostawiam
-    public float dashSpeed = 20f; // Prędkość dasha
-    public float dashDuration = 0.2f; // Długość dasha
-    public float dashCooldown = 1f; // Cooldown dasha
+    public float walkSpeed = 6f; 
+    public float gravity = 10f; 
+    public float dashSpeed = 20f; 
+    public float dashDuration = 0.2f; 
+    public float dashCooldown = 1f; 
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
@@ -18,44 +18,50 @@ public class PlayerMovement : MonoBehaviour
     private float dashCooldownTimer = 0f;
 
     // Input Actions
-    private InputSystem inputActions; // Klasa wygenerowana przez Input System
-    private Vector2 movementInput; // Wektor wejścia dla ruchu
+    private InputSystem inputActions; 
+    private Vector2 movementInput; 
 
     private void Awake()
     {
-        inputActions = new InputSystem(); // Inicjalizacja klasy akcji
+        inputActions = InputManager.Instance.GetInputActions();
     }
 
     private void OnEnable()
     {
-        // Aktywowanie akcji 
+        if (!InputManager.Instance.IsPlayerAlive())
+        {
+            Debug.LogWarning("Player is dead. Input will not be enabled.");
+            return; 
+        }
+        
+        //Activates Actions
         inputActions.PlayerControls.Enable();
 
-        // Ruch
+        // Movement
         inputActions.PlayerControls.Movement.performed += OnMovementInput;
         inputActions.PlayerControls.Movement.canceled += OnMovementInput;
 
         // Dash
         inputActions.PlayerControls.Dash.performed += OnDashInput;
 
-        // Akcje dodatkowe
-        inputActions.PlayerControls.MelleAttack.performed += OnMeleeAttackInput;
-        inputActions.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
-        inputActions.PlayerControls.UseItem.performed += OnUseItemInput;
+        // Extra Actions
+        //inputActions.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
+        //inputActions.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
+        //inputActions.PlayerControls.UseItem.performed += OnUseItemInput;
         inputActions.PlayerControls.Interaction.performed += OnInteractionInput;
     }
 
     private void OnDisable()
     {
-        // Wyłączenie akcji 
+        // Disables Actions
         inputActions.PlayerControls.Movement.performed -= OnMovementInput;
         inputActions.PlayerControls.Movement.canceled -= OnMovementInput;
 
         inputActions.PlayerControls.Dash.performed -= OnDashInput;
 
-        inputActions.PlayerControls.MelleAttack.performed -= OnMeleeAttackInput;
-        inputActions.PlayerControls.DistanceAttack.performed -= OnDistanceAttackInput;
-        inputActions.PlayerControls.UseItem.performed -= OnUseItemInput;
+        //inputActions.PlayerControls.MelleAttack.performed -= OnMeleeAttackInput;
+        //inputActions.PlayerControls.DistanceAttack.performed -= OnDistanceAttackInput;
+        //inputActions.PlayerControls.UseItem.performed -= OnUseItemInput;
         inputActions.PlayerControls.Interaction.performed -= OnInteractionInput;
 
         inputActions.PlayerControls.Disable();
@@ -68,7 +74,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!isDashing) // Ruch tylko, jeśli nie dashujemy
+        if (!InputManager.Instance.IsPlayerAlive() || !InputManager.Instance.CanPlayerMove())
+        {
+            Debug.Log("Player cannot move or is dead.");
+            return; 
+        }
+        
+        if (!isDashing) // Movement only if we don't dash
         {
             HandleMovement();
         }
@@ -81,12 +93,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Przekształcenie Vector2 na Vector3 do ruchu w przestrzeni 3D
+        // Transforms 2DVector into 3DVector 
         Vector3 forward = transform.forward * movementInput.y; // Ruch przód/tył
         Vector3 right = transform.right * movementInput.x; // Ruch lewo/prawo
         moveDirection = (forward + right) * walkSpeed;
 
-        // Dodanie grawitacji
+        // Adds gravity
         if (!characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
@@ -96,18 +108,29 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.y = 0;
         }
 
-        // Ruch postaci
+        // Character Movement
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
-        // Odczyt wejścia z systemu (Movement -> Vector2)
+        if (!InputManager.Instance.CanPlayerMove())
+        {
+            Debug.LogWarning("Player cannot move. Ignoring movement input.");
+            return;
+        }
+        // Reads System input (Movement -> Vector2)
         movementInput = context.ReadValue<Vector2>();
     }
 
     private void OnDashInput(InputAction.CallbackContext context)
     {
+        if (!InputManager.Instance.CanPlayerMove())
+        {
+            Debug.LogWarning("Player cannot dash. Ignoring dash input.");
+            return;
+        }
+        
         if (dashCooldownTimer <= 0 && !isDashing)
         {
             StartCoroutine(Dash());
@@ -131,33 +154,20 @@ public class PlayerMovement : MonoBehaviour
         dashCooldownTimer = dashCooldown;
     }
     
-    private void OnMeleeAttackInput(InputAction.CallbackContext context)
-    {
-        Debug.Log("Performing melee attack.");
-        // TO DO: Logika ataku wręcz 
-    }
-
-    private void OnDistanceAttackInput(InputAction.CallbackContext context)
-    {
-        Debug.Log("Performing ranged attack.");
-        // TO DO: Logika dla ataku dystansowego 
-    }
-
-    private void OnUseItemInput(InputAction.CallbackContext context)
-    {
-        Debug.Log("Using active item.");
-        // TO DO : Implementacja logiki używania przedmiotów.
-    }
-
     private void OnInteractionInput(InputAction.CallbackContext context)
     {
+        if (!InputManager.Instance.IsPlayerAlive())
+        {
+            Debug.LogWarning("Player is dead. Ignoring interaction.");
+            return;
+        }
+        
         Debug.Log("Interacting with an object.");
-        // Raycast w celu wykrycia obiektu do interakcji
         Ray ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
         {
             Debug.Log("Interacted with: " + hit.collider.name);
-            // TO DO:Logika interakcji z wykrytym obiektem.
+           
         }
     }
 }
