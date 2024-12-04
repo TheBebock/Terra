@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogWarning("Player is dead. Ignoring interaction.");
             return;
         }
-        
+        // TODO Space to write Interaction section
         Debug.Log("Interacting with an object.");
         Ray ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
