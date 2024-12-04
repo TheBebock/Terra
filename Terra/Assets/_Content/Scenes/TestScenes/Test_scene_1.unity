@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 836542385}
   - component: {fileID: 836542384}
   - component: {fileID: 836542387}
+  - component: {fileID: 836542388}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -376,7 +377,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 6
   gravity: 20
-  lookSpeed: 2
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 1
@@ -435,6 +435,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 64957412}
+--- !u!114 &836542388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836542383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164ba036bf483844a82f967d92841cca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!1 &950438238
 GameObject:
   m_ObjectHideFlags: 0
