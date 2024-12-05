@@ -1,40 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using StatisticsSystem;
+using StatisticsSystem;
 using Core.Generics;
 using Core.ModifiableValue;
+using StatisticsSystem.Definitions;
 using UnityEngine;
 
 namespace Player
 {
     public class PlayerStatsManager : MonoBehaviourSingleton<PlayerStatsManager>
     {
-        private CharacterStats characterStats;
-        [SerializeField] private float baseStrength;
-        [SerializeField] private float baseMaxHealth;
-        [SerializeField] private float baseSpeed;
+        [SerializeField] private  PlayerStatsDefinition playerStatsData;
+        [SerializeField] private  PlayerStats playerStats;
         
         protected override void Awake()
         {
             base.Awake();
-            characterStats = new CharacterStats(baseStrength, baseMaxHealth, baseSpeed);
+            playerStats = new(playerStatsData);
         }
+        
+        //TODO: Maybe in future improve this
+        /*
+        public void AddModifiers(PlayerStatsDefinition playerStatsData)
+        {
+
+        }
+
+        public void AddModifier<T>(T modifier)
+            where T : ValueModifier
+        {
+            playerStats.(modifier);
+        }
+
+        public void RemoveModifier<T>(T modifier)
+            where T : ValueModifier
+        {
+            playerStats.(modifier);
+        }
+        */
 
         public void AddStrength(ValueModifier modifier)
         {
-            characterStats.AddStrengthModifier(modifier);
+            playerStats.AddStrengthModifier(modifier);
         }
         public void AddStrength(List<ValueModifier> modifiers)
         {
             for (int i = 0; i < modifiers.Count; i++)
             {
-                characterStats.AddStrengthModifier(modifiers[i]);
+                playerStats.AddStrengthModifier(modifiers[i]);
             }
         }
         
         public void RemoveStrength(ValueModifier modifier)
         {
-            characterStats.RemoveStrengthModifier(modifier);
+            playerStats.RemoveStrengthModifier(modifier);
         }
         public void RemoveStrength(List<ValueModifier> modifiers)
         {
@@ -46,7 +66,7 @@ namespace Player
 
         public void AddMaxHealth(ValueModifier modifier)
         {
-            characterStats.AddMaxHealthModifier(modifier);
+            playerStats.AddMaxHealthModifier(modifier);
         }
         public void AddMaxHealth(List<ValueModifier> modifiers)
         {
@@ -58,7 +78,7 @@ namespace Player
 
         public void RemoveMaxHealth(ValueModifier modifier)
         {
-            characterStats.RemoveMaxHealthModifier(modifier);
+            playerStats.RemoveMaxHealthModifier(modifier);
         }
         public void RemoveMaxHealth(List<ValueModifier> modifiers)
         {
@@ -68,9 +88,11 @@ namespace Player
             }
         }
 
+
+
         public void AddSpeed(ValueModifier modifier)
         {
-            characterStats.AddSpeedModifier(modifier);
+            playerStats.AddSpeedModifier(modifier);
         }
         public void AddSpeed(List<ValueModifier> modifiers)
         {
@@ -82,7 +104,7 @@ namespace Player
 
         public void RemoveSpeed(ValueModifier modifier)
         {
-            characterStats.RemoveSpeedModifier(modifier);
+            playerStats.RemoveSpeedModifier(modifier);
         }
         public void RemoveSpeed(List<ValueModifier> modifiers)
         {
@@ -91,7 +113,32 @@ namespace Player
                 RemoveSpeed(modifiers[i]);
             }
         }
+        
+        public void AddLuck(ValueModifier modifier)
+        {
+            playerStats.AddLuckModifier(modifier);
+        }
+        public void AddLuck(List<ValueModifier> modifiers)
+        {
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                AddLuck(modifiers[i]);
+            }
+        }
 
+        public void RemoveLuck(ValueModifier modifier)
+        {
+            playerStats.RemoveLuckModifier(modifier);
+        }
+        public void RemoveLuck(List<ValueModifier> modifiers)
+        {
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                RemoveLuck(modifiers[i]);
+            }
+        }
 
+       
+        
     }
 }

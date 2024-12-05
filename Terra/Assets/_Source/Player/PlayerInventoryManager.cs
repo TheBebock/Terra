@@ -12,8 +12,11 @@ namespace Player
 {
     public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
     {
-        [Foldout("References")] [SerializeField] StartingInventoryData _startingInventoryData;
-        //TOOD: Maybe add MessagePack to serialize classes that don't inherit SO or MB
+        [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
+        
+        //TODO: Maybe add MessagePack to serialize classes that don't inherit SO or MB, maybe not needed not sure, need to check if serialization is correct
+        //TO TEST.
+        
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> meleeWeaponSlot = new ItemSlot<MeleeWeapon>();
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> rangedWeaponSlot = new ItemSlot<RangedWeapon>();
         [Foldout("Debug"), SerializeField,  ReadOnly] private ItemSlot<ActiveItem> activeItemSlot = new ItemSlot<ActiveItem>();
@@ -28,21 +31,23 @@ namespace Player
             Initialize();
         }
 
+        //TODO:Add removing item from EQ and spawning ItemContainer with the item through some kind of LootManager.Instance.SpawnItem(item, pos)
         void Initialize()
         {
             if(isInitialized) return;
-            if (_startingInventoryData != null)
-            {
-                meleeWeaponSlot.Equip(_startingInventoryData.startingMelee);
-                rangedWeaponSlot.Equip(_startingInventoryData.startingRanged);
-                activeItemSlot.Equip(_startingInventoryData.startingActive);
-                _startingInventoryData.startingPassiveItems.CopyTo(passiveItems.ToArray());
-            }
             isInitialized = true;
             meleeWeaponSlot = new();
             rangedWeaponSlot = new();
             activeItemSlot = new();
             passiveItems = new();
+            
+            if (startingInventoryData != null)
+            {
+                meleeWeaponSlot.Equip(startingInventoryData.startingMelee);
+                rangedWeaponSlot.Equip(startingInventoryData.startingRanged);
+                activeItemSlot.Equip(startingInventoryData.startingActive);
+                startingInventoryData.startingPassiveItems.CopyTo(passiveItems.ToArray());
+            }
             itemSlots = new ItemSlotBase[Enum.GetValues(typeof(ItemType)).Length];
             itemSlots[(int)ItemType.Melee] = meleeWeaponSlot;
             itemSlots[(int)ItemType.Ranged] = rangedWeaponSlot;

@@ -2,12 +2,12 @@
 using Inventory.Abstracts;
 using Player;
 using UnityEngine;
-public class ItemContainer : MonoBehaviour, IInteractable
+public class ItemContainer : InteractableBase
 {
-    public bool CanBeInteractedWith => true;
+    override public bool CanBeInteractedWith => PlayerInventoryManager.Instance.CanEquipItem(item);
 
-    [SerializeField] private Item _item;
-
+    [SerializeField] private Item item;
+    //This works like shit, use InputManager to check for input
     //TODO: Delete
     private void Update()
     {
@@ -18,49 +18,35 @@ public class ItemContainer : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact() 
+    override public void Interact() 
     {
-        if (PlayerInventoryManager.Instance.TryToEquipItem(_item))
+        if(!CanBeInteractedWith) return;
+        if (PlayerInventoryManager.Instance.TryToEquipItem(item))
         {
             OnInteraction();
         }
     }
 
-    public void OnInteraction()
+    override public void OnInteraction()
     {
         //TODO: Display VFX
     }
 
-
-    public void ShowVisualisation()
+    protected override void ShowAvailableVisualization()
     {
-        
-        if (CanBeInteractedWith)
-        {
-            if (PlayerInventoryManager.Instance.CanEquipItem(_item ))
-            {
-                ShowAvailableVisualization();
-                return;
-            }
-            ShowUnAvailableVisualization();
-        }
+        base.ShowAvailableVisualization();
+        //TODO: Display VFX
     }
 
-
-    public void ShowAvailableVisualization()
+    protected override void ShowUnAvailableVisualization()
     {
-        //TODO:Implement UI display
-        Debug.Log("Available visualization");
+        base.ShowUnAvailableVisualization();
+        //TODO: Display VFX
     }
 
-    public void ShowUnAvailableVisualization()
+    public override void StopVisualization()
     {
-        //TODO:Implement UI display
-        Debug.Log("Unavailable visualization");
-    }
-
-    public void StopVisualization()
-    {
-        //TODO:Stop UI display
+        base.StopVisualization();
+        //NOTE: Maybe some additional logic
     }
 }

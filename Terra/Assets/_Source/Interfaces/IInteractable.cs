@@ -10,10 +10,16 @@ public interface IInteractable
     /// Checks if available for interaction
     /// </summary>
     public bool CanBeInteractedWith { get; }
+
+    /// <summary>
+    /// Checks for displaying visualisation
+    /// </summary>
+    public bool CanShowVisualisation { get; set; }
     /// <summary>
     /// Called on interaction
     /// </summary>
     public void Interact();
+    
 
     /// <summary>
     /// Called after interaction
@@ -24,15 +30,7 @@ public interface IInteractable
     /// Called when is ready to be interacted with by Player
     /// </summary>
     public void ShowVisualisation();
-    /// <summary>
-    /// Shown when interaction is not available
-    /// </summary>
-    [UsedImplicitly]public void ShowAvailableVisualization();
-    
-    /// <summary>
-    /// Shown when is available
-    /// </summary>
-    [UsedImplicitly]public void ShowUnAvailableVisualization();
+
 
     /// <summary>
     /// Stop all visualisation

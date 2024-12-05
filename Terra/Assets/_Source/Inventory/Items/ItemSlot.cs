@@ -6,7 +6,6 @@ namespace Inventory
 
 //Note: ItemSlot cannot be a struct, because casting it to correct class, for example as ItemSlot<MeleeWeapon> is costly
 //involving a wrapper and a heap. 
-    
     [Serializable]
     public class ItemSlot<T> : ItemSlotBase
         where T : Item
@@ -16,12 +15,12 @@ namespace Inventory
 
         //NOTE: isSlotTaken == false means that EquippedItem is null, and it will throw a null reference.
         //That's why it just returns false
-        public bool CanItemBeRemoved => IsSlotTaken ? EquippedItem.data.canBeRemoved : false;
+        public bool CanItemBeRemoved => IsSlotTaken ? EquippedItem.Data.canBeRemoved : false;
 
 
         public override bool CanEquip()
         {
-            return IsSlotTaken ? EquippedItem.data.canBeRemoved : true;
+            return IsSlotTaken ? EquippedItem.Data.canBeRemoved : true;
         }
 
         public override bool Swap(Item item)

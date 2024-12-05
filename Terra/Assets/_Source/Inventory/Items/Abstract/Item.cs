@@ -1,6 +1,7 @@
 using System;
 using Inventory.Items.Definitions;
 using Player;
+using StatisticsSystem.Definitions;
 using UnityEngine;
 
 namespace Inventory.Abstracts
@@ -8,25 +9,26 @@ namespace Inventory.Abstracts
     [Serializable]
     public abstract class Item : ScriptableObject, IEquipable
     {
-        public bool CanBeRemoved => data.canBeRemoved; 
+        public bool CanBeRemoved => Data.canBeRemoved; 
         
         public ItemType itemType;
-        public ItemData data { get; private set; }
+        public ItemData Data { get; private set; }
         
+        //TODO: When PlayerStatsManager get improves, this will need a change
         public virtual void OnEquip()
         {
-            //TODO: add luck
-            PlayerStatsManager.Instance.AddStrength(data.strengthModifiers);
-            PlayerStatsManager.Instance.AddMaxHealth(data.maxHealthModifiers);
-            PlayerStatsManager.Instance.AddSpeed(data.speedModifiers);
+            PlayerStatsManager.Instance.AddLuck(Data.luckModifiers);
+            PlayerStatsManager.Instance.AddStrength(Data.strengthModifiers);
+            PlayerStatsManager.Instance.AddMaxHealth(Data.maxHealthModifiers);
+            PlayerStatsManager.Instance.AddSpeed(Data.speedModifiers);
         }
         
         public virtual void OnUnEquip()
         {
-            //TODO: add luck
-            PlayerStatsManager.Instance.RemoveStrength(data.strengthModifiers);
-            PlayerStatsManager.Instance.RemoveMaxHealth(data.maxHealthModifiers);
-            PlayerStatsManager.Instance.RemoveSpeed(data.speedModifiers);
+            PlayerStatsManager.Instance.RemoveLuck(Data.luckModifiers);
+            PlayerStatsManager.Instance.RemoveStrength(Data.strengthModifiers);
+            PlayerStatsManager.Instance.RemoveMaxHealth(Data.maxHealthModifiers);
+            PlayerStatsManager.Instance.RemoveSpeed(Data.speedModifiers);
         }
     }
 }

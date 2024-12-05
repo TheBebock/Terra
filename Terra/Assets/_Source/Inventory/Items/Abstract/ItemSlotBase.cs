@@ -1,8 +1,6 @@
-using Inventory.Items;
 
 namespace Inventory.Abstracts
 {
-
     public abstract class ItemSlotBase
     {
         public abstract bool CanEquip();

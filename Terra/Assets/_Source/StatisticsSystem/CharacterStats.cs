@@ -1,15 +1,18 @@
+using System;
 using Core.ModifiableValue;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace StatisticsSystem 
 {
-    [DisallowMultipleComponent]
-    public class CharacterStats 
+    
+    [Serializable]
+    public class CharacterStats
     {
-        [Header("Character Stats")]
-        [SerializeField] private ModifiableValue strength;
-        [SerializeField] private ModifiableValue maxHealth;
-        [SerializeField] private ModifiableValue speed;
+        
+        [Foldout("Debug")][SerializeField] private ModifiableValue strength;
+        [Foldout("Debug")][SerializeField] private ModifiableValue maxHealth;
+        [Foldout("Debug")][SerializeField] private ModifiableValue speed;
 
         public CharacterStats(float basestrength, float basemaxHealth, float basespeed)
         {
@@ -17,8 +20,6 @@ namespace StatisticsSystem
             maxHealth = new ModifiableValue(basemaxHealth);
             speed = new ModifiableValue(basespeed);
         }
-
-        
 
         public float Strength => strength.Value;
         public float MaxHealth => maxHealth.Value;

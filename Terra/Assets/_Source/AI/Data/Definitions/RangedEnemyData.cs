@@ -9,8 +9,7 @@ namespace AI.Data.Definitions
 
     public class RangedEnemyData : EnemyData
     {
-        [Foldout("Statistics"), Range(0.1f, 5f)]
-        public float rateOfFire = 1f;
+     
 
     }
 }
