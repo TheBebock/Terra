@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         //Activates Actions
-        inputActions.PlayerControls.Enable();
+        InputManager.Instance.EnablePlayerControls();
 
         // Movement
         inputActions.PlayerControls.Movement.performed += OnMovementInput;
@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         //inputActions.PlayerControls.UseItem.performed -= OnUseItemInput;
         inputActions.PlayerControls.Interaction.performed -= OnInteractionInput;
 
-        inputActions.PlayerControls.Disable();
+        InputManager.Instance.DisablePlayerControls();
     }
 
     void Start()

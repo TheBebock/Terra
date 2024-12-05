@@ -4,10 +4,27 @@ public class PauseManager : MonoBehaviour
 {
     public GameObject pauseMenu; // Reference to the pause menu UI
     private bool isPaused = false;
+    private InputSystem inputActions;
 
-    void Update()
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        inputActions = InputManager.Instance.GetInputActions();
+        inputActions.AllTime.Enable(); 
+    }
+
+    private void OnEnable()
+    {
+        inputActions.AllTime.Enable(); // Enable AllTime action map
+    }
+
+    private void OnDisable()
+    {
+        inputActions.AllTime.Disable(); // Disable AllTime action map
+    }
+
+    private void Update()
+    {
+        if (inputActions.AllTime.Pause.triggered)
         {
             if (isPaused)
             {
@@ -23,18 +40,18 @@ public class PauseManager : MonoBehaviour
     public void PauseGame()
     {
         isPaused = true;
-        Time.timeScale = 0f; // Pauzuje gre
-        pauseMenu.SetActive(true); // Pokazuje pause menu
-        Cursor.lockState = CursorLockMode.None; // Odblokowuje kursor
-        Cursor.visible = true; // Pokazuje kursor
+        Time.timeScale = 0f; // Pause the game
+        pauseMenu.SetActive(true); // Show the pause menu
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true; 
     }
 
     public void ResumeGame()
     {
         isPaused = false;
-        Time.timeScale = 1f; // Wznawia gre
-        pauseMenu.SetActive(false); // Ukrywa Pause menu
-        Cursor.lockState = CursorLockMode.Locked; // Blokuje kursor
-        Cursor.visible = false; // Chowa kursor
+        Time.timeScale = 1f; // Resume the game
+        pauseMenu.SetActive(false); // Hide the pause menu
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false; 
     }
 }

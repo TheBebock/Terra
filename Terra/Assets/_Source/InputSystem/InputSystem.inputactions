@@ -1,5 +1,5 @@
 {
-    "name": "InputSystemMovement",
+    "name": "InputSystem",
     "maps": [
         {
             "name": "AllTime",
@@ -22,7 +22,7 @@
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false

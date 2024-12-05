@@ -6,68 +6,90 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviourSingleton<InputManager>
 {
-    
-    // Start is called before the first frame update
     private InputSystem inputActions;
     private bool isPlayerAlive = true;
     private bool canPlayerMove = true;
-    
-    
+
     private void Awake()
     {
-        inputActions = new InputSystem(); 
-        inputActions.Enable(); 
+        inputActions = new InputSystem();
+        EnableAllTimeActions(); // Activates global actions
     }
 
-    
     public InputSystem GetInputActions()
     {
-        if (!isPlayerAlive)
-        {
-            Debug.LogWarning("Player is dead. Disabling input.");
-            inputActions.Disable();
-        }
-        else if (!canPlayerMove)
-        {
-            Debug.LogWarning("Player cannot move. Disabling movement input.");
-            inputActions.Disable();
-        }
-        else
-        {
-            inputActions.Enable();
-        }
-
         return inputActions;
     }
-    
-    
-    private void HandleInputState()
+
+    private void EnableAllTimeActions()
+    {
+        inputActions.AllTime.Enable(); 
+    }
+
+    public void EnablePlayerControls()
     {
         if (isPlayerAlive && canPlayerMove)
         {
-            inputActions.Enable();
+            inputActions.PlayerControls.Enable(); 
+        }
+    }
+
+    public void DisablePlayerControls()
+    {
+        inputActions.PlayerControls.Disable(); 
+    }
+    /// <summary>
+    /// for now SetPlayerAlive and SetPlayerCanMove are not used neither in InputManager nor PlayerMovement
+    /// but i leave them for now as they might be useful in the future to things such as
+    /// blocking animation, changing the status of health bar etc. I will set them as protected
+    /// in order to not cause any bugs in the near future
+    /// </summary>
+    
+    protected void SetPlayerAlive(bool state) 
+    {
+        isPlayerAlive = state;
+        UpdatePlayerControlsState();
+    }
+
+    protected void SetPlayerCanMove(bool state)
+    {
+        canPlayerMove = state;
+        UpdatePlayerControlsState();
+    }
+    
+    
+    private void UpdatePlayerControlsState()
+    {
+        if (isPlayerAlive && canPlayerMove)
+        {
+            EnablePlayerControls();
         }
         else
         {
-            inputActions.Disable(); 
+            DisablePlayerControls();
         }
+    }
+
+    private void HandleInputState()
+    {
+        UpdatePlayerControlsState();
     }
 
     public bool IsPlayerAlive()
     {
         return isPlayerAlive;
     }
-    
+
     public bool CanPlayerMove()
     {
         return canPlayerMove;
     }
+
     void Start()
     {
         HandleInputState();
     }
 
-    // Update is called once per frame
     void Update()
     {
         HandleInputState();
