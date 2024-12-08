@@ -9,6 +9,7 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     public abstract void Interact();
     public abstract void OnInteraction();
     
+    
     public void ShowVisualisation()
     {
         if(!CanShowVisualisation) return;

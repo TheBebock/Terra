@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
@@ -8,22 +9,63 @@ public class PauseManager : MonoBehaviour
 
     private void Awake()
     {
-        inputActions = InputManager.Instance.GetInputActions();
-        inputActions.AllTime.Enable(); 
+        if (InputManager.Instance == null)
+        {
+            Debug.LogError("InputManager.Instance is null! Ensure InputManager is in the scene.");
+        }
+        else
+        {
+            inputActions = InputManager.Instance.GetInputActions();
+            
+        }
     }
 
     private void OnEnable()
     {
-        inputActions.AllTime.Enable(); // Enable AllTime action map
+        inputActions.AllTime.Pause.performed += OnPauseInput;
+        inputActions.AllTime.Enable();
+        
     }
 
     private void OnDisable()
     {
-        inputActions.AllTime.Disable(); // Disable AllTime action map
+        inputActions.AllTime.Pause.performed -= OnPauseInput;
+        inputActions.AllTime.Disable();
+    }
+
+    private void OnPauseInput(InputAction.CallbackContext context)
+    {
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0f; // Pause the game
+        pauseMenu.SetActive(true); // Show the pause menu
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        pauseMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
     {
+
         if (inputActions.AllTime.Pause.triggered)
         {
             if (isPaused)
@@ -34,24 +76,7 @@ public class PauseManager : MonoBehaviour
             {
                 PauseGame();
             }
-        }
     }
-
-    public void PauseGame()
-    {
-        isPaused = true;
-        Time.timeScale = 0f; // Pause the game
-        pauseMenu.SetActive(true); // Show the pause menu
-        Cursor.lockState = CursorLockMode.None; 
-        Cursor.visible = true; 
     }
-
-    public void ResumeGame()
-    {
-        isPaused = false;
-        Time.timeScale = 1f; // Resume the game
-        pauseMenu.SetActive(false); // Hide the pause menu
-        Cursor.lockState = CursorLockMode.Locked; 
-        Cursor.visible = false; 
-    }
+    
 }

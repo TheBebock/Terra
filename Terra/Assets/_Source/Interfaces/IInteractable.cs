@@ -10,7 +10,7 @@ public interface IInteractable
     /// Checks if available for interaction
     /// </summary>
     public bool CanBeInteractedWith { get; }
-
+    
     /// <summary>
     /// Checks for displaying visualisation
     /// </summary>

@@ -53,18 +53,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        // Disables Actions
-        inputActions.PlayerControls.Movement.performed -= OnMovementInput;
-        inputActions.PlayerControls.Movement.canceled -= OnMovementInput;
+        if (inputActions?.PlayerControls != null)
+        {
+            inputActions.PlayerControls.Movement.performed -= OnMovementInput;
+            inputActions.PlayerControls.Movement.canceled -= OnMovementInput;
+            inputActions.PlayerControls.Dash.performed -= OnDashInput;
+            inputActions.PlayerControls.Interaction.performed -= OnInteractionInput;
+        }
 
-        inputActions.PlayerControls.Dash.performed -= OnDashInput;
-
-        //inputActions.PlayerControls.MelleAttack.performed -= OnMeleeAttackInput;
-        //inputActions.PlayerControls.DistanceAttack.performed -= OnDistanceAttackInput;
-        //inputActions.PlayerControls.UseItem.performed -= OnUseItemInput;
-        inputActions.PlayerControls.Interaction.performed -= OnInteractionInput;
-
-        InputManager.Instance.DisablePlayerControls();
+        InputManager.Instance?.DisablePlayerControls();
     }
 
     void Start()

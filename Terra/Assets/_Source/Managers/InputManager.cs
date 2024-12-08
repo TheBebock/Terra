@@ -6,14 +6,18 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviourSingleton<InputManager>
 {
-    private InputSystem inputActions;
+    [SerializeField] private InputSystem inputActions;
     private bool isPlayerAlive = true;
     private bool canPlayerMove = true;
 
-    private void Awake()
+    protected override void Awake()
     {
-        inputActions = new InputSystem();
-        EnableAllTimeActions(); // Activates global actions
+        base.Awake();
+        if (inputActions == null)
+        {
+            inputActions = new InputSystem();
+        }
+        EnableAllTimeActions(); // Activate global actions
     }
 
     public InputSystem GetInputActions()
@@ -28,14 +32,21 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
 
     public void EnablePlayerControls()
     {
-        if (isPlayerAlive && canPlayerMove)
+        if (inputActions?.PlayerControls == null)
         {
-            inputActions.PlayerControls.Enable(); 
+            Debug.LogError("InputActions or PlayerControls is null in EnablePlayerControls.");
+            return;
         }
+        inputActions.PlayerControls.Enable();
     }
 
     public void DisablePlayerControls()
     {
+        if (inputActions?.PlayerControls == null)
+        {
+            Debug.LogWarning("PlayerControls is null in DisablePlayerControls.");
+            return;
+        }
         inputActions.PlayerControls.Disable(); 
     }
     /// <summary>
@@ -87,11 +98,11 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
 
     void Start()
     {
-        HandleInputState();
+        UpdatePlayerControlsState();
     }
 
     void Update()
     {
-        HandleInputState();
+        UpdatePlayerControlsState();
     }
 }
