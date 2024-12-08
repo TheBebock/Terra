@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Source.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
@@ -18,50 +19,37 @@ public class PlayerMovement : MonoBehaviour
     private float dashCooldownTimer = 0f;
 
     // Input Actions
-    private InputSystem inputActions; 
+    private InputSystem.PlayerControlsActions inputActions; 
     private Vector2 movementInput; 
 
     private void Awake()
     {
-        inputActions = InputManager.Instance.GetInputActions();
+        inputActions = InputManager.Instance.GetInputActions().PlayerControls;
     }
 
     private void OnEnable()
     {
-        if (!InputManager.Instance.IsPlayerAlive())
-        {
-            Debug.LogWarning("Player is dead. Input will not be enabled.");
-            return; 
-        }
-        
-        //Activates Actions
-        InputManager.Instance.EnablePlayerControls();
 
         // Movement
-        inputActions.PlayerControls.Movement.performed += OnMovementInput;
-        inputActions.PlayerControls.Movement.canceled += OnMovementInput;
+        inputActions.Movement.performed += OnMovementInput;
+        inputActions.Movement.canceled += OnMovementInput;
 
         // Dash
-        inputActions.PlayerControls.Dash.performed += OnDashInput;
+        inputActions.Dash.performed += OnDashInput;
 
         // Extra Actions
         //inputActions.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
         //inputActions.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
         //inputActions.PlayerControls.UseItem.performed += OnUseItemInput;
-        inputActions.PlayerControls.Interaction.performed += OnInteractionInput;
+        inputActions.Interaction.performed += OnInteractionInput;
     }
 
     private void OnDisable()
     {
-        if (inputActions?.PlayerControls != null)
-        {
-            inputActions.PlayerControls.Movement.performed -= OnMovementInput;
-            inputActions.PlayerControls.Movement.canceled -= OnMovementInput;
-            inputActions.PlayerControls.Dash.performed -= OnDashInput;
-            inputActions.PlayerControls.Interaction.performed -= OnInteractionInput;
-        }
-
-        InputManager.Instance?.DisablePlayerControls();
+        inputActions.Movement.performed -= OnMovementInput;
+        inputActions.Movement.canceled -= OnMovementInput;
+        inputActions.Dash.performed -= OnDashInput;
+        inputActions.Interaction.performed -= OnInteractionInput;
     }
 
     void Start()
@@ -71,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!InputManager.Instance.IsPlayerAlive() || !InputManager.Instance.CanPlayerMove())
+        if (!PlayerManager.Instance.IsPlayerDead|| !InputManager.Instance.CanPlayerMove())
         {
             Debug.Log("Player cannot move or is dead.");
             return; 
@@ -134,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //TODO:Change to UniTask
     private IEnumerator Dash()
     {
         Debug.Log("Dashing");
@@ -153,12 +142,14 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnInteractionInput(InputAction.CallbackContext context)
     {
-        if (!InputManager.Instance.IsPlayerAlive())
+        if (!PlayerManager.Instance.IsPlayerDead)
         {
             Debug.LogWarning("Player is dead. Ignoring interaction.");
             return;
         }
         // TODO Space to write Interaction section
+        
+        //NOTE: I belive it would be better if player could interact with objects without facing them ~JM
         Debug.Log("Interacting with an object.");
         Ray ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))

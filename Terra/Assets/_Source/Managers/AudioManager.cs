@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class AudioManager : MonoBehaviourSingleton<TimeManager>
+    public class AudioManager : GlobalMonoBehaviour<TimeManager>
     {
         
        

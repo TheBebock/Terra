@@ -14,15 +14,16 @@ namespace Player
         [SerializeField] private  PlayerStatsDefinition playerStatsData;
         [SerializeField] private  PlayerStats playerStats;
         
+        public PlayerStats PlayerStats => playerStats;
         protected override void Awake()
         {
             base.Awake();
-            playerStats = new(playerStatsData);
+            playerStats = new PlayerStats(playerStatsData);
         }
         
         //TODO: Maybe in future improve this
         /*
-        public void AddModifiers(PlayerStatsDefinition playerStatsData)
+        public void Add/Remove Modifiers(List<T> modifiers)
         {
 
         }
@@ -30,13 +31,13 @@ namespace Player
         public void AddModifier<T>(T modifier)
             where T : ValueModifier
         {
-            playerStats.(modifier);
+            playerStats.Add(modifier);
         }
 
         public void RemoveModifier<T>(T modifier)
             where T : ValueModifier
         {
-            playerStats.(modifier);
+            playerStats.Remove(modifier);
         }
         */
 

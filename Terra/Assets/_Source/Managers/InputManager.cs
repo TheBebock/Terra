@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviourSingleton<InputManager>
 {
-    [SerializeField] private InputSystem inputActions;
-    private bool isPlayerAlive = true;
+    private InputSystem inputActions;
+    
+    //This will be moved to separe class regarding player states
     private bool canPlayerMove = true;
 
+    
+    public InputSystem GetInputActions() => inputActions;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -18,13 +22,26 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
             inputActions = new InputSystem();
         }
         EnableAllTimeActions(); // Activate global actions
+        EnablePlayerControls();
     }
-
-    public InputSystem GetInputActions()
+    
+    void Start()
     {
-        return inputActions;
+        UpdatePlayerControlsState(true);
     }
-
+    
+    private void UpdatePlayerControlsState(bool value)
+    {
+        if (value)
+        {
+            EnablePlayerControls();
+        }
+        else
+        {
+            DisablePlayerControls();
+        }
+    }
+    
     private void EnableAllTimeActions()
     {
         inputActions.AllTime.Enable(); 
@@ -49,60 +66,21 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
         }
         inputActions.PlayerControls.Disable(); 
     }
-    /// <summary>
-    /// for now SetPlayerAlive and SetPlayerCanMove are not used neither in InputManager nor PlayerMovement
-    /// but i leave them for now as they might be useful in the future to things such as
-    /// blocking animation, changing the status of health bar etc. I will set them as protected
-    /// in order to not cause any bugs in the near future
-    /// </summary>
     
-    protected void SetPlayerAlive(bool state) 
-    {
-        isPlayerAlive = state;
-        UpdatePlayerControlsState();
-    }
-
     protected void SetPlayerCanMove(bool state)
     {
         canPlayerMove = state;
-        UpdatePlayerControlsState();
+        UpdatePlayerControlsState(state);
     }
     
     
-    private void UpdatePlayerControlsState()
-    {
-        if (isPlayerAlive && canPlayerMove)
-        {
-            EnablePlayerControls();
-        }
-        else
-        {
-            DisablePlayerControls();
-        }
-    }
 
-    private void HandleInputState()
-    {
-        UpdatePlayerControlsState();
-    }
-
-    public bool IsPlayerAlive()
-    {
-        return isPlayerAlive;
-    }
 
     public bool CanPlayerMove()
     {
         return canPlayerMove;
     }
 
-    void Start()
-    {
-        UpdatePlayerControlsState();
-    }
 
-    void Update()
-    {
-        UpdatePlayerControlsState();
-    }
 }
+

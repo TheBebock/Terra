@@ -1,42 +1,54 @@
+using System;
+using System.Runtime.Remoting.Messaging;
+using Core.Generics;
+using Core.ModifiableValue;
+using Player;
 using UnityEngine;
 using StatisticsSystem;
+using StatisticsSystem.Definitions;
 
 namespace _Source.Managers
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable
     {
-        public static PlayerManager Instance{get; private set;}
         
-        [Header("Players Stats")]
-        public PlayerStats playerStats;
-        
-        [Header("Player States")]
-        public bool isStunned = false;
-        // Add some more like: slow, burn etc
+        private bool _isPlayerDead =false;
         
         [Header("References")]
+        [SerializeField] PlayerInventoryManager playerInventory;
         public GameObject playerPrefab;
         public Transform playerParent;
         public Transform spawnPoint;
         private GameObject _currentPlayer;
         
-        private float _currentHealth;
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(this);// Optional if manager it's supposed to be global
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        public bool CanBeHealed { get; set; }
+        public bool IsInvincible { get; set; }
+        public bool CanBeDamaged { get; set; }
+        public float CurrentHealth { get; set; }
 
+
+        private bool isInitialized;
+        public float MaxHealth
+        {
+            get =>  playerStats.MaxHealth;
+        }
+        
+        public bool IsPlayerDead => _isPlayerDead;
+        
+        private PlayerStats playerStats;
+        public Action OnPlayerDeath;
         private void Start()
         {
-            playerStats = new PlayerStats(10f,100f,5f,3f);
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            if(isInitialized) return;
+            isInitialized = true;
+            
+            if(!playerInventory) playerInventory = PlayerInventoryManager.Instance;
+            playerStats = PlayerStatsManager.Instance.PlayerStats;
             SpawnPlayer();
             ResetHealth();
         }
@@ -56,18 +68,29 @@ namespace _Source.Managers
             _currentPlayer = Instantiate(playerPrefab,spawnPoint.position, spawnPoint.rotation);
             ResetHealth();
         }
-
-        public void TakeDamage(float damage)
+        
+        public void ResetHealth()
         {
-            _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerStats.MaxHealth);
-            if (_currentHealth <= 0)
-            {
-                Debug.Log("Player Dead");
-                SpawnPlayer();
-            }
+            CurrentHealth = MaxHealth;
         }
         
+        
+        public void TakeDamage(float amount)
+        {
+            CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, MaxHealth);
+            if (CurrentHealth <= 0)
+            {
+                OnDeath();
+            }
+        }
 
+        public void OnDeath()
+        {
+            _isPlayerDead = true;
+            OnPlayerDeath?.Invoke();
+            Debug.Log("Player has died");
+        }
+        
         public void Heal(float amount)
         {
             if (isStunned)
@@ -75,13 +98,9 @@ namespace _Source.Managers
                 Debug.Log("Player is stunned!");
                 return;
             }
-            _currentHealth = Mathf.Clamp(_currentHealth + amount, 0, playerStats.MaxHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth + amount, 0, MaxHealth);
         }
-
-        public void ResetHealth()
-        {
-            _currentHealth = playerStats.MaxHealth;
-        }
+        //This will be in separate class, it is it's own separate system
         public void DealDamage(float damage, GameObject target)
         {
             // This is in comment bcs I don't how we use this and I don't want to destroy something 
@@ -104,19 +123,31 @@ namespace _Source.Managers
              */
         }
 
+        
+        /// <summary>
+        /// This should be a separe class, that holds all the possible states, such as StunState, BurnState etc.
+        /// </summary>
+        [Header("Player States")]
+        public bool isStunned = false;
+
+        
+        //This also should be in separate class
         public void ApplyStun(float duration)
         {
             if(isStunned) return;
                 isStunned = true;
                 Debug.Log("Player is stunned!");
+                //NOTE: Inkove's are dangerous, use UniTasks
                 Invoke(nameof(RemoveStun), duration);
         }
-
+        //This also should be in separate class
         public void RemoveStun()
         {
             isStunned = false;
             Debug.Log("Player is no longer stunned!");
         }
+
+
     }
 }
 
