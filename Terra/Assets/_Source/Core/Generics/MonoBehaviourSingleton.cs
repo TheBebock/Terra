@@ -5,6 +5,9 @@ using Object = UnityEngine.Object;
 
 namespace Core.Generics
 {
+    /// <summary>
+    /// Class for MonoBehaviours that should be accessed from other classes
+    /// </summary>
     public abstract class MonoBehaviourSingleton<T> : SerializedMonoBehaviour 
         where T : class
     {
