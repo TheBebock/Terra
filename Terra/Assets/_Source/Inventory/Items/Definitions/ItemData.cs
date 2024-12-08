@@ -20,7 +20,7 @@ namespace Inventory.Items.Definitions
         [ReadOnly] public int ID;
         public string itemName;
         public string itemDescription;
-        public Sprite icon;
+        public Sprite itemSprite;
         public bool canBeRemoved;
         public List<ValueModifier> strengthModifiers;
         public List<ValueModifier> maxHealthModifiers;

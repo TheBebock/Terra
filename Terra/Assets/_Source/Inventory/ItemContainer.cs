@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Inventory.Abstracts;
 using Player;
 using UnityEngine;
@@ -7,6 +8,10 @@ public class ItemContainer : InteractableBase
     override public bool CanBeInteractedWith => PlayerInventoryManager.Instance.CanEquipItem(item);
 
     [SerializeField] private Item item;
+    [SerializeField] private List<Item> rangedWeapons = new List<Item>();
+    [SerializeField] private List<Item> meleeWeapons = new List<Item>();
+    [SerializeField] private List<Item> activeItems = new List<Item>();
+    [SerializeField] private List<Item> passiveItems = new List<Item>();
     //This works like shit, use InputManager to check for input
     //TODO: Delete
     private void Update()
@@ -48,5 +53,17 @@ public class ItemContainer : InteractableBase
     {
         base.StopVisualization();
         //NOTE: Maybe some additional logic
+    }
+    
+    public List<Item> GetAllItems()
+    {
+        List<Item> allItems = new List<Item>();
+
+        allItems.AddRange(rangedWeapons);
+        allItems.AddRange(meleeWeapons);
+        allItems.AddRange(passiveItems);
+        allItems.AddRange(activeItems);
+
+        return allItems;
     }
 }
