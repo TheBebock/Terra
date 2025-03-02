@@ -215,6 +215,8 @@ GameObject:
   - component: {fileID: 120864962}
   - component: {fileID: 120864964}
   - component: {fileID: 120864963}
+  - component: {fileID: 120864966}
+  - component: {fileID: 120864965}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -281,15 +283,56 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: OnPlayerDeath
-      Entry: 6
-      Data: 
+    SerializationNodes: []
   playerInventory: {fileID: 0}
+  playerMovement: {fileID: 0}
+  playerAnimator: {fileID: 0}
   playerPrefab: {fileID: 0}
   playerParent: {fileID: 0}
   spawnPoint: {fileID: 0}
-  isStunned: 0
+--- !u!114 &120864965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120864960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff9ea47961d35e468fb3ce9a3dc0f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 6
+  gravity: 20
+  dashSpeed: 20
+  dashDuration: 0.2
+  dashCooldown: 1
+--- !u!143 &120864966
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120864960}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &647522109
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +965,6 @@ MonoBehaviour:
     - Name: OnTimeResumed
       Entry: 6
       Data: 
-  isPaused: 0
 --- !u!1 &1701939686
 GameObject:
   m_ObjectHideFlags: 0
