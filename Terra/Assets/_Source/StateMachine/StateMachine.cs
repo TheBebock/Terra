@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace _Source.StateMachine
+namespace Terra.StateMachine
 {
     public class StateMachine
     {
@@ -11,7 +11,7 @@ namespace _Source.StateMachine
 
          public void Update()
          {
-             var transiton = GetTransition();
+             ITransition transiton = GetTransition();
              if (transiton != null)
              {
                  ChangeState(transiton.TargetState);
@@ -48,13 +48,13 @@ namespace _Source.StateMachine
          {
              foreach (var transition in _anyTransitions)
              {
-                 if(transition.Predicate.Evaluate())
+                 if(transition.Condition.Evaluate())
                      return transition;
              }
 
              foreach (var transition in _current.Transitions)
              {
-                 if(transition.Predicate.Evaluate())
+                 if(transition.Condition.Evaluate())
                      return transition;
              }
              return null;
@@ -65,7 +65,7 @@ namespace _Source.StateMachine
              GetOrAddNode(from).AddTransition(GetOrAddNode(targetState).State, predicate);
          }
 
-         public void AddAnyTransition( IState targetState, IPredicate predicate)
+         public void AddAnyTransition(IState targetState, IPredicate predicate)
          {
              _anyTransitions.Add(new Transition(GetOrAddNode(targetState).State, predicate));
          }

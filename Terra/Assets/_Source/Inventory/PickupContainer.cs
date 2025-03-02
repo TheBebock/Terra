@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Inventory.Pickups;
 using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickupContainer : MonoBehaviour, IPickupable

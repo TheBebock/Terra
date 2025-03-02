@@ -1,33 +1,37 @@
 using System;
-using System.Runtime.Remoting.Messaging;
+using _Source.StateMachine;
 using Core.Generics;
 using Core.ModifiableValue;
 using Player;
 using UnityEngine;
 using StatisticsSystem;
-using StatisticsSystem.Definitions;
 
-namespace _Source.Managers
+namespace Terra.Player
 {
-    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable
+    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
     {
         
         private bool _isPlayerDead =false;
         
         [Header("References")]
         [SerializeField] PlayerInventoryManager playerInventory;
+        [SerializeField] PlayerMovement playerMovement;
+        [SerializeField] Animator playerAnimator;
         public GameObject playerPrefab;
         public Transform playerParent;
         public Transform spawnPoint;
         private GameObject _currentPlayer;
+        
+        private StateMachine.StateMachine _stateMachine;
+        
         
         public bool CanBeHealed { get; set; }
         public bool IsInvincible { get; set; }
         public bool CanBeDamaged { get; set; }
         public float CurrentHealth { get; set; }
 
+        public bool IsInitialized { get; private set; } = false;
 
-        private bool isInitialized;
         public float MaxHealth
         {
             get =>  playerStats.MaxHealth;
@@ -36,23 +40,33 @@ namespace _Source.Managers
         public bool IsPlayerDead => _isPlayerDead;
         
         private PlayerStats playerStats;
-        public Action OnPlayerDeath;
+        
+        public PlayerMovement PlayerMovement => playerMovement;
+        public PlayerInventoryManager PlayerInventory => playerInventory;
+        
+        public event Action OnPlayerDeath;
         private void Start()
         {
-            Initialize();
+            SetUp();
         }
-
-        public void Initialize()
+        
+   
+        public void SetUp()
         {
-            if(isInitialized) return;
-            isInitialized = true;
+            if(IsInitialized) return;
+            IsInitialized = true;
             
-            if(!playerInventory) playerInventory = PlayerInventoryManager.Instance;
-            playerStats = PlayerStatsManager.Instance.PlayerStats;
+            _stateMachine = new StateMachine.StateMachine();
+            
+            //TODO: Add states and transitions
+            
+            if(PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
+            if(PlayerStatsManager.Instance) playerStats = PlayerStatsManager.Instance.PlayerStats;
+            
             SpawnPlayer();
             ResetHealth();
         }
-
+        
         public void SpawnPlayer()
         {
             if (playerPrefab == null || spawnPoint == null)
@@ -84,6 +98,7 @@ namespace _Source.Managers
             }
         }
 
+        // Move to state PlayerDeathState
         public void OnDeath()
         {
             _isPlayerDead = true;
@@ -93,17 +108,13 @@ namespace _Source.Managers
         
         public void Heal(float amount)
         {
-            if (isStunned)
-            {
-                Debug.Log("Player is stunned!");
-                return;
-            }
             CurrentHealth = Mathf.Clamp(CurrentHealth + amount, 0, MaxHealth);
         }
+        
         //This will be in separate class, it is it's own separate system
         public void DealDamage(float damage, GameObject target)
         {
-            // This is in comment bcs I don't how we use this and I don't want to destroy something 
+
             /*
          if (isStunned)
         {
@@ -123,31 +134,12 @@ namespace _Source.Managers
              */
         }
 
-        
-        /// <summary>
-        /// This should be a separe class, that holds all the possible states, such as StunState, BurnState etc.
-        /// </summary>
-        [Header("Player States")]
-        public bool isStunned = false;
 
-        
-        //This also should be in separate class
-        public void ApplyStun(float duration)
+        //Clean up data if needed
+        public void TearDown()
         {
-            if(isStunned) return;
-                isStunned = true;
-                Debug.Log("Player is stunned!");
-                //NOTE: Inkove's are dangerous, use UniTasks
-                Invoke(nameof(RemoveStun), duration);
+            
         }
-        //This also should be in separate class
-        public void RemoveStun()
-        {
-            isStunned = false;
-            Debug.Log("Player is no longer stunned!");
-        }
-
-
     }
 }
 

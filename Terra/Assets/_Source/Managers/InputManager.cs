@@ -27,10 +27,10 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
     
     void Start()
     {
-        UpdatePlayerControlsState(true);
+        SetPlayerControlsState(true);
     }
     
-    private void UpdatePlayerControlsState(bool value)
+    private void SetPlayerControlsState(bool value)
     {
         if (value)
         {
@@ -67,20 +67,5 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
         inputActions.PlayerControls.Disable(); 
     }
     
-    protected void SetPlayerCanMove(bool state)
-    {
-        canPlayerMove = state;
-        UpdatePlayerControlsState(state);
-    }
-    
-    
-
-
-    public bool CanPlayerMove()
-    {
-        return canPlayerMove;
-    }
-
-
 }
 

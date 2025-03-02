@@ -1,14 +1,14 @@
-namespace _Source.StateMachine
+namespace Terra.StateMachine
 {
     public class Transition : ITransition
     {
         public IState TargetState { get;}
-        public IPredicate Predicate { get; }
+        public IPredicate Condition { get; }
 
-        public Transition(IState targetState, IPredicate predicate)
+        public Transition(IState targetState, IPredicate condition)
         {
             TargetState = targetState;
-            Predicate = predicate;
+            Condition = condition;
         }
     }
 }

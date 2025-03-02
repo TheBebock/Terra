@@ -1,8 +1,8 @@
-namespace _Source.StateMachine
+namespace Terra.StateMachine
 {
     public interface ITransition
     {
         IState TargetState { get; }
-        IPredicate Predicate { get; }
+        IPredicate Condition { get; }
     }
 }

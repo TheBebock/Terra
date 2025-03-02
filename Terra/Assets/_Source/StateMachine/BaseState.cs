@@ -1,24 +1,20 @@
+using System;
+using NaughtyAttributes;
 using UnityEngine;
 
-namespace _Source.StateMachine
+namespace Terra.StateMachine
 {
-    // TODO Add PlayerController here 
+    [Serializable]
     public abstract class BaseState : IState
     {
-        protected readonly PlayerController Player;
-        protected readonly Animator Animator;
-    
-        protected static readonly int LocomotionHash = Animator.StringToHash("Locomotion");
-        protected static readonly int JumpHash = Animator.StringToHash("Jump");
-    
-        protected const float CrossFadeDuration = 0.1f;
-
-        protected BaseState(PlayerController player, Animator animator)
+        
+        protected float CrossFadeDuration = 0.1f;
+        
+        protected BaseState()
         {
-            this.Player = player;
-            this.Animator = animator;
+            
         }
-    
+        
         public virtual void OnEnter()
         {
             // noop
@@ -38,9 +34,6 @@ namespace _Source.StateMachine
         {
             // noop
         }
+        
     }   
-    // Just to remove the  NULL error I will fix this later (maybe)
-    public class PlayerController
-    {
-    }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace _Source.StateMachine
+namespace Terra.StateMachine
 {
     public class FuncPredicate : IPredicate
     {
@@ -11,9 +11,6 @@ namespace _Source.StateMachine
             this._func = func;
         }
 
-        public bool Evaluate()
-        {
-            return _func.Invoke();
-        }
+        public bool Evaluate() => _func.Invoke();
     }
 }

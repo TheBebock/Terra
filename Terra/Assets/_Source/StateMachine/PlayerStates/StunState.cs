@@ -1,0 +1,24 @@
+using Terra.Player;
+using UnityEngine;
+
+namespace _Source.StateMachine
+{
+    public class StunState : PlayerBaseState
+    {
+        protected StunState(PlayerManager player, Animator animator) : base(player, animator)
+        {
+        }
+
+        public override void OnEnter()
+        {
+            animator.CrossFade(StunHash, CrossFadeDuration);
+            player.PlayerMovement.CanPlayerMove = false;
+        }
+
+
+        public override void OnExit()
+        {
+            player.PlayerMovement.CanPlayerMove = true;
+        }
+    }
+}

@@ -1,16 +1,17 @@
+using Terra.Player;
 using UnityEngine;
 
 namespace _Source.StateMachine
 {
-    public class LocomotionState : BaseState
+    public class LocomotionState : PlayerBaseState
     {
-        public LocomotionState(PlayerController player, Animator animator) : base(player, animator)
+        protected LocomotionState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
 
         public override void OnEnter()
         {
-            Animator.CrossFade(LocomotionHash, CrossFadeDuration);
+            animator.CrossFade(LocomotionHash, CrossFadeDuration);
         }
 
         public override void FixedUpdate()
