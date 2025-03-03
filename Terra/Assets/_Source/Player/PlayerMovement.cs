@@ -19,7 +19,9 @@ namespace Terra.Player
         private Vector3 moveDirection = Vector3.zero;
         private bool isDashing = false;
         private float dashCooldownTimer = 0f;
-
+        public GameObject meleeWeapon;
+        public GameObject rangedWeapon;
+        public GameObject activeItem;
         // Input Actions
         private InputSystem.PlayerControlsActions inputActions;
         private Vector2 movementInput;
