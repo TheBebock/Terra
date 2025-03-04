@@ -5,31 +5,36 @@ using Inventory.Pickups;
 using LootSystem;
 using UnityEngine;
 
-public class LootManager : MonoBehaviour
+namespace Terra.Managers
 {
-    public static LootManager Instance;
 
-    public LootTable lootTable;
-
-    private void Awake()
+    public class LootManager : MonoBehaviour
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
+        public static LootManager Instance;
 
-    public void SpawnLoot()
-    {
-        List<Item> lootItems = lootTable.GetRandomItemsFromEachCategory();
-        foreach (var item in lootItems)
+        public LootTable lootTable;
+
+        private void Awake()
         {
-            Debug.Log($"Generated items: ");
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
-        List<Pickup> lootPickups = lootTable.GetRandomPickupsFromEachCategory();
-        foreach (var pickup in lootPickups)
+
+        public void SpawnLoot()
         {
-            Debug.Log($"Generated pickups: ");
+            List<Item> lootItems = lootTable.GetRandomItemsFromEachCategory();
+            foreach (var item in lootItems)
+            {
+                Debug.Log($"Generated items: ");
+            }
+
+            List<Pickup> lootPickups = lootTable.GetRandomPickupsFromEachCategory();
+            foreach (var pickup in lootPickups)
+            {
+                Debug.Log($"Generated pickups: ");
+            }
         }
     }
 }

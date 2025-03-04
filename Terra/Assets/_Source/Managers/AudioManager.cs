@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Core.Generics;
 using UnityEngine;
 
-namespace Managers
+namespace Terra.Managers
 {
-    public class AudioManager : GlobalMonoBehaviour<TimeManager>
+    public class AudioManager : GlobalMonoBehaviour<AudioManager>
     {
         
        

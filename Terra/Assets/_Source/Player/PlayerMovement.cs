@@ -1,4 +1,5 @@
 using System.Collections;
+using Terra.Input;
 using Terra.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,7 +38,7 @@ namespace Terra.Player
         void Start()
         {
             characterController = GetComponent<CharacterController>();
-            inputActions = InputManager.Instance.GetInputActions().PlayerControls;
+            inputActions = InputManager.Instance.PlayerControls;
             AttachListeners();
         }
 

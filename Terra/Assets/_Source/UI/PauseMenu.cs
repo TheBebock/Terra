@@ -1,8 +1,5 @@
-using System;
-using Core.Generics;
-using Managers;
+using Terra.Managers;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,18 +7,17 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu; // Reference to the pause menu UI
     
     
-    private void OnEnable()
+    private void Start()
     {
         TimeManager.Instance.OnTimePaused += ShowPause;
-        TimeManager.Instance.OnTimePaused += HidePause;
+        TimeManager.Instance.OnTimeResumed += HidePause;
 
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         TimeManager.Instance.OnTimePaused -= ShowPause;
-        TimeManager.Instance.OnTimePaused -= HidePause;
-
+        TimeManager.Instance.OnTimeResumed -= HidePause;
     }
     
 
