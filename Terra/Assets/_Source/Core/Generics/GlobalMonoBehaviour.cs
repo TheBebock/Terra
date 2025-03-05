@@ -15,7 +15,7 @@ namespace Core.Generics
         
         private static T _instance = null;
 
-        public static T Instance;
+        public static T Instance => _instance;
 
         protected virtual void Awake()
         {
