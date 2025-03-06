@@ -15,9 +15,14 @@ MonoBehaviour:
   ID: 0
   itemName: 
   itemDescription: 
-  icon: {fileID: 0}
+  itemSprite: {fileID: 0}
   canBeRemoved: 0
-  stats: []
+  strengthModifiers:
+  - Value: 0
+    Type: 100
+  maxHealthModifiers: []
+  speedModifiers: []
+  luckModifiers: []
   damage: 0
   range: 0
   attackSpeed: 0
