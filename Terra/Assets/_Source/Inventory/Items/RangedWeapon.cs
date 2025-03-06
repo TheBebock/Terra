@@ -1,19 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Inventory.Items.Definitions;
+using NaughtyAttributes;
+using OdinSerializer;
 using UnityEngine;
 
 namespace Inventory.Items
 {
-    [CreateAssetMenu(fileName = "rangedWeapon_", menuName = "TheBebocks/Weapons/Ranged")]
+    [Serializable]
     public class RangedWeapon : Weapon
     {
-        
+
+        [ReadOnly] public string name;
+        [OdinSerialize] public string name2 => rangedData.name;
         public RangedWeaponData rangedData;
-        private void OnValidate()
+
+        public RangedWeapon(string newName)
         {
-            itemType = ItemType.Ranged;
+            name = newName;
         }
+
         public void Shoot()
         {
             if (rangedData.isExplosive)

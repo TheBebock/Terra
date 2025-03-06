@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Inventory.Abstracts;
 using Inventory.Pickups;
-using LootSystem;
+using Terra.LootSystem;
 using UnityEngine;
 
 namespace Terra.Managers
@@ -12,7 +12,9 @@ namespace Terra.Managers
     {
         public static LootManager Instance;
 
-        public LootTable lootTable;
+        [SerializeField] private PickupContainer P_pickupContainer;
+        [SerializeField] private ItemContainer P_itemContainer;
+        [SerializeField] private LootTable lootTable;
 
         private void Awake()
         {

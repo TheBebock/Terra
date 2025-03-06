@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using Inventory.Abstracts;
+using Inventory.Items;
 using Inventory.Items.Definitions;
 using Inventory.Pickups;
 using Inventory.Pickups.Definitions;
+using OdinSerializer;
 using UnityEngine;
 
-namespace LootSystem
+namespace Terra.LootSystem
 {
-    public class LootTable : MonoBehaviour
+    [CreateAssetMenu(fileName = "LootTable", menuName = "TheBebocks/LootTable")]
+    public class LootTable : ScriptableObject
     {
         public ItemContainer itemContainer;
         public PickupContainer pickupContainer;
         
+        // TODO: Make a list for each category, change All... from variable to Method() that links all the lists
+        [OdinSerialize]public List<Item> AllItems = new ();
+        public List<PassiveItem> PassiveItems = new ();
+        public List<RangedWeapon> RangedWeapons = new ();
         public List<Item> GetRandomItemsFromEachCategory()
         {
             List<Item> selectedItems = new List<Item>();

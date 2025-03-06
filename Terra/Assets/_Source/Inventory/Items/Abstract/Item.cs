@@ -1,18 +1,19 @@
 using System;
 using Inventory.Items.Definitions;
+using NaughtyAttributes;
 using Player;
-using StatisticsSystem.Definitions;
-using UnityEngine;
 
 namespace Inventory.Abstracts
 {
+    //NOTE: Class cannot be abstract, because it will not serialize otherwise
     [Serializable]
-    public abstract class Item : ScriptableObject, IEquipable
+    public class Item : IEquipable
     {
         public bool CanBeRemoved => Data.canBeRemoved; 
         
-        public ItemType itemType;
-        public ItemData Data { get; private set; }
+        [ReadOnly]public ItemType itemType;
+        //TODO: Remove this Data and change OnEquip / OnUnEquip
+        public ItemData Data;
         
         //TODO: When PlayerStatsManager get improves, this will need a change
         public virtual void OnEquip()

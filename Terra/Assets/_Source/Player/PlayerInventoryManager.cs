@@ -14,9 +14,6 @@ namespace Player
     {
         [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
         
-        //TODO: Maybe add MessagePack to serialize classes that don't inherit SO or MB, maybe not needed not sure, need to check if serialization is correct
-        //TO TEST.
-        
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> meleeWeaponSlot = new ItemSlot<MeleeWeapon>();
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> rangedWeaponSlot = new ItemSlot<RangedWeapon>();
         [Foldout("Debug"), SerializeField,  ReadOnly] private ItemSlot<ActiveItem> activeItemSlot = new ItemSlot<ActiveItem>();
