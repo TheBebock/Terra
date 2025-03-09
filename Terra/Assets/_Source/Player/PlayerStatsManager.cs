@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using StatisticsSystem;
-using StatisticsSystem;
 using Core.Generics;
 using Core.ModifiableValue;
+using StatisticsSystem;
 using StatisticsSystem.Definitions;
 using UnityEngine;
 
-namespace Player
+namespace _Source.Player
 {
     public class PlayerStatsManager : MonoBehaviourSingleton<PlayerStatsManager>
     {

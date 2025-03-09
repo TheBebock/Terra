@@ -1,7 +1,5 @@
-namespace Terra.StateMachine
-{
-    public interface IPredicate
-    {
+namespace _Source.StateMachine {
+    public interface IPredicate {
         bool Evaluate();
     }
 }

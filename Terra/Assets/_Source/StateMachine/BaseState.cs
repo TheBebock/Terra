@@ -1,8 +1,6 @@
 using System;
-using NaughtyAttributes;
-using UnityEngine;
 
-namespace Terra.StateMachine
+namespace _Source.StateMachine
 {
     [Serializable]
     public abstract class BaseState : IState

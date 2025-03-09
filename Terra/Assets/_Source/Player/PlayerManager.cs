@@ -1,12 +1,11 @@
 using System;
-using _Source.StateMachine;
 using Core.Generics;
-using Core.ModifiableValue;
 using Player;
-using UnityEngine;
 using StatisticsSystem;
+using Terra.Player;
+using UnityEngine;
 
-namespace Terra.Player
+namespace _Source.Player
 {
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
     {

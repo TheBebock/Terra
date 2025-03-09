@@ -1,11 +1,8 @@
-
-namespace Terra.StateMachine
-{
-    public interface IState 
-    {
+namespace _Source.StateMachine {
+    public interface IState {
         void OnEnter();
         void Update();
         void FixedUpdate();
-        void OnExit(); 
+        void OnExit();
     }
 }

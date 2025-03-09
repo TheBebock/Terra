@@ -1,7 +1,8 @@
+using _Source.Player;
 using Terra.Player;
 using UnityEngine;
 
-namespace _Source.StateMachine
+namespace _Source.StateMachine.PlayerStates
 {
     public class StunState : PlayerBaseState
     {
