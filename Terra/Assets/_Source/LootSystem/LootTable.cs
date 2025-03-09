@@ -50,13 +50,13 @@ namespace Terra.LootSystem
         {
             List<Pickup> selectedPickups = new List<Pickup>();
 
-            var healthPickups = GetRandomPickupFromList(pickupContainer.GetAllPickups().FindAll(p => p.pickupType == PickupType.Health));
+            var healthPickups = GetRandomPickupFromList(pickupContainer.GetAllPickups().FindAll(p => p.PickupType == PickupType.Health));
             if (healthPickups != null) selectedPickups.Add(healthPickups);
 
-            var ammoPickups = GetRandomPickupFromList(pickupContainer.GetAllPickups().FindAll(p => p.pickupType == PickupType.Ammo));
+            var ammoPickups = GetRandomPickupFromList(pickupContainer.GetAllPickups().FindAll(p => p.PickupType == PickupType.Ammo));
             if (ammoPickups != null) selectedPickups.Add(ammoPickups);
 
-            var crystalPickups = GetRandomPickupFromList(pickupContainer.GetAllPickups().FindAll(p => p.pickupType == PickupType.Crystal));
+            var crystalPickups = GetRandomPickupFromList(pickupContainer.GetAllPickups().FindAll(p => p.PickupType == PickupType.Crystal));
             if (crystalPickups != null) selectedPickups.Add(crystalPickups);
 
             return selectedPickups;

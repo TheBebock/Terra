@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.Pickups.Definitions;
 using UnityEngine;
 
-public class HealthPickup : MonoBehaviour
+namespace Inventory.Pickups
 {
-    // Start is called before the first frame update
-    void Start()
+    public class HealthPickup : Pickup
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void OnPickUp()
+        {
+            HealthPickupData data = (HealthPickupData)pickupData;
+            Debug.Log($"Picked up Health: +{data.healthAmount} HP");
+            // Add healing logic
+        }
     }
 }

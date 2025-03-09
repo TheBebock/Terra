@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Inventory.Pickups.Definitions;
 
-public class AmmoPickup : MonoBehaviour
+namespace Inventory.Pickups
 {
-    // Start is called before the first frame update
-    void Start()
+    public class AmmoPickup : Pickup
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void OnPickUp()
+        {
+            AmmoPickupData data = (AmmoPickupData)pickupData;
+            Debug.Log($"Picked up Ammo: +{data.ammoAmount} bullets");
+            // Add adding ammo logic
+        }
     }
 }

@@ -9,9 +9,9 @@ public class PickupContainer : MonoBehaviour, IPickupable
     public bool CanBePickedUp { get; private set; }
     
     [SerializeField] private Pickup pickup;
-    [SerializeField] private List<Pickup> crystalPickups = new List<Pickup>();
-    [SerializeField] private List<Pickup> healthPickups = new List<Pickup>();
-    [SerializeField] private List<Pickup> ammoPickups = new List<Pickup>();
+    [SerializeField] private List<CrystalPickup> crystalPickups = new List<CrystalPickup>();
+    [SerializeField] private List<HealthPickup> healthPickups = new List<HealthPickup>();
+    [SerializeField] private List<AmmoPickup> ammoPickups = new List<AmmoPickup>();
     
     private void OnTriggerEnter2D(Collider2D collision)
     {

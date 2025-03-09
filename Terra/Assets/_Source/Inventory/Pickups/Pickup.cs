@@ -6,27 +6,11 @@ using UnityEngine;
 
 namespace Inventory.Pickups
 {
-    [Serializable]
-    public abstract class Pickup : ScriptableObject
+    public class Pickup : MonoBehaviour
     {
-        [SerializeField] PickupData pickupData;
-        public PickupType pickupType;
-        public virtual void OnPickUp()
-        {
-            if (pickupType == PickupType.Health)
-            {
-                //add health
-            }
-            if (pickupType == PickupType.Ammo)
-            {
-                //add ammo
-            }
-            if (pickupType == PickupType.Crystal)
-            {
-                //add crystal
-            }
-        }
-        
+        [SerializeField] protected PickupData pickupData;
+        public PickupType PickupType => pickupData.pickupType;
+        public virtual void OnPickUp() {}
     }
 
 }
