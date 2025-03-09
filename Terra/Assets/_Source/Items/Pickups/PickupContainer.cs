@@ -4,15 +4,15 @@ using Inventory.Pickups;
 using JetBrains.Annotations;
 using UnityEngine;
 
+/// <summary>
+/// Represents a container for a single Pickup item type
+/// </summary>
 public class PickupContainer : MonoBehaviour, IPickupable
 {
     public bool CanBePickedUp { get; private set; }
     
     [SerializeField] private Pickup pickup;
-    [SerializeField] private List<CrystalPickup> crystalPickups = new List<CrystalPickup>();
-    [SerializeField] private List<HealthPickup> healthPickups = new List<HealthPickup>();
-    [SerializeField] private List<AmmoPickup> ammoPickups = new List<AmmoPickup>();
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && CanBePickedUp && pickup != null)
@@ -32,16 +32,4 @@ public class PickupContainer : MonoBehaviour, IPickupable
     {
         CanBePickedUp = isAvailable;
     }
-    
-    public List<Pickup> GetAllPickups()
-    {
-        List<Pickup> allPickups = new List<Pickup>();
-
-        allPickups.AddRange(crystalPickups);
-        allPickups.AddRange(healthPickups);
-        allPickups.AddRange(ammoPickups);
-
-        return allPickups;
-    }
-    
 }

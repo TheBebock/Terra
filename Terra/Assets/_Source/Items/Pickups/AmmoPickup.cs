@@ -5,6 +5,8 @@ namespace Inventory.Pickups
 {
     public class AmmoPickup : Pickup
     {
+        public override PickupType PickupType { get; } = PickupType.Ammo;
+
         public override void OnPickUp()
         {
             AmmoPickupData data = (AmmoPickupData)pickupData;

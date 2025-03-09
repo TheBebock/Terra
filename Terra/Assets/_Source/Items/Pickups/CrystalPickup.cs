@@ -5,6 +5,8 @@ namespace Inventory.Pickups
 {
     public class CrystalPickup : Pickup
     {
+        public override PickupType PickupType { get; } = PickupType.Crystal;
+
         public override void OnPickUp()
         {
             CrystalPickupData data = (CrystalPickupData)pickupData;

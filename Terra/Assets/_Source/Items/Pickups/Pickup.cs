@@ -9,9 +9,9 @@ namespace Inventory.Pickups
     public class Pickup : MonoBehaviour
     {
         [SerializeField] protected PickupData pickupData;
-        public PickupType PickupType => pickupData.pickupType;
+        public virtual PickupType PickupType { get; }
         public virtual void OnPickUp() {}
+        
     }
-
 }
 

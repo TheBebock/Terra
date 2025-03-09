@@ -7,6 +7,8 @@ namespace Inventory.Pickups
 {
     public class HealthPickup : Pickup
     {
+        public override PickupType PickupType { get; } = PickupType.Health;
+
         public override void OnPickUp()
         {
             HealthPickupData data = (HealthPickupData)pickupData;
