@@ -9,6 +9,10 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     public abstract void Interact();
     public abstract void OnInteraction();
     
+    public virtual string GetInteractionPrompt()
+    {
+        return "Press E to interact";  // Default text
+    }
     
     public void ShowVisualisation()
     {
@@ -16,6 +20,7 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
         if (CanBeInteractedWith)
         {
             ShowAvailableVisualization();
+
         }
         else
         {
@@ -43,4 +48,6 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     {
         CanShowVisualisation = false;
     }
+
+    
 }
