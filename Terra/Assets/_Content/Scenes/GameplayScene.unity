@@ -217,6 +217,8 @@ GameObject:
   - component: {fileID: 120864963}
   - component: {fileID: 120864966}
   - component: {fileID: 120864965}
+  - component: {fileID: 120864968}
+  - component: {fileID: 120864967}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -284,12 +286,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  playerInventory: {fileID: 0}
-  playerMovement: {fileID: 0}
-  playerAnimator: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  playerParent: {fileID: 0}
-  spawnPoint: {fileID: 0}
+  _isPlayerDead: 0
+  playerInventory: {fileID: 120864963}
+  playerMovement: {fileID: 120864965}
+  playerAnimator: {fileID: 120864967}
 --- !u!114 &120864965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +307,9 @@ MonoBehaviour:
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 1
+  meleeWeapon: {fileID: 0}
+  rangedWeapon: {fileID: 0}
+  activeItem: {fileID: 0}
 --- !u!143 &120864966
 CharacterController:
   m_ObjectHideFlags: 0
@@ -333,6 +336,63 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &120864967
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120864960}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &120864968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120864960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8549bfef3223d4f9de54240f31818a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  playerStatsData: {fileID: 11400000, guid: 5cdc25e0fc61acf468ba254296bbf68e, type: 2}
+  playerStats:
+    strength:
+      baseValue: 0
+      StatModifiers: []
+    maxHealth:
+      baseValue: 0
+      StatModifiers: []
+    speed:
+      baseValue: 0
+      StatModifiers: []
+    luck:
+      baseValue: 0
+      StatModifiers: []
 --- !u!1 &647522109
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,7 +494,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647522109}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fef1aa6a4efe4c847b709d68cc3b7097, type: 3}
   m_Name: 
@@ -765,8 +825,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02a213ac771d5c48ab4ac0d0a1bf4e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   maxGold: 100000
   initialGold: 0
+  _currentGold: 0
 --- !u!1 &1213238227
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,13 +1028,7 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: OnTimePaused
-      Entry: 6
-      Data: 
-    - Name: OnTimeResumed
-      Entry: 6
-      Data: 
+    SerializationNodes: []
 --- !u!1 &1701939686
 GameObject:
   m_ObjectHideFlags: 0
