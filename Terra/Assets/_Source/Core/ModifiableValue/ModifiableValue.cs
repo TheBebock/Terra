@@ -9,6 +9,12 @@ namespace Core.ModifiableValue
    public class ModifiableValue
    {
       [SerializeField] private float baseValue;
+      [SerializeField] protected List<ValueModifier> StatModifiers = new();
+
+
+      protected bool IsDirty = true;
+      protected float _value = 0;
+      protected float LastBaseValue = float.MinValue;
 
       public float Value
       {
@@ -17,7 +23,7 @@ namespace Core.ModifiableValue
             if (IsDirty || baseValue != LastBaseValue)
             {
                LastBaseValue = baseValue;
-               _value = CalculateFinalValua();
+               _value = CalculateFinalValue();
                IsDirty = false;
             }
 
@@ -25,19 +31,9 @@ namespace Core.ModifiableValue
          }
       }
 
-      protected bool IsDirty = true;
-      protected float _value;
-      protected float LastBaseValue = float.MinValue;
-      [SerializeField] protected List<ValueModifier> StatModifiers;
-
-      public ModifiableValue()
+      public ModifiableValue(float baseValue)
       {
-         StatModifiers = new List<ValueModifier>();
-      }
-
-      public ModifiableValue(float baseValue) : this()
-      {
-         baseValue = baseValue;
+         this.baseValue = baseValue;
       }
 
       public virtual void AddStatModifier(ValueModifier mod)
@@ -67,12 +63,12 @@ namespace Core.ModifiableValue
          return false;
       }
 
-      public virtual bool RemoveAllModifiersFromSource(object source)
+      public virtual bool RemoveAllModifiersFromSource(int sourceID)
       {
          bool didRemove = false;
          for (int i = StatModifiers.Count - 1; i >= 0; i++)
          {
-            if (StatModifiers[i].Source == source)
+            if (StatModifiers[i].SourceID == sourceID)
             {
                IsDirty = true;
                didRemove = true;
@@ -83,7 +79,7 @@ namespace Core.ModifiableValue
          return didRemove;
       }
 
-      protected virtual float CalculateFinalValua()
+      protected virtual float CalculateFinalValue()
       {
          float finalValue = baseValue;
          float sumPercentAdd = 0;

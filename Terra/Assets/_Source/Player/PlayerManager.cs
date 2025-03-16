@@ -1,5 +1,6 @@
 using System;
-using Core.Generics;
+using Terra.Core.Generics;
+using NaughtyAttributes;
 using Player;
 using StatisticsSystem;
 using Terra.Player;
@@ -10,20 +11,15 @@ namespace _Source.Player
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
     {
         
-        private bool _isPlayerDead =false;
+        [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead = false;
+
+        [Foldout("References")] [SerializeField] PlayerInventoryManager playerInventory;
+        [Foldout("References")][SerializeField] PlayerMovement playerMovement;
+        [Foldout("References")][SerializeField] Animator playerAnimator;
         
-        [Header("References")]
-        [SerializeField] PlayerInventoryManager playerInventory;
-        [SerializeField] PlayerMovement playerMovement;
-        [SerializeField] Animator playerAnimator;
-        public GameObject playerPrefab;
-        public Transform playerParent;
-        public Transform spawnPoint;
-        private GameObject _currentPlayer;
         
         private StateMachine.StateMachine _stateMachine;
-        
-        
+
         public bool CanBeHealed { get; set; }
         public bool IsInvincible { get; set; }
         public bool CanBeDamaged { get; set; }
@@ -38,7 +34,7 @@ namespace _Source.Player
         
         public bool IsPlayerDead => _isPlayerDead;
         
-        private PlayerStats playerStats;
+        private PlayerStats playerStats;    
         
         public PlayerMovement PlayerMovement => playerMovement;
         public PlayerInventoryManager PlayerInventory => playerInventory;
@@ -49,7 +45,6 @@ namespace _Source.Player
             SetUp();
         }
         
-   
         public void SetUp()
         {
             if(IsInitialized) return;
@@ -62,10 +57,9 @@ namespace _Source.Player
             if(PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
             if(PlayerStatsManager.Instance) playerStats = PlayerStatsManager.Instance.PlayerStats;
             
-            SpawnPlayer();
             ResetHealth();
         }
-        
+        /*
         public void SpawnPlayer()
         {
             if (playerPrefab == null || spawnPoint == null)
@@ -80,7 +74,7 @@ namespace _Source.Player
             }
             _currentPlayer = Instantiate(playerPrefab,spawnPoint.position, spawnPoint.rotation);
             ResetHealth();
-        }
+        }*/
         
         public void ResetHealth()
         {
@@ -107,6 +101,7 @@ namespace _Source.Player
         
         public void Heal(float amount)
         {
+            if(!CanBeHealed) return;
             CurrentHealth = Mathf.Clamp(CurrentHealth + amount, 0, MaxHealth);
         }
         

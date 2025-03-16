@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Core.Generics;
+using Terra.Core.Generics;
 using Core.ModifiableValue;
 using StatisticsSystem;
 using StatisticsSystem.Definitions;
@@ -47,7 +47,7 @@ namespace _Source.Player
         {
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.AddStrengthModifier(modifiers[i]);
+                AddStrength(modifiers[i]);
             }
         }
         

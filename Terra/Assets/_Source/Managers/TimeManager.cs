@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Generics;
+using Terra.Core.Generics;
 using Terra.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;

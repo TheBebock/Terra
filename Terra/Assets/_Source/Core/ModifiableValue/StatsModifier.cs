@@ -1,5 +1,7 @@
 
 using System;
+using System.Runtime.CompilerServices;
+using Terra.Constants;
 
 namespace Core.ModifiableValue
 {
@@ -17,25 +19,25 @@ namespace Core.ModifiableValue
         public float Value;
         public StatModType Type;
         public readonly int Order;
-        public readonly object Source;
+        public readonly int SourceID;
 
-        public ValueModifier(float value, StatModType type, int order, object source)
+        public ValueModifier(float value, StatModType type, int order, int sourceID =  Utils.DEFAULT_ID)
         {
             Value = value;
             Type = type;
             Order = order;
-            Source = source;
+            SourceID = sourceID;
         }
 
-        public ValueModifier(float value, StatModType type) : this(value, type, (int)type, null)
+        public ValueModifier(float value, StatModType type) : this(value, type, (int)type, Utils.DEFAULT_ID)
         {
         }
 
-        public ValueModifier(float value, StatModType type, int order) : this(value, type, order, null)
+        public ValueModifier(float value, StatModType type, int order) : this(value, type, order,  Utils.DEFAULT_ID)
         {
         }
 
-        public ValueModifier(float value, StatModType type, object source) : this(value, type, (int)type, source)
+        public ValueModifier(float value, StatModType type, object source) : this(value, type, (int)type,  Utils.DEFAULT_ID)
         {
         }
 

@@ -1,5 +1,5 @@
 using System;
-using Core.Generics;
+using Terra.Core.Generics;
 using UnityEngine;
 
 namespace Terra.Input

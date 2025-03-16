@@ -3,7 +3,7 @@ using OdinSerializer;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core.Generics
+namespace Terra.Core.Generics
 {
     /// <summary>
     /// Class for MonoBehaviours that should be accessed from other classes
@@ -47,7 +47,7 @@ namespace Core.Generics
             {
                 _instance = this as T;
             }
-            else if (_instance != this)
+            else if (_instance != this as T)
             {
                 Destroy(gameObject);
             }

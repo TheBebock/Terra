@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core.Generics;
+using Terra.Core.Generics;
 using Inventory;
 using Inventory.Abstracts;
 using Inventory.Items;
