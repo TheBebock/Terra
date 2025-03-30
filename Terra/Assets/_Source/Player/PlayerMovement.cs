@@ -1,6 +1,6 @@
 using System.Collections;
 using _Source.Player;
-using Terra.Input;
+using Terra.InputManagement;
 using Terra.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;

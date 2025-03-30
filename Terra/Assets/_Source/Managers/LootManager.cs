@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Inventory.Abstracts;
 using Inventory.Pickups;
+using Terra.Itemization.Abstracts;
+using Terra.Itemization.Items;
 using Terra.LootSystem;
 using UnityEngine;
 
@@ -37,6 +38,20 @@ namespace Terra.Managers
             {
                 Debug.Log($"Generated pickups: ");
             }
+        }
+
+        public void SpawnRandomPickup(Transform pickupTransform)
+        {
+            PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupTransform);
+            Pickup pickup = lootTable.GetRandomPickup();
+            pickupContainer.Initialize(pickup);
+        }
+        
+        public void SpawnRandomPickup(Vector3 pickupPosition)
+        {
+            PickupContainer pickupContainer = Instantiate(P_pickupContainer,pickupPosition, Quaternion.identity);
+            Pickup pickup = lootTable.GetRandomPickup();
+            pickupContainer.Initialize(pickup);
         }
     }
 }

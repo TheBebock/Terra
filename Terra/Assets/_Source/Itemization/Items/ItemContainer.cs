@@ -1,0 +1,70 @@
+using System.Collections.Generic;
+using NaughtyAttributes;
+using Player;
+using Terra.Itemization.Abstracts;
+using UnityEngine;
+
+namespace Terra.Itemization.Items
+{
+
+    /// <summary>
+    /// Represents a container for a single Item type
+    /// </summary>
+    public class ItemContainer : InteractableBase
+    {
+        public override bool CanBeInteractedWith => isInitialized && PlayerInventoryManager.Instance.CanEquipItem(item);
+
+        [SerializeField, ReadOnly] private bool isInitialized = false;
+
+        [SerializeField, ReadOnly] private Item item;
+
+        //This works like shit, use InputManager to check for input
+        //TODO: Delete
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
+            }
+        }
+
+        public void Initialize(Item item)
+        {
+            this.item = item;
+            isInitialized = true;
+        }
+
+        public override void Interact()
+        {
+            if (!CanBeInteractedWith) return;
+            if (PlayerInventoryManager.Instance.TryToEquipItem(item))
+            {
+                OnInteraction();
+            }
+        }
+
+        public override void OnInteraction()
+        {
+            //TODO: Display VFX
+        }
+
+        protected override void ShowAvailableVisualization()
+        {
+            base.ShowAvailableVisualization();
+            //TODO: Display VFX
+        }
+
+        protected override void ShowUnAvailableVisualization()
+        {
+            base.ShowUnAvailableVisualization();
+            //TODO: Display VFX
+        }
+
+        public override void StopVisualization()
+        {
+            base.StopVisualization();
+            //NOTE: Maybe some additional logic
+        }
+
+    }
+}

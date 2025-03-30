@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Terra.Core.Generics;
-using Terra.Input;
+using Terra.InputManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

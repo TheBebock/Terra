@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Inventory.Abstracts;
-using Inventory.Items;
-using Inventory.Items.Definitions;
+using System.Linq;
 using Inventory.Pickups;
-using Inventory.Pickups.Definitions;
 using NaughtyAttributes;
+using OdinSerializer.Utilities;
+using Terra.Itemization.Abstracts;
+using Terra.Itemization.Items;
+using Terra.Itemization.Items.Definitions;
 using UnityEngine;
 
 namespace Terra.LootSystem
@@ -16,58 +17,103 @@ namespace Terra.LootSystem
         [Foldout("References")][SerializeField] private ItemContainer P_ItemContainer;
         [Foldout("References")][SerializeField] private PickupContainer P_PickupContainer;
         
-        // TODO: Make a list for each category, change All... from variable to Method() that links all the lists
-        [SerializeField] private List<Item> AllItems = new ();
-        [SerializeField] private List<Pickup> AllPickups = new ();
-        [SerializeField] private List<PassiveItem> PassiveItems = new ();
-        [SerializeField] private List<RangedWeapon> RangedWeapons = new ();
+
+        [SerializeField] private List<ActiveItem> activeItems = new (); 
+        [SerializeField] private List<PassiveItem> passiveItems = new ();
+        [SerializeField] private List<MeleeWeapon> meleeWeapons = new ();
+        [SerializeField] private List<RangedWeapon> rangedWeapons = new ();
+        
+        [SerializeField] private List<HealthPickup> healthPickups = new ();
+        [SerializeField] private List<AmmoPickup> ammoPickups = new ();
+        [SerializeField] private List<CrystalPickup> crystalPickups = new ();
+
+        private List<Item> GetAllItems()
+        {
+            List<Item> allItems = new List<Item>();
+            allItems.AddRange(activeItems);
+            allItems.AddRange(passiveItems);
+            allItems.AddRange(meleeWeapons);
+            allItems.AddRange(rangedWeapons);
+            return allItems;
+        }
+        
+        private List<Pickup> GetAllPickups()
+        {
+            List<Pickup> allPickups = new();
+            allPickups.AddRange(healthPickups);
+            allPickups.AddRange(ammoPickups);
+            allPickups.AddRange(crystalPickups);
+            return allPickups;
+        }
         public List<Item> GetRandomItemsFromEachCategory()
         {
             List<Item> selectedItems = new List<Item>();
-            
-            var rangedWeapons = GetRandomItemFromList(AllItems.FindAll(i => i.itemType == ItemType.Ranged));
-            if (rangedWeapons != null) selectedItems.Add(rangedWeapons);
 
-            var meleeWeapons = GetRandomItemFromList(AllItems.FindAll(i => i.itemType== ItemType.Melee));
-            if (meleeWeapons != null) selectedItems.Add(meleeWeapons);
+            var rangedWeapon = GetRandomRangedWeapon(); // Get a random RangedWeapon
+            if (rangedWeapon != null) selectedItems.Add(rangedWeapon);
 
-            var passiveItems = GetRandomItemFromList(AllItems.FindAll(i => i.itemType == ItemType.Passive));
-            if (passiveItems != null) selectedItems.Add(passiveItems);
+            var meleeWeapon = GetRandomMeleeWeapon();  // Get a random MeleeWeapon
+            if (meleeWeapon != null) selectedItems.Add(meleeWeapon);
 
-            var activeItems = GetRandomItemFromList(AllItems.FindAll(i => i.itemType== ItemType.Active));
-            if (activeItems!= null) selectedItems.Add(activeItems);
+            var passiveItem = GetRandomPassiveItem();  // Get a random PassiveItem
+            if (passiveItem != null) selectedItems.Add(passiveItem);
+
+            var activeItem = GetRandomActiveItem();  // Get a random ActiveItem
+            if (activeItem != null) selectedItems.Add(activeItem);
 
             return selectedItems;
-        }
-        private Item GetRandomItemFromList(List<Item> items)
-        {
-            if (items == null || items.Count == 0) return null;
-
-            int index = Random.Range(0, items.Count);
-            return items[index];
         }
         
         public List<Pickup> GetRandomPickupsFromEachCategory()
         {
             List<Pickup> selectedPickups = new List<Pickup>();
 
-            Pickup healthPickups = GetRandomPickupFromList(AllPickups.FindAll(p => p.PickupType == PickupType.Health));
-            if (healthPickups != null) selectedPickups.Add(healthPickups);
+            Pickup healthPickup = GetRandomHealthPickup();
+            if (healthPickup != null) selectedPickups.Add(healthPickup);
 
-            Pickup ammoPickups = GetRandomPickupFromList(AllPickups.FindAll(p => p.PickupType == PickupType.Ammo));
-            if (ammoPickups != null) selectedPickups.Add(ammoPickups);
+            Pickup ammoPickup = GetRandomAmmoPickup();
+            if (ammoPickup != null) selectedPickups.Add(ammoPickup);
             
-            Pickup crystalPickups = GetRandomPickupFromList(AllPickups.FindAll(p => p.PickupType == PickupType.Crystal));
-            if (crystalPickups != null) selectedPickups.Add(crystalPickups);
+            Pickup crystalPickup = GetRandomCrystalPickup();
+            if (crystalPickup != null) selectedPickups.Add(crystalPickup);
 
             return selectedPickups;
         }
-        private Pickup GetRandomPickupFromList(List<Pickup> pickups)
-        {
-            if (pickups == null || pickups.Count == 0) return null;
 
-            int index = Random.Range(0, pickups.Count);
-            return pickups[index];
+        public ActiveItem GetRandomActiveItem()
+        {
+            return activeItems.GetRandomElement<ActiveItem>();
+        }
+
+        public PassiveItem GetRandomPassiveItem()
+        {
+            return passiveItems.GetRandomElement<PassiveItem>();
+        }
+
+        public MeleeWeapon GetRandomMeleeWeapon()
+        {
+            return meleeWeapons.GetRandomElement<MeleeWeapon>();
+        }
+
+        public RangedWeapon GetRandomRangedWeapon()
+        {
+            return rangedWeapons.GetRandomElement<RangedWeapon>();
+        }
+        
+        public Pickup GetRandomPickup() => GetRandomPickupsFromEachCategory().GetRandomElement<Pickup>();
+        public HealthPickup GetRandomHealthPickup()
+        {
+            return healthPickups.GetRandomElement<HealthPickup>();
+        }
+
+        public AmmoPickup GetRandomAmmoPickup()
+        {
+            return ammoPickups.GetRandomElement<AmmoPickup>();
+        }
+        
+        public CrystalPickup GetRandomCrystalPickup()
+        {
+            return crystalPickups.GetRandomElement<CrystalPickup>();
         }
     }
 }

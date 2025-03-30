@@ -55,7 +55,7 @@ namespace Terra.Core.Generics
         
         protected virtual void OnDestroy()
         {
-            if (_instance == this)
+            if (_instance == this as T)
                 _instance = null;
         }
     }

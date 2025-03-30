@@ -2,7 +2,7 @@ using System;
 using Terra.Core.Generics;
 using UnityEngine;
 
-namespace Terra.Input
+namespace Terra.InputManagement
 {
     public class InputManager : MonoBehaviourSingleton<InputManager>
     {

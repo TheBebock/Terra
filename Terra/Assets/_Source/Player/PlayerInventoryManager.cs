@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Terra.Core.Generics;
-using Inventory;
-using Inventory.Abstracts;
-using Inventory.Items;
-using Inventory.Items.Definitions;
 using NaughtyAttributes;
+using Terra.Itemization.Abstracts;
+using Terra.Itemization.Items;
+using Terra.Itemization.Items.Definitions;
 using UnityEngine;
 
 namespace Player
