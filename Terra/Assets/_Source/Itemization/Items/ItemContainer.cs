@@ -37,7 +37,7 @@ namespace Terra.Itemization.Items
         public override void Interact()
         {
             if (!CanBeInteractedWith) return;
-            if (PlayerInventoryManager.Instance.TryToEquipItem(item))
+            if (PlayerInventoryManager.Instance. TryToEquipItem(item))
             {
                 OnInteraction();
             }

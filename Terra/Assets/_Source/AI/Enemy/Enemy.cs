@@ -1,9 +1,9 @@
+using _Source.AI.Enemy;
 using _Source.StateMachine;
 using Platformer;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.Enemy {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(PlayerDetector))]
     public class Enemy : Entity {
@@ -11,17 +11,17 @@ namespace _Source.AI.Enemy {
         [SerializeField] PlayerDetector playerDetector;
         [SerializeField] Animator animator;
         
-        [SerializeField] float wanderRadius = 10f;
+        [SerializeField] float wanderRadius = 10f; 
         [SerializeField] float timeBetweenAttacks = 1f;
         
-        StateMachine.StateMachine stateMachine;
+        StateMachine stateMachine;
         
         CountdownTimer attackTimer;
 
         void Start() {
             attackTimer = new CountdownTimer(timeBetweenAttacks);
             
-            stateMachine = new StateMachine.StateMachine();
+            stateMachine = new StateMachine();
             
             var wanderState = new EnemyWanderState(this, animator, agent, wanderRadius);
             var chaseState = new EnemyChaseState(this, animator, agent, playerDetector.Player);
@@ -54,4 +54,3 @@ namespace _Source.AI.Enemy {
             playerDetector.PlayerHealth.TakeDamage(10);
         }
     }
-}

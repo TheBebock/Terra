@@ -20,13 +20,6 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject currentRangedWeapon;
     public GameObject currentActiveItem;
     
-    //tutaj nie wiem czy takie coś też tutaj aplikować?
-    [Header("Combat Settings")]
-    public float meleeDamage = 25f;
-    public float rangedDamage = 15f;
-    public float meleeAttackRange = 2f;
-    public float rangedAttackRange = 50f;
-    
     private PlayerMovement _playerMovement;
     private IInteractable _currentInteractable;
     private float _attackCooldownTimer = 0f;

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Terra.Itemization.Items
 {
     [Serializable]
-    public abstract class Weapon : Item
+    public class Weapon : Item
     {
         public void Attack()
         {

@@ -8,6 +8,8 @@ namespace Terra.Itemization.Items
     public class PassiveItem : Item
     {
         public PassiveItemData passiveItemData;
-        
+
+        //TODO: Possible update of passive items
+        public virtual void UpdateItem(){}
     }
 }

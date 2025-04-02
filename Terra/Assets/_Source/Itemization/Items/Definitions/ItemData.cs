@@ -18,7 +18,7 @@ namespace Terra.Itemization.Items.Definitions
         Ranged = 3,
     }
     [Serializable]
-    public class ItemData : ScriptableObject, IUniquable 
+    public abstract class ItemData : ScriptableObject, IUniquable 
     {
         [ReadOnly, SerializeField] private int id = -1;
         public string itemName;

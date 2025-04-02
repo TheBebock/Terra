@@ -53,8 +53,11 @@ namespace Player
 
         public bool TryToEquipItem(Item newItem)
         {
+            if(!CanEquipItem(newItem)) return false;
+            
             ItemType itemType = newItem.itemType;
 
+            
             if (itemType == ItemType.Passive)
             {
                 newItem.OnEquip();

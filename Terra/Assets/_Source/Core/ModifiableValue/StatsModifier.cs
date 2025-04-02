@@ -1,11 +1,8 @@
-
 using System;
-using System.Runtime.CompilerServices;
 using Terra.Constants;
 
 namespace Core.ModifiableValue
 {
-
     public enum StatModType: int
     {
         Flat = 100,

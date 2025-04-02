@@ -15,7 +15,6 @@ namespace Core.ModifiableValue
       protected bool IsDirty = true;
       protected float _value = 0;
       protected float LastBaseValue = float.MinValue;
-
       public float Value
       {
          get
