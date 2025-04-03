@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using NaughtyAttributes;
-using Player;
+using Terra.Player;
 using Terra.Itemization.Abstracts;
+using Terra.Itemization.Items.Definitions;
 using UnityEngine;
 
 namespace Terra.Itemization.Items
@@ -16,7 +16,7 @@ namespace Terra.Itemization.Items
 
         [SerializeField, ReadOnly] private bool isInitialized = false;
 
-        [SerializeField, ReadOnly] private Item item;
+        [SerializeField, ReadOnly] private Item<ItemData> item;
 
         //This works like shit, use InputManager to check for input
         //TODO: Delete
@@ -28,7 +28,7 @@ namespace Terra.Itemization.Items
             }
         }
 
-        public void Initialize(Item item)
+        public void Initialize(Item<ItemData> item)
         {
             this.item = item;
             isInitialized = true;
@@ -37,7 +37,7 @@ namespace Terra.Itemization.Items
         public override void Interact()
         {
             if (!CanBeInteractedWith) return;
-            if (PlayerInventoryManager.Instance. TryToEquipItem(item))
+            if (PlayerInventoryManager.Instance.TryToEquipItem(item))
             {
                 OnInteraction();
             }
@@ -51,7 +51,6 @@ namespace Terra.Itemization.Items
         protected override void ShowAvailableVisualization()
         {
             base.ShowAvailableVisualization();
-            //TODO: Display VFX
         }
 
         protected override void ShowUnAvailableVisualization()

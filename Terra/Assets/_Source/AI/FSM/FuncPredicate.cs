@@ -1,6 +1,6 @@
 using System;
 
-namespace _Source.StateMachine {
+namespace Terra.StateMachine {
     public class FuncPredicate : IPredicate {
         readonly Func<bool> func;
         

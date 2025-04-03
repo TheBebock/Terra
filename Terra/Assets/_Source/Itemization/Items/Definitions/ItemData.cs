@@ -18,17 +18,19 @@ namespace Terra.Itemization.Items.Definitions
         Ranged = 3,
     }
     [Serializable]
-    public abstract class ItemData : ScriptableObject, IUniquable 
+    public abstract class ItemData : ScriptableObject, IUniqueable 
     {
         [ReadOnly, SerializeField] private int id = -1;
         public string itemName;
         public string itemDescription;
         public Sprite itemSprite;
         public bool canBeRemoved;
+        
         public List<ValueModifier> strengthModifiers;
         public List<ValueModifier> maxHealthModifiers;
         public List<ValueModifier> speedModifiers;
         public List<ValueModifier> luckModifiers;
+        
         public int Identity => id;
 
 
@@ -36,6 +38,7 @@ namespace Terra.Itemization.Items.Definitions
         {
             this.itemName = itemName;
             id = IDFactory.GetNewUniqueId();
+            
         }
         
         public void RegisterID()
@@ -51,12 +54,29 @@ namespace Terra.Itemization.Items.Definitions
 
         private void OnValidate()
         {
-        
+            // Set modifier IDs
+            UpdateModifierIDs(strengthModifiers);
+            UpdateModifierIDs(maxHealthModifiers);
+            UpdateModifierIDs(speedModifiers);
+            UpdateModifierIDs(luckModifiers);
+            
+            // test 
+            //int test = IDFactory.GetNewUniqueId();
+            
             // Ensure the ID is set and persistent
-            int test = IDFactory.GetNewUniqueId(true);
             if(Identity != -1) return;
             id = IDFactory.GetNewUniqueId();
+            
+        }
 
+        private void UpdateModifierIDs(List<ValueModifier> modifiers)
+        {
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                if(modifiers[i].SourceID == Utils.Constants.DEFAULT_ID) continue;
+
+                modifiers[i].SourceID = Identity;
+            }
         }
     }
 }

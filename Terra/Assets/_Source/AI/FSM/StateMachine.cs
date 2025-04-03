@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace _Source.StateMachine {
+namespace Terra.StateMachine {
     public class StateMachine {
         StateNode current;
         Dictionary<Type, StateNode> nodes = new();

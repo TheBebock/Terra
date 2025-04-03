@@ -1,6 +1,6 @@
 namespace Terra.ID
 {
-    public interface IUniquable
+    public interface IUniqueable
     {
         /// <summary>
         /// Unique ID of an object

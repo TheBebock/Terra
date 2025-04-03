@@ -13,10 +13,10 @@ using UnityEngine;
 namespace Terra.Itemization
 {
 
-    [CreateAssetMenu(fileName = "ItemDatabase", menuName = "TheBebocks/Items/Items Database")]
-    public class ItemDatabase : ScriptableObject
+    [CreateAssetMenu(fileName = "ItemsDatabase", menuName = "TheBebocks/Items/Items Database")]
+    public class ItemsDatabase : ScriptableSingleton<ItemsDatabase>
     {
-        [SerializeField, ReadOnly] private List<ItemData> itemDefinitions;
+        [SerializeField, ReadOnly] private List<ItemData> itemDefinitions = new();
 
         public List<ItemData> ItemDefinitions => itemDefinitions; 
 

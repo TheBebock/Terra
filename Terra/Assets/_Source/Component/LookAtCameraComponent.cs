@@ -17,7 +17,7 @@ namespace Terra.Components
 
         private Vector3 originalRotation;
 
-        private Camera camera;
+        private Camera lookAtCamera;
 
         enum LookAtType
         {
@@ -29,22 +29,22 @@ namespace Terra.Components
         {
             originalRotation = transform.rotation.eulerAngles;
         }
-
+        
+        //TODO: Change Camera.main to CameraManager.Instance.CurrentCamera
         private void Start()
         {
-            camera = Camera.main;
+            lookAtCamera = Camera.main;
         }
 
-        //TODO: Change Camera.main to CameraManager.Instance.CurrentCamera
         void LateUpdate()
         {
             switch (lookAtType)
             {
                 case LookAtType.LookAtCamera:
-                    transform.LookAt(camera.transform.position, Vector3.up);
+                    transform.LookAt(lookAtCamera.transform.position, Vector3.up);
                     break;
                 case LookAtType.CameraForward:
-                    transform.forward = camera.transform.forward;
+                    transform.forward = lookAtCamera.transform.forward;
                     break;
                 default:
                     break;

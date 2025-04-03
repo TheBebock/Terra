@@ -17,7 +17,7 @@ namespace Terra.ID
 
         static void LoadDatabase()
         {
-            ItemDatabase database = Resources.Load<ItemDatabase>("ItemDatabase");
+            ItemsDatabase database = Resources.Load<ItemsDatabase>(nameof(ItemsDatabase));
             if (database)
             {
                 Debug.Log($"Loaded {database.ItemDefinitions.Count} items");
@@ -35,9 +35,9 @@ namespace Terra.ID
 #endif
 
 
-        public static int GetNewUniqueId(bool test = false)
+        public static int GetNewUniqueId(bool clearUsedIDS = false)
         {
-            if (test)
+            if (clearUsedIDS)
             {
                 //usedIds.Clear();
                 return -1;
@@ -53,7 +53,7 @@ namespace Terra.ID
             return uniqueID;
         }
 
-        public static void ReturnID(IUniquable uniqueIdHolder)
+        public static void ReturnID(IUniqueable uniqueIdHolder)
         {
             if (usedIds.Contains(uniqueIdHolder.Identity))
             {
@@ -65,7 +65,7 @@ namespace Terra.ID
             Debug.LogWarning($"{uniqueIdHolder.Identity} is not used");
         }
 
-        public static void RegisterID(IUniquable uniqueIdHolder)
+        public static void RegisterID(IUniqueable uniqueIdHolder)
         {
             if (usedIds.Contains(uniqueIdHolder.Identity))
             {

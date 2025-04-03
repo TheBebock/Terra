@@ -1,0 +1,71 @@
+using System.Collections;
+using System.Collections.Generic;
+using Terra.Core.Generics;
+using UnityEngine;
+
+namespace Terra.Utils
+{
+    public static class ContactProvider
+{
+    public static LayerMask PlayerTargetsMask => LayerMask.NameToLayer("Enemy") | LayerMask.NameToLayer("Damageable");
+    public static LayerMask EnemyTargetsMask => LayerMask.NameToLayer("Player") | LayerMask.NameToLayer("Damageable");
+
+    public static List<T> GetTargetsInSphere<T>(Vector3 offset, float radius, LayerMask targetMask)
+    {
+        // Initialize collections
+        List<T> results = new List<T>(); 
+        Collider[] hitColliders = new Collider[32];
+        
+        Physics.OverlapSphereNonAlloc(offset, radius, hitColliders, targetMask);
+        
+        // Loop through colliders to find target components 
+        for (int i = 0; i < hitColliders.Length; i++)
+        {
+            // Break if null, as all further indexes will also be null
+            if(hitColliders[i] == null) break;
+            // Get target component
+            T target = hitColliders[i].gameObject.GetComponentInChildren<T>();
+            
+            if (target != null)
+            {
+                // If found, add to results
+                results.Add(target);
+            }
+            
+        }
+        return results;
+    }
+    
+    public static List<T> GetTargetsInBox<T>(Vector3 offset, Vector3 extents, LayerMask targetMask) =>
+        GetTargetsInBox<T>(offset, extents, targetMask, Quaternion.identity);
+    
+    public static List<T> GetTargetsInBox<T>(Vector3 offset, Vector3 extents, LayerMask targetMask, Quaternion rotation)
+    {
+        // Initialize collections
+        List<T> results = new List<T>(); 
+        Collider[] hitColliders = new Collider[32];
+        
+        // Get contacts inside box and cache them to hitColliders
+        Physics.OverlapBoxNonAlloc(offset, extents, hitColliders, rotation, targetMask);
+        
+        // Loop through colliders to find target components 
+        for (int i = 0; i < hitColliders.Length; i++)
+        {
+            // Break if null, as all further indexes will also be null
+            if(hitColliders[i] == null) break;
+            // Get target component
+            T target = hitColliders[i].gameObject.GetComponentInChildren<T>();
+            
+            if (target != null)
+            {
+                // If found, add to results
+                results.Add(target);
+            }
+            
+        }
+        
+        return results;
+    }
+}
+
+}

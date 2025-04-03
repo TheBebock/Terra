@@ -1,14 +1,7 @@
 using UnityEngine;
 
-namespace Inventory.Pickups.Definitions
+namespace Terra.Itemization.Pickups.Definitions
 {
-    public enum PickupType
-    {
-         Health = 0,
-         Ammo = 1,
-         Crystal = 2
-         
-    }
     
     public abstract class PickupData : ScriptableObject
     {

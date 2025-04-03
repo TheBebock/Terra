@@ -1,12 +1,11 @@
 using System;
+using Terra.Player;
 using Terra.Core.Generics;
 using NaughtyAttributes;
-using Player;
 using StatisticsSystem;
-using Terra.Player;
 using UnityEngine;
 
-namespace _Source.Player
+namespace Terra.Player
 {
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
     {

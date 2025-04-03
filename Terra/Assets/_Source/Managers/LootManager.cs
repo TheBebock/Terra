@@ -1,36 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Inventory.Pickups;
+using System.Linq;
+using Terra.Core.Generics;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Items;
+using Terra.Itemization.Items.Definitions;
+using Terra.Itemization.Pickups;
 using Terra.LootSystem;
 using UnityEngine;
 
 namespace Terra.Managers
 {
 
-    public class LootManager : MonoBehaviour
+    public class LootManager : MonoBehaviourSingleton<LootManager>
     {
-        public static LootManager Instance;
 
         [SerializeField] private PickupContainer P_pickupContainer;
         [SerializeField] private ItemContainer P_itemContainer;
         [SerializeField] private LootTable lootTable;
 
-        private void Awake()
+
+        private void Start()
         {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
+            lootTable.Initialize();
         }
 
         public void SpawnLoot()
         {
-            List<Item> lootItems = lootTable.GetRandomItemsFromEachCategory();
+            List<ItemBase> lootItems = lootTable.GetRandomItemsFromEachCategory();
             foreach (var item in lootItems)
             {
-                Debug.Log($"Generated items: ");
+                Debug.Log($"Generated items: {item.ItemName}");
             }
 
             List<Pickup> lootPickups = lootTable.GetRandomPickupsFromEachCategory();
@@ -53,5 +54,7 @@ namespace Terra.Managers
             Pickup pickup = lootTable.GetRandomPickup();
             pickupContainer.Initialize(pickup);
         }
+
+
     }
 }

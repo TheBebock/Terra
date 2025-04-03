@@ -3,10 +3,10 @@ using Terra.Itemization.Items.Definitions;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ItemDatabase))]
+[CustomEditor(typeof(ItemsDatabase))]
 public class ItemsDatabaseEditor : Editor
 {
-    private ItemDatabase itemsDatabase;
+    private ItemsDatabase itemsDatabase;
 
     // This variable will hold the input value for the new item name
     private string itemName = "";
@@ -17,17 +17,13 @@ public class ItemsDatabaseEditor : Editor
     private void OnEnable()
     {
         // Get the target object, which is an instance of ItemsDatabase
-        itemsDatabase = (ItemDatabase)target;
+        itemsDatabase = (ItemsDatabase)target;
     }
 
     // This is called when the inspector is drawn
     public override void OnInspectorGUI()
     {
-
-        
         GUILayout.Space(10);
-
-        
         
         // Input field for the item name
         GUILayout.Label("Enter Item Name");

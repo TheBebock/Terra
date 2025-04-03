@@ -1,14 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using Inventory.Pickups.Definitions;
+using System;
+using Terra.Itemization.Abstracts;
+using Terra.Itemization.Pickups.Definitions;
 using UnityEngine;
 
-namespace Inventory.Pickups
+namespace Terra.Itemization.Pickups
 {
+    [Serializable]
     public class HealthPickup : Pickup
     {
-        public HealthPickupData pickupData;
-        public override PickupType PickupType { get; protected set; } = PickupType.Health;
+        [SerializeField] private HealthPickupData pickupData;
+        public HealthPickupData Data => pickupData;
+        
+        public override string PickupName => Data.pickupName;
+        public override PickupType PickupType => PickupType.Health;
 
         public override void OnPickUp()
         {

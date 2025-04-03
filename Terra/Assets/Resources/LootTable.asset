@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d621ad83314b44fa79239fa21d34f9, type: 3}
   m_Name: LootTable
   m_EditorClassIdentifier: 
-  P_ItemContainer: {fileID: 0}
-  P_PickupContainer: {fileID: 0}
+  activeItems: []
   passiveItems: []
   meleeWeapons: []
   rangedWeapons: []
   healthPickups: []
   ammoPickups: []
   crystalPickups: []
-  AllItems: []

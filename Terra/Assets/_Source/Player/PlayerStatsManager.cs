@@ -5,7 +5,7 @@ using StatisticsSystem;
 using StatisticsSystem.Definitions;
 using UnityEngine;
 
-namespace _Source.Player
+namespace Terra.Player
 {
     public class PlayerStatsManager : MonoBehaviourSingleton<PlayerStatsManager>
     {

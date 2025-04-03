@@ -1,18 +1,24 @@
+using System;
 using UnityEngine;
-using Inventory.Pickups.Definitions;
+using Terra.Itemization.Abstracts;
+using Terra.Itemization.Pickups.Definitions;
 
-namespace Inventory.Pickups
+namespace Terra.Itemization.Pickups
 {
+    [Serializable]
     public class AmmoPickup : Pickup
     {
-        public AmmoPickupData data;
+        [SerializeField] private AmmoPickupData ammoData;
+        public AmmoPickupData Data => ammoData;
 
-        public override PickupType PickupType { get; protected set;} = PickupType.Ammo;
+        public override string PickupName => Data.pickupName;
+
+        public override PickupType PickupType => PickupType.Ammo;
 
         public override void OnPickUp()
         {
-            Debug.Log($"Picked up Ammo: +{data.ammoAmount} bullets");
-            // Add adding ammo logic
+            Debug.Log($"Picked up Ammo: +{Data.ammoAmount} bullets");
+            //TODO: Add adding ammo logic
         }
     }
 }

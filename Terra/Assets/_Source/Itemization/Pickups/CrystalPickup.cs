@@ -1,19 +1,24 @@
+using System;
+using Terra.Itemization.Abstracts;
+using Terra.Itemization.Pickups.Definitions;
 using UnityEngine;
-using Inventory.Pickups.Definitions;
 using Terra.Managers;
 
-namespace Inventory.Pickups
+namespace Terra.Itemization.Pickups
 {
+    [Serializable]
     public class CrystalPickup : Pickup
     {
-        [SerializeField] private CrystalPickupData data;
-
-        public override PickupType PickupType { get; protected set;} = PickupType.Crystal;
+        [SerializeField] private CrystalPickupData pickupData;
+        public CrystalPickupData Data => pickupData;
+        
+        public override string PickupName => Data.pickupName;
+        public override PickupType PickupType => PickupType.Crystal;
 
         public override void OnPickUp()
         {
-            Debug.Log($"Picked up Crystal: +{data.crystalAmount}");
-            EconomyManager.Instance.ModifyCurrentGoldAmount(data.crystalAmount);
+            Debug.Log($"Picked up Crystal: +{Data.crystalAmount}");
+            EconomyManager.Instance?.ModifyCurrentGoldAmount(Data.crystalAmount);
         }
     }
 }

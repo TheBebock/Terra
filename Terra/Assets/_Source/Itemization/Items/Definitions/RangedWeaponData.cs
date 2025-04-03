@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Terra.Itemization.Items.Definitions
 {
-    [CreateAssetMenu(fileName = "RangedWeaponData_", menuName = "TheBebocks/Items/RangedWeaponData")]
     public class RangedWeaponData : WeaponData
     {
         public string ammoType;

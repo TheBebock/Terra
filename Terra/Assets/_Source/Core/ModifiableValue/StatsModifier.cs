@@ -1,5 +1,8 @@
 using System;
-using Terra.Constants;
+using NaughtyAttributes;
+using Terra.ID;
+using Terra.Utils;
+using UnityEngine;
 
 namespace Core.ModifiableValue
 {
@@ -15,28 +18,26 @@ namespace Core.ModifiableValue
     {
         public float Value;
         public StatModType Type;
-        public readonly int Order;
-        public readonly int SourceID;
+        [ReadOnly] public int SourceID;
+        [ReadOnly] public readonly int Order;
 
-        public ValueModifier(float value, StatModType type, int order, int sourceID =  Utils.DEFAULT_ID)
+        public ValueModifier(float value, StatModType type, int sourceID = Constants.DEFAULT_ID)
         {
             Value = value;
             Type = type;
-            Order = order;
+            Order = (int)type;
             SourceID = sourceID;
         }
-
-        public ValueModifier(float value, StatModType type) : this(value, type, (int)type, Utils.DEFAULT_ID)
+        
+        public ValueModifier(float value, StatModType type, object source) : this(value, type)
         {
-        }
+            // Check for null
+            if (source == null) return;
+            // Check is object an IUniquable
+            if (source is not IUniqueable unique) return;
 
-        public ValueModifier(float value, StatModType type, int order) : this(value, type, order,  Utils.DEFAULT_ID)
-        {
+             SourceID = unique.Identity;
         }
-
-        public ValueModifier(float value, StatModType type, object source) : this(value, type, (int)type,  Utils.DEFAULT_ID)
-        {
-        }
-
+        
     }
 }

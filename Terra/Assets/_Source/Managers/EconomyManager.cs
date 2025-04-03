@@ -1,7 +1,7 @@
 using System;
 using Terra.Core.Generics;
 using NaughtyAttributes;
-using Terra.Constants;
+using Terra.Utils;
 using UnityEngine;
 
 namespace Terra.Managers
@@ -49,7 +49,7 @@ namespace Terra.Managers
         {
             _currentGold = amount;
             if (!overload) _currentGold = Mathf.Clamp(_currentGold, 0, maxGold);
-            else _currentGold = Mathf.Clamp(_currentGold, 0, Utils.MAXIMUM_GOLD_CAPACITY);
+            else _currentGold = Mathf.Clamp(_currentGold, 0, Constants.MAXIMUM_GOLD_CAPACITY);
             
         }
         /// <summary>
@@ -57,15 +57,15 @@ namespace Terra.Managers
         /// </summary>
         public void SetMaxGoldAmount(int amount)
         {
-            maxGold = Mathf.Clamp(amount, 0, Utils.MAXIMUM_GOLD_CAPACITY);
+            maxGold = Mathf.Clamp(amount, 0, Constants.MAXIMUM_GOLD_CAPACITY);
         }
 
         private void OnValidate()
         {
-            if (maxGold > Utils.MAXIMUM_GOLD_CAPACITY)
+            if (maxGold > Constants.MAXIMUM_GOLD_CAPACITY)
             {
-                maxGold = Utils.MAXIMUM_GOLD_CAPACITY;
-                Debug.LogWarning($"Maximum carry amount of gold exceeded. Maximum capacity allowed is {Utils.MAXIMUM_GOLD_CAPACITY}");
+                maxGold = Constants.MAXIMUM_GOLD_CAPACITY;
+                Debug.LogWarning($"Maximum carry amount of gold exceeded. Maximum capacity allowed is {Constants.MAXIMUM_GOLD_CAPACITY}");
             }
         }
     }

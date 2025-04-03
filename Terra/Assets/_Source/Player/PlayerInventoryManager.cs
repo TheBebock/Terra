@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Itemization.Abstracts;
+using Terra.Itemization.Interfaces;
 using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
 using UnityEngine;
 
-namespace Player
+namespace Terra.Player
 {
     public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
     {
         [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
         
-        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> meleeWeaponSlot = new ItemSlot<MeleeWeapon>();
-        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> rangedWeaponSlot = new ItemSlot<RangedWeapon>();
-        [Foldout("Debug"), SerializeField,  ReadOnly] private ItemSlot<ActiveItem> activeItemSlot = new ItemSlot<ActiveItem>();
+        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> meleeWeaponSlot = new ();
+        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> rangedWeaponSlot = new();
+        [Foldout("Debug"), SerializeField,  ReadOnly] private ItemSlot<ActiveItem> activeItemSlot = new ();
+        
         private ItemSlotBase[] itemSlots;
         
         [Foldout("Debug"), SerializeField, ReadOnly]private List<PassiveItem> passiveItems;
@@ -45,22 +47,24 @@ namespace Player
                 startingInventoryData.startingPassiveItems.CopyTo(passiveItems.ToArray());
             }
             itemSlots = new ItemSlotBase[Enum.GetValues(typeof(ItemType)).Length];
-            itemSlots[(int)ItemType.Melee] = meleeWeaponSlot;
+            itemSlots[(int)ItemType.Melee] = meleeWeaponSlot ;
             itemSlots[(int)ItemType.Ranged] = rangedWeaponSlot;
             itemSlots[(int)ItemType.Active] = activeItemSlot;
         }
         
 
-        public bool TryToEquipItem(Item newItem)
+        public bool TryToEquipItem<TItem>(TItem newItem)
+        where TItem : ItemBase
         {
+            if(newItem is not IEquipable equipable) return false;
             if(!CanEquipItem(newItem)) return false;
             
-            ItemType itemType = newItem.itemType;
+            ItemType itemType = newItem.ItemType;
 
             
             if (itemType == ItemType.Passive)
             {
-                newItem.OnEquip();
+                equipable.OnEquip();
                 passiveItems.Add(newItem as PassiveItem);
                 return true;
             }
@@ -69,37 +73,51 @@ namespace Player
 
             if (itemSlot.IsSlotTaken)
             {
-                return itemSlot.Swap(newItem);
+                return itemSlot.SwapNonGeneric(newItem);
             }
-            return itemSlot.Equip(newItem);
+            return itemSlot.EquipNonGeneric(newItem);
         }
         
-        private ItemSlotBase GetItemSlotBase(ItemType itemType) => itemSlots[(int)itemType];
+        private ItemSlotBase GetItemSlotBase(ItemType itemType)
+        {
+           return itemSlots[(int)itemType];
+        }
         
-        public bool CanEquipItem(Item newItem) 
+        /// <summary>
+        /// Checks if item can be equipped to slot
+        /// </summary>
+        public bool CanEquipItem<TItem>(TItem newItem)
+        where TItem : ItemBase
         {
             if (newItem is PassiveItem) return true;
-            ItemSlotBase itemSlot = GetItemSlotBase(newItem.itemType);
+            ItemSlotBase itemSlot = GetItemSlotBase(newItem.ItemType);
             return CanEquipItem(itemSlot);
         }
         
+        
+        /// <summary>
+        /// Checks is slot available
+        /// </summary>
         bool CanEquipItem(ItemSlotBase itemSlot)
         {
+            // Null check
             if(itemSlot == null) return false;
-
+            
+            // Check can item be equipped to slot
             return itemSlot.CanEquip();
+            
         }
         
         /// <summary>
         /// Method returns item based on given type, if there is one.
         /// </summary>
         /// <returns>Returns item of type Item, that then has to be cast.</returns>
-        public bool TryToGetItemByItemType<T>(out Item item) 
-            where T : Item
+        public bool TryToGetItemByItemType<TItem>(out TItem item) 
+            where TItem : ItemBase
         {
             for (int i = 0; i < itemSlots.Length; i++) 
             {
-                if (itemSlots[i] is not ItemSlot<T> { IsSlotTaken: true } typedSlot) continue;
+                if (itemSlots[i] is not ItemSlot<TItem> { IsSlotTaken: true } typedSlot) continue;
                 item = typedSlot.EquippedItem;
                 return true;
             }
@@ -107,12 +125,12 @@ namespace Player
             return false;
         }
         
-        public ItemSlot<T> GetItemSlotBySlotType<T>()
-            where T : Item
+        public ItemSlot<TItem> GetItemSlotBySlotType<TItem>()
+            where TItem : ItemBase
         {
             for (int i = 0; i < itemSlots.Length; i++)
             {
-                if (itemSlots[i] is ItemSlot<T> slot)
+                if (itemSlots[i] is ItemSlot<TItem> slot)
                 {
                     return slot;
                 }

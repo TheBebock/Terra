@@ -1,4 +1,4 @@
-namespace _Source.StateMachine {
+namespace Terra.StateMachine {
     public interface IState {
         void OnEnter();
         void Update();

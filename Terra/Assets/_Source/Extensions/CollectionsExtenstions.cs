@@ -16,6 +16,37 @@ public static class CollectionsExtenstions
             hashSet.Add(obj);
     }
     
+    /// <summary>
+    /// Adds element only if it doesn't already exist in the collection
+    /// </summary>
+    public static bool AddUnique<T>(this ICollection<T> collection, T element)
+    {
+        if (!collection.Contains(element))
+        {
+            collection.Add(element);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Removes element only if it exists in the collection
+    /// </summary>
+    public static bool RemoveElement<T>(this ICollection<T> collection, T element)
+    {
+        if (collection.Contains(element))
+        {
+            collection.Remove(element);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Returns random element from the list
+    /// </summary>
     public static T GetRandomElement<T>(this IList collection)
     {
         if ((collection == null) || (collection.Count == 0))
@@ -28,6 +59,9 @@ public static class CollectionsExtenstions
         return collection[index] is T output ? output : default; 
     }
     
+    /// <summary>
+    /// Returns random element from the collection
+    /// </summary>
     public static T GetRandomElement<T>(this T[] collection)
     {
         if ((collection == null) || (collection.Length == 0))
@@ -39,7 +73,11 @@ public static class CollectionsExtenstions
 
         return collection[index];
     }
+    
 
+    /// <summary>
+    /// Returns random index from the list
+    /// </summary>
     public static int GetRandomElementIndex<T>(this IList<T> collection)
     {
         if ((collection == null) || (collection.Count == 0))
@@ -50,6 +88,9 @@ public static class CollectionsExtenstions
         return UnityEngine.Random.Range(0, collection.Count);
     }
 
+    /// <summary>
+    /// Returns random index from the collection
+    /// </summary>
     public static int GetRandomElementIndex<T>(this T[] collection)
     {
         if ((collection == null) || (collection.Length == 0))

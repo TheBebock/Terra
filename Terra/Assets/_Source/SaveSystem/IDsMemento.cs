@@ -3,5 +3,5 @@ using System.Collections.Generic;
 
 public struct IDsMemento
 {
-    public List<Guid> usedIds;
+    public List<int> usedIds;
 }
