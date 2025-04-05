@@ -15,6 +15,16 @@ public static class CollectionsExtenstions
         foreach (T obj in range)
             hashSet.Add(obj);
     }
+
+    public static bool IsNullOrEmpty<T>(this ICollection<T> collection)
+    {
+        if (collection == null || collection.Count == 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
     
     /// <summary>
     /// Adds element only if it doesn't already exist in the collection
@@ -44,6 +54,28 @@ public static class CollectionsExtenstions
         return false;
     }
 
+    /// <summary>
+    ///  Returns random element from collection and removes it
+    /// </summary>
+    public static T PopRandomElement<T>(this IList<T> collection)
+    {
+        if (IsNullOrEmpty(collection))
+        {
+            return default(T);
+        }
+        
+        // Get random index
+        int index = Random.Range(0, collection.Count);
+        
+        // Get element
+        T element = collection[index];
+        
+        // Remove element
+        collection.Remove(element);
+        
+        // Return element
+        return element;
+    }
     /// <summary>
     /// Returns random element from the list
     /// </summary>
