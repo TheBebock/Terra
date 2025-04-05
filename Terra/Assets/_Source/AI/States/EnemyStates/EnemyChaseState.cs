@@ -13,7 +13,7 @@ namespace Platformer {
         
         public override void OnEnter() {
             Debug.Log("Chase");
-            animator.CrossFade(RunHash, crossFadeDuration);
+            //animator.CrossFade(RunHash, crossFadeDuration);
         }
         
         public override void Update() {

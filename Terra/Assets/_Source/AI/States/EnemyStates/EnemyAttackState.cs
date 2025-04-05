@@ -12,8 +12,7 @@ namespace Platformer {
         }
         
         public override void OnEnter() {
-            Debug.Log("Attack");
-            animator.CrossFade(AttackHash, crossFadeDuration);
+            //animator.CrossFade(AttackHash, crossFadeDuration);
         }
         
         public override void Update() {

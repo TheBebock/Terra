@@ -17,7 +17,7 @@ namespace _Source.AI.Enemy {
 
         void Awake() {
             Player = GameObject.FindGameObjectWithTag("Player").transform; // Make sure to TAG the player!
-            PlayerHealth = Player.GetComponent<Health>();
+            
         }
 
         void Start() {
