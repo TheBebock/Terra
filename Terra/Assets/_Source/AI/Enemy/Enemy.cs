@@ -1,12 +1,14 @@
 using _Source.AI.Enemy;
 using Terra.StateMachine;
 using Platformer;
+using Terra.Combat;
 using UnityEngine;
 using UnityEngine.AI;
 
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(PlayerDetector))]
-    public class Enemy : Entity {
+    public class Enemy : Entity, IInitializable, IDamagable
+    {
         [SerializeField] NavMeshAgent agent;
         [SerializeField] PlayerDetector playerDetector;
         [SerializeField] Animator animator;
@@ -14,11 +16,23 @@ using UnityEngine.AI;
         [SerializeField] float wanderRadius = 10f; 
         [SerializeField] float timeBetweenAttacks = 1f;
         
+        [SerializeField] private HealthController _healthController;
+        public HealthController HealthController => _healthController;
+        
+        
+        public bool IsInvincible => _healthController.IsInvincible;
+        public bool CanBeDamaged { get; }
+        
         StateMachine stateMachine;
         
         CountdownTimer attackTimer;
+        
+        public bool IsInitialized { get; set; }
 
-        void Start() {
+        
+        public void Initialize()
+        {
+            
             attackTimer = new CountdownTimer(timeBetweenAttacks);
             
             stateMachine = new StateMachine();
@@ -52,5 +66,18 @@ using UnityEngine.AI;
             
             attackTimer.Start();
             playerDetector.PlayerHealth.TakeDamage(10);
+        }
+
+
+
+        public void TakeDamage(float amount)
+        {
+            if(!CanBeDamaged) return;
+        }
+
+
+        public void OnDeath()
+        {
+            //stateMachine.SetState(deathState);
         }
     }

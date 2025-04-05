@@ -1,12 +1,10 @@
-using Terra.Components;
 using UnityEngine;
 
 
 /// <summary>
-/// Class that represents object inside the game world
+/// Class that implements custom initialization pipeline
 /// </summary>
-[RequireComponent(typeof(LookAtCameraComponent))]
-public abstract class InGameMonoBehaviour : MonoBehaviour
+public abstract class InGameMonobehaviour : MonoBehaviour
 {
     private void Awake()
     {

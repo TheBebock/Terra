@@ -8,7 +8,7 @@ namespace Terra.Core.Generics
     /// <summary>
     /// Class for MonoBehaviours that should be accessed from other classes
     /// </summary>
-    public abstract class MonoBehaviourSingleton<T> : InGameMonoBehaviour, IInitializable
+    public abstract class MonoBehaviourSingleton<T> : InGameMonobehaviour, IInitializable
         where T : class
     {
         

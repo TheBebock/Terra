@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public abstract class InteractableBase : InGameMonoBehaviour, IInteractable
+
+/// <summary>
+/// Represents base class for object that can be interacted with
+/// </summary>
+public abstract class InteractableBase : Entity, IInteractable
 {
     public abstract bool CanBeInteractedWith { get; }
     public virtual bool CanShowVisualisation { get; set; }

@@ -1,8 +1,10 @@
 using System;
+using Core.ModifiableValue;
 using Terra.Player;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using StatisticsSystem;
+using Terra.Combat;
 using UnityEngine;
 
 namespace Terra.Player
@@ -10,91 +12,60 @@ namespace Terra.Player
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
     {
         
+        [Foldout("Debug")][SerializeField, ReadOnly] private HealthController healthController;
         [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead = false;
 
         [Foldout("References")] [SerializeField] PlayerInventoryManager playerInventory;
         [Foldout("References")][SerializeField] PlayerMovement playerMovement;
         [Foldout("References")][SerializeField] Animator playerAnimator;
         
-        
-        
         private StateMachine.StateMachine _stateMachine;
 
         public Vector3 CurrentPosition => transform.position;
-        public bool CanBeHealed { get; set; }
-        public bool IsInvincible { get; set; }
-        public bool CanBeDamaged { get; set; }
-        public float CurrentHealth { get; set; }
-
-        public bool IsInitialized { get; private set; } = false;
-
-        public float MaxHealth
-        {
-            get =>  playerStats.MaxHealth;
-        }
         
+        public bool CanBeDamaged { get; set; }
+        public bool CanBeHealed => healthController.CanBeHealed;
+        public bool IsInvincible => healthController.IsInvincible;
+        public float MaxHealth => healthController.MaxHealth;
+        public float CurrentHealth => healthController.CurrentHealth;
+        private PlayerStats _playerStats;  
         public bool IsPlayerDead => _isPlayerDead;
         
-        private PlayerStats playerStats;    
-        
+        public HealthController HealthController => healthController;
         public PlayerMovement PlayerMovement => playerMovement;
         public PlayerInventoryManager PlayerInventory => playerInventory;
         
         public event Action OnPlayerDeath;
-        private void Start()
-        {
-            SetUp();
-        }
-        
+
+
         public void SetUp()
         {
-            if(IsInitialized) return;
-            IsInitialized = true;
-            
             _stateMachine = new StateMachine.StateMachine();
             
             //TODO: Add states and transitions
             
             if(PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
-            if(PlayerStatsManager.Instance) playerStats = PlayerStatsManager.Instance.PlayerStats;
+            if(PlayerStatsManager.Instance) _playerStats = PlayerStatsManager.Instance.PlayerStats;
             
-            ResetHealth();
-        }
-        /*
-        public void SpawnPlayer()
-        {
-            if (playerPrefab == null || spawnPoint == null)
-            {
-                Debug.LogError("PlayerPrefab or SpawnPoint is not assigned!");
-                return;
-            }
+            healthController = new HealthController(_playerStats.ModifiableMaxHealth, true);
 
-            if (_currentPlayer != null)
-            {
-                Destroy(_currentPlayer);
-            }
-            _currentPlayer = Instantiate(playerPrefab,spawnPoint.position, spawnPoint.rotation);
             ResetHealth();
-        }*/
-        
-        public void ResetHealth()
-        {
-            CurrentHealth = MaxHealth;
         }
         
-        
+        public void ResetHealth(bool isSilent = true) => healthController.ResetHealth(isSilent);
+        public void KIll(bool isSilent = true) => healthController.KIll(isSilent);
+
+
         public void TakeDamage(float amount)
         {
-            CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, MaxHealth);
-            if (CurrentHealth <= 0)
-            {
-                OnDeath();
-            }
-        }
+            if(!CanBeDamaged) return;
+            healthController.TakeDamage(amount);
+        } 
 
         // Move to state PlayerDeathState
         public void OnDeath()
         {
+            CanBeDamaged = false;
             _isPlayerDead = true;
             OnPlayerDeath?.Invoke();
             Debug.Log("Player has died");
@@ -103,34 +74,12 @@ namespace Terra.Player
         public void Heal(float amount)
         {
             if(!CanBeHealed) return;
-            CurrentHealth = Mathf.Clamp(CurrentHealth + amount, 0, MaxHealth);
+            healthController.Heal(amount);
         }
         
-        //This will be in separate class, it is it's own separate system
-        public void DealDamage(float damage, GameObject target)
-        {
-
-            /*
-         if (isStunned)
-        {
-            Debug.Log("Player is stunned and cannot attack!");
-            return;
-        }
-        var targetManager = target.GetComponent<TargetManager>();
-        if (targetManager != null)
-        {
-            targetManager.TakeDamage(damage);
-            Debug.Log($"Player dealt {damage} damage to {target.name}.");
-        }
-        else
-        {
-            Debug.LogWarning("Target does not have a TargetManager component!");
-        }
-             */
-        }
-
-
-        //Clean up data if needed
+        /// <summary>
+        /// Clean up data
+        /// </summary>
         public void TearDown()
         {
             

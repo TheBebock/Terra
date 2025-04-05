@@ -6,6 +6,9 @@ using UnityEngine;
 namespace StatisticsSystem 
 {
     
+    /// <summary>
+    /// Base class that contains statistics for characters
+    /// </summary>
     [Serializable]
     public class CharacterStats
     {
@@ -13,7 +16,7 @@ namespace StatisticsSystem
         [Foldout("Debug")][SerializeField] private ModifiableValue strength;
         [Foldout("Debug")][SerializeField] private ModifiableValue maxHealth;
         [Foldout("Debug")][SerializeField] private ModifiableValue speed;
-
+        
         public CharacterStats(float basestrength, float basemaxHealth, float basespeed)
         {
             strength = new ModifiableValue(basestrength);
@@ -25,6 +28,8 @@ namespace StatisticsSystem
         public float MaxHealth => maxHealth.Value;
         public float Speed => speed.Value;
 
+        public ModifiableValue ModifiableMaxHealth => maxHealth;
+        
         public void AddStrengthModifier(ValueModifier modifier)
         {
             strength.AddStatModifier(modifier);
