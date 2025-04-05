@@ -12,6 +12,7 @@ public abstract class InGameMonoBehaviour : MonoBehaviour
     {
         if (this is IInitializable initializable)
         {
+            if(initializable.IsInitialized) return;
             initializable.Initialize();
             initializable.IsInitialized = true;
         }
