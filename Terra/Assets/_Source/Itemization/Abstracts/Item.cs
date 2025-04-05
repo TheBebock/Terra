@@ -8,13 +8,20 @@ using UnityEngine;
 
 namespace Terra.Itemization.Abstracts
 {
-    
-    public abstract class ItemBase
+    /// <summary>
+    /// Represents base class for all items
+    /// </summary>
+    /// <remarks>Class should be an abstract, do not create instances of this class</remarks>
+    [Serializable]
+    public class ItemBase
     {
         public virtual ItemType ItemType { get; }
         public virtual string ItemName { get; } 
 
+        public virtual Sprite ItemIcon { get; } = null;
         public virtual bool CanBeRemoved { get; protected set; }
+        
+        protected ItemBase() { }
         
     }
     
@@ -34,6 +41,7 @@ namespace Terra.Itemization.Abstracts
 
         public override string ItemName => data.itemName;
 
+        public override Sprite ItemIcon => data.itemSprite;
 
         public virtual void OnEquip()
         {

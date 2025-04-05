@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Terra.Itemization.Abstracts
 {
@@ -13,14 +14,26 @@ namespace Terra.Itemization.Abstracts
     }
     
     /// <summary>
+    /// Represents all pickups
+    /// </summary>
+    [Serializable]
+    public class PickupBase
+    {
+        public virtual string PickupName { get; }
+        public virtual PickupType PickupType { get; }
+        
+        public virtual Sprite ItemIcon { get; }
+
+        public virtual void OnPickUp() { }
+
+    }
+    
+    /// <summary>
     /// Represents logic for pickups
     /// </summary>
     [Serializable]
-    public abstract class Pickup
+    public class Pickup : PickupBase
     {
-        public abstract string PickupName { get; }
-        public abstract PickupType PickupType { get; }
-        public abstract void OnPickUp(); 
 
     }
 }

@@ -16,9 +16,10 @@ namespace Terra.Itemization.Items
 
         [SerializeField, ReadOnly] private bool isInitialized = false;
 
-        [SerializeField, ReadOnly] private Item<ItemData> item;
+        [SerializeField, ReadOnly] private ItemBase item;
+        
+        [SerializeField] private SpriteRenderer itemRenderer;
 
-        //This works like shit, use InputManager to check for input
         //TODO: Delete
         private void Update()
         {
@@ -28,10 +29,12 @@ namespace Terra.Itemization.Items
             }
         }
 
-        public void Initialize(Item<ItemData> item)
+        public void Initialize(ItemBase item)
         {
-            this.item = item;
             isInitialized = true;
+            this.item = item;
+            itemRenderer.sprite = item.ItemIcon;
+  
         }
 
         public override void Interact()

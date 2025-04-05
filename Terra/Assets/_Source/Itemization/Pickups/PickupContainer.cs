@@ -12,8 +12,8 @@ namespace Terra.Itemization.Pickups
     {
         public bool CanBePickedUp { get; private set; } = false;
 
-        [SerializeField, ReadOnly] private Pickup pickup;
-
+        [SerializeField, ReadOnly] private PickupBase pickup;
+        [SerializeField] private SpriteRenderer pickupRenderer;
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Player") && CanBePickedUp && pickup != null)
@@ -22,9 +22,10 @@ namespace Terra.Itemization.Pickups
             }
         }
 
-        public void Initialize(Pickup pickup)
+        public void Initialize(PickupBase pickup)
         {
             this.pickup = pickup;
+            pickupRenderer.sprite = pickup.ItemIcon;
             CanBePickedUp = true;
         }
 

@@ -34,27 +34,40 @@ namespace Terra.Managers
                 Debug.Log($"Generated items: {item.ItemName}");
             }
 
-            List<Pickup> lootPickups = lootTable.GetRandomPickupsFromEachCategory();
+            List<PickupBase> lootPickups = lootTable.GetRandomPickupsFromEachCategory();
             foreach (var pickup in lootPickups)
             {
                 Debug.Log($"Generated pickups: ");
             }
         }
 
+        public void SpawnRandomItem(Vector3 position)
+        {
+            ItemContainer itemContainer = Instantiate(P_itemContainer, position, Quaternion.identity);
+            ItemBase item = lootTable.GetRandomItem();
+            itemContainer.Initialize(item);
+        }
+        
+        public void SpawnRandomItem(Transform itemTransform)
+        {
+            ItemContainer itemContainer = Instantiate(P_itemContainer, itemTransform);
+            ItemBase item = lootTable.GetRandomItem();
+            itemContainer.Initialize(item);
+        }
+        
         public void SpawnRandomPickup(Transform pickupTransform)
         {
             PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupTransform);
-            Pickup pickup = lootTable.GetRandomPickup();
+            PickupBase pickup = lootTable.GetRandomPickup();
             pickupContainer.Initialize(pickup);
         }
         
         public void SpawnRandomPickup(Vector3 pickupPosition)
         {
             PickupContainer pickupContainer = Instantiate(P_pickupContainer,pickupPosition, Quaternion.identity);
-            Pickup pickup = lootTable.GetRandomPickup();
+            PickupBase pickup = lootTable.GetRandomPickup();
             pickupContainer.Initialize(pickup);
         }
-
-
+        
     }
 }

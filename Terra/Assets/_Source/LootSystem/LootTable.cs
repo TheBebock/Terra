@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Terra.LootSystem
 {
     /// <summary>
-    /// Contains all possible items and pickup that can be dropped in the game.
+    /// Contains all possible items and PickupBase that can be dropped in the game.
     /// </summary>
     [CreateAssetMenu(fileName = "LootTable", menuName = "TheBebocks/LootTable")]
     public class LootTable : ScriptableSingleton<LootTable>
@@ -37,9 +37,9 @@ namespace Terra.LootSystem
             return allItems;
         }
         
-        public List<Pickup> GetAllPickups()
+        public List<PickupBase> GetAllPickups()
         {
-            List<Pickup> allPickups = new();
+            List<PickupBase> allPickups = new();
             allPickups.AddRange(healthPickups);
             allPickups.AddRange(ammoPickups);
             allPickups.AddRange(crystalPickups);
@@ -114,18 +114,23 @@ namespace Terra.LootSystem
 
             return selectedItems;
         }
-        
-        public List<Pickup> GetRandomPickupsFromEachCategory()
-        {
-            List<Pickup> selectedPickups = new List<Pickup>();
 
-            Pickup healthPickup = GetRandomHealthPickup();
+        public ItemBase GetRandomItem()
+        {
+            return GetRandomItemsFromEachCategory().GetRandomElement<ItemBase>();
+        }
+        
+        public List<PickupBase> GetRandomPickupsFromEachCategory()
+        {
+            List<PickupBase> selectedPickups = new List<PickupBase>();
+
+            PickupBase healthPickup = GetRandomHealthPickup();
             if (healthPickup != null) selectedPickups.Add(healthPickup);
 
-            Pickup ammoPickup = GetRandomAmmoPickup();
+            PickupBase ammoPickup = GetRandomAmmoPickup();
             if (ammoPickup != null) selectedPickups.Add(ammoPickup);
             
-            Pickup crystalPickup = GetRandomCrystalPickup();
+            PickupBase crystalPickup = GetRandomCrystalPickup();
             if (crystalPickup != null) selectedPickups.Add(crystalPickup);
 
             return selectedPickups;
@@ -152,7 +157,7 @@ namespace Terra.LootSystem
             return rangedWeapons.GetRandomElement<RangedWeapon>();
         }
         
-        public Pickup GetRandomPickup() => GetRandomPickupsFromEachCategory().GetRandomElement<Pickup>();
+        public PickupBase GetRandomPickup() => GetRandomPickupsFromEachCategory().GetRandomElement<PickupBase>();
         public HealthPickup GetRandomHealthPickup()
         {
             return healthPickups.GetRandomElement<HealthPickup>();
@@ -207,32 +212,32 @@ namespace Terra.LootSystem
             return false;
         }
         
-        public static bool AddPickupToLootTable(Pickup pickup)
+        public static bool AddPickupToLootTable(PickupBase PickupBase)
         {
-            if(pickup == null) return false;
-            switch (pickup.PickupType)
+            if(PickupBase == null) return false;
+            switch (PickupBase.PickupType)
             {
                 case PickupType.Health:
-                    if (!instance.healthPickups.AddUnique(pickup as HealthPickup))
+                    if (!instance.healthPickups.AddUnique(PickupBase as HealthPickup))
                         break;
                     return true;
                 
                 case PickupType.Ammo:
-                    if (!instance.ammoPickups.AddUnique(pickup as AmmoPickup))
+                    if (!instance.ammoPickups.AddUnique(PickupBase as AmmoPickup))
                         break;
                     return true;
                 
                 case PickupType.Crystal:
-                    if (!instance.crystalPickups.AddUnique(pickup as CrystalPickup))
+                    if (!instance.crystalPickups.AddUnique(PickupBase as CrystalPickup))
                         break;
                     return true;
                 
                 default:
-                    Debug.LogError($"Pickup {pickup.PickupType} is not a valid item type");
+                    Debug.LogError($"PickupBase {PickupBase.PickupType} is not a valid item type");
                     return false;
             }
             
-            Debug.LogError($"Pickup {pickup.PickupName} already exists in the loot table");
+            Debug.LogError($"PickupBase {PickupBase.PickupName} already exists in the loot table");
             return false;
         }
     }

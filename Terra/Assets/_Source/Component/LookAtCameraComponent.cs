@@ -12,8 +12,8 @@ namespace Terra.Components
 
         [Header("Lock Rotation")]
         [SerializeField] private bool lockX;
-        [SerializeField] private bool lockY;
-        [SerializeField] private bool lockZ;
+        [SerializeField] private bool lockY = true;
+        [SerializeField] private bool lockZ = true;
 
         private Vector3 originalRotation;
 
