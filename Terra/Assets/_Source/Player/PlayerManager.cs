@@ -17,8 +17,10 @@ namespace Terra.Player
         [Foldout("References")][SerializeField] Animator playerAnimator;
         
         
+        
         private StateMachine.StateMachine _stateMachine;
 
+        public Vector3 CurrentPosition => transform.position;
         public bool CanBeHealed { get; set; }
         public bool IsInvincible { get; set; }
         public bool CanBeDamaged { get; set; }

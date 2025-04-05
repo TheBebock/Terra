@@ -22,18 +22,17 @@ namespace Terra.Itemization.Abstracts
         public virtual bool CanBeRemoved { get; protected set; }
         
         protected ItemBase() { }
-        
     }
     
     /// <summary>
     /// Represents logic for item.
     /// </summary>
     [Serializable]
-    public abstract class Item<T> : ItemBase, IEquipable
-    where T: ItemData
+    public abstract class Item<TData> : ItemBase, IEquipable, IItem<TData>
+    where TData: ItemData
     { 
-        [SerializeField] private T data;
-        public T Data 
+        [SerializeField] private TData data;
+        public TData Data 
         { 
             get => data;
             protected set => data = value;
@@ -43,7 +42,7 @@ namespace Terra.Itemization.Abstracts
 
         public override Sprite ItemIcon => data.itemSprite;
 
-        public virtual void OnEquip()
+        public void OnEquip()
         {
             PlayerStatsManager.Instance.AddStrength(Data.strengthModifiers);
             PlayerStatsManager.Instance.AddMaxHealth(Data.maxHealthModifiers);
@@ -51,18 +50,12 @@ namespace Terra.Itemization.Abstracts
             PlayerStatsManager.Instance.AddLuck(Data.luckModifiers);
         }
         
-        public virtual void OnUnEquip()
+        public void OnUnEquip()
         {
             PlayerStatsManager.Instance.RemoveStrength(Data.strengthModifiers);
             PlayerStatsManager.Instance.RemoveMaxHealth(Data.maxHealthModifiers);
             PlayerStatsManager.Instance.RemoveSpeed(Data.speedModifiers);
             PlayerStatsManager.Instance.RemoveLuck(Data.luckModifiers);
-        }
-
-        [ContextMenu("Add To Loot Table")]
-        public void AddToLootTable()
-        {
-            LootTable.AddItemToLootTable(this);
         }
         
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InteractableBase : MonoBehaviour, IInteractable
+public abstract class InteractableBase : InGameMonoBehaviour, IInteractable
 {
     public abstract bool CanBeInteractedWith { get; }
     public virtual bool CanShowVisualisation { get; set; }

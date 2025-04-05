@@ -7,7 +7,9 @@ namespace Terra.Itemization.Items.Definitions
     [CreateAssetMenu(fileName = "ActiveItemData_", menuName = "TheBebocks/Items/ActiveItemData")]
     public class ActiveItemData : ItemData
     {
-        public float cooldown;
+        public float itemCooldown;
         public AnimationClip activationAnimationClip;
+        
+        public virtual void ActivateItem(){}
     }
 }

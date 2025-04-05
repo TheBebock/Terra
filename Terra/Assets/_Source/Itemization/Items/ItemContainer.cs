@@ -33,7 +33,8 @@ namespace Terra.Itemization.Items
         {
             isInitialized = true;
             this.item = item;
-            itemRenderer.sprite = item.ItemIcon;
+            if(item.ItemIcon)
+                itemRenderer.sprite = item.ItemIcon;
   
         }
 
@@ -49,6 +50,7 @@ namespace Terra.Itemization.Items
         public override void OnInteraction()
         {
             //TODO: Display VFX
+            Destroy(gameObject);
         }
 
         protected override void ShowAvailableVisualization()

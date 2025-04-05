@@ -8,7 +8,6 @@ namespace Terra.Itemization.Abstracts
     /// <summary>
     /// Represents a passive item
     /// </summary>
-    /// <remarks>Class should be an abstract, do not create instances of this class</remarks>
     [Serializable]
     public class PassiveItem : Item<PassiveItemData>
     {

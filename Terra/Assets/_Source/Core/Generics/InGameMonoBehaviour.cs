@@ -1,20 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using Terra.Components;
 using UnityEngine;
 
+
+/// <summary>
+/// Class that represents object inside the game world
+/// </summary>
 [RequireComponent(typeof(LookAtCameraComponent))]
-public class InGameMonoBehaviour : MonoBehaviour
+public abstract class InGameMonoBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        if (this is IInitializable initializable)
+        {
+            initializable.Initialize();
+            initializable.IsInitialized = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
+        if(this is IWithSetUp setup)
+            setup.SetUp();
+ 
+        if(this is IAttachListeners attachListeners)
+            attachListeners.AttachListeners();
+    }
+
+    
+    protected virtual void CleanUp(){}
+    private void OnDestroy()
+    {
+        CleanUp();
         
+        if(this is IAttachListeners attachListeners)
+            attachListeners.DetachListeners();
+        
+        if(this is IWithSetUp setup)
+            setup.TearDown();
     }
 }

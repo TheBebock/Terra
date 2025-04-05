@@ -8,9 +8,11 @@ namespace Terra.Core.Generics
     /// <summary>
     /// Class for MonoBehaviours that should be accessed from other classes
     /// </summary>
-    public abstract class MonoBehaviourSingleton<T> : SerializedMonoBehaviour 
+    public abstract class MonoBehaviourSingleton<T> : InGameMonoBehaviour, IInitializable
         where T : class
     {
+        
+        public bool IsInitialized { get; set; }
         
         private static T _instance = null;
 
@@ -39,10 +41,9 @@ namespace Terra.Core.Generics
             }
         }
         
-
-        protected virtual void Awake()
+        
+        public virtual void Initialize()
         {
-           
             if (_instance == null)
             {
                 _instance = this as T;
@@ -52,11 +53,13 @@ namespace Terra.Core.Generics
                 Destroy(gameObject);
             }
         }
-        
-        protected virtual void OnDestroy()
+
+        protected override void CleanUp()
         {
             if (_instance == this as T)
                 _instance = null;
+            
+            base.CleanUp();
         }
     }
 }

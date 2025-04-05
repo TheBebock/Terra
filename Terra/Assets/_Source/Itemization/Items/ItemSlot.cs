@@ -20,7 +20,7 @@ namespace Terra.Itemization.Items
         public TItem EquippedItem { get; private set; }
         public override bool IsSlotTaken { get; set; }
 
-        //NOTE: isSlotTaken == false means that EquippedItem is null, and it will throw a null reference.
+        //NOTE: isSlotTaken == false means that EquippedItem is null, and it will throw a null reference if checked.
         //That's why it just returns false
         public bool CanItemBeRemoved => IsSlotTaken ? EquippedItem.CanBeRemoved : false;
 
@@ -50,12 +50,21 @@ namespace Terra.Itemization.Items
 
         public override bool UnEquip()
         {
+            // Check can item be removed
             if (!CanItemBeRemoved) return false;
+            //  Check is item equipable
             if(EquippedItem is not IEquipable equipable) return false;
+            // Perform UnEquip on the item
             equipable.OnUnEquip();
+            // Invoke event, that item has been removed
+            InvokeOnItemRemoved(EquippedItem);
+            // Change slot status
             IsSlotTaken = false;
+            // Clear cached item
             EquippedItem = null;
             return true;
         }
+        
+        
     }
 }

@@ -16,10 +16,11 @@ namespace Terra.Managers
 
         public bool CanBuy(int itemPrice) => _currentGold >= itemPrice;
 
-        protected override void Awake()
+
+        public override void Initialize()
         {
-            base.Awake();
-            // Set initial gold
+            base.Initialize();
+            
             _currentGold = initialGold;
         }
 

@@ -6,11 +6,12 @@ using Terra.Itemization.Abstracts;
 using Terra.Itemization.Interfaces;
 using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
+using Terra.Managers;
 using UnityEngine;
 
 namespace Terra.Player
 {
-    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
+    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IInitializable
     {
         [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
         
@@ -18,40 +19,59 @@ namespace Terra.Player
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> rangedWeaponSlot = new();
         [Foldout("Debug"), SerializeField,  ReadOnly] private ItemSlot<ActiveItem> activeItemSlot = new ();
         
+        [Foldout("Debug"), SerializeField, ReadOnly]private List<PassiveItem> passiveItems = new();
+
         private ItemSlotBase[] itemSlots;
-        
-        [Foldout("Debug"), SerializeField, ReadOnly]private List<PassiveItem> passiveItems;
+        public List<PassiveItem> GetPassiveItems => passiveItems;
+        public ActiveItem GetActiveItem => activeItemSlot.EquippedItem;
+        public MeleeWeapon GetMeleeWeapon => meleeWeaponSlot.EquippedItem;
+        public RangedWeapon GetRangedWeapon => rangedWeaponSlot.EquippedItem;
 
-        private bool isInitialized = false;
-        protected override void Awake()
-        {
-            base.Awake();
-            Initialize();
-        }
+        public event Action<PassiveItem> OnPassiveItemAdded;
+        public event Action<ActiveItem> OnActiveItemChanged;
+        public event Action<MeleeWeapon> OnMeleeWeaponChanged;
+        public event Action<RangedWeapon> OnRangedWeaponChanged;
 
-        //TODO:Add removing item from EQ and spawning ItemContainer with the item through some kind of LootManager.Instance.SpawnItem(item, pos)
-        void Initialize()
+
+        public override void Initialize()
         {
-            if(isInitialized) return;
-            isInitialized = true;
+            
+            // Create item slots
             meleeWeaponSlot = new();
             rangedWeaponSlot = new();
             activeItemSlot = new();
             passiveItems = new();
-            
+
+
+            // Equip starting items
             if (startingInventoryData != null)
             {
                 meleeWeaponSlot.Equip(startingInventoryData.startingMelee);
                 rangedWeaponSlot.Equip(startingInventoryData.startingRanged);
                 activeItemSlot.Equip(startingInventoryData.startingActive);
+                
                 startingInventoryData.startingPassiveItems.CopyTo(passiveItems.ToArray());
+
+                for (int i = 0; i < passiveItems.Count; i++)
+                {
+                    passiveItems[i].OnEquip();
+                }
             }
+            
+            // Create fast access array to created item slots
             itemSlots = new ItemSlotBase[Enum.GetValues(typeof(ItemType)).Length];
             itemSlots[(int)ItemType.Melee] = meleeWeaponSlot ;
             itemSlots[(int)ItemType.Ranged] = rangedWeaponSlot;
             itemSlots[(int)ItemType.Active] = activeItemSlot;
+            
+            // Attach listeners
+            ItemSlotBase.OnItemRemoved += DropItemOnGround;
         }
-        
+
+        private void DropItemOnGround(ItemBase item)
+        {
+            LootManager.Instance?.SpawnItem(item, PlayerManager.Instance.CurrentPosition);
+        }
 
         public bool TryToEquipItem<TItem>(TItem newItem)
         where TItem : ItemBase
@@ -62,10 +82,11 @@ namespace Terra.Player
             ItemType itemType = newItem.ItemType;
 
             
-            if (itemType == ItemType.Passive)
+            if (newItem is PassiveItem passiveItem)
             {
-                equipable.OnEquip();
-                passiveItems.Add(newItem as PassiveItem);
+                passiveItem.OnEquip();
+                passiveItems.Add(passiveItem);
+                OnPassiveItemAdded?.Invoke(passiveItem);
                 return true;
             }
             
@@ -75,12 +96,36 @@ namespace Terra.Player
             {
                 return itemSlot.SwapNonGeneric(newItem);
             }
-            return itemSlot.EquipNonGeneric(newItem);
+
+            if (itemSlot.EquipNonGeneric(newItem))
+            {
+                InvokeItemChangedEvent(newItem);
+                return true;
+            }
+            return false;
         }
+        
+        
         
         private ItemSlotBase GetItemSlotBase(ItemType itemType)
         {
            return itemSlots[(int)itemType];
+        }
+
+        private void InvokeItemChangedEvent(ItemBase item)
+        {
+            switch (item)
+            {
+                case ActiveItem activeItem:
+                    OnActiveItemChanged?.Invoke(activeItem);    
+                    break;
+                case MeleeWeapon meleeWeapon:
+                    OnMeleeWeaponChanged?.Invoke(meleeWeapon);
+                    break;
+                case RangedWeapon ranged:
+                    OnRangedWeaponChanged?.Invoke(ranged);
+                    break;
+            }
         }
         
         /// <summary>
@@ -138,8 +183,12 @@ namespace Terra.Player
             return null;
         }
         
-        public List<PassiveItem> GetPassiveItems() => passiveItems;
 
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            ItemSlotBase.OnItemRemoved -= DropItemOnGround;
+        }
     }
     
 }

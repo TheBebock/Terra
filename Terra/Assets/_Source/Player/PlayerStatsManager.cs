@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using Core.ModifiableValue;
+using NaughtyAttributes;
 using StatisticsSystem;
 using StatisticsSystem.Definitions;
 using UnityEngine;
@@ -10,15 +11,16 @@ namespace Terra.Player
     public class PlayerStatsManager : MonoBehaviourSingleton<PlayerStatsManager>
     {
         [SerializeField] private  PlayerStatsDefinition playerStatsData;
-        [SerializeField] private  PlayerStats playerStats;
+        [SerializeField, ReadOnly] private PlayerStats playerStats;
         
         public PlayerStats PlayerStats => playerStats;
-        protected override void Awake()
+
+        public override void Initialize()
         {
-            base.Awake();
+            base.Initialize();
             playerStats = new PlayerStats(playerStatsData);
         }
-        
+
         //TODO: Maybe in future improve this
         /*
         public void Add/Remove Modifiers(List<T> modifiers)

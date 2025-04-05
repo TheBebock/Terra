@@ -1,8 +1,11 @@
+using System;
 using Terra.Itemization.Items.Definitions;
 
 namespace Terra.Itemization.Abstracts
 {
-    
+    /// <summary>
+    /// Represents base class for item slots
+    /// </summary>
     public abstract class ItemSlotBase
     {
         public abstract bool IsSlotTaken { get; set; }
@@ -10,10 +13,15 @@ namespace Terra.Itemization.Abstracts
 
         public abstract bool EquipNonGeneric(ItemBase item);
         public abstract bool SwapNonGeneric(ItemBase item);
+        
+        public static event Action<ItemBase> OnItemRemoved;
+        
+        protected void InvokeOnItemRemoved(ItemBase item) => OnItemRemoved?.Invoke(item);
+
     }
     
     /// <summary>
-    /// Represents base class for item slots
+    /// Represents class for item slots that have items of type ItemBase 
     /// </summary>
     public abstract class ItemSlotBase<TItem> : ItemSlotBase
     where TItem : ItemBase

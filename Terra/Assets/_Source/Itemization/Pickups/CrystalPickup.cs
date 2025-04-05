@@ -7,12 +7,9 @@ using Terra.Managers;
 namespace Terra.Itemization.Pickups
 {
     [Serializable]
-    public class CrystalPickup : Pickup
+    public class CrystalPickup : Pickup<CrystalPickupData>
     {
-        [SerializeField] private CrystalPickupData pickupData;
-        public CrystalPickupData Data => pickupData;
         
-        public override string PickupName => Data.pickupName;
         public override PickupType PickupType => PickupType.Crystal;
 
         public override void OnPickUp()

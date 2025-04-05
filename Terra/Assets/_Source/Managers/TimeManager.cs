@@ -20,13 +20,13 @@ namespace Terra.Managers
             if(InputManager.Instance) InputManager.Instance.AllTimeControls.Pause.performed += OnPauseInput;
             else Debug.LogError(this + " Input Manager is null");
         }
-        
-        protected override void OnDestroy()
+
+        protected override void CleanUp()
         {
-            base.OnDestroy();
             if(InputManager.Instance)
                 InputManager.Instance.AllTimeControls.Pause.performed -= OnPauseInput;
         }
+        
 
         private void OnPauseInput(InputAction.CallbackContext context)
         {

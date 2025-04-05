@@ -1,4 +1,5 @@
 using System;
+using Terra.Itemization.Pickups.Definitions;
 using UnityEngine;
 
 namespace Terra.Itemization.Abstracts
@@ -32,9 +33,14 @@ namespace Terra.Itemization.Abstracts
     /// Represents logic for pickups
     /// </summary>
     [Serializable]
-    public class Pickup : PickupBase
+    public class Pickup<TData> : PickupBase
+    where TData : PickupData
     {
+        [SerializeField] private TData data;
+        public TData Data => data;
 
+        public override string PickupName => Data.pickupName;
+        public override Sprite ItemIcon => Data.pickupSprite;
     }
 }
 

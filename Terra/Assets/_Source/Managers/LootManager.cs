@@ -18,13 +18,19 @@ namespace Terra.Managers
 
         [SerializeField] private PickupContainer P_pickupContainer;
         [SerializeField] private ItemContainer P_itemContainer;
-        [SerializeField] private LootTable lootTable;
+        [SerializeField] private LootTable lootTable = new();
+
+        public LootTable LootTable => lootTable;
 
 
-        private void Start()
+        public override void Initialize()
         {
+            base.Initialize();
+
             lootTable.Initialize();
+
         }
+
 
         public void SpawnLoot()
         {
@@ -39,6 +45,12 @@ namespace Terra.Managers
             {
                 Debug.Log($"Generated pickups: ");
             }
+        }
+
+        public void SpawnItem(ItemBase item, Vector3 position)
+        {
+            ItemContainer itemContainer = Instantiate(P_itemContainer, position, Quaternion.identity);
+            itemContainer.Initialize(item);
         }
 
         public void SpawnRandomItem(Vector3 position)
@@ -68,6 +80,7 @@ namespace Terra.Managers
             PickupBase pickup = lootTable.GetRandomPickup();
             pickupContainer.Initialize(pickup);
         }
-        
+
+
     }
 }

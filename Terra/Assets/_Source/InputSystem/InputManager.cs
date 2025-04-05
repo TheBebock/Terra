@@ -6,23 +6,13 @@ namespace Terra.InputManagement
 {
     public class InputManager : MonoBehaviourSingleton<InputManager>
     {
-        private InputSystem _inputSystem;
+        private InputSystem _inputSystem = new();
 
         public InputSystem InputSystem => _inputSystem;
         public InputSystem.PlayerControlsActions PlayerControls => _inputSystem.PlayerControls;
         public InputSystem.AllTimeActions AllTimeControls => _inputSystem.AllTime;
 
         public static event Action<bool> OnAllTimeControlsStateChanged;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            //Create input system
-            if (_inputSystem == null)
-            {
-                _inputSystem = new InputSystem();
-            }
-        }
 
         void Start()
         {

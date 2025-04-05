@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NaughtyAttributes;
 using Terra.Itemization;
 using Terra.Itemization.Abstracts;
-using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
 using Terra.Itemization.Pickups;
-using UnityEditor;
 using UnityEngine;
 
 namespace Terra.LootSystem
@@ -15,9 +12,12 @@ namespace Terra.LootSystem
     /// <summary>
     /// Contains all possible items and PickupBase that can be dropped in the game.
     /// </summary>
-    [CreateAssetMenu(fileName = "LootTable", menuName = "TheBebocks/LootTable")]
-    public class LootTable : ScriptableSingleton<LootTable>
+    [Serializable]
+    public class LootTable
     {
+        
+        private bool isInitialized = false;
+        
         [SerializeField] private List<ActiveItem> activeItems = new (); 
         [SerializeField] private List<PassiveItem> passiveItems = new ();
         [SerializeField] private List<MeleeWeapon> meleeWeapons = new ();
@@ -48,7 +48,8 @@ namespace Terra.LootSystem
 
         public void Initialize()
         {
-            
+            if(isInitialized) return;
+            isInitialized = true;
             ItemsDatabase database = ItemsDatabase.instance;
             if (!database)
             {
@@ -173,33 +174,29 @@ namespace Terra.LootSystem
             return crystalPickups.GetRandomElement<CrystalPickup>();
         }
         
-        public static bool AddItemToLootTable(ItemBase item)
+        public bool AddItemToLootTable(ItemBase item)
         {
-            if (instance == null)
-            {
-                Debug.LogError($"{nameof(LootTable)} Does not exist");
-                return false;
-            }
+           
             if(item == null) return false;
             switch (item.ItemType)
             {
                 case ItemType.Passive:
-                    if (!instance.passiveItems.AddUnique(item as PassiveItem))
+                    if (!passiveItems.AddUnique(item as PassiveItem))
                         break;
                     return true;
 
                 case ItemType.Active:
-                    if (!instance.activeItems.AddUnique(item as ActiveItem))
+                    if (!activeItems.AddUnique(item as ActiveItem))
                         break;
                     return true;
 
                 case ItemType.Melee:
-                    if (!instance.meleeWeapons.AddUnique(item as MeleeWeapon))
+                    if (!meleeWeapons.AddUnique(item as MeleeWeapon))
                         break;
                     return true;
 
                 case ItemType.Ranged:
-                    if (!instance.rangedWeapons.AddUnique(item as RangedWeapon))
+                    if (!rangedWeapons.AddUnique(item as RangedWeapon))
                         break;
                     return true;
                 
@@ -212,23 +209,23 @@ namespace Terra.LootSystem
             return false;
         }
         
-        public static bool AddPickupToLootTable(PickupBase PickupBase)
+        public bool AddPickupToLootTable(PickupBase PickupBase)
         {
             if(PickupBase == null) return false;
             switch (PickupBase.PickupType)
             {
                 case PickupType.Health:
-                    if (!instance.healthPickups.AddUnique(PickupBase as HealthPickup))
+                    if (!healthPickups.AddUnique(PickupBase as HealthPickup))
                         break;
                     return true;
                 
                 case PickupType.Ammo:
-                    if (!instance.ammoPickups.AddUnique(PickupBase as AmmoPickup))
+                    if (!ammoPickups.AddUnique(PickupBase as AmmoPickup))
                         break;
                     return true;
                 
                 case PickupType.Crystal:
-                    if (!instance.crystalPickups.AddUnique(PickupBase as CrystalPickup))
+                    if (!crystalPickups.AddUnique(PickupBase as CrystalPickup))
                         break;
                     return true;
                 
