@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 280325211}
   - component: {fileID: 280325210}
   - component: {fileID: 280325215}
+  - component: {fileID: 280325216}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -392,6 +393,32 @@ MonoBehaviour:
   playerInventory: {fileID: 0}
   playerMovement: {fileID: 0}
   playerAnimator: {fileID: 0}
+--- !u!114 &280325216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280325209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8549bfef3223d4f9de54240f31818a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatsData: {fileID: 11400000, guid: 5cdc25e0fc61acf468ba254296bbf68e, type: 2}
+  playerStats:
+    strength:
+      baseValue: 0
+      StatModifiers: []
+    maxHealth:
+      baseValue: 0
+      StatModifiers: []
+    speed:
+      baseValue: 0
+      StatModifiers: []
+    luck:
+      baseValue: 0
+      StatModifiers: []
 --- !u!1 &1167008007
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +565,8 @@ MonoBehaviour:
   agent: {fileID: 1412026989}
   playerDetector: {fileID: 1412026988}
   animator: {fileID: 1412026994}
-  wanderRadius: 10
+  detectionRadius: 5
+  attackRadius: 1.5
   timeBetweenAttacks: 1
   _healthController:
     maxHealth:
