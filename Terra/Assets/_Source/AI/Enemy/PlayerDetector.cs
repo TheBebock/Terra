@@ -1,3 +1,5 @@
+using Terra.Combat;
+using Terra.Player;
 using UnityEngine;
 
 namespace _Source.AI.Enemy {
@@ -8,16 +10,14 @@ namespace _Source.AI.Enemy {
         [SerializeField] float detectionCooldown = 1f; // Time between detections
         [SerializeField] float attackRange = 2f; // Distance from enemy to player to attack
         
-        public Transform Player { get; private set; }
-        public Health PlayerHealth { get; private set; }
+        private PlayerManager playerManager;
         
         CountdownTimer detectionTimer;
         
         IDetectionStrategy detectionStrategy;
 
         void Awake() {
-            Player = GameObject.FindGameObjectWithTag("Player").transform; // Make sure to TAG the player!
-            
+            playerManager = PlayerManager.Instance;
         }
 
         void Start() {
@@ -28,11 +28,11 @@ namespace _Source.AI.Enemy {
         void Update() => detectionTimer.Tick(Time.deltaTime);
 
         public bool CanDetectPlayer() {
-            return detectionTimer.IsRunning || detectionStrategy.Execute(Player, transform, detectionTimer);
+            return detectionTimer.IsRunning || detectionStrategy.Execute(playerManager.transform, transform, detectionTimer);
         }
 
         public bool CanAttackPlayer() {
-            var directionToPlayer = Player.position - transform.position;
+            var directionToPlayer = playerManager.transform.position - transform.position;
             return directionToPlayer.magnitude <= attackRange;
         }
         
@@ -52,14 +52,6 @@ namespace _Source.AI.Enemy {
             // Draw lines to represent the cone
             Gizmos.DrawLine(transform.position, transform.position + forwardConeDirection);
             Gizmos.DrawLine(transform.position, transform.position + backwardConeDirection);
-        }
-    }
-//TODO: This was added just to prevent critical errors in Unity. The class needs to be refactored or integrated with the statistics system from our script.
-    public class Health
-    {
-        public void TakeDamage(int i)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Platformer {
         
         public override void OnEnter() {
             Debug.Log("Wander");
-            //animator.CrossFade(WalkHash, crossFadeDuration);
+            animator.CrossFade(WalkHash, crossFadeDuration);
         }
 
         public override void Update() {

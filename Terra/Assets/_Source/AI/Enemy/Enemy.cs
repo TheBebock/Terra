@@ -2,6 +2,7 @@ using _Source.AI.Enemy;
 using Terra.StateMachine;
 using Platformer;
 using Terra.Combat;
+using Terra.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -38,8 +39,8 @@ using UnityEngine.AI;
             stateMachine = new StateMachine();
             
             var wanderState = new EnemyWanderState(this, animator, agent, wanderRadius);
-            var chaseState = new EnemyChaseState(this, animator, agent, playerDetector.Player);
-            var attackState = new EnemyAttackState(this, animator, agent, playerDetector.Player);
+            var chaseState = new EnemyChaseState(this, animator, agent, PlayerManager.Instance.transform);
+            var attackState = new EnemyAttackState(this, animator, agent, PlayerManager.Instance.transform);
             
             At(wanderState, chaseState, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
             At(chaseState, wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
@@ -65,7 +66,7 @@ using UnityEngine.AI;
             if (attackTimer.IsRunning) return;
             
             attackTimer.Start();
-            playerDetector.PlayerHealth.TakeDamage(10);
+            PlayerManager.Instance.TakeDamage(10f);
         }
 
 

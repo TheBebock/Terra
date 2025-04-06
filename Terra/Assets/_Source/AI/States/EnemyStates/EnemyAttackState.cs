@@ -12,12 +12,12 @@ namespace Platformer {
         }
         
         public override void OnEnter() {
-            //animator.CrossFade(AttackHash, crossFadeDuration);
+            animator.CrossFade(AttackHash, crossFadeDuration);
         }
         
         public override void Update() {
             agent.SetDestination(player.position);
-            //enemy.Attack();
+            enemy.Attack();
         }
     }
 }
