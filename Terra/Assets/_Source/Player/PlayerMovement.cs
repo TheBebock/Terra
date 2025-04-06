@@ -17,7 +17,7 @@ namespace Terra.Player
 
         private CharacterController characterController;
         private Vector3 moveDirection = Vector3.zero;
-        private bool isDashing = false;
+        private bool _isDashing = false;
         private float dashCooldownTimer = 0f;
         public GameObject meleeWeapon;
         public GameObject rangedWeapon;
@@ -28,6 +28,7 @@ namespace Terra.Player
         
         private bool _canPlayerMove = true;
         public bool CanPlayerMove { get { return _canPlayerMove; } set { _canPlayerMove = value; } }
+        public bool IsDashing { get { return _isDashing; } private set { _isDashing = value; } }
 
         private void OnDestroy()
         {
@@ -48,18 +49,13 @@ namespace Terra.Player
                 return;
             }
 
-            if (!isDashing) // Movement only if we don't dash
-            {
-                HandleMovement();
-            }
-
             if (dashCooldownTimer > 0)
             {
                 dashCooldownTimer -= Time.deltaTime;
             }
         }
 
-        private void HandleMovement()
+        public void HandleMovement()
         {
             // Transforms 2DVector into 3DVector 
             Vector3 forward = transform.forward * movementInput.y; // Ruch przód/tył
@@ -100,7 +96,7 @@ namespace Terra.Player
                 return;
             }
 
-            if (dashCooldownTimer <= 0 && !isDashing)
+            if (dashCooldownTimer <= 0 && !IsDashing)
             {
                 StartCoroutine(Dash());
             }
@@ -110,7 +106,7 @@ namespace Terra.Player
         private IEnumerator Dash()
         {
             Debug.Log("Dashing");
-            isDashing = true;
+            IsDashing = true;
             Vector3 dashDirection = (transform.forward * movementInput.y) + (transform.right * movementInput.x);
             float startTime = Time.time;
 
@@ -120,7 +116,7 @@ namespace Terra.Player
                 yield return null;
             }
 
-            isDashing = false;
+            IsDashing = false;
             dashCooldownTimer = dashCooldown;
         }
 

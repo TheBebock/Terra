@@ -10,6 +10,7 @@ namespace _Source.StateMachine.PlayerStates
         
         protected static readonly int LocomotionHash = Animator.StringToHash("Locomotion");
         protected static readonly int StunHash = Animator.StringToHash("Stun");
+        protected static readonly int DashHash = Animator.StringToHash("Dash");
     
         protected PlayerBaseState(PlayerManager player, Animator animator) : base()
         {

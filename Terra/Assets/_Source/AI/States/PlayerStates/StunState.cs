@@ -5,20 +5,20 @@ namespace _Source.StateMachine.PlayerStates
 {
     public class StunState : PlayerBaseState
     {
-        protected StunState(PlayerManager player, Animator animator) : base(player, animator)
+        public StunState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
 
         public override void OnEnter()
         {
             animator.CrossFade(StunHash, CrossFadeDuration);
-            player.PlayerMovement.CanPlayerMove = false;
+            //player.PlayerMovement.CanPlayerMove = false;
         }
 
 
         public override void OnExit()
         {
-            player.PlayerMovement.CanPlayerMove = true;
+            //player.PlayerMovement.CanPlayerMove = true;
         }
     }
 }

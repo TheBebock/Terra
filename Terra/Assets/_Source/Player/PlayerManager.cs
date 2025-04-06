@@ -6,6 +6,8 @@ using NaughtyAttributes;
 using StatisticsSystem;
 using Terra.Combat;
 using UnityEngine;
+using _Source.StateMachine.PlayerStates;
+using Terra.StateMachine;
 
 namespace Terra.Player
 {
@@ -41,17 +43,36 @@ namespace Terra.Player
         public void SetUp()
         {
             _stateMachine = new StateMachine.StateMachine();
-            
-            //TODO: Add states and transitions
-            
-            if(PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
+
+            // Set states
+            LocomotionState locomotionState = new LocomotionState(this, playerAnimator);
+            StunState stunState = new StunState(this, playerAnimator);
+            DashState dashState = new DashState(this, playerAnimator);
+
+            // Set transitions
+            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !playerMovement.CanPlayerMove)); //NOTE: Ask about condition
+            _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => playerMovement.CanPlayerMove)); //NOTE: Ask about condition
+            _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => playerMovement.IsDashing));
+            _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !playerMovement.IsDashing));
+
+            if (PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
             if(PlayerStatsManager.Instance) _playerStats = PlayerStatsManager.Instance.PlayerStats;
             
             healthController = new HealthController(_playerStats.ModifiableMaxHealth, true);
 
             ResetHealth();
         }
-        
+
+        private void Update()
+        {
+            _stateMachine.Update();
+        }
+
+        private void FixedUpdate()
+        {
+            _stateMachine.FixedUpdate();
+        }
+
         public void ResetHealth(bool isSilent = true) => healthController.ResetHealth(isSilent);
         public void KIll(bool isSilent = true) => healthController.KIll(isSilent);
 

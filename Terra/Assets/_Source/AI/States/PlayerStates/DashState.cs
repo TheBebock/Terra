@@ -3,16 +3,17 @@ using UnityEngine;
 
 namespace _Source.StateMachine.PlayerStates
 {
-    public class LocomotionState : PlayerBaseState
+    public class DashState : PlayerBaseState
     {
-        public LocomotionState(PlayerManager player, Animator animator) : base(player, animator)
+        public DashState(PlayerManager player, Animator animator) : base(player, animator) 
         {
         }
 
         public override void OnEnter()
         {
-            animator.CrossFade(LocomotionHash, CrossFadeDuration);
+            animator.CrossFade(DashHash, CrossFadeDuration);
         }
+
 
         public override void FixedUpdate()
         {
@@ -20,3 +21,6 @@ namespace _Source.StateMachine.PlayerStates
         }
     }
 }
+}
+
+    
