@@ -20,6 +20,7 @@ namespace Terra.Player
         [Foldout("References")] [SerializeField] PlayerInventoryManager playerInventory;
         [Foldout("References")][SerializeField] PlayerMovement playerMovement;
         [Foldout("References")][SerializeField] Animator playerAnimator;
+        [Foldout("References")][SerializeField] PlayerAttackManager playerAttackManager;
         
         [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine.StateMachine _stateMachine;
 
@@ -36,6 +37,7 @@ namespace Terra.Player
         public HealthController HealthController => healthController;
         public PlayerMovement PlayerMovement => playerMovement;
         public PlayerInventoryManager PlayerInventory => playerInventory;
+        public PlayerAttackManager PlayerAttackManager => playerAttackManager;
         
         public event Action OnPlayerDeath;
 
@@ -48,12 +50,23 @@ namespace Terra.Player
             LocomotionState locomotionState = new LocomotionState(this, playerAnimator);
             StunState stunState = new StunState(this, playerAnimator);
             DashState dashState = new DashState(this, playerAnimator);
+            DeathState deathState = new DeathState(this, playerAnimator);
+            MeleeAttackState meleeAttackState = new MeleeAttackState(this, playerAnimator);
+            RangedAttackState rangedAttackState = new RangedAttackState(this, playerAnimator);
 
             // Set transitions
-            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !playerMovement.CanPlayerMove)); //NOTE: Ask about condition
-            _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => playerMovement.CanPlayerMove)); //NOTE: Ask about condition
+            _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => playerMovement.CanPlayerMove));
             _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => playerMovement.IsDashing));
             _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !playerMovement.IsDashing));
+
+            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !playerMovement.CanPlayerMove && !IsPlayerDead));
+            _stateMachine.AddAnyTransition(deathState, new FuncPredicate(() => IsPlayerDead));
+
+            _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => playerAttackManager.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(meleeAttackState, locomotionState, new FuncPredicate(() => !playerAttackManager.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackManager.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(rangedAttackState, locomotionState, new FuncPredicate(() => !playerAttackManager.IsTryingPerformDistanceAttack));
+
 
             _stateMachine.SetState(locomotionState);
             

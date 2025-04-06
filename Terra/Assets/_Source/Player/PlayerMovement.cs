@@ -33,6 +33,18 @@ namespace Terra.Player
             private set => _isDashing = value;
         }
 
+        
+        private PlayerMoveDirection currentplayerMoveDirection;
+        public PlayerMoveDirection CurrentPlayerMoveDirection => currentplayerMoveDirection;
+
+        public enum PlayerMoveDirection
+        {
+            Up = 0,
+            Down = 1,
+            Left = 2,
+            Right = 3,
+        }
+
         private void OnDestroy()
         {
             DetachListeners();
@@ -77,6 +89,7 @@ namespace Terra.Player
 
             // Character Movement
             characterController.Move(moveDirection * Time.deltaTime);
+            ChangeMoveDirection();
         }
 
         private void OnMovementInput(InputAction.CallbackContext context)
@@ -140,6 +153,18 @@ namespace Terra.Player
                 Debug.Log("Interacted with: " + hit.collider.name);
 
             }
+        }
+
+        private void ChangeMoveDirection()
+        {
+            if (movementInput.y > 0)
+                currentplayerMoveDirection = PlayerMoveDirection.Up;
+            if (movementInput.y < 0)
+                currentplayerMoveDirection = PlayerMoveDirection.Down;
+            if (movementInput.x < 0)
+                currentplayerMoveDirection = PlayerMoveDirection.Left;
+            if (movementInput.x > 0)
+                currentplayerMoveDirection = PlayerMoveDirection.Right;
         }
 
         public void AttachListeners()

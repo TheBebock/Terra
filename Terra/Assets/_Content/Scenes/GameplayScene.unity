@@ -227,10 +227,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8083079388278282322, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: playerAttackManager
+      value: 
+      objectReference: {fileID: 1072844151}
+    m_RemovedComponents:
+    - {fileID: 4864221359718053195, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1072844151}
   m_SourcePrefab: {fileID: 100100000, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
 --- !u!1001 &607582297
 PrefabInstance:
@@ -519,6 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtType: 1
+  targetTransforms: []
   lockX: 0
   lockY: 1
   lockZ: 1
@@ -787,6 +798,29 @@ MonoBehaviour:
   maxGold: 100000
   initialGold: 0
   _currentGold: 0
+  crystalPickupUI: {fileID: 0}
+--- !u!1 &1072844150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+    type: 3}
+  m_PrefabInstance: {fileID: 307734418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1072844151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072844150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f76ae7aad9c49340a3b764d4f422cfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsTryingPerformMeleeAttack: 0
+  IsTryingPerformDistanceAttack: 0
+  currentMeleeCD: 0
+  currentRangedCD: 0
 --- !u!1 &1096738998
 GameObject:
   m_ObjectHideFlags: 0
