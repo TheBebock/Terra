@@ -25,6 +25,7 @@ namespace Terra.Combat
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
         public event Action<bool> OnCanBeHealedChanged;
+        public event Action<float> OnHealthChanged;
         public event Action<float> OnDamaged;
         public event Action<float> OnHealed;
 
@@ -48,10 +49,12 @@ namespace Terra.Combat
 
             // Invoke event
             OnDamaged?.Invoke(amount);
-
+            
             // Clamp value, if invincible then set health to 1
             currentHealth = Mathf.Max(currentHealth, IsInvincible ? 1f : 0f);
-
+            
+            OnHealthChanged?.Invoke(currentHealth);
+            
             if (currentHealth <= 0f)
                 OnDeath?.Invoke();
         }
@@ -67,8 +70,11 @@ namespace Terra.Combat
             // Invoke event
             OnHealed?.Invoke(amount);
 
+
             // Clamp to max health
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth.Value);
+            
+            OnHealthChanged?.Invoke(currentHealth);
 
 
         }
