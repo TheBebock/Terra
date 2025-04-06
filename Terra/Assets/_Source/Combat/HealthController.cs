@@ -12,7 +12,7 @@ namespace Terra.Combat
     {
 
         [SerializeField] private ModifiableValue maxHealth;
-        [SerializeField] private float currentHealth;
+        [SerializeField] private float currentHealth=10;
 
         [SerializeField] private bool canBeHealed = false;
         [SerializeField] private bool isInvincible = false;

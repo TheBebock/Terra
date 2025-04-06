@@ -12,8 +12,10 @@ namespace Platformer {
         }
         
         public override void OnEnter() {
+            Debug.Log("Wszedł w ATTACK STATE");
             animator.CrossFade(AttackHash, crossFadeDuration);
         }
+
         
         public override void Update() {
             agent.SetDestination(player.position);

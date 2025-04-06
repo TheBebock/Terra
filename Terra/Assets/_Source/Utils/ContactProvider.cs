@@ -10,13 +10,13 @@ namespace Terra.Utils
     public static LayerMask PlayerTargetsMask => LayerMask.NameToLayer("Enemy") | LayerMask.NameToLayer("Damageable");
     public static LayerMask EnemyTargetsMask => LayerMask.NameToLayer("Player") | LayerMask.NameToLayer("Damageable");
 
-    public static List<T> GetTargetsInSphere<T>(Vector3 offset, float radius, LayerMask targetMask)
+    public static List<T> GetTargetsInSphere<T>(Vector3 position, float radius, LayerMask targetMask)
     {
         // Initialize collections
         List<T> results = new List<T>(); 
         Collider[] hitColliders = new Collider[32];
         
-        Physics.OverlapSphereNonAlloc(offset, radius, hitColliders, targetMask);
+        Physics.OverlapSphereNonAlloc(position, radius, hitColliders, targetMask);
         
         // Loop through colliders to find target components 
         for (int i = 0; i < hitColliders.Length; i++)

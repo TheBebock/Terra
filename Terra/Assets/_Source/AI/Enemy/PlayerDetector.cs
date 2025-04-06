@@ -33,6 +33,7 @@ namespace _Source.AI.Enemy {
 
         public bool CanAttackPlayer() {
             var directionToPlayer = playerManager.transform.position - transform.position;
+            Debug.DrawLine(transform.position, playerManager.transform.position, Color.blue);
             return directionToPlayer.magnitude <= attackRange;
         }
         

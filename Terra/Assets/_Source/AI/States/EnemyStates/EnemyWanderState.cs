@@ -3,22 +3,35 @@ using UnityEngine.AI;
 
 namespace Platformer {
     public class EnemyWanderState : EnemyBaseState {
+        
         readonly NavMeshAgent agent;
         readonly Vector3 startPoint;
         readonly float wanderRadius;
 
         public EnemyWanderState(Enemy enemy, Animator animator, NavMeshAgent agent, float wanderRadius) : base(enemy, animator) {
+            if (enemy == null || animator == null || agent == null) {
+                Debug.LogError("Nieprawidłowe przypisanie komponentów! enemy, animator lub agent jest null.");
+                return;
+            }
             this.agent = agent;
             this.startPoint = enemy.transform.position;
             this.wanderRadius = wanderRadius;
         }
         
         public override void OnEnter() {
+            if (animator == null) {
+                Debug.LogError("Animator jest null w EnemyWanderState.");
+                return;
+            }
             Debug.Log("Wander");
             animator.CrossFade(WalkHash, crossFadeDuration);
         }
 
         public override void Update() {
+            if (agent == null) {
+                Debug.LogError("NavMeshAgent jest null w EnemyWanderState.");
+                return;
+            }
             if (HasReachedDestination()) {
                 var randomDirection = Random.insideUnitSphere * wanderRadius;
                 randomDirection += startPoint;
