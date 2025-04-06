@@ -19,16 +19,19 @@ namespace Terra.Player
         private Vector3 moveDirection = Vector3.zero;
         private bool _isDashing = false;
         private float dashCooldownTimer = 0f;
-        public GameObject meleeWeapon;
-        public GameObject rangedWeapon;
-        public GameObject activeItem;
         // Input Actions
         private InputSystem.PlayerControlsActions inputActions;
         private Vector2 movementInput;
         
-        private bool _canPlayerMove = true;
-        public bool CanPlayerMove { get { return _canPlayerMove; } set { _canPlayerMove = value; } }
-        public bool IsDashing { get { return _isDashing; } private set { _isDashing = value; } }
+        [SerializeField] private bool _canPlayerMove = true;
+        public bool CanPlayerMove { 
+            get => _canPlayerMove;
+            set => _canPlayerMove = value;
+        }
+        public bool IsDashing { 
+            get => _isDashing;
+            private set => _isDashing = value;
+        }
 
         private void OnDestroy()
         {
@@ -157,10 +160,15 @@ namespace Terra.Player
 
         public void DetachListeners()
         {
-            inputActions.Movement.performed -= OnMovementInput;
-            inputActions.Movement.canceled -= OnMovementInput;
-            inputActions.Dash.performed -= OnDashInput;
-            inputActions.Interaction.performed -= OnInteractionInput;
+            if (inputActions.Movement != null)
+            {
+                inputActions.Movement.performed -= OnMovementInput;
+                inputActions.Movement.canceled -= OnMovementInput;
+            }
+            if(inputActions.Dash != null)
+                inputActions.Dash.performed -= OnDashInput;
+            if(inputActions.Interaction != null)
+                inputActions.Interaction.performed -= OnInteractionInput;
         }
     }
 }

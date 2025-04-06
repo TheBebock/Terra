@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Terra.StateMachine {
+    [Serializable]
     public class StateMachine {
         StateNode current;
         Dictionary<Type, StateNode> nodes = new();
@@ -66,6 +67,7 @@ namespace Terra.StateMachine {
             return node;
         }
 
+        [Serializable]
         class StateNode {
             public IState State { get; }
             public HashSet<ITransition> Transitions { get; }

@@ -11,14 +11,9 @@ public class PlayerInteraction : MonoBehaviour
     [Header("Interaction Settings")]
     public float interactionDistance = 3f;
     public LayerMask interactionLayer;
-    public Transform itemHoldPoint;
+    
     public TextMeshProUGUI interactionPromptText;
     public Image interactionPromptBackground;
-   
-    [Header("Item Inventory")]
-    public GameObject currentMeleeWeapon;
-    public GameObject currentRangedWeapon;
-    public GameObject currentActiveItem;
     
     private PlayerMovement _playerMovement;
     private IInteractable _currentInteractable;
@@ -39,14 +34,6 @@ public class PlayerInteraction : MonoBehaviour
         if (interactionPromptBackground != null)
         {
             interactionPromptBackground.gameObject.SetActive(false);
-        }
-        
-        // Initialize player weapons references
-        if (_playerMovement != null)
-        {
-            _playerMovement.meleeWeapon = currentMeleeWeapon;
-            _playerMovement.rangedWeapon = currentRangedWeapon;
-            _playerMovement.activeItem = currentActiveItem;
         }
     }
 

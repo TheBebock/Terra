@@ -4,6 +4,7 @@ public class FollowTarget : MonoBehaviour
 {
     public Transform target;
     public Vector3 offset;
+    public Vector3 limit;
     
     public float smoothSpeed = 0.125f;
 

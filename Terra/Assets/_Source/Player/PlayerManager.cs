@@ -21,7 +21,7 @@ namespace Terra.Player
         [Foldout("References")][SerializeField] PlayerMovement playerMovement;
         [Foldout("References")][SerializeField] Animator playerAnimator;
         
-        private StateMachine.StateMachine _stateMachine;
+        [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine.StateMachine _stateMachine;
 
         public Vector3 CurrentPosition => transform.position;
         
@@ -55,6 +55,8 @@ namespace Terra.Player
             _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => playerMovement.IsDashing));
             _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !playerMovement.IsDashing));
 
+            _stateMachine.SetState(locomotionState);
+            
             if (PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
             if(PlayerStatsManager.Instance) _playerStats = PlayerStatsManager.Instance.PlayerStats;
             

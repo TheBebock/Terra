@@ -5,9 +5,5 @@ using UnityEngine;
 
 public class SaveManager : PersistentMonoSingleton<SaveManager>
 {
-
-    private void Initialize()
-    {
-
-    }
+    
 }
