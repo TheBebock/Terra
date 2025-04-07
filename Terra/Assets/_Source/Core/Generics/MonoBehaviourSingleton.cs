@@ -1,5 +1,7 @@
 using System;
+using NaughtyAttributes;
 using OdinSerializer;
+using Terra.ID;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -8,9 +10,12 @@ namespace Terra.Core.Generics
     /// <summary>
     /// Class for MonoBehaviours that should be accessed from other classes
     /// </summary>
-    public abstract class MonoBehaviourSingleton<T> : InGameMonobehaviour, IInitializable
+    public abstract class MonoBehaviourSingleton<T> : InGameMonobehaviour, IInitializable, IUniqueable
         where T : class
     {
+        
+        [Foldout("Debug"), ReadOnly] [SerializeField]private int id;
+        public int Identity => id;
         
         public bool IsInitialized { get; set; }
         
@@ -60,6 +65,21 @@ namespace Terra.Core.Generics
                 _instance = null;
             
             base.CleanUp();
+        }
+        
+        public void RegisterID()
+        {
+            IDFactory.RegisterID(this);
+        }
+
+        public void ReturnID()
+        {
+            IDFactory.ReturnID(this);
+        }
+
+        public void SetID(int newID)
+        {
+            id = newID;
         }
     }
 }

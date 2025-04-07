@@ -1,28 +1,31 @@
 using System;
-using Core.ModifiableValue;
-using Terra.Player;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using StatisticsSystem;
 using Terra.Combat;
 using UnityEngine;
 using _Source.StateMachine.PlayerStates;
+using Terra.InputManagement;
+using Terra.Interfaces;
 using Terra.StateMachine;
 
 namespace Terra.Player
 {
+    /// <summary>
+    /// Represents a player
+    /// </summary>
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
     {
         
         [Foldout("Debug")][SerializeField, ReadOnly] private HealthController healthController;
         [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead = false;
-
+        [Foldout("Debug")][SerializeField, ReadOnly] PlayerAttackController playerAttackController;
+        [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine.StateMachine _stateMachine;
+        
         [Foldout("References")] [SerializeField] PlayerInventoryManager playerInventory;
         [Foldout("References")][SerializeField] PlayerMovement playerMovement;
         [Foldout("References")][SerializeField] Animator playerAnimator;
-        [Foldout("References")][SerializeField] PlayerAttackManager playerAttackManager;
-        
-        [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine.StateMachine _stateMachine;
+
 
         public Vector3 CurrentPosition => transform.position;
         
@@ -37,13 +40,14 @@ namespace Terra.Player
         public HealthController HealthController => healthController;
         public PlayerMovement PlayerMovement => playerMovement;
         public PlayerInventoryManager PlayerInventory => playerInventory;
-        public PlayerAttackManager PlayerAttackManager => playerAttackManager;
+        public PlayerAttackController PlayerAttackController => playerAttackController;
         
         public event Action OnPlayerDeath;
 
 
         public void SetUp()
         {
+            
             _stateMachine = new StateMachine.StateMachine();
 
             // Set states
@@ -62,10 +66,10 @@ namespace Terra.Player
             _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !playerMovement.CanPlayerMove && !IsPlayerDead));
             _stateMachine.AddAnyTransition(deathState, new FuncPredicate(() => IsPlayerDead));
 
-            _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => playerAttackManager.IsTryingPerformMeleeAttack));
-            _stateMachine.AddTransition(meleeAttackState, locomotionState, new FuncPredicate(() => !playerAttackManager.IsTryingPerformMeleeAttack));
-            _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackManager.IsTryingPerformDistanceAttack));
-            _stateMachine.AddTransition(rangedAttackState, locomotionState, new FuncPredicate(() => !playerAttackManager.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(meleeAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(rangedAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformDistanceAttack));
 
 
             _stateMachine.SetState(locomotionState);
@@ -74,7 +78,10 @@ namespace Terra.Player
             if(PlayerStatsManager.Instance) _playerStats = PlayerStatsManager.Instance.PlayerStats;
             
             healthController = new HealthController(_playerStats.ModifiableMaxHealth, true);
-
+            
+            if(InputManager.Instance) playerAttackController = new PlayerAttackController(InputManager.Instance.PlayerControls, this);
+            else Debug.LogError(this + " Input Manager not found.");
+            
             ResetHealth();
         }
 
@@ -113,13 +120,14 @@ namespace Terra.Player
             healthController.Heal(amount);
         }
         
-        /// <summary>
-        /// Clean up data
-        /// </summary>
+
         public void TearDown()
         {
-            
+            healthController = null;
+            playerAttackController.DetachListeners();
+            playerAttackController = null;
         }
+
     }
 }
 

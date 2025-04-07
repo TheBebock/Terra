@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Extensions;
+using Terra.Interfaces;
 using Terra.Player;
 using UnityEngine;
 

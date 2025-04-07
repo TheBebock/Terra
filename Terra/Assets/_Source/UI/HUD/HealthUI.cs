@@ -3,9 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Terra.Combat;
 using Terra.Player;
+using UIExtensionPackage.UISystem.Core.Interfaces;
 using UIExtensionPackage.UISystem.UI.Elements;
 
-public class HeartUI : UIElement, IWithSetUp
+public class HeartUI : UIElement, IWithSetup
 {
     [SerializeField] private GameObject heartPrefab; 
     [SerializeField] private Sprite heartSprite;    

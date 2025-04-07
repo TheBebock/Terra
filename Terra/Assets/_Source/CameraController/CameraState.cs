@@ -19,12 +19,12 @@ namespace Terra.CameraController
             this.cameraTransform = cameraTransform;
             this.targetTransform = targetTransform;
         }
-        public virtual void OnEnter()
+        public override void OnEnter()
         {
             
         }
 
-        public virtual void Update()
+        public override void Update()
         {
             
         }
@@ -32,9 +32,9 @@ namespace Terra.CameraController
         /// <summary>
         /// Not used
         /// </summary>
-        public void FixedUpdate() { }
+        public override void FixedUpdate() { }
 
-        public virtual void OnExit()
+        public override void OnExit()
         {
             
         }

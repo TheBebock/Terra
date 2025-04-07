@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Terra.Player
 {
-    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IInitializable
+    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
     {
         [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
         
@@ -35,6 +35,7 @@ namespace Terra.Player
 
         public override void Initialize()
         {
+            base.Initialize();
             
             // Create item slots
             meleeWeaponSlot = new();

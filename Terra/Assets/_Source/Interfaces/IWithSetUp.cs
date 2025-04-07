@@ -1,12 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IWithSetUp  
+namespace Terra.Interfaces
 {
-    public bool IsInitialized { get; }
-    
-    public void SetUp();
-    
-    public void TearDown();
+
+    /// <summary>
+    /// Represents class that requires additional setup on Start.
+    /// </summary>
+    public interface IWithSetUp
+    {
+
+        /// <summary>
+        /// Used instead of method Start, called during start initialization pipeline
+        /// </summary>
+        public void SetUp();
+
+
+        /// <summary>
+        /// Cleans up data, called during OnDestroy
+        /// </summary>
+        public void TearDown();
+    }
 }

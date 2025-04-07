@@ -8,12 +8,12 @@ namespace Terra.ID
         int Identity { get; }
 
         /// <summary>
-        /// Used on load to register ID to factory
+        /// Used when registering object's ID, if object doesn't have a unique ID, it will get a new one as well.
         /// </summary>
         public void RegisterID();
 
         /// <summary>
-        /// Used when destroying an object, to make the ID available
+        /// Used when destroying an object, makes the ID available
         /// </summary>
         public void ReturnID();
         

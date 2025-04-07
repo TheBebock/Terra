@@ -21,7 +21,7 @@ namespace _Source.StateMachine.PlayerStates
         {
             if (animator.GetCurrentAnimatorStateInfo(0).length > animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
             {
-                player.PlayerAttackManager.IsTryingPerformMeleeAttack = false;
+                player.PlayerAttackController.IsTryingPerformMeleeAttack = false;
             }
         }
     }
