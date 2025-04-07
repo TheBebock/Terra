@@ -1,6 +1,6 @@
 using NaughtyAttributes;
-using UIExtensionPackage.UISystem.UI.Components;
 using UIExtensionPackage.UISystem.Core.Interfaces;
+using UIExtensionPackage.UISystem.UI.Components;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;

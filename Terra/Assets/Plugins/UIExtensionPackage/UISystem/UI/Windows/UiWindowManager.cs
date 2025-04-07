@@ -13,7 +13,7 @@ namespace UIExtensionPackage.UISystem.UI.Windows
     /// Class for managing windows and window stacks
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIWindowManager : SingletonMonobehaviour<UIWindowManager>, IShowHide
+    public class UIWindowManager : PersistentSingleton<UIWindowManager>, IShowHide
     {
         [Foldout("Config"),SerializeField] private List<UIWindow> allWindowsPrefabs;
         [Foldout("Debug"), SerializeField, ReadOnly] private Transform windowsContainer;

@@ -64,7 +64,6 @@ namespace UIExtensionPackage.UISystem.UI.Windows
         
         public virtual void SetUp()
         {
-            AttachEvents();
             uiPanels.AddRange(GetComponentsInChildren<UIPanel>());
             if (IsDraggable)
             {

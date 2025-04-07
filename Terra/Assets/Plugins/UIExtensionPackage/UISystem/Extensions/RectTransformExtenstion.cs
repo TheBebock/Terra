@@ -29,7 +29,7 @@ namespace UIExtensionPackage.UISystem.Extensions
         /// <summary>
         /// Gets the nearest point on the element to the specified point.
         /// </summary>
-        /// <param name="uiObject">UI object.</param>
+        /// <param name="uiObject">UI object.</param> 
         /// <param name="toPoint">Point to get the nearest point to.</param>
         /// <returns>Nearest point on the element to the specified point.</returns>
         public static Vector2 GetNearestPoint([NotNull] this UIObject uiObject, Vector2 toPoint)

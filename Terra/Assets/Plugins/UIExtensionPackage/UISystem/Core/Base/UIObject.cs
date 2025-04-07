@@ -30,27 +30,24 @@ namespace UIExtensionPackage.UISystem.Core.Base
         {
             if (IsInitialized) return;
             IsInitialized = true;
-            AttachEvents();
-
+            
             if (this is IWithSetup setup)
             {
                 setup.SetUp();
             }
 
+            if (this is IAttachListeners attachListeners)
+            {
+                attachListeners.AttachListeners();
+            }
+            
+            
             Enable();
+            
             SetInteractionState(InteractionState.None);
             
         }
-
-        /// <summary>
-        /// Method used to attach listeners to the object
-        /// </summary>
-        protected virtual void AttachEvents() { } 
-
-        /// <summary>
-        /// Method used to remove listeners to the object
-        /// </summary>
-        protected virtual void DetachEvents() { }
+        
 
         /// <summary>
         /// Enable object
@@ -105,7 +102,10 @@ namespace UIExtensionPackage.UISystem.Core.Base
                 setup.TearDown();
             }
 
-            DetachEvents();
+            if (this is IAttachListeners attachListeners)
+            {
+                attachListeners.DetachListeners();
+            }
         }
 
     }
