@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164ba036bf483844a82f967d92841cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
 --- !u!1001 &307734418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288,20 +289,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8083079388278282322, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: playerAttackManager
-      value: 
-      objectReference: {fileID: 1072844151}
-    m_RemovedComponents:
-    - {fileID: 4864221359718053195, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1072844151}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
 --- !u!1001 &607582297
 PrefabInstance:
@@ -678,6 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb12fed2f6795214c8a83050f6a8b501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   levelPrefabs: []
   currentLevel: {fileID: 0}
 --- !u!4 &994548647
@@ -857,31 +849,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02a213ac771d5c48ab4ac0d0a1bf4e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   maxGold: 100000
   initialGold: 0
   _currentGold: 0
---- !u!1 &1072844150 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-    type: 3}
-  m_PrefabInstance: {fileID: 307734418}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1072844151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072844150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f76ae7aad9c49340a3b764d4f422cfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsTryingPerformMeleeAttack: 0
-  IsTryingPerformDistanceAttack: 0
-  currentMeleeCD: 0
-  currentRangedCD: 0
 --- !u!1 &1096738998
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8795bc99abd836c43b95d6e9813e43d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   P_pickupContainer: {fileID: 4868003405091978973, guid: 163dc9b08a4ca50418a242db325a1893,
     type: 3}
   P_itemContainer: {fileID: 7648631588216878980, guid: b6f1c063963492c458a6932bf9a95f09,
@@ -1050,6 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d73620b29ac564bba65e00f413f634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   isGamePaused: 0
 --- !u!1 &1527814159
 GameObject:
