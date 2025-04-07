@@ -1,0 +1,20 @@
+{
+    "name": "Terra.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:09dcc9c0126b6b34ab2a877b8f2277f5",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:8748cce9bc184be49b2d06149486f095",
+        "GUID:a2c06ef554eec5c47893f3ab063c3a56",
+        "GUID:2bea751d580de2747b6810662b97dc1f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

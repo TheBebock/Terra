@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.InputManagement;
 using UnityEngine;
@@ -8,45 +9,78 @@ using UnityEngine.InputSystem;
 
 namespace Terra.Managers
 {
-    public class TimeManager : MonoBehaviourSingleton<TimeManager>
+    public class TimeManager : MonoBehaviourSingleton<TimeManager>, IAttachListeners
     {
-        private bool isPaused;
-        public bool IsPaused => isPaused;
-        public event Action OnTimePaused;
-        public event Action OnTimeResumed;
+
+        [Foldout("Debug"), ReadOnly] [SerializeField]private bool isGamePaused = false;
+    
+        public bool IsGamePaused => isGamePaused;
+    
+        private List<object> saveLocks = new List<object>();
+    
+        public bool CanBePaused => !isGamePaused && saveLocks.Count <= 0;
+        public event Action OnGamePaused;
+        public event Action OnGameResumed;
         
-        private void Start()
+        public event Action<bool> OnGamePauseStateChanged;
+        
+        public void AttachListeners()
         {
             if(InputManager.Instance) InputManager.Instance.AllTimeControls.Pause.performed += OnPauseInput;
             else Debug.LogError(this + " Input Manager is null");
         }
+        
+        private void OnPauseInput(InputAction.CallbackContext context) => ChangePauseState();
+        
+        
+        public void ChangePauseState()
+        {
+        
+            bool pauseState = !isGamePaused;
+        
+            // Additional logic here
+        
+            if(pauseState) PauseGame();
+            else ResumeGame();
+        }
+        
+        public void PauseGame()
+        {
+            // Check can game be paused
+            if(!CanBePaused) return;
+            
+            // Set paused game flag
+            isGamePaused = true;
+            // Pause time
+            PauseTime();
+            
+            // Invoke events
+            OnGamePaused?.Invoke();
+            OnGamePauseStateChanged?.Invoke(isGamePaused);
+        }
 
-        protected override void CleanUp()
+        public void ResumeGame()
+        {
+            // Set paused game flag
+            isGamePaused = false;
+            // Resume time
+            ResumeTime();
+            
+            // Invoke events
+            OnGameResumed?.Invoke();
+            OnGamePauseStateChanged?.Invoke(isGamePaused);
+        }
+        
+        public void PauseTime() => ChangeTimeScale(0f);
+        public void ResumeTime() => ChangeTimeScale(1f);
+        public void ChangeTimeScale(float timeScale) => Time.timeScale = timeScale;
+        
+
+
+        public void DetachListeners()
         {
             if(InputManager.Instance)
                 InputManager.Instance.AllTimeControls.Pause.performed -= OnPauseInput;
-        }
-        
-
-        private void OnPauseInput(InputAction.CallbackContext context)
-        {
-            if (isPaused) Resume();
-            else Pause();
-            
-        }
-        
-        public void Pause()
-        {
-            isPaused = true;
-            Time.timeScale = 0;
-            OnTimePaused?.Invoke();
-        }
-
-        public void Resume()
-        {
-            isPaused = false;
-            Time.timeScale = 1;
-            OnTimeResumed?.Invoke();
         }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using Terra.Core.Generics;
 using NaughtyAttributes;
-using Terra.UI;
 using Terra.Utils;
 using UnityEngine;
 
@@ -13,8 +12,6 @@ namespace Terra.Managers
         [Foldout("Config")] [SerializeField] private int maxGold = 200;
         [Foldout("Config")] [SerializeField] private int initialGold = 0;
         [Foldout("Debug")] [SerializeField, ReadOnly] private int _currentGold;
-        
-        [SerializeField] private CrystalPickupUI crystalPickupUI; 
 
         public int CurrentGold => _currentGold;
 
@@ -47,7 +44,6 @@ namespace Terra.Managers
         {
             _currentGold += amount;
             _currentGold = Mathf.Clamp(_currentGold, 0, maxGold);
-            crystalPickupUI.ShowGoldPickup(_currentGold);
             OnGoldChanged?.Invoke(_currentGold);
         }
 

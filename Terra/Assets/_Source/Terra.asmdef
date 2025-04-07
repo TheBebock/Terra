@@ -1,0 +1,19 @@
+{
+    "name": "Terra",
+    "rootNamespace": "",
+    "references": [
+        "Unity.TextMeshPro",
+        "NaughtyAttributes.Core",
+        "Unity.InputSystem",
+        "OdinSerializer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
