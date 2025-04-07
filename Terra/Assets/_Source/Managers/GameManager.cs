@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using Terra.GameStates;
+using Terra.Interfaces;
+using Terra.Managers;
 using UnityEngine;
 
-public class GameManager : PersistentMonoSingleton<GameManager>
+public class GameManager : PersistentMonoSingleton<GameManager>, IWithSetUp
 {
     
     [SerializeField] private GameState currentGameState;
@@ -18,14 +20,30 @@ public class GameManager : PersistentMonoSingleton<GameManager>
     public override void Initialize()
     {
         base.Initialize();
+        if(!Instance == this) return;
+        
         allGameStates.Clear();
         allGameStates.Add(typeof(NewGameState), new NewGameState());
         allGameStates.Add(typeof(LoadGameState), new LoadGameState());
         allGameStates.Add(typeof(MainMenuState), new MainMenuState());
         allGameStates.Add(typeof(DefaultGameState), new DefaultGameState());
         
+    }
+    
+    public void SetUp()
+    {
+                
+#if UNITY_EDITOR
+        if (ScenesManager.Instance.CurrentSceneName == SceneNames.Gameplay)
+        {
+            SwitchToNewGameState<DefaultGameState>();
+            return;
+        }
+#endif
+        
         SwitchToNewGameState<MainMenuState>();
     }
+    
 
     public void SwitchToNewGameState<T>() where T : GameState
     {
@@ -71,5 +89,11 @@ public class GameManager : PersistentMonoSingleton<GameManager>
         currentGameState = newGameState;
         currentGameState.OnEnter();
     }
-    
+
+
+
+    public void TearDown()
+    {
+        allGameStates.Clear();
+    }
 }
