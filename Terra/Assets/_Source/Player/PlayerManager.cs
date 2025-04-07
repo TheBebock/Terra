@@ -4,7 +4,7 @@ using NaughtyAttributes;
 using StatisticsSystem;
 using Terra.Combat;
 using UnityEngine;
-using _Source.StateMachine.PlayerStates;
+using Terra.StateMachine.PlayerStates;
 using Terra.InputManagement;
 using Terra.Interfaces;
 using Terra.StateMachine;

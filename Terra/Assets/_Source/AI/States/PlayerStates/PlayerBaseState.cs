@@ -1,13 +1,15 @@
 using Terra.Player;
 using UnityEngine;
 
-namespace _Source.StateMachine.PlayerStates
+namespace Terra.StateMachine.PlayerStates
 {
     public class PlayerBaseState : BaseState
     {
         protected readonly PlayerManager player;
         protected readonly Animator animator;
         
+        protected float CrossFadeDuration = 0.1f;
+
         protected static readonly int LocomotionUpHash = Animator.StringToHash("LocomotionUp");
         protected static readonly int LocomotionDownHash = Animator.StringToHash("LocomotionDown");
         protected static readonly int LocomotionLeftHash = Animator.StringToHash("LocomotionLeft");

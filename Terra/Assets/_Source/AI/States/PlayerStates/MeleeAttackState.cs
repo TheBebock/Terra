@@ -1,8 +1,7 @@
-using _Source.StateMachine.PlayerStates;
 using Terra.Player;
 using UnityEngine;
 
-namespace _Source.StateMachine.PlayerStates
+namespace Terra.StateMachine.PlayerStates
 {
     public class MeleeAttackState : PlayerBaseState
     {

@@ -1,9 +1,8 @@
-using System;
 using Terra.Player;
 using UnityEngine;
 using static Terra.Player.PlayerMovement;
 
-namespace _Source.StateMachine.PlayerStates
+namespace Terra.StateMachine.PlayerStates
 {
     public class LocomotionState : PlayerBaseState
     {

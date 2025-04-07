@@ -1,13 +1,10 @@
 using System;
-using Terra.StateMachine;
 
-namespace _Source.StateMachine
+namespace Terra.StateMachine
 {
     [Serializable]
     public abstract class BaseState : IState
     {
-        
-        protected float CrossFadeDuration = 0.1f;
         
         protected BaseState()
         {

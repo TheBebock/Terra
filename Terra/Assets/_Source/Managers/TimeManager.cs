@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
@@ -10,7 +9,11 @@ using UnityEngine.InputSystem;
 
 namespace Terra.Managers
 {
-    public class TimeManager : MonoBehaviourSingleton<TimeManager>, IAttachListeners
+    
+    /// <summary>
+    /// Handles changing TimeScale and pausing game
+    /// </summary>
+    public class TimeManager : PersistentMonoSingleton<TimeManager>, IAttachListeners
     {
 
         [Foldout("Debug"), ReadOnly] [SerializeField]private bool isGamePaused = false;
