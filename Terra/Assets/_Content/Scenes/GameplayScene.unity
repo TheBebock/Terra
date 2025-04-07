@@ -120,6 +120,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &64270700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 64270701}
+  - component: {fileID: 64270703}
+  - component: {fileID: 64270702}
+  m_Layer: 0
+  m_Name: UIWindowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &64270701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64270700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 769353738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &64270702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64270700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d5ebbe92e99cc4ba4fafc0020ae37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allWindowsPrefabs: []
+  windowsContainer: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  windowStacks: []
+--- !u!225 &64270703
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64270700}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &108274118
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +497,7 @@ Transform:
   - {fileID: 1053719989}
   - {fileID: 1395607266}
   - {fileID: 1132558795}
+  - {fileID: 64270701}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &891129796
@@ -798,7 +860,6 @@ MonoBehaviour:
   maxGold: 100000
   initialGold: 0
   _currentGold: 0
-  crystalPickupUI: {fileID: 0}
 --- !u!1 &1072844150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
@@ -989,6 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d73620b29ac564bba65e00f413f634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGamePaused: 0
 --- !u!1 &1527814159
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,28 +1,27 @@
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Terra.UI
 {
-    public class PauseMenu : UIWindow
+    public class PauseWindow : UIWindow
     {
-
-        public GameObject pauseMenu; // Reference to the pause menu UI
-
         public override bool AllowMultiple { get; } = false;
-
         
-        public void ShowPause()
-        {
-            pauseMenu.SetActive(true);
-            Cursor.visible = true;
-        }
+        [SerializeField] Button resumeButton;
+        [SerializeField] Button saveButton;
+        [SerializeField] Button loadButton;
+        [SerializeField] Button optionsButton;
+        [SerializeField] Button exitToMenuButton;
 
-        public void HidePause()
+        public override void SetUp()
         {
-            pauseMenu.SetActive(false);
-            Cursor.visible = false;
+            base.SetUp();
+            
+            resumeButton?.onClick.AddListener(Close);
+            
+            //TODO: add other functionalities
         }
-
     }
 }

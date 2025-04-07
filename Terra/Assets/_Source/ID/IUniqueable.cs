@@ -16,5 +16,10 @@ namespace Terra.ID
         /// Used when destroying an object, to make the ID available
         /// </summary>
         public void ReturnID();
+        
+        /// <summary>
+        /// Used by <see cref="IDFactory"/>
+        /// </summary>
+        public void SetID(int newID);
     }
 }

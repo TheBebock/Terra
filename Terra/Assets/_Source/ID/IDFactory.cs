@@ -32,51 +32,81 @@ namespace Terra.ID
             }
         }
 
-#endif
-
-
-        public static int GetNewUniqueId(bool clearUsedIDS = false)
+        public static void ClearUsedIDS()
         {
-            if (clearUsedIDS)
-            {
-                //usedIds.Clear();
-                return -1;
-            }
-
-            int uniqueID;
-            do
-            {
-                uniqueID = Guid.NewGuid().GetHashCode();
-            } while (usedIds.Contains(uniqueID));
-
-            usedIds.Add(uniqueID);
-            return uniqueID;
+            usedIds.Clear();
         }
 
+#endif
+
+        /// <summary>
+        /// Handles registering new and existing IDs
+        /// </summary>
+        /// <param name="uniqueIdHolder">Object with unique ID</param>
+        public static void RegisterID(IUniqueable uniqueIdHolder)
+        {
+            if (uniqueIdHolder.Identity == Utils.Constants.DEFAULT_ID)
+            {
+                int newID = GetNewUniqueId();
+                uniqueIdHolder.SetID(newID);
+                return;
+            }
+            
+            if (CheckIsIDTaken(uniqueIdHolder.Identity))
+            {
+                Debug.LogWarning($"IDFactory already registered: {uniqueIdHolder.Identity} ");
+                return;
+            }
+                 
+            usedIds.Add(uniqueIdHolder.Identity);
+
+            Debug.Log($"Registering ID {uniqueIdHolder.Identity}");
+
+        }
+
+        /// <summary>
+        /// Handles returning ID
+        /// </summary>
+        /// <param name="uniqueIdHolder">Object with unique ID</param>
         public static void ReturnID(IUniqueable uniqueIdHolder)
         {
+            if (uniqueIdHolder.Identity == Utils.Constants.DEFAULT_ID)
+            {
+                Debug.LogWarning($"Trying to remove ID {Utils.Constants.DEFAULT_ID}, which is a default id");
+                return;
+            }
+            
             if (usedIds.Contains(uniqueIdHolder.Identity))
             {
                 usedIds.Remove(uniqueIdHolder.Identity);
                 Debug.Log($"Returning ID {uniqueIdHolder.Identity}");
+                uniqueIdHolder.SetID(Utils.Constants.DEFAULT_ID);
                 return;
             }
 
             Debug.LogWarning($"{uniqueIdHolder.Identity} is not used");
         }
 
-        public static void RegisterID(IUniqueable uniqueIdHolder)
+        private static int GetNewUniqueId()
         {
-            if (usedIds.Contains(uniqueIdHolder.Identity))
+            int uniqueID;
+            do
             {
-                Debug.LogWarning($"IDFactory already registered: {uniqueIdHolder.Identity} ");
-                return;
+                uniqueID = Guid.NewGuid().GetHashCode();
+            } while (CheckIsIDTaken(uniqueID));
+
+            usedIds.Add(uniqueID);
+            return uniqueID;
+        }
+        
+        private static bool CheckIsIDTaken(int id)
+        {
+            if (usedIds.Contains(id))
+            {
+                return true;
             }
 
-            usedIds.Add(uniqueIdHolder.Identity);
-
-            Debug.Log($"Registering ID {uniqueIdHolder.Identity}");
-
+            return false;
         }
     }
 }

@@ -3,29 +3,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using Terra.Combat;
 using Terra.Player;
+using UIExtensionPackage.UISystem.UI.Elements;
 
-public class HeartUI : MonoBehaviour
+public class HeartUI : UIElement, IWithSetUp
 {
     [SerializeField] private GameObject heartPrefab; 
     [SerializeField] private Sprite heartSprite;    
 
     private HealthController healthController;
     private List<Image> hearts = new();  
+    
 
-    private void Start()
+    public void AttachListeners()
     {
-        healthController = PlayerManager.Instance.HealthController;
-
         healthController.OnHealthChanged += OnHealthChanged;
-
-        CreateHearts();
-        UpdateHearts(healthController.CurrentHealth);
-    }
-
-    private void OnDestroy()
-    {
-        if (healthController != null)
-            healthController.OnHealthChanged -= OnHealthChanged;
     }
 
     private void CreateHearts()
@@ -60,5 +51,32 @@ public class HeartUI : MonoBehaviour
             Image image = heart.GetComponent<Image>();
             image.sprite = heartSprite;
         }
+    }
+
+
+
+    public void DetachListeners()
+    {
+        if (healthController != null)
+            healthController.OnHealthChanged -= OnHealthChanged;
+    }
+
+    public void SetUp()
+    {
+        healthController = PlayerManager.Instance?.HealthController;
+
+        if (healthController == null)
+        {
+            Debug.LogError(this + " PlayerManager health controller does not exist");
+            return;
+        }
+
+        CreateHearts();
+        UpdateHearts(healthController.CurrentHealth);
+    }
+
+    public void TearDown()
+    {
+        healthController = null;
     }
 }

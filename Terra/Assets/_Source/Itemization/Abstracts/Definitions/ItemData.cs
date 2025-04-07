@@ -37,19 +37,22 @@ namespace Terra.Itemization.Items.Definitions
         public void Initialize(string itemName)
         {
             this.itemName = itemName;
-            id = IDFactory.GetNewUniqueId();
-            
+            RegisterID();
         }
         
         public void RegisterID()
         {
-            //NOTE: No need to register
+            IDFactory.RegisterID(this);
         }
 
         public void ReturnID()
         {
-            // No real way to return
             IDFactory.ReturnID(this);
+        }
+
+        public void SetID(int newID)
+        {
+            id = newID;
         }
 
         private void OnValidate()
@@ -64,8 +67,8 @@ namespace Terra.Itemization.Items.Definitions
             //int test = IDFactory.GetNewUniqueId();
             
             // Ensure the ID is set and persistent
-            if(Identity != -1) return;
-            id = IDFactory.GetNewUniqueId();
+            if(Identity != Utils.Constants.DEFAULT_ID) return;
+            RegisterID();
             
         }
 

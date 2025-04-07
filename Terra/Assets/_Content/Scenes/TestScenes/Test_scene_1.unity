@@ -354,7 +354,6 @@ GameObject:
   - component: {fileID: 836542386}
   - component: {fileID: 836542385}
   - component: {fileID: 836542384}
-  - component: {fileID: 836542387}
   - component: {fileID: 836542388}
   m_Layer: 0
   m_Name: Player
@@ -380,6 +379,7 @@ MonoBehaviour:
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 1
+  _canPlayerMove: 1
 --- !u!143 &836542385
 CharacterController:
   m_ObjectHideFlags: 0
@@ -406,14 +406,13 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &836542386
-Transform:
+--- !u!224 &836542386
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836542383}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -422,19 +421,11 @@ Transform:
   - {fileID: 1751812606}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &836542387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 836542383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6db597dc7c6f714b9e33a6425a1f0eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 64957412}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &836542388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,18 +438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164ba036bf483844a82f967d92841cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: inputActions
-      Entry: 6
-      Data: 
 --- !u!1 &950438238
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,10 +1066,10 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 836542386}
   - {fileID: 203844589}
   - {fileID: 950438242}
   - {fileID: 961739753}
-  - {fileID: 836542386}
   - {fileID: 1729322387}
   - {fileID: 1952680932}
   - {fileID: 64957416}

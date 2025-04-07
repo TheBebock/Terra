@@ -1,3 +1,5 @@
+using Terra.ID;
+using Terra.Interfaces;
 using UnityEngine;
 
 
@@ -23,6 +25,8 @@ public abstract class InGameMonobehaviour : MonoBehaviour
  
         if(this is IAttachListeners attachListeners)
             attachListeners.AttachListeners();
+        if(this is IUniqueable uniqueable)
+            uniqueable.RegisterID();
     }
 
     
@@ -36,5 +40,8 @@ public abstract class InGameMonobehaviour : MonoBehaviour
         
         if(this is IWithSetUp setup)
             setup.TearDown();
+        
+        if(this is IUniqueable uniqueable)
+            uniqueable.ReturnID();
     }
 }
