@@ -19,12 +19,10 @@ namespace Platformer {
         }
         
         public override void OnEnter() {
-            if (animator == null) {
-                Debug.LogError("Animator jest null w EnemyWanderState.");
-                return;
-            }
             Debug.Log("Wander");
-            animator.CrossFade(WalkHash, crossFadeDuration);
+    
+            string animationName = enemy.CurrentDirection == Enemy.FacingDirection.Left ? "WalkLeft" : "WalkRight";
+            animator.CrossFade(animationName, crossFadeDuration);
         }
 
         public override void Update() {

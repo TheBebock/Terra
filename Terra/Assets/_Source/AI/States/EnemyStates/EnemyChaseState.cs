@@ -13,7 +13,9 @@ namespace Platformer {
         
         public override void OnEnter() {
             Debug.Log("Chase");
-            animator.CrossFade(RunHash, crossFadeDuration);
+    
+            string animationName = enemy.CurrentDirection == Enemy.FacingDirection.Left ? "WalkLeft" : "WalkRight";
+            animator.CrossFade(animationName, crossFadeDuration);
         }
         
         public override void Update() {

@@ -12,6 +12,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(PlayerDetector))]
 public class Enemy : Entity, IInitializable, IDamagable
 {
+    private static readonly int Direction = Animator.StringToHash("Direction");
     [SerializeField] NavMeshAgent agent;
     [SerializeField] PlayerDetector playerDetector;
     [SerializeField] Animator animator;
@@ -22,12 +23,14 @@ public class Enemy : Entity, IInitializable, IDamagable
 
     [SerializeField] private HealthController _healthController;
     public HealthController HealthController => _healthController;
-
+    public enum FacingDirection { Left, Right }
+    public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
     public bool IsInvincible => _healthController.IsInvincible;
     public bool CanBeDamaged => !_healthController.IsInvincible && _healthController.CurrentHealth > 0f;
 
     StateMachine stateMachine;
     CountdownTimer attackTimer;
+    private LayerMask _enemyTargetMask;
 
     public bool IsInitialized { get; set; }
 
@@ -58,12 +61,31 @@ public class Enemy : Entity, IInitializable, IDamagable
     void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
     void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
+    private void Start()
+    {
+        _enemyTargetMask = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Damageable"));
+    }
+
     void Update()
     {
         stateMachine.Update();
         attackTimer.Tick(Time.deltaTime);
+        UpdateFacingDirection();
     }
-
+    
+    public void UpdateFacingDirection()
+    {
+        if (agent.velocity.x > 0.05f)
+        {
+            CurrentDirection = FacingDirection.Right;
+            animator.SetInteger(Direction, 1);
+        }
+        else if (agent.velocity.x < -0.05f)
+        {
+            CurrentDirection = FacingDirection.Left;
+            animator.SetInteger(Direction, 0);
+        }
+    }
     void FixedUpdate()
     {
         stateMachine.FixedUpdate();
@@ -71,32 +93,14 @@ public class Enemy : Entity, IInitializable, IDamagable
 
     public void Attack()
     {
-        if (!attackTimer.IsRunning) // timer gotowy = można bić
+        float attackRadius = 1.5f; // Dostosuj do zasięgu ataku
+        Vector3 attackOrigin = transform.position + Vector3.up; // Jeśli chcesz unieść trochę sferę
+
+        var targets = ContactProvider.GetTargetsInSphere<IDamagable>(transform.position, attackRadius, _enemyTargetMask);
+
+        foreach (var target in targets)
         {
-            Debug.Log("Enemy próbuje zaatakować!");
-            attackTimer.Start();
-
-            Collider[] colliders = Physics.OverlapSphere(transform.position, attackRadius);
-            List<IDamagable> targets = new List<IDamagable>();
-
-            foreach (var col in colliders)
-            {
-                if (col.TryGetComponent<IDamagable>(out var damagable))
-                {
-                    if (!(damagable is Enemy)) // nie bijemy innych wrogów
-                        targets.Add(damagable);
-                }
-            }
-
-            if (targets.Count > 0)
-            {
-                foreach (var target in targets)
-                {
-                    target.TakeDamage(5f); // bezpośrednio zadawaj obrażenia
-                }
-
-                animator.SetTrigger("Attack"); // trigger animacji ataku
-            }
+            target.TakeDamage(10f); // lub użyj zmiennej np. enemyStats.damage
         }
     }
 

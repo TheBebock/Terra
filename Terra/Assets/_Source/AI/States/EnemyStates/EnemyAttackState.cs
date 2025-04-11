@@ -12,8 +12,10 @@ namespace Platformer {
         }
         
         public override void OnEnter() {
-            Debug.Log("Wszedł w ATTACK STATE");
-            animator.CrossFade(AttackHash, crossFadeDuration);
+            Debug.Log("Attack");
+
+            string animationName = enemy.CurrentDirection == Enemy.FacingDirection.Left ? "AttackLeft" : "AttackRight";
+            animator.CrossFade(animationName, crossFadeDuration);
         }
 
         
