@@ -7,8 +7,11 @@ namespace Terra.Utils
 {
     public static class ContactProvider
 {
-    public static LayerMask PlayerTargetsMask => LayerMask.NameToLayer("Enemy") | LayerMask.NameToLayer("Damageable");
-    public static LayerMask EnemyTargetsMask => LayerMask.NameToLayer("Player") | LayerMask.NameToLayer("Damageable");
+    public static LayerMask PlayerTargetsMask => (1 << LayerMask.NameToLayer("Enemy")) | 
+                                                 (1 << LayerMask.NameToLayer("Damageable"));
+
+    public static LayerMask EnemyTargetsMask => (1 << LayerMask.NameToLayer("Player")) |
+                                                (1 << LayerMask.NameToLayer("Damageable"));
 
     public static List<T> GetTargetsInSphere<T>(Vector3 position, float radius, LayerMask targetMask)
     {
