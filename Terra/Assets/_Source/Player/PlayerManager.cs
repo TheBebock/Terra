@@ -47,7 +47,7 @@ namespace Terra.Player
 
         public void SetUp()
         {
-            
+            CanBeDamaged = true;
             _stateMachine = new StateMachine.StateMachine();
 
             // Set states
