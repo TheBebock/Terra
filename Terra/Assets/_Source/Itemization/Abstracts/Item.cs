@@ -51,7 +51,7 @@ namespace Terra.Itemization.Abstracts
             }
             PlayerStatsManager.Instance.AddStrength(Data.strengthModifiers);
             PlayerStatsManager.Instance.AddMaxHealth(Data.maxHealthModifiers);
-            PlayerStatsManager.Instance.AddSpeed(Data.speedModifiers);
+            PlayerStatsManager.Instance.AddDexterity(Data.speedModifiers);
             PlayerStatsManager.Instance.AddLuck(Data.luckModifiers);
         }
         

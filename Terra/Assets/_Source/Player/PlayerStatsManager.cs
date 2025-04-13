@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using Core.ModifiableValue;
@@ -15,133 +16,107 @@ namespace Terra.Player
         
         public PlayerStats PlayerStats => playerStats;
 
+        public event Action<float> OnMaxHealthChanged; 
+        public event Action<float> OnStrengthChanged; 
+        public event Action<float> OnDexterityChanged; 
+        public event Action<float> OnLuckChanged; 
         public override void Initialize()
         {
             base.Initialize();
             playerStats = new PlayerStats(playerStatsData);
         }
-
-        //TODO: Maybe in future improve this
-        /*
-        public void Add/Remove Modifiers(List<T> modifiers)
-        {
-
-        }
-
-        public void AddModifier<T>(T modifier)
-            where T : ValueModifier
-        {
-            playerStats.Add(modifier);
-        }
-
-        public void RemoveModifier<T>(T modifier)
-            where T : ValueModifier
-        {
-            playerStats.Remove(modifier);
-        }
-        */
-
-        public void AddStrength(ValueModifier modifier)
-        {
-            playerStats.AddStrengthModifier(modifier);
-        }
+        
+        
         public void AddStrength(List<ValueModifier> modifiers)
         {
             if(modifiers.IsNullOrEmpty()) return;
             
             for (int i = 0; i < modifiers.Count; i++)
             {
-                AddStrength(modifiers[i]);
+                playerStats.AddStrengthModifier(modifiers[i]);
             }
+            
+            OnStrengthChanged?.Invoke(playerStats.Strength);
         }
         
-        public void RemoveStrength(ValueModifier modifier)
-        {
-            playerStats.RemoveStrengthModifier(modifier);
-        }
         public void RemoveStrength(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             {
-                RemoveStrength(modifiers[i]);
+                playerStats.RemoveStrengthModifier(modifiers[i]);
             }
+            
+            OnStrengthChanged?.Invoke(playerStats.Strength);
         }
-
-        public void AddMaxHealth(ValueModifier modifier)
-        {
-            playerStats.AddMaxHealthModifier(modifier);
-        }
+        
         public void AddMaxHealth(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             {
-                AddMaxHealth(modifiers[i]);
+               playerStats.AddMaxHealthModifier(modifiers[i]);
             }
+            OnMaxHealthChanged?.Invoke(playerStats.MaxHealth);
         }
-
-        public void RemoveMaxHealth(ValueModifier modifier)
-        {
-            playerStats.RemoveMaxHealthModifier(modifier);
-        }
+        
         public void RemoveMaxHealth(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             { 
-                RemoveMaxHealth(modifiers[i]);
+                playerStats.RemoveMaxHealthModifier(modifiers[i]);
             }
+            OnMaxHealthChanged?.Invoke(playerStats.MaxHealth);
         }
-
-
-
-        public void AddSpeed(ValueModifier modifier)
+        
+        public void AddDexterity(List<ValueModifier> modifiers)
         {
-            playerStats.AddSpeedModifier(modifier);
-        }
-        public void AddSpeed(List<ValueModifier> modifiers)
-        {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             {
-                AddSpeed(modifiers[i]);
+                playerStats.AddDexterityModifier(modifiers[i]);
             }
+            OnDexterityChanged?.Invoke(playerStats.Dexterity);   
         }
-
-        public void RemoveSpeed(ValueModifier modifier)
-        {
-            playerStats.RemoveSpeedModifier(modifier);
-        }
+        
         public void RemoveSpeed(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             {
-                RemoveSpeed(modifiers[i]);
+                playerStats.RemoveDexterityModifier(modifiers[i]);
             }
+            OnDexterityChanged?.Invoke(playerStats.Dexterity);   
         }
         
-        public void AddLuck(ValueModifier modifier)
-        {
-            playerStats.AddLuckModifier(modifier);
-        }
         public void AddLuck(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             {
-                AddLuck(modifiers[i]);
+                playerStats.AddLuckModifier(modifiers[i]);
             }
+            
+            OnLuckChanged?.Invoke(playerStats.Luck);
         }
-
-        public void RemoveLuck(ValueModifier modifier)
-        {
-            playerStats.RemoveLuckModifier(modifier);
-        }
+        
         public void RemoveLuck(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+
             for (int i = 0; i < modifiers.Count; i++)
             {
-                RemoveLuck(modifiers[i]);
+                playerStats.RemoveLuckModifier(modifiers[i]);
             }
+            
+            OnLuckChanged?.Invoke(playerStats.Luck);
         }
-
-       
-        
     }
 }

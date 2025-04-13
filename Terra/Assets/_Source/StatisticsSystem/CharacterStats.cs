@@ -15,18 +15,18 @@ namespace StatisticsSystem
         
         [Foldout("Debug")][SerializeField] private ModifiableValue strength;
         [Foldout("Debug")][SerializeField] private ModifiableValue maxHealth;
-        [Foldout("Debug")][SerializeField] private ModifiableValue speed;
+        [Foldout("Debug")][SerializeField] private ModifiableValue dexterity;
         
         public CharacterStats(float basestrength, float basemaxHealth, float basespeed)
         {
             strength = new ModifiableValue(basestrength);
             maxHealth = new ModifiableValue(basemaxHealth);
-            speed = new ModifiableValue(basespeed);
+            dexterity = new ModifiableValue(basespeed);
         }
 
         public float Strength => strength.Value;
         public float MaxHealth => maxHealth.Value;
-        public float Speed => speed.Value;
+        public float Dexterity => dexterity.Value;
 
         public ModifiableValue ModifiableMaxHealth => maxHealth;
         
@@ -40,9 +40,9 @@ namespace StatisticsSystem
             maxHealth.AddStatModifier(modifier);
         }
 
-        public void AddSpeedModifier(ValueModifier modifier)
+        public void AddDexterityModifier(ValueModifier modifier)
         {
-            speed.AddStatModifier(modifier);
+            dexterity.AddStatModifier(modifier);
         }
         public bool RemoveStrengthModifier(ValueModifier modifier)
         {
@@ -54,9 +54,9 @@ namespace StatisticsSystem
             return maxHealth.RemoveStatModifier(modifier);
         }
 
-        public bool RemoveSpeedModifier(ValueModifier modifier)
+        public bool RemoveDexterityModifier(ValueModifier modifier)
         {
-            return speed.RemoveStatModifier(modifier);
+            return dexterity.RemoveStatModifier(modifier);
         }
     }
 }
