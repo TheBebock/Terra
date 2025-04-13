@@ -20,7 +20,7 @@ public class Enemy : Entity, IInitializable, IDamagable
     [SerializeField] float detectionRadius = 5f;
     [SerializeField] float attackRadius = 1.5f;
     [SerializeField] float timeBetweenAttacks = 1f;
-
+    [SerializeField] private float attackDamage = 1;
     [SerializeField] private HealthController _healthController;
     public HealthController HealthController => _healthController;
     public enum FacingDirection { Left, Right }
@@ -28,9 +28,10 @@ public class Enemy : Entity, IInitializable, IDamagable
     public bool IsInvincible => _healthController.IsInvincible;
     public bool CanBeDamaged => !_healthController.IsInvincible && _healthController.CurrentHealth > 0f;
 
+    private bool isDead = false;
+    
     StateMachine stateMachine;
     CountdownTimer attackTimer;
-    private LayerMask _enemyTargetMask;
 
     public bool IsInitialized { get; set; }
 
@@ -64,13 +65,10 @@ public class Enemy : Entity, IInitializable, IDamagable
     void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
     void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
-    private void Start()
-    {
-        _enemyTargetMask = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Damageable"));
-    }
-
     void Update()
     {
+        if(isDead) return;
+        
         stateMachine.Update();
         attackTimer.Tick(Time.deltaTime);
         UpdateFacingDirection();
@@ -96,14 +94,13 @@ public class Enemy : Entity, IInitializable, IDamagable
 
     public void Attack()
     {
-        float attackRadius = 1.5f; // Dostosuj do zasięgu ataku
-        Vector3 attackOrigin = transform.position + Vector3.up; // Jeśli chcesz unieść trochę sferę
+        Vector3 attackOrigin = transform.position + Vector3.up; 
 
-        var targets = ContactProvider.GetTargetsInSphere<IDamagable>(transform.position, attackRadius, _enemyTargetMask);
+        var targets = ContactProvider.GetTargetsInSphere<IDamagable>(transform.position, attackRadius, ContactProvider.EnemyTargetsMask);
 
         foreach (var target in targets)
         {
-            target.TakeDamage(10f); // lub użyj zmiennej np. enemyStats.damage
+            target.TakeDamage(attackDamage);
         }
     }
 
@@ -124,18 +121,13 @@ public class Enemy : Entity, IInitializable, IDamagable
 
         _healthController.TakeDamage(amount);
         PopupDamageManager.Instance.CreatePopup(transform.position, Quaternion.identity, amount);
-
-        if (_healthController.CurrentHealth <= 0f)
-        {
-            OnDeath();
-        }
     }
 
     public void OnDeath()
     {
-        Debug.Log("Enemy died.");
-        animator.SetTrigger("Death");
+        Debug.Log("Enemy died.");        
+        animator.enabled = false;
         agent.isStopped = true;
-        this.enabled = false;
+        isDead = true;
     }
 }
