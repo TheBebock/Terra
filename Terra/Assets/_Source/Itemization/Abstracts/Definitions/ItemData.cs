@@ -21,7 +21,7 @@ namespace Terra.Itemization.Items.Definitions
     public abstract class ItemData : ScriptableObject, IUniqueable 
     {
         [ReadOnly, SerializeField] private int id = -1;
-        public string itemName;
+        [ReadOnly] public string itemName;
         public string itemDescription;
         public Sprite itemSprite;
         public bool canBeRemoved;

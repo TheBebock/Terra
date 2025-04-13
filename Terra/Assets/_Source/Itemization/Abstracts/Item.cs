@@ -44,6 +44,11 @@ namespace Terra.Itemization.Abstracts
 
         public void OnEquip()
         {
+            if (Data == null)
+            {
+                Debug.LogError($"{this} data was null. It should never happen.");
+                return;
+            }
             PlayerStatsManager.Instance.AddStrength(Data.strengthModifiers);
             PlayerStatsManager.Instance.AddMaxHealth(Data.maxHealthModifiers);
             PlayerStatsManager.Instance.AddSpeed(Data.speedModifiers);
@@ -52,6 +57,11 @@ namespace Terra.Itemization.Abstracts
         
         public void OnUnEquip()
         {
+            if (Data == null)
+            {
+                Debug.LogError($"{this} data was null. It should never happen.");
+                return;
+            }
             PlayerStatsManager.Instance.RemoveStrength(Data.strengthModifiers);
             PlayerStatsManager.Instance.RemoveMaxHealth(Data.maxHealthModifiers);
             PlayerStatsManager.Instance.RemoveSpeed(Data.speedModifiers);

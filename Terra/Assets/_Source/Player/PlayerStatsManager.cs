@@ -47,6 +47,8 @@ namespace Terra.Player
         }
         public void AddStrength(List<ValueModifier> modifiers)
         {
+            if(modifiers.IsNullOrEmpty()) return;
+            
             for (int i = 0; i < modifiers.Count; i++)
             {
                 AddStrength(modifiers[i]);

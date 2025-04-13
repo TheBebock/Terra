@@ -37,12 +37,12 @@ namespace Terra.UI
             }
         }
         
-        private void HandleGoldChanged(int currentGold)
+        private void HandleGoldChanged(float currentGold)
         {
             ShowGoldPickup(currentGold);
         }
 
-        public void ShowGoldPickup(int amount)
+        public void ShowGoldPickup(float amount)
         {
             if (fadeRoutine != null)
                 StopCoroutine(fadeRoutine);

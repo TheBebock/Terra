@@ -3,7 +3,10 @@ using UnityEngine;
 
 namespace Terra.Itemization.Items.Definitions
 {
-    [CreateAssetMenu(fileName = "MeleeWeaponData_", menuName = "TheBebocks/Items/MeleeWeaponData")]
+    /// <summary>
+    /// Represents melee weapon definition
+    /// </summary>
+    //NOTE: It should never have [CrateAssetMenu], creating new definitions is done through Resources -> ItemsDatabase
     public class MeleeWeaponData : WeaponData
     {
         public AttackType attackType;

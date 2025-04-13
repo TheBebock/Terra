@@ -61,14 +61,14 @@ namespace Terra.Itemization
         public void RemoveItem(string itemName)
         {
             if (string.IsNullOrEmpty(itemName) ||
-                !itemDefinitions.Exists(d => d.itemName.ToLower() == itemName.ToLower()))
+                !itemDefinitions.Exists(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.LogError("Remove Item - Error" +
                                $"Couldn't find an item named {itemName}");
                 return;
             }
 
-            ItemData item = itemDefinitions.Find(d => d.itemName.ToLower() == itemName.ToLower());
+            ItemData item = itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
             switch (item)
             {
@@ -93,7 +93,7 @@ namespace Terra.Itemization
         {
             string assetPath = string.IsNullOrEmpty(itemName) ? string.Empty : Path.Combine(path, $"{itemName}.asset");
             if (string.IsNullOrEmpty(assetPath) || File.Exists(assetPath) ||
-                itemDefinitions.Any(d => d.itemName == itemName))
+                itemDefinitions.Any(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.LogError("Add Item - Error" +
                                $"Couldn't create item asset. File already exists or inserted name is invalid.");
@@ -113,14 +113,14 @@ namespace Terra.Itemization
         {
             string assetPath = string.IsNullOrEmpty(itemName) ? string.Empty : Path.Combine(path, $"{itemName}.asset");
             if (string.IsNullOrEmpty(assetPath) ||
-                !itemDefinitions.Exists(d => d.itemName.ToLower() == itemName.ToLower()))
+                !itemDefinitions.Exists(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.LogError("Remove Item - Error" +
                                $"Couldn't remove item asset. File name is invalid or item with that name doesn't exist.");
             }
             else
             {
-                ItemData itemDefinition = itemDefinitions.Find(d => d.itemName.ToLower() == itemName.ToLower());
+                ItemData itemDefinition = itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
                 itemDefinition.ReturnID();
                 itemDefinitions.Remove(itemDefinition);
 

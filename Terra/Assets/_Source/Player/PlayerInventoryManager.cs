@@ -50,9 +50,12 @@ namespace Terra.Player
                 meleeWeaponSlot.Equip(startingInventoryData.startingMelee);
                 rangedWeaponSlot.Equip(startingInventoryData.startingRanged);
                 activeItemSlot.Equip(startingInventoryData.startingActive);
-                
-                startingInventoryData.startingPassiveItems.CopyTo(passiveItems.ToArray());
 
+                for (int i = 0; i < startingInventoryData.startingPassiveItems.Count; i++)
+                {
+                    passiveItems.Add(startingInventoryData.startingPassiveItems[i]);
+                }
+                
                 for (int i = 0; i < passiveItems.Count; i++)
                 {
                     passiveItems[i].OnEquip();
