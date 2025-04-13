@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Terra.Itemization.Items.Definitions
 {
+    [CreateAssetMenu(fileName = "MeleeWeaponData_", menuName = "TheBebocks/Items/MeleeWeaponData")]
     public class MeleeWeaponData : WeaponData
     {
         public AttackType attackType;

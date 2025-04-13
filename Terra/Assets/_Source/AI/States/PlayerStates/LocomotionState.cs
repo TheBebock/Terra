@@ -13,7 +13,7 @@ namespace Terra.StateMachine.PlayerStates
 
         public override void OnEnter()
         {
-            
+            ChangeDirectionOfAnimation();
         }
 
         public override void FixedUpdate()

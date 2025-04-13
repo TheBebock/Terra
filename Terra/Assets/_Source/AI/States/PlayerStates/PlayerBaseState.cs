@@ -22,7 +22,7 @@ namespace Terra.StateMachine.PlayerStates
         protected static readonly int DeathHash = Animator.StringToHash("Death");
 
         protected static readonly int MeleeAttackUpHash = Animator.StringToHash("MeleeAttackUp");
-        protected static readonly int MeleeAttackDownHash = Animator.StringToHash("MeleeAttackDowm");
+        protected static readonly int MeleeAttackDownHash = Animator.StringToHash("MeleeAttackDown");
         protected static readonly int MeleeAttackLeftHash = Animator.StringToHash("MeleeAttackLeft");
         protected static readonly int MeleeAttackRightHash = Animator.StringToHash("MeleeAttackRight");
 
