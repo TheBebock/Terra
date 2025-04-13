@@ -12,7 +12,6 @@ namespace Terra.StateMachine.PlayerStates
         public override void OnEnter()
         {
             animator.CrossFade(DeathHash, CrossFadeDuration);
-            player.OnDeath();
         }
     }
 }

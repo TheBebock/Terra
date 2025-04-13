@@ -1,7 +1,7 @@
 using Terra.StateMachine;
 using UnityEngine;
 
-namespace Platformer {
+namespace Terra.AI.States.EnemyStates {
     public abstract class EnemyBaseState : IState {
         protected readonly Enemy enemy;
         protected readonly Animator animator;

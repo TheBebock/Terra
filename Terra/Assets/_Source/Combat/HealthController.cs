@@ -21,13 +21,14 @@ namespace Terra.Combat
         public bool IsInvincible => isInvincible;
         public float MaxHealth => maxHealth.Value;
         public float CurrentHealth => currentHealth;
-
+        public bool IsDead => currentHealth <= 0;
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
         public event Action<bool> OnCanBeHealedChanged;
         public event Action<float> OnHealthChanged;
         public event Action<float> OnDamaged;
         public event Action<float> OnHealed;
+
 
         public HealthController(ModifiableValue modifiableValue, bool canBeHealed = false)
         {

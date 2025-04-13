@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using _Source.AI.Enemy;
 using Terra.StateMachine;
-using Platformer;
+using Terra.AI.States.EnemyStates;
 using Terra.Combat;
 using Terra.Player;
 using Terra.Utils;
@@ -49,7 +49,10 @@ public class Enemy : Entity, IInitializable, IDamagable
         var wanderState = new EnemyWanderState(this, animator, agent, detectionRadius);
         var chaseState = new EnemyChaseState(this, animator, agent, PlayerManager.Instance.transform);
         var attackState = new EnemyAttackState(this, animator, agent, PlayerManager.Instance.transform);
-
+        var deathState = new EnemyDeathState(this, animator); 
+        
+        Any(deathState, new FuncPredicate(() => _healthController.IsDead));
+        
         At(wanderState, chaseState, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
         At(chaseState, wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
         At(chaseState, attackState, new FuncPredicate(() => playerDetector.CanAttackPlayer()));

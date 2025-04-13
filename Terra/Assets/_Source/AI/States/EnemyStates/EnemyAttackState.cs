@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Platformer {
+namespace Terra.AI.States.EnemyStates {
     public class EnemyAttackState : EnemyBaseState {
         readonly NavMeshAgent agent;
         readonly Transform player;

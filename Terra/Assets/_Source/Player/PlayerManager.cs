@@ -14,7 +14,7 @@ namespace Terra.Player
     /// <summary>
     /// Represents a player
     /// </summary>
-    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp
+    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp, IAttachListeners
     {
         
         [Foldout("Debug")][SerializeField, ReadOnly] private HealthController healthController;
@@ -38,6 +38,8 @@ namespace Terra.Player
         public bool IsPlayerDead => _isPlayerDead;
         
         public HealthController HealthController => healthController;
+
+
         public PlayerMovement PlayerMovement => playerMovement;
         public PlayerInventoryManager PlayerInventory => playerInventory;
         public PlayerAttackController PlayerAttackController => playerAttackController;
@@ -70,7 +72,8 @@ namespace Terra.Player
             _stateMachine.AddTransition(meleeAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
             _stateMachine.AddTransition(rangedAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformDistanceAttack));
-
+        
+            
 
             _stateMachine.SetState(locomotionState);
             
@@ -83,6 +86,11 @@ namespace Terra.Player
             else Debug.LogError(this + " Input Manager not found.");
             
             ResetHealth();
+        }
+        
+        public void AttachListeners()
+        {
+            healthController.OnDeath += OnDeath;
         }
 
         private void Update()
@@ -98,21 +106,18 @@ namespace Terra.Player
         public void ResetHealth(bool isSilent = true) => healthController.ResetHealth(isSilent);
         public void KIll(bool isSilent = true) => healthController.KIll(isSilent);
 
-
+        
+        public void OnDeath()
+        {
+            _isPlayerDead = true;
+            CanBeDamaged = false;
+            OnPlayerDeath?.Invoke();
+        }
         public void TakeDamage(float amount)
         {
             if(!CanBeDamaged) return;
             healthController.TakeDamage(amount);
         } 
-
-        // Move to state PlayerDeathState
-        public void OnDeath()
-        {
-            CanBeDamaged = false;
-            _isPlayerDead = true;
-            OnPlayerDeath?.Invoke();
-            Debug.Log("Player has died");
-        }
         
         public void Heal(float amount)
         {
@@ -128,6 +133,11 @@ namespace Terra.Player
             playerAttackController = null;
         }
 
+
+        public void DetachListeners()
+        {
+            healthController.OnDeath -= OnDeath;
+        }
     }
 }
 
