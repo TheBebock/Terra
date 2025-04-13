@@ -15,9 +15,12 @@ MonoBehaviour:
   id: 1080377478
   itemName: Needle
   itemDescription: 
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 40642aa3835dc3b4c9d9bf284734903a, type: 3}
   canBeRemoved: 0
   strengthModifiers: []
-  maxHealthModifiers: []
+  maxHealthModifiers:
+  - Value: 1
+    Type: 100
+    SourceID: 1080377478
   speedModifiers: []
   luckModifiers: []

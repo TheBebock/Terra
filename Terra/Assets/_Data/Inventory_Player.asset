@@ -20,4 +20,4 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: 6a4fb439287dca740b71d251c7b70cd3, type: 2}
     currentCD: 0
   startingPassiveItems:
-  - data: {fileID: 11400000, guid: 6355ec2f04c057f4c87599a1bee3528b, type: 2}
+  - data: {fileID: 11400000, guid: 636c69d1b1927ab4ea7a85941dff093e, type: 2}

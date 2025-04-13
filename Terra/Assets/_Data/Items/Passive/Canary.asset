@@ -15,9 +15,12 @@ MonoBehaviour:
   id: 1784148216
   itemName: Canary
   itemDescription: 
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 6ddc835f92f7aae41923933d3a0efa49, type: 3}
   canBeRemoved: 0
   strengthModifiers: []
   maxHealthModifiers: []
   speedModifiers: []
-  luckModifiers: []
+  luckModifiers:
+  - Value: 1
+    Type: 100
+    SourceID: 1784148216

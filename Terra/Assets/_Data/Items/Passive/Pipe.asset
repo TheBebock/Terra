@@ -15,9 +15,12 @@ MonoBehaviour:
   id: 1543040759
   itemName: Pipe
   itemDescription: 
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: c25655344e6036a4b945bba2830c7984, type: 3}
   canBeRemoved: 0
   strengthModifiers: []
   maxHealthModifiers: []
-  speedModifiers: []
+  speedModifiers:
+  - Value: 1
+    Type: 100
+    SourceID: 1543040759
   luckModifiers: []

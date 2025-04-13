@@ -487,9 +487,9 @@ MonoBehaviour:
   timeBetweenAttacks: 1
   _healthController:
     maxHealth:
-      baseValue: 0
+      baseValue: 3
       StatModifiers: []
-    currentHealth: 0
+    currentHealth: 3
     canBeHealed: 0
     isInvincible: 0
 --- !u!114 &334116423
@@ -1580,7 +1580,8 @@ PrefabInstance:
       value: HeartDisplay
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2511253066768206833, guid: 08e23f5529bdf4447b6047d6d2ea01bd, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08e23f5529bdf4447b6047d6d2ea01bd, type: 3}
