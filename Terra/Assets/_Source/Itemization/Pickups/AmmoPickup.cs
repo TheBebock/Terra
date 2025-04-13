@@ -13,7 +13,6 @@ namespace Terra.Itemization.Pickups
 
         public override void OnPickUp()
         {
-            Debug.Log($"Picked up Ammo: +{Data.ammoAmount} bullets");
             //TODO: Add adding ammo logic
         }
     }

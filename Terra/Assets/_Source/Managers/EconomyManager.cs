@@ -17,7 +17,7 @@ namespace Terra.Managers
 
         public bool CanBuy(int itemPrice) => _currentGold >= itemPrice;
         
-        public event Action<float> OnGoldChanged;
+        public event Action<int> OnGoldChanged;
 
 
         public override void Initialize()

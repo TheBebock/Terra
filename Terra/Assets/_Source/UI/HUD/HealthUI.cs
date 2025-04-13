@@ -6,7 +6,7 @@ using Terra.Player;
 using UIExtensionPackage.UISystem.Core.Interfaces;
 using UIExtensionPackage.UISystem.UI.Elements;
 
-public class HeartUI : UIElement, IWithSetup
+public class HealthUI : UIElement, IWithSetup, IAttachListeners
 {
     [SerializeField] private GameObject heartPrefab; 
     [SerializeField] private Sprite heartSprite;    
@@ -39,23 +39,14 @@ public class HeartUI : UIElement, IWithSetup
 
     private void UpdateHearts(float currentHealth)
     {
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
+        int fullHearts = Mathf.FloorToInt(currentHealth);
 
-        int fullHearts = Mathf.FloorToInt(currentHealth); 
-
-        for (int i = 0; i < fullHearts; i++)
+        for (int i = 0; i < hearts.Count; i++)
         {
-            GameObject heart = Instantiate(heartPrefab, transform); 
-            Image image = heart.GetComponent<Image>();
-            image.sprite = heartSprite;
+            hearts[i].gameObject.SetActive(i < fullHearts);
         }
     }
-
-
-
+    
     public void DetachListeners()
     {
         if (healthController != null)

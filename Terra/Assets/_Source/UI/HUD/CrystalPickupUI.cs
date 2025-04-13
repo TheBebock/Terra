@@ -37,7 +37,7 @@ namespace Terra.UI
             }
         }
         
-        private void HandleGoldChanged(float currentGold)
+        private void HandleGoldChanged(int currentGold)
         {
             ShowGoldPickup(currentGold);
         }

@@ -14,7 +14,7 @@ namespace Terra.Itemization.Pickups
 
         [SerializeField, ReadOnly] private PickupBase pickup;
         [SerializeField] private SpriteRenderer pickupRenderer;
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter(Collider collision)
         {
             if (collision.CompareTag("Player") && CanBePickedUp && pickup != null)
             {

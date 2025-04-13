@@ -28,8 +28,8 @@ namespace Terra.Player
 
 
         public Vector3 CurrentPosition => transform.position;
-        
-        public bool CanBeDamaged { get; set; }
+
+        public bool CanBeDamaged { get; set; } = true;
         public bool CanBeHealed => healthController.CanBeHealed;
         public bool IsInvincible => healthController.IsInvincible;
         public float MaxHealth => healthController.MaxHealth;
