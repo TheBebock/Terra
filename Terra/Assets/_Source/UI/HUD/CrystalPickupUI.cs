@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Terra.Managers;
 using UnityEngine.Serialization;
 
 namespace Terra.UI
@@ -21,6 +22,24 @@ namespace Terra.UI
         private void Start()
         {
             canvasGroup.alpha = 0f;
+
+            if (EconomyManager.Instance != null)
+            {
+                EconomyManager.Instance.OnGoldChanged += HandleGoldChanged;
+            }
+        }
+        
+        private void OnDisable()
+        {
+            if (EconomyManager.Instance != null)
+            {
+                EconomyManager.Instance.OnGoldChanged -= HandleGoldChanged;
+            }
+        }
+        
+        private void HandleGoldChanged(int currentGold)
+        {
+            ShowGoldPickup(currentGold);
         }
 
         public void ShowGoldPickup(int amount)
