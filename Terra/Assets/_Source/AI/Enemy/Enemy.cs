@@ -120,6 +120,7 @@ public class Enemy : Entity, IInitializable, IDamagable
         if (!CanBeDamaged) return;
 
         _healthController.TakeDamage(amount);
+        PopupDamageManager.Instance.CreatePopup(transform.position, Quaternion.identity, amount);
 
         if (_healthController.CurrentHealth <= 0f)
         {
