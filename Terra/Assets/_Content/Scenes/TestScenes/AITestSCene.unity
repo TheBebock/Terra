@@ -423,7 +423,7 @@ MonoBehaviour:
     maxHealth:
       baseValue: 0
       StatModifiers: []
-    speed:
+    dexterity:
       baseValue: 0
       StatModifiers: []
     luck:
@@ -575,16 +575,11 @@ MonoBehaviour:
   agent: {fileID: 1412026989}
   playerDetector: {fileID: 1412026988}
   animator: {fileID: 1412026994}
+  enemyStats: {fileID: 11400000, guid: 1451ac88fbda5b7448c24e08c8527c5e, type: 2}
   detectionRadius: 5
   attackRadius: 1.5
   timeBetweenAttacks: 1
-  _healthController:
-    maxHealth:
-      baseValue: 0
-      StatModifiers: []
-    currentHealth: 0
-    canBeHealed: 0
-    isInvincible: 0
+  attackDamage: 1
 --- !u!114 &1412026988
 MonoBehaviour:
   m_ObjectHideFlags: 0
