@@ -21,7 +21,7 @@ namespace Terra.AI.States.EnemyStates {
         
         public override void Update() {
             agent.SetDestination(player.position);
-            enemy.Attack();
+            enemy.AttemptAttack();
         }
     }
 }

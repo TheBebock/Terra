@@ -1,19 +1,29 @@
-public class CountdownTimer {
+public class CountdownTimer
+{
     private float duration;
     private float timeRemaining;
 
     public bool IsRunning => timeRemaining > 0f;
+    public bool IsFinished => timeRemaining <= 0f;
 
-    public CountdownTimer(float duration) {
+    public CountdownTimer(float duration)
+    {
         this.duration = duration;
         this.timeRemaining = 0f;
     }
 
-    public void Start() {
+    public void Start()
+    {
         timeRemaining = duration;
     }
 
-    public void Tick(float deltaTime) {
+    public void Reset()
+    {
+        Start();
+    }
+
+    public void Tick(float deltaTime)
+    {
         if (IsRunning)
             timeRemaining -= deltaTime;
     }
