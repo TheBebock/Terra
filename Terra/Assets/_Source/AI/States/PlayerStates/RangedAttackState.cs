@@ -14,7 +14,7 @@ namespace Terra.StateMachine.PlayerStates
         {
             ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection);
 
-            player.PlayerInventory.GetRangedWeapon.PerformAttack(player.CurrentPosition, player.transform.rotation);
+            player.PlayerInventory.RangedWeapon.PerformAttack(player.CurrentPosition, player.transform.rotation);
         }
         public override void Update()
         {

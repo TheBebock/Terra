@@ -1,4 +1,5 @@
 using System.Collections;
+using NaughtyAttributes;
 using Terra.InputManagement;
 using Terra.Interfaces;
 using UnityEngine;
@@ -18,8 +19,8 @@ namespace Terra.Player
 
         private CharacterController characterController;
         private Vector3 moveDirection = Vector3.zero;
-        private bool _isDashing = false;
-        private float dashCooldownTimer = 0f;
+        [SerializeField, ReadOnly] private bool _isDashing = false;
+        [SerializeField, ReadOnly]private float dashCooldownTimer = 0f;
         // Input Actions
         private InputSystem.PlayerControlsActions inputActions;
         private Vector2 movementInput;
@@ -60,7 +61,7 @@ namespace Terra.Player
 
         void Update()
         {
-            if (!PlayerManager.Instance.IsPlayerDead || !CanPlayerMove)
+            if (PlayerManager.Instance.IsPlayerDead || !CanPlayerMove)
             {
                 return;
             }
@@ -73,6 +74,10 @@ namespace Terra.Player
 
         public void HandleMovement()
         {
+            if (PlayerManager.Instance.IsPlayerDead || !CanPlayerMove)
+            {
+                return;
+            }
             // Transforms 2DVector into 3DVector 
             Vector3 forward = transform.forward * movementInput.y; // Ruch przód/tył
             Vector3 right = transform.right * movementInput.x; // Ruch lewo/prawo
@@ -135,6 +140,7 @@ namespace Terra.Player
 
             IsDashing = false;
             dashCooldownTimer = dashCooldown;
+            yield break;
         }
 
         private void OnInteractionInput(InputAction.CallbackContext context)

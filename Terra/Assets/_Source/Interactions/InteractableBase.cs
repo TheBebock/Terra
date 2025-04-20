@@ -5,14 +5,27 @@
 /// </summary>
 public abstract class InteractableBase : Entity, IInteractable
 {
-    public abstract bool CanBeInteractedWith { get; }
+    public abstract bool CanBeInteractedWith { get; protected set; }
     public virtual bool CanShowVisualisation { get; set; }
-    public abstract void Interact();
+
+
     public abstract void OnInteraction();
     
     public virtual string GetInteractionPrompt()
     {
         return "Press E to interact";  // Default text
+    }
+    
+    
+    public void Interact()
+    {
+        if(!CanBeInteractedWith) return;
+
+        StopVisualization();
+
+        // Show VFX
+        // Play sound
+        OnInteraction();
     }
     
     public void ShowVisualisation()

@@ -18,7 +18,9 @@ namespace Terra.AI.States.EnemyStates {
             animator.CrossFade(animationName, crossFadeDuration);
         }
         
-        public override void Update() {
+        public override void Update() 
+        {
+            
             agent.SetDestination(player.position);
         }
     }

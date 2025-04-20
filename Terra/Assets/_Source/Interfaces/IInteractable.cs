@@ -20,12 +20,6 @@ public interface IInteractable
     /// </summary>
     public void Interact();
     
-
-    /// <summary>
-    /// Called after interaction
-    /// </summary>
-    public void OnInteraction();
-
     /// <summary>
     /// Called when is ready to be interacted with by Player
     /// </summary>

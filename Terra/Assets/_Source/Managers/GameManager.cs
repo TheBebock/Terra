@@ -17,9 +17,9 @@ public class GameManager : PersistentMonoSingleton<GameManager>, IWithSetUp
     private readonly Dictionary<Type, GameState> allGameStates = new();
 
 
-    public override void Initialize()
+    protected override void Awake()
     {
-        base.Initialize();
+        base.Awake();
         if(!Instance == this) return;
         
         allGameStates.Clear();
@@ -27,9 +27,8 @@ public class GameManager : PersistentMonoSingleton<GameManager>, IWithSetUp
         allGameStates.Add(typeof(LoadGameState), new LoadGameState());
         allGameStates.Add(typeof(MainMenuState), new MainMenuState());
         allGameStates.Add(typeof(DefaultGameState), new DefaultGameState());
-        
     }
-    
+
     public void SetUp()
     {
                 

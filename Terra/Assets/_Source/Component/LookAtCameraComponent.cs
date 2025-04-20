@@ -1,14 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Terra.CameraController;
+using Terra.Interfaces;
 using UnityEngine;
 
 namespace Terra.Components
 {
 
-    public class LookAtCameraComponent : MonoBehaviour
+    public class LookAtCameraComponent : InGameMonobehaviour, IWithSetUp
     {
         [SerializeField] private LookAtType lookAtType = LookAtType.CameraForward;
-        [SerializeField] private List<Transform> targetTransforms = null;
+        [SerializeField] private List<Transform> targetTransforms = new ();
         
         [Header("Lock Rotation")]
         [SerializeField] private bool lockX;
@@ -37,18 +39,20 @@ namespace Terra.Components
             {
                 originalRotations.Add(targetTransforms[i].rotation.eulerAngles);
             }
-
         }
-        private void Start()
+
+        public void SetUp()
         {
             // Get refenrece to camera
-            if(CameraManager.Instance)
-                lookAtCamera = CameraManager.Instance?.transform;
+            if(CameraManager.Instance) lookAtCamera = CameraManager.Instance?.transform;
             else
-                Debug.LogError("No camera manager found.");
-            
+            {
+                Debug.LogError($"No camera manager found. {this} is turning off");   
+                this.enabled = false;
+                return;
+            }
         }
-
+        
         void LateUpdate()
         {
             for (int i = 0; i < targetTransforms.Count; i++)
@@ -63,6 +67,7 @@ namespace Terra.Components
         /// </summary>
         private void UpdateTransformRotation(Transform targetTransform, Vector3 originalRotation)
         {
+
             // Set rotation based on method
             switch (lookAtType)
             {
@@ -84,6 +89,13 @@ namespace Terra.Components
             
             // Set rotation accounting for locked rotations
             targetTransform.rotation = Quaternion.Euler(rotation);
+        }
+
+
+
+        public void TearDown()
+        {
+            //Noop
         }
     }
 }

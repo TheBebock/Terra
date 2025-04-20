@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Terra.LevelGeneration
 {
@@ -10,24 +12,12 @@ namespace Terra.LevelGeneration
     /// </summary>
     public class LevelGenerationManager : PersistentMonoSingleton<LevelGenerationManager>
     {
-        [SerializeField] private List<GameObject> levelPrefabs;
+        [SerializeField] private ScenesDatabase _scenesDatabase;
 
-        [SerializeField] private GameObject currentLevel;
+        [SerializeField, ReadOnly] private int currentLevel = 0;
 
         public event Action OnLevelLoaded;
-
-        public void LoadNewLevel()
-        {
-            UnloadCurrentLevel();
-            GameObject currentLevelPO = levelPrefabs.PopRandomElement<GameObject>();
-            currentLevel = Instantiate(currentLevelPO, this.transform);
-            OnLevelLoaded?.Invoke();
-        }
-
-        public void UnloadCurrentLevel()
-        {
-            if (currentLevel)
-                Destroy(currentLevel);
-        }
+        
+        
     }
 }

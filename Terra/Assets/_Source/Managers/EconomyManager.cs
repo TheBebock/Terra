@@ -20,10 +20,9 @@ namespace Terra.Managers
         public event Action<int> OnGoldChanged;
 
 
-        public override void Initialize()
+        protected override void Awake()
         {
-            base.Initialize();
-            
+            base.Awake();
             _currentGold = initialGold;
         }
 

@@ -10,14 +10,12 @@ namespace Terra.Core.Generics
     /// <summary>
     /// Class for MonoBehaviours that should be accessed from other classes
     /// </summary>
-    public abstract class MonoBehaviourSingleton<T> : InGameMonobehaviour, IInitializable, IUniqueable
+    public abstract class MonoBehaviourSingleton<T> : InGameMonobehaviour, IUniqueable
         where T : class
     {
         
-        [Foldout("Debug"), ReadOnly] [SerializeField]private int id;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private int id = Utils.Constants.DEFAULT_ID;
         public int Identity => id;
-        
-        public bool IsInitialized { get; set; }
         
         private static T _instance = null;
 
@@ -36,7 +34,6 @@ namespace Terra.Core.Generics
                     if (obj.Length > 1)
                     {
                         Debug.LogWarning($"Found duplicate of singleton {type.Name}!" );
-                        Destroy(obj[1]);
                     }
 
                     return obj[0] as T;
@@ -45,9 +42,8 @@ namespace Terra.Core.Generics
                 return null;
             }
         }
-        
-        
-        public virtual void Initialize()
+
+        protected virtual void Awake()
         {
             if (_instance == null)
             {
@@ -58,7 +54,7 @@ namespace Terra.Core.Generics
                 Destroy(gameObject);
             }
         }
-
+        
         protected override void CleanUp()
         {
             if (_instance == this as T)

@@ -11,16 +11,11 @@ namespace Terra.Environment
     /// </summary>
     public class EndOfLevel : InteractableBase
     {
-        public override bool CanBeInteractedWith { get; }
-
-        public override void Interact()
-        {
-            //TODO: Show upgrade panel
-        }
-
+        public override bool CanBeInteractedWith { get; protected set; }
+        
         public override void OnInteraction()
         {
-            LevelGenerationManager.Instance?.LoadNewLevel();
+            
         }
     }
 }

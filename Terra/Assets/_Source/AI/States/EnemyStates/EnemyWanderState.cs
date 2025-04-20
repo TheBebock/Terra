@@ -18,18 +18,22 @@ namespace Terra.AI.States.EnemyStates {
             this.wanderRadius = wanderRadius;
         }
         
-        public override void OnEnter() {
+        public override void OnEnter() 
+        {
             Debug.Log("Wander");
     
             string animationName = enemy.CurrentDirection == Enemy.FacingDirection.Left ? "WalkLeft" : "WalkRight";
             animator.CrossFade(animationName, crossFadeDuration);
         }
 
-        public override void Update() {
+        public override void Update() 
+        {
+            
             if (agent == null) {
                 Debug.LogError("NavMeshAgent jest null w EnemyWanderState.");
                 return;
             }
+            
             if (HasReachedDestination()) {
                 var randomDirection = Random.insideUnitSphere * wanderRadius;
                 randomDirection += startPoint;
@@ -41,7 +45,8 @@ namespace Terra.AI.States.EnemyStates {
             }
         }
         
-        bool HasReachedDestination() {
+        bool HasReachedDestination() 
+        {
             return !agent.pathPending
                    && agent.remainingDistance <= agent.stoppingDistance
                    && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f);

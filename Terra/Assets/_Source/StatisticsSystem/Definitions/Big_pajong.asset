@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccaa4f0fcecdb94793593500621e392, type: 3}
   m_Name: Big_pajong
   m_EditorClassIdentifier: 
-  baseStrength: 0
-  baseMaxHealth: 0
-  baseSpeed: 0
-  baseMaxHealth: 10
+  baseStrength: 1
+  baseMaxHealth: 5
+  baseSpeed: 1

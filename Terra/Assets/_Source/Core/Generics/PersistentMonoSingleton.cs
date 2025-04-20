@@ -7,9 +7,9 @@ namespace Terra.Core.Generics
     public abstract class PersistentMonoSingleton<T> : MonoBehaviourSingleton<T>
         where T : class
     {
-        public override void Initialize()
+        protected override void Awake()
         {
-            base.Initialize();
+            base.Awake();
             if(Instance == this as T) DontDestroyOnLoad(gameObject);
         }
     }

@@ -19,14 +19,16 @@ namespace Terra.Player
         public event Action<float> OnMaxHealthChanged; 
         public event Action<float> OnStrengthChanged; 
         public event Action<float> OnDexterityChanged; 
-        public event Action<float> OnLuckChanged; 
-        public override void Initialize()
+        public event Action<float> OnLuckChanged;
+        
+        protected override void Awake()
         {
-            base.Initialize();
+            base.Awake();
             playerStats = new PlayerStats(playerStatsData);
+
         }
-        
-        
+
+
         public void AddStrength(List<ValueModifier> modifiers)
         {
             if(modifiers.IsNullOrEmpty()) return;

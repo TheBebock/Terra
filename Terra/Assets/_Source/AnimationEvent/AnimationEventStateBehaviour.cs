@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEditor.Events;
-namespace _Source.AnimationEvent.Editor
+
+namespace Terra.AnimationEvents
 {
     public class AnimationEventStateBehaviour:StateMachineBehaviour
     {

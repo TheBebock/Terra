@@ -14,7 +14,7 @@ namespace Terra.Itemization
 {
 
     [CreateAssetMenu(fileName = "ItemsDatabase", menuName = "TheBebocks/Items/Items Database")]
-    public class ItemsDatabase : ScriptableSingleton<ItemsDatabase>
+    public class ItemsDatabase : SingletonScriptableObject<ItemsDatabase>
     {
         [SerializeField, ReadOnly] private List<ItemData> itemDefinitions = new();
 
@@ -103,8 +103,11 @@ namespace Terra.Itemization
             ItemData itemDefinition = CreateItemDataInstance(type);
             itemDefinition.Initialize(itemName);
             itemDefinitions.Add(itemDefinition);
+#if  UNITY_EDITOR
             AssetDatabase.CreateAsset(itemDefinition, assetPath);
             AssetDatabase.SaveAssets();
+#endif
+            
 
         }
 
@@ -123,9 +126,11 @@ namespace Terra.Itemization
                 ItemData itemDefinition = itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
                 itemDefinition.ReturnID();
                 itemDefinitions.Remove(itemDefinition);
-
+#if  UNITY_EDITOR
                 AssetDatabase.DeleteAsset(assetPath);
                 AssetDatabase.SaveAssets();
+#endif
+                
             }
         }
 

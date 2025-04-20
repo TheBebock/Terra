@@ -11,17 +11,28 @@ namespace Terra.AI.States.EnemyStates {
             this.player = player;
         }
         
-        public override void OnEnter() {
-            Debug.Log("Attack");
-
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            
             string animationName = enemy.CurrentDirection == Enemy.FacingDirection.Left ? "AttackLeft" : "AttackRight";
             animator.CrossFade(animationName, crossFadeDuration);
         }
 
         
-        public override void Update() {
-            agent.SetDestination(player.position);
+        public override void Update() 
+        {
+            base.Update();    
             enemy.AttemptAttack();
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            agent.isStopped = false;
         }
     }
 }

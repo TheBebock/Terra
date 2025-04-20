@@ -12,9 +12,8 @@ namespace Terra.StateMachine.PlayerStates
 
         public override void OnEnter()
         {
-            ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection);
-            
-            player.PlayerInventory.GetMeleeWeapon.PerformAttack(player.CurrentPosition, player.transform.rotation);
+            ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection); 
+            player.PlayerInventory.MeleeWeapon.PerformAttack(player.CurrentPosition, player.transform.rotation);
         }
 
         public override void Update()

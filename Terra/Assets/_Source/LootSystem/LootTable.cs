@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using Terra.Itemization;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Items.Definitions;
@@ -15,7 +16,7 @@ namespace Terra.LootSystem
     [Serializable]
     public class LootTable
     {
-        
+        [SerializeField, ReadOnly]
         private bool isInitialized = false;
         
         [SerializeField] private List<ActiveItem> activeItems = new (); 
@@ -50,7 +51,7 @@ namespace Terra.LootSystem
         {
             if(isInitialized) return;
             isInitialized = true;
-            ItemsDatabase database = ItemsDatabase.instance;
+            ItemsDatabase database = Resources.Load<ItemsDatabase>(nameof(ItemsDatabase));
             if (!database)
             {
                 Debug.LogError("Items database is missing");

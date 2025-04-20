@@ -1,7 +1,9 @@
 using System;
 using NaughtyAttributes;
 using System.Collections;
+using System.Collections.Generic;
 using Terra.Interfaces;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Terra.Player.PlayerMovement;
@@ -100,7 +102,7 @@ namespace Terra.Player
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
-            maxMeleeCD = _playerManager.PlayerInventory.GetMeleeWeapon.Data.attackSpeed;
+            maxMeleeCD = _playerManager.PlayerInventory.MeleeWeapon.Data.attackSpeed;
             if (currentMeleeCD == 0)
             {
                 ChangeAttackDirection();
@@ -112,7 +114,10 @@ namespace Terra.Player
 
         private void OnDistanceAttackInput(InputAction.CallbackContext context)
         {
-            maxRangedCD = _playerManager.PlayerInventory.GetRangedWeapon.Data.attackSpeed;
+            //TODO: Ranged attack
+            return;
+            
+            maxRangedCD = _playerManager.PlayerInventory.RangedWeapon.Data.attackSpeed;
             if (currentRangedCD == 0)
             {
                 ChangeAttackDirection();
@@ -124,27 +129,41 @@ namespace Terra.Player
 
         private void ChangeAttackDirection()
         {
+            if(isTryingPerformMeleeAttack) return;
+            
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Ray ray = Camera.main.ScreenPointToRay( mousePosition );
             Plane plane = new Plane(Vector3.up, _playerManager.transform.position);
 
             // Raycast get point where player clicked on screen while we use perspective camera
-            if(plane.Raycast(ray, out float enter))
-            {
-                Vector3 worldClickPosition = ray.GetPoint(enter);
-                Vector3 direction = (worldClickPosition - _playerManager.transform.position);
+            if (!plane.Raycast(ray, out float enter)) return;
+            
+            
+            Vector3 worldClickPosition = ray.GetPoint(enter);
+            Vector3 direction = (worldClickPosition - _playerManager.transform.position).normalized;
 
-                if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
-                {
-                    if(direction.x > 0) currentplayerAttackDirection = PlayerAttackDirection.Right;
-                    else currentplayerAttackDirection = PlayerAttackDirection.Left;
-                }
-                else
-                {
-                    if(direction.z > 0) currentplayerAttackDirection = PlayerAttackDirection.Up;
-                    else currentplayerAttackDirection = PlayerAttackDirection.Down;
-                }
+            if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
+            {
+                if(direction.x > 0) currentplayerAttackDirection = PlayerAttackDirection.Right;
+                else currentplayerAttackDirection = PlayerAttackDirection.Left;
             }
+            else
+            {
+                if(direction.z > 0) currentplayerAttackDirection = PlayerAttackDirection.Up;
+                else currentplayerAttackDirection = PlayerAttackDirection.Down;
+            }
+            
+            //TODO: Refactor later - move to attack state
+
+            float range = _playerManager.PlayerInventory.MeleeWeapon.Data.range;
+            
+            Vector3 attackPosition = _playerManager.transform.position + direction * range;
+            
+            Debug.Log("Attack position" + attackPosition);
+            List<IDamagable> targets = ContactProvider.GetTargetsInSphere<IDamagable>(attackPosition, range, ContactProvider.PlayerTargetsMask);
+
+            CombatManager.Instance.PlayerPerformedAttack(targets, _playerManager.PlayerInventory.MeleeWeapon.Data.damage);
+
         }
 
 

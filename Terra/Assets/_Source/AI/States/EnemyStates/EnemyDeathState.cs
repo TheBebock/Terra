@@ -13,7 +13,7 @@ namespace Terra.AI.States.EnemyStates
         public override void OnEnter()
         {
             base.OnEnter();
-            enemy.OnDeath();
+            animator.CrossFade(DieHash, crossFadeDuration);
         }
     }
 }

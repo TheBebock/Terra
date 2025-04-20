@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Terra.Combat
 {
-    public class PopupDamageManager:MonoBehaviourSingleton<PopupDamageManager>
+    public class PopupDamageManager : MonoBehaviourSingleton<PopupDamageManager>
     {
         [SerializeField] private TextMesh popupPrefab = default;
         [SerializeField] private float destroyTime = default;

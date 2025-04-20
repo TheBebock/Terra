@@ -33,13 +33,7 @@ namespace Terra.Managers
 
         [Foldout("References")] [SerializeField]
         private AudioLowPassFilter AmbientAudioLowPassFilter;
-
-
-        private void Start()
-        {
-            LoadVolume();
-        }
-
+        
         public void PlayMusic(string clip)
         {
             Sound s = Array.Find(musicSounds, x => x.name == clip);

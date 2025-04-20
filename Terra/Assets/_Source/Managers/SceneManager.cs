@@ -22,15 +22,14 @@ namespace Terra.Managers
         [SerializeField] private List<string> sceneNames = new List<string>();
 
         public string CurrentSceneName => SceneManager.GetActiveScene().name;
-        public override void Initialize()
+        protected override void Awake()
         {
-            base.Initialize();
-            
+            base.Awake();
             sceneNames.Add(SceneNames.MainMenu);
             sceneNames.Add(SceneNames.Gameplay);
             sceneNames.Add(SceneNames.Loading);
         }
-        
+
         //TODO: Add async LoadScene, that implements correct initialization pipeline, ie: load ground first, then entities, then ui.. etc
 
         public void LoadMainMenu()

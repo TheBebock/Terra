@@ -14,9 +14,9 @@ namespace Terra.InputManagement
 
         public static event Action<bool> OnAllTimeControlsStateChanged;
 
-        public override void Initialize()
+        protected override void Awake()
         {
-            base.Initialize();
+            base.Awake();
             _inputSystem = new InputSystem();
         }
 

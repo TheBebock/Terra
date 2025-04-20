@@ -46,10 +46,11 @@ namespace Terra.Player
         
         public event Action OnPlayerDeath;
 
-
-        public void SetUp()
+        protected override void Awake()
         {
-            CanBeDamaged = true;
+            base.Awake();
+            
+             CanBeDamaged = true;
             _stateMachine = new StateMachine.StateMachine();
 
             // Set states
@@ -72,11 +73,14 @@ namespace Terra.Player
             _stateMachine.AddTransition(meleeAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
             _stateMachine.AddTransition(rangedAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformDistanceAttack));
-        
             
 
             _stateMachine.SetState(locomotionState);
-            
+
+        }
+
+        public void SetUp()
+        {
             if (PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
             if(PlayerStatsManager.Instance) _playerStats = PlayerStatsManager.Instance.PlayerStats;
             
@@ -116,6 +120,8 @@ namespace Terra.Player
         public void TakeDamage(float amount)
         {
             if(!CanBeDamaged) return;
+            
+            Debug.Log($"{gameObject.name} took {amount} damage");
             healthController.TakeDamage(amount);
         } 
         

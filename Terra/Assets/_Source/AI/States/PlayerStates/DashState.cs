@@ -11,7 +11,8 @@ namespace Terra.StateMachine.PlayerStates
 
         public override void OnEnter()
         {
-            animator.CrossFade(DashHash, CrossFadeDuration);
+            //TODO: Add dash anim
+            //animator.CrossFade(DashHash, CrossFadeDuration);
         }
 
 

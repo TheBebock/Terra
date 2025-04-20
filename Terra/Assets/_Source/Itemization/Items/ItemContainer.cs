@@ -1,3 +1,5 @@
+using System;
+using DG.Tweening;
 using NaughtyAttributes;
 using Terra.Player;
 using Terra.Itemization.Abstracts;
@@ -12,13 +14,27 @@ namespace Terra.Itemization.Items
     /// </summary>
     public class ItemContainer : InteractableBase
     {
-        public override bool CanBeInteractedWith => isInitialized && PlayerInventoryManager.Instance.CanEquipItem(item);
+        public override bool CanBeInteractedWith
+        {
+            get => isInitialized && PlayerInventoryManager.Instance.CanEquipItem(item);
+            protected set { }
+        }
 
         [SerializeField, ReadOnly] private bool isInitialized = false;
 
         [SerializeField, ReadOnly] private ItemBase item;
         
         [SerializeField] private SpriteRenderer itemRenderer;
+
+        Tween tween;
+        private void Awake()
+        {
+            tween = itemRenderer.transform
+                .DOLocalMoveY(0.25f, 0.75f)
+                .SetRelative()        
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine); 
+        }
 
         //TODO: Delete
         private void Update()
@@ -37,20 +53,14 @@ namespace Terra.Itemization.Items
                 itemRenderer.sprite = item.ItemIcon;
   
         }
-
-        public override void Interact()
-        {
-            if (!CanBeInteractedWith) return;
-            if (PlayerInventoryManager.Instance.TryToEquipItem(item))
-            {
-                OnInteraction();
-            }
-        }
+        
 
         public override void OnInteraction()
         {
-            //TODO: Display VFX
-            Destroy(gameObject);
+            if (PlayerInventoryManager.Instance.TryToEquipItem(item))
+            {
+                Destroy(gameObject);
+            }
         }
 
         protected override void ShowAvailableVisualization()
@@ -70,5 +80,11 @@ namespace Terra.Itemization.Items
             //NOTE: Maybe some additional logic
         }
 
+        protected override void CleanUp()
+        {
+           tween?.Kill();
+
+            base.CleanUp();
+        }
     }
 }

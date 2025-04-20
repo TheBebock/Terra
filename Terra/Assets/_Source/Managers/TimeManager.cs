@@ -4,6 +4,8 @@ using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.InputManagement;
 using Terra.Interfaces;
+using Terra.UI;
+using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,6 +54,8 @@ namespace Terra.Managers
         {
             // Check can game be paused
             if(!CanBePaused) return;
+
+            UIWindowManager.Instance?.OpenWindow<PauseWindow>();
             
             // Set paused game flag
             isGamePaused = true;
@@ -70,6 +74,8 @@ namespace Terra.Managers
             // Resume time
             ResumeTime();
             
+            UIWindowManager.Instance?.CloseWindow<PauseWindow>();
+
             // Invoke events
             OnGameResumed?.Invoke();
             OnGamePauseStateChanged?.Invoke(isGamePaused);

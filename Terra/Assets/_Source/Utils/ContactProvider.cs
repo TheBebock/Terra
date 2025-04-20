@@ -33,6 +33,8 @@ namespace Terra.Utils
             {
                 // If found, add to results
                 results.Add(target);
+                
+                Debug.Log($"Found target {target}");
             }
             
         }

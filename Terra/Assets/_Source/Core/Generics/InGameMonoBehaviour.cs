@@ -6,19 +6,20 @@ using UnityEngine;
 /// <summary>
 /// Class that implements custom initialization pipeline
 /// </summary>
-public abstract class InGameMonobehaviour : MonoBehaviour
+public abstract class InGameMonobehaviour : MonoBehaviour, IInitializable
 {
-    private void Awake()
+    public bool IsInitialized { get; private set; }
+    
+    private void Start()
     {
-        if (this is IInitializable initializable)
-        {
-            if(initializable.IsInitialized) return;
-            initializable.Initialize();
-            initializable.IsInitialized = true;
-        }
+        if(IsInitialized) return;
+        
+        IsInitialized = true;
+        Initialize();
+        
     }
 
-    private void Start()
+    public void Initialize()
     {
         if(this is IWithSetUp setup)
             setup.SetUp();
@@ -28,7 +29,6 @@ public abstract class InGameMonobehaviour : MonoBehaviour
         if(this is IUniqueable uniqueable)
             uniqueable.RegisterID();
     }
-
     
     protected virtual void CleanUp(){}
     private void OnDestroy()
@@ -44,4 +44,8 @@ public abstract class InGameMonobehaviour : MonoBehaviour
         if(this is IUniqueable uniqueable)
             uniqueable.ReturnID();
     }
+
+
+
+
 }

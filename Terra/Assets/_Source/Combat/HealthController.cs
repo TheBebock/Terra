@@ -48,16 +48,15 @@ namespace Terra.Combat
             // Change health amount
             currentHealth -= amount;
 
-            // Invoke event
-            OnDamaged?.Invoke(amount);
+
             
             // Clamp value, if invincible then set health to 1
             currentHealth = Mathf.Max(currentHealth, IsInvincible ? 1f : 0f);
             
             OnHealthChanged?.Invoke(currentHealth);
             
-            if (currentHealth <= 0f)
-                OnDeath?.Invoke();
+            if (currentHealth <= 0f) OnDeath?.Invoke();
+            else OnDamaged?.Invoke(amount);
         }
 
         /// <summary>

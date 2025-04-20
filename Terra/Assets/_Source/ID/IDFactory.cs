@@ -17,6 +17,7 @@ namespace Terra.ID
 
         static void LoadDatabase()
         {
+            
             ItemsDatabase database = Resources.Load<ItemsDatabase>(nameof(ItemsDatabase));
             if (database)
             {
@@ -45,7 +46,7 @@ namespace Terra.ID
         /// <param name="uniqueIdHolder">Object with unique ID</param>
         public static void RegisterID(IUniqueable uniqueIdHolder)
         {
-            if (uniqueIdHolder.Identity == Utils.Constants.DEFAULT_ID)
+            if (uniqueIdHolder.Identity == Utils.Constants.DEFAULT_ID || uniqueIdHolder.Identity == 0)
             {
                 int newID = GetNewUniqueId();
                 uniqueIdHolder.SetID(newID);

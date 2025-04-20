@@ -23,12 +23,10 @@ namespace Terra.Managers
         public LootTable LootTable => lootTable;
 
 
-        public override void Initialize()
+        protected override void Awake()
         {
-            base.Initialize();
-
+            base.Awake();
             lootTable.Initialize();
-
         }
 
 

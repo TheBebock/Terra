@@ -5,7 +5,15 @@
         "Unity.TextMeshPro",
         "NaughtyAttributes.Core",
         "Unity.InputSystem",
-        "OdinSerializer"
+        "OdinSerializer",
+        "Unity.Addressables",
+        "UniTask",
+        "UniTask.Addressables",
+        "UniTask.DOTween",
+        "UIExtensionPackage.UISystem",
+        "UISystem.Generics",
+        "UniTask.Editor",
+        "UnityEditor.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

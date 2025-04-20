@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using NaughtyAttributes;
+using Terra.ID;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Interfaces;
 using Terra.Itemization.Items;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace Terra.Player
 {
-    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
+    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IUniqueable
     {
         [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
         
@@ -23,9 +24,9 @@ namespace Terra.Player
 
         private ItemSlotBase[] itemSlots;
         public List<PassiveItem> GetPassiveItems => passiveItems;
-        public ActiveItem GetActiveItem => activeItemSlot.EquippedItem;
-        public MeleeWeapon GetMeleeWeapon => meleeWeaponSlot.EquippedItem;
-        public RangedWeapon GetRangedWeapon => rangedWeaponSlot.EquippedItem;
+        public ActiveItem ActiveItem => activeItemSlot.EquippedItem;
+        public MeleeWeapon MeleeWeapon => meleeWeaponSlot.EquippedItem;
+        public RangedWeapon RangedWeapon => rangedWeaponSlot.EquippedItem;
 
         public event Action<PassiveItem> OnPassiveItemAdded;
         public event Action<ActiveItem> OnActiveItemChanged;
@@ -33,10 +34,9 @@ namespace Terra.Player
         public event Action<RangedWeapon> OnRangedWeaponChanged;
 
 
-        public override void Initialize()
+        protected override void Awake()
         {
-            base.Initialize();
-            
+            base.Awake();
             // Create item slots
             meleeWeaponSlot = new();
             rangedWeaponSlot = new();

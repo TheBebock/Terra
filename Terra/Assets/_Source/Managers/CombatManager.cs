@@ -6,17 +6,19 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviourSingleton<CombatManager>
 {
-    public void PlayerPerformedAttack(List<IDamagable> hitTargets, float baseDamage = 0)
+    public void PlayerPerformedAttack(List<IDamagable> hitTargets, float baseWeaponDamage = 0)
     {
         if(!PlayerStatsManager.Instance) return;
         // Get damage modifier from player stats
         float playerStrengthValue = PlayerStatsManager.Instance.PlayerStats.Strength;
         // Compute final damage value
-        float finalDamage = baseDamage + playerStrengthValue;
+        float finalDamage = baseWeaponDamage + playerStrengthValue;
         
         // Loop through targets and apply damage
         for (int i = 0; i < hitTargets.Count; i++)
         {
+            if(!hitTargets[i].CanBeDamaged) continue;
+            
             hitTargets[i].TakeDamage(finalDamage);
         }
     }
