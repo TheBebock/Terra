@@ -622,8 +622,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  levelPrefabs: []
-  currentLevel: {fileID: 0}
+  _scenesDatabase: {fileID: 0}
+  currentLevel: 0
 --- !u!4 &994548647
 Transform:
   m_ObjectHideFlags: 0
@@ -807,6 +807,8 @@ MonoBehaviour:
   destroyTime: 1
   popupOffset: {x: 0, y: 2, z: 0}
   randomizerdPosition: {x: 1, y: 1, z: 1}
+  pooledPopups: []
+  amountToPool: 20
 --- !u!1 &1053719988
 GameObject:
   m_ObjectHideFlags: 0

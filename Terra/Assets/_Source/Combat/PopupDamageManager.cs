@@ -1,3 +1,6 @@
+using NaughtyAttributes;
+using System.Collections;
+using System.Collections.Generic;
 using Terra.Core.Generics;
 using UnityEngine;
 
@@ -10,16 +13,46 @@ namespace Terra.Combat
         [SerializeField] private Vector3 popupOffset = default;
         [SerializeField] private Vector3 randomizerdPosition = default;
 
-        public void CreatePopup(Vector3 position, Quaternion rotation, float value)
-        {
-            // TODO: Move to Pooling
+        [Foldout("Debug")][SerializeField, ReadOnly] private List<TextMesh> pooledPopups = new();
+        [SerializeField] private int amountToPool = default;
 
-            TextMesh newPopup = Instantiate(popupPrefab, position, rotation);
-            newPopup.text = value.ToString();
-            SetupPopup(newPopup);
+        private void Start()
+        {
+            TextMesh popupTemp;
+
+            for(int i = 0; i < amountToPool; i++)
+            {
+                popupTemp = Instantiate(popupPrefab);
+                popupTemp.gameObject.SetActive(false);
+                pooledPopups.Add(popupTemp);
+            }
         }
 
-        private void SetupPopup(TextMesh popup)
+        private TextMesh GetPooledPopup()
+        {
+            for(int i = 0; i < amountToPool; i++)
+            {
+                if (!pooledPopups[i].gameObject.activeInHierarchy) return pooledPopups[i];
+            }
+            return null;
+        }
+
+        public void UsePopup(Vector3 position, Quaternion rotation, float value)
+        {
+            TextMesh popup = GetPooledPopup();
+            if(popup != null)
+            {
+                popup.transform.SetPositionAndRotation(position, rotation);
+                SetupAdditionalPositionPopup(popup);
+
+                popup.text = value.ToString();
+                popup.gameObject.SetActive(true);
+
+                StartCoroutine(ReturnToPoolCoroutine(popup));
+            }
+        }
+
+        private void SetupAdditionalPositionPopup(TextMesh popup)
         {
             popup.transform.localPosition += popupOffset;
             popup.transform.localPosition += new Vector3(
@@ -27,13 +60,18 @@ namespace Terra.Combat
                 Random.Range(-randomizerdPosition.y, randomizerdPosition.y), 
                 Random.Range(-randomizerdPosition.z, randomizerdPosition.z)
                 );
-
-            Destroy(popup, destroyTime);
         }
 
-        public void DestroyPopup()
+        private IEnumerator ReturnToPoolCoroutine(TextMesh popup)
         {
+            yield return new WaitForSeconds(destroyTime);
+            ReturnToPool(popup);
+            
+        }
 
+        public void ReturnToPool(TextMesh popup)
+        {
+            popup.gameObject.SetActive(false);
         }
     }
 }

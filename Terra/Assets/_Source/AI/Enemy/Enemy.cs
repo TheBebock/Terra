@@ -166,7 +166,7 @@ public class Enemy : Entity, IDamagable, IAttachListeners
 
         Debug.Log($"{gameObject.name} took {amount} damage");
         _healthController.TakeDamage(amount);
-        PopupDamageManager.Instance.CreatePopup(transform.position, Quaternion.identity, amount);
+        PopupDamageManager.Instance.UsePopup(transform.position, Quaternion.identity, amount);
     }
 
     /// <summary>
