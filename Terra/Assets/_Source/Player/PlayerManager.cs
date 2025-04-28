@@ -54,6 +54,7 @@ namespace Terra.Player
             _stateMachine = new StateMachine.StateMachine();
 
             // Set states
+            IdleState idleState = new IdleState(this, playerAnimator);
             LocomotionState locomotionState = new LocomotionState(this, playerAnimator);
             StunState stunState = new StunState(this, playerAnimator);
             DashState dashState = new DashState(this, playerAnimator);
@@ -65,18 +66,28 @@ namespace Terra.Player
             _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => playerMovement.CanPlayerMove));
             _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => playerMovement.IsDashing));
             _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !playerMovement.IsDashing));
+            _stateMachine.AddTransition(idleState, locomotionState, new FuncPredicate(() => playerMovement.IsTryingMove));
+            _stateMachine.AddTransition(locomotionState, idleState, new FuncPredicate(() => !playerMovement.IsTryingMove));
 
             _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !playerMovement.CanPlayerMove && !IsPlayerDead));
             _stateMachine.AddAnyTransition(deathState, new FuncPredicate(() => IsPlayerDead));
 
             _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformMeleeAttack));
-            _stateMachine.AddTransition(meleeAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
-            _stateMachine.AddTransition(rangedAttackState, locomotionState, new FuncPredicate(() => !playerAttackController.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(idleState, meleeAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(idleState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
+
+            _stateMachine.AddTransition(meleeAttackState, idleState, new FuncPredicate(() => !playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(rangedAttackState, idleState, new FuncPredicate(() => !playerAttackController.IsTryingPerformDistanceAttack));
             
 
-            _stateMachine.SetState(locomotionState);
+            _stateMachine.SetState(idleState);
 
+        }
+
+        public IState GetLastState()
+        {
+            return _stateMachine.GetPreviousState();
         }
 
         public void SetUp()

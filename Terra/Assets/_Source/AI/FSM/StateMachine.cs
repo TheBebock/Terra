@@ -5,6 +5,7 @@ namespace Terra.StateMachine {
     [Serializable]
     public class StateMachine {
         StateNode current;
+        IState previousState;
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
 
@@ -25,10 +26,15 @@ namespace Terra.StateMachine {
             current.State?.OnEnter();
         }
 
+        public IState GetPreviousState()
+        {
+            return previousState;
+        }
+
         void ChangeState(IState state) {
             if (state == current.State) return;
             
-            var previousState = current.State;
+            previousState = current.State;
             var nextState = nodes[state.GetType()].State;
             
             previousState?.OnExit();

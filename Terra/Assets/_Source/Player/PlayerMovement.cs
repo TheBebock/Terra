@@ -24,7 +24,8 @@ namespace Terra.Player
         // Input Actions
         private InputSystem.PlayerControlsActions inputActions;
         private Vector2 movementInput;
-        
+
+        [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isTryingMove = false;
         [SerializeField] private bool _canPlayerMove = true;
         public bool CanPlayerMove { 
             get => _canPlayerMove;
@@ -35,6 +36,11 @@ namespace Terra.Player
             private set => _isDashing = value;
         }
 
+        public bool IsTryingMove
+        {
+            get => _isTryingMove;
+            private set => _isTryingMove = value;
+        }
         
         private PlayerMoveDirection currentplayerMoveDirection;
         public PlayerMoveDirection CurrentPlayerMoveDirection => currentplayerMoveDirection;
@@ -105,9 +111,14 @@ namespace Terra.Player
                 Debug.LogWarning("Player cannot move. Ignoring movement input.");
                 return;
             }
-
+            IsTryingMove = true;
             // Reads System input (Movement -> Vector2)
             movementInput = context.ReadValue<Vector2>();
+        }
+
+        private void OnMovementInputCanceled(InputAction.CallbackContext context)
+        {
+            IsTryingMove = false;
         }
 
         private void OnDashInput(InputAction.CallbackContext context)
@@ -179,6 +190,7 @@ namespace Terra.Player
             // Movement
             inputActions.Movement.performed += OnMovementInput;
             inputActions.Movement.canceled += OnMovementInput;
+            inputActions.Movement.canceled += OnMovementInputCanceled;
 
             // Dash
             inputActions.Dash.performed += OnDashInput;
@@ -196,6 +208,7 @@ namespace Terra.Player
             {
                 inputActions.Movement.performed -= OnMovementInput;
                 inputActions.Movement.canceled -= OnMovementInput;
+                inputActions.Movement.canceled -= OnMovementInputCanceled;
             }
             if(inputActions.Dash != null)
                 inputActions.Dash.performed -= OnDashInput;

@@ -10,6 +10,11 @@ namespace Terra.StateMachine.PlayerStates
         
         protected float CrossFadeDuration = 0.1f;
 
+        protected static readonly int IdleUpHash = Animator.StringToHash("IdleUp");
+        protected static readonly int IdleDownHash = Animator.StringToHash("IdleDown");
+        protected static readonly int IdleLeftHash = Animator.StringToHash("IdleLeft");
+        protected static readonly int IdleRightHash = Animator.StringToHash("IdleRight");
+
         protected static readonly int LocomotionUpHash = Animator.StringToHash("LocomotionUp");
         protected static readonly int LocomotionDownHash = Animator.StringToHash("LocomotionDown");
         protected static readonly int LocomotionLeftHash = Animator.StringToHash("LocomotionLeft");
