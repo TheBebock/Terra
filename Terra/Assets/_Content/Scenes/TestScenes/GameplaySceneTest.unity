@@ -482,16 +482,13 @@ MonoBehaviour:
   agent: {fileID: 334116424}
   playerDetector: {fileID: 334116423}
   animator: {fileID: 334116420}
+  enemyCollider: {fileID: 0}
+  enemyModel: {fileID: 0}
+  enemyStats: {fileID: 11400000, guid: 1451ac88fbda5b7448c24e08c8527c5e, type: 2}
   detectionRadius: 5
   attackRadius: 1.5
   timeBetweenAttacks: 1
-  _healthController:
-    maxHealth:
-      baseValue: 3
-      StatModifiers: []
-    currentHealth: 3
-    canBeHealed: 0
-    isInvincible: 0
+  attackDamage: 1
 --- !u!114 &334116423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +579,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level1
       objectReference: {fileID: 0}
+    - target: {fileID: 5966530059959870104, guid: f20278945b8f17b42aa7a0bcfb67e639,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 8e4711ee39a25944f959cd17c011df17,
+        type: 2}
     - target: {fileID: 7824700224478811826, guid: f20278945b8f17b42aa7a0bcfb67e639,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -747,70 +750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &752472122
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 752472124}
-  - component: {fileID: 752472123}
-  m_Layer: 0
-  m_Name: nAV
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &752472123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752472122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 9f4fc097dc9af7d4096017750b40f418, type: 2}
-  m_BuildHeightMesh: 0
---- !u!4 &752472124
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752472122}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100, y: 100, z: 100}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &769353737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,8 +968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  levelPrefabs: []
-  currentLevel: {fileID: 0}
+  _scenesDatabase: {fileID: 0}
+  currentLevel: 0
 --- !u!4 &994548647
 Transform:
   m_ObjectHideFlags: 0
@@ -1214,6 +1153,8 @@ MonoBehaviour:
   destroyTime: 1
   popupOffset: {x: 0, y: 2, z: 0}
   randomizerdPosition: {x: 1, y: 1, z: 1}
+  pooledPopups: []
+  amountToPool: 0
 --- !u!1 &1053719988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1321,7 @@ MonoBehaviour:
   P_itemContainer: {fileID: 7648631588216878980, guid: b6f1c063963492c458a6932bf9a95f09,
     type: 3}
   lootTable:
+    isInitialized: 0
     activeItems: []
     passiveItems: []
     meleeWeapons: []
@@ -1945,12 +1887,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2357,5 +2299,4 @@ SceneRoots:
   - {fileID: 891129798}
   - {fileID: 1527814160}
   - {fileID: 1751713123}
-  - {fileID: 752472124}
   - {fileID: 334116426}

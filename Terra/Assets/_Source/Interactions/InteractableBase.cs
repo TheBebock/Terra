@@ -1,5 +1,7 @@
 
 
+using Terra.Core.Generics;
+
 /// <summary>
 /// Represents base class for object that can be interacted with
 /// </summary>

@@ -10,7 +10,6 @@ namespace Terra.Itemization.Abstracts
     [Serializable]
     public class MeleeWeapon : Weapon<MeleeWeaponData>
     {
-
         public override ItemType ItemType => ItemType.Melee;
 
         public MeleeWeapon(MeleeWeaponData itemData)

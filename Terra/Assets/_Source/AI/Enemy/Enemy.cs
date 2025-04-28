@@ -7,6 +7,7 @@ using StatisticsSystem.Definitions;
 using Terra.StateMachine;
 using Terra.AI.States.EnemyStates;
 using Terra.Combat;
+using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Player;
 using Terra.Utils;

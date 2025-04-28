@@ -1,11 +1,17 @@
+using Terra.EffectsSystem;
+
+
 namespace Terra.Itemization.Items.Definitions
 {
+    /// <summary>
+    ///     Reperesents data for all weapons
+    /// </summary>
     public abstract class WeaponData : ItemData
     {
+        public EffectsContainer effects = new ();
         public int damage;
         public float range;
         public float attackSpeed;
-        public float knockback;
         public WeaponType WeaponType;
     }
 

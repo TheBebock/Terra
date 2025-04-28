@@ -42,8 +42,9 @@ namespace Terra.Player
             rangedWeaponSlot = new();
             activeItemSlot = new();
             passiveItems = new();
-
-
+   
+            
+            
             // Equip starting items
             if (startingInventoryData != null)
             {

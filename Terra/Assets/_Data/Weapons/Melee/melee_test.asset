@@ -21,6 +21,7 @@ MonoBehaviour:
   maxHealthModifiers: []
   speedModifiers: []
   luckModifiers: []
+  effects: []
   damage: 0
   range: 3
   attackSpeed: 0
@@ -29,3 +30,6 @@ MonoBehaviour:
   attackType: 0
   hitboxSize: {x: 0, y: 0, z: 0}
   sphereHitboxRadius: 0
+  references:
+    version: 2
+    RefIds: []

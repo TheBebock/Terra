@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
@@ -131,5 +132,21 @@ public static class CollectionsExtenstions
         }
 
         return UnityEngine.Random.Range(0, collection.Length);
+    }
+    
+    /// <summary>
+    /// Searches through collection for item that matches predicate. Out found element.
+    /// </summary>
+    public static bool TryFind<T>(this IEnumerable<T> collection, Predicate<T> predicate, out T element)
+    {
+        element = default;
+        foreach (T item in collection)
+        {
+            if (!predicate(item)) continue;
+            element = item;
+            return true;
+        }
+
+        return false;
     }
 }
