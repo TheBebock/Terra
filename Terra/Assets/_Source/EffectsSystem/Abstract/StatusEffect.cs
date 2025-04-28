@@ -22,6 +22,10 @@ namespace Terra.EffectsSystem.Abstracts
         {
         }
 
+        public void Reset()
+        {
+            
+        }
         protected virtual void InternalApply()
         {
         }
@@ -38,7 +42,6 @@ namespace Terra.EffectsSystem.Abstracts
     public abstract class StatusEffect<TStatusData> : StatusEffectBase
         where TStatusData : StatusEffectData
     {
-
         protected abstract bool CanBeRemoved { get; }
 
         private TStatusData _typedData;
@@ -61,6 +64,7 @@ namespace Terra.EffectsSystem.Abstracts
                 Debug.LogError($"{effectData} is not of type {typeof(TStatusData).Name}");
             }
         }
+        
 
         protected override void InternalApply()
         {

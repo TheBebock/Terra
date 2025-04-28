@@ -1,11 +1,9 @@
 using Terra.EffectsSystem.Abstracts;
 using Terra.EffectsSystem.Statuses.Data;
-using UnityEngine;
 
 namespace Terra.EffectsSystem.Statuses
 {
-
-    [CreateAssetMenu(fileName = "PoisonStatus", menuName = "TheBebocks/Statuses/PoisonStatus")]
+    [StatusEffect(typeof(PoisonStatusData))]
     public class PoisonStatus : StatusEffect<PoisonStatusData>
     {
         protected override bool CanBeRemoved { get; }

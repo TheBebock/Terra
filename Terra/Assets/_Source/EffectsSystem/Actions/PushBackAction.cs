@@ -5,7 +5,6 @@ using Terra.EffectsSystem.Actions.Data;
 using UnityEngine;
 
 [Serializable]
-[CreateAssetMenu(fileName = "PushbackAction", menuName = "TheBebocks/Actions/Pushback")]
 public class PushBackAction : ActionEffect<PushBackData>
 {
     protected override void OnExecute(Entity target, Entity source = null)

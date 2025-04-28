@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Terra.EffectsSystem.Abstracts;
+using Terra.EffectsSystem.Utils;
+using UnityEngine;
 
 
 namespace Terra.EffectsSystem
@@ -15,8 +17,21 @@ namespace Terra.EffectsSystem
 
         List<StatusEffectBase> _statuses = new List<StatusEffectBase>();
 
+        public void TryAddEffect(StatusEffectData statusEffectData)
+        {
+            StatusEffectBase statusEffect = StatusEffectsFactory.CreateStatusEffect(statusEffectData);
+
+            TryAddEffect(statusEffect);
+        }
+        
         public void TryAddEffect(StatusEffectBase newStatus)
         {
+            if (newStatus == null)
+            {
+                Debug.LogError($"{this} received status can't be null!");
+                return;
+            }
+            
             // No effect found
             if (!_statuses.TryFind(s => s.Equals(newStatus), out StatusEffectBase currentStatus))
             {
@@ -25,6 +40,7 @@ namespace Terra.EffectsSystem
                 return;
             }
 
+            
             //TODO: Compare current and new status, prolong status and update values if higher
 
         }

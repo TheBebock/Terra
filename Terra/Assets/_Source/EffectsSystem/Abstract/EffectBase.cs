@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstracts
@@ -6,7 +7,8 @@ namespace Terra.EffectsSystem.Abstracts
     /// <summary>
     ///     Represents base class for all effects.
     /// </summary>
-    public class EffectBase : ScriptableObject
+    [Serializable]
+    public class EffectBase
     {
         /// <summary>
         ///     Initializes effect with data
