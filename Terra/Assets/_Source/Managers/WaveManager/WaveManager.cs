@@ -6,7 +6,6 @@ public class WaveManager : MonoBehaviour
     [Header("Wave Settings")]
     public GameObject enemyPrefab;
     public float timeBetweenWaves = 5f;
-    public int maxActiveEnemies = 5;
 
     //TODO: CHOOSE SPAWN AREA DEPENDING ON NAVMESH
     [Header("Spawn Area")]
@@ -24,9 +23,30 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator StartWaves()
     {
+        yield return StartCoroutine(HandleWaveSpawning());
+        currentWaveIndex++;
+        
         while (true)
         {
-            yield return new WaitForSeconds(timeBetweenWaves);
+            float timeSpent = 0f;
+            bool waveCompleted = false;
+            
+            while (!waveCompleted)
+            {
+                timeSpent += Time.deltaTime;
+                
+                if (timeSpent >= timeBetweenWaves)
+                {
+                    waveCompleted = true;
+                }
+                else if (currentActiveEnemies == 0)
+                {
+                    waveCompleted = true;
+                }
+
+                yield return null;
+            }
+            
             yield return StartCoroutine(HandleWaveSpawning());
             currentWaveIndex++;
         }
@@ -35,17 +55,14 @@ public class WaveManager : MonoBehaviour
     private IEnumerator HandleWaveSpawning()
     {
         spawning = true;
-        
+
         int numberOfEnemies = 5 + currentWaveIndex * 2; 
         float spawnInterval = 1.5f - currentWaveIndex * 0.1f; 
-        
-        spawnInterval = Mathf.Max(spawnInterval, 0.1f);
 
+        spawnInterval = Mathf.Max(spawnInterval, 0.1f); 
+        
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            while (currentActiveEnemies >= maxActiveEnemies)
-                yield return null;
-
             SpawnEnemy();
             yield return new WaitForSeconds(spawnInterval);
         }
@@ -73,7 +90,7 @@ public class WaveManager : MonoBehaviour
     private Vector3 GetRandomSpawnPosition()
     {
         float x = Random.Range(spawnMin.x, spawnMax.x);
-        float z = Random.Range(spawnMin.y, spawnMax.y); 
+        float z = Random.Range(spawnMin.y, spawnMax.y);
         float y = 100f;
         return new Vector3(x, y, z);
     }
