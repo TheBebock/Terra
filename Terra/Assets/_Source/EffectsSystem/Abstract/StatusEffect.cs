@@ -1,4 +1,5 @@
 using System;
+using Terra.Core.Generics;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstracts
@@ -7,9 +8,12 @@ namespace Terra.EffectsSystem.Abstracts
     /// <summary>
     ///     Represents base class for all status effects
     /// </summary>
+    //NOTE: Class should be Abstract, but it cannot be due to serialization
     [Serializable]
     public class StatusEffectBase : EffectBase
     {
+        
+        protected StatusEffectBase(){}
         public void Apply()
         {
         }
@@ -18,7 +22,7 @@ namespace Terra.EffectsSystem.Abstracts
         {
         }
 
-        public void Remove()
+        public void Remove(bool force = false)
         {
         }
 
@@ -34,7 +38,7 @@ namespace Terra.EffectsSystem.Abstracts
         {
         }
 
-        protected virtual void InternalRemove()
+        protected virtual void InternalRemove(bool force = false)
         {
         }
     }
@@ -45,10 +49,12 @@ namespace Terra.EffectsSystem.Abstracts
         protected abstract bool CanBeRemoved { get; }
 
         private TStatusData _typedData;
-        public TStatusData Data => _typedData;
+        protected TStatusData Data => _typedData;
 
-        public override void Initialize(EffectData effectData)
+        public override void Initialize(Entity target, EffectData effectData)
         {
+            base.Initialize(target, effectData);
+            
             if (effectData == null)
             {
                 Debug.LogError(this + "ActionEffectData is null");
@@ -66,7 +72,7 @@ namespace Terra.EffectsSystem.Abstracts
         }
         
 
-        protected override void InternalApply()
+        protected sealed override void InternalApply()
         {
             if (_typedData == null)
             {
@@ -74,10 +80,11 @@ namespace Terra.EffectsSystem.Abstracts
                 return;
             }
 
+            //TODO: Add VFX
             OnApply();
         }
 
-        protected override void InternalUpdate()
+        protected sealed override void InternalUpdate()
         {
             if (_typedData == null)
             {
@@ -88,7 +95,7 @@ namespace Terra.EffectsSystem.Abstracts
             OnUpdate();
         }
 
-        protected override void InternalRemove()
+        protected sealed override void InternalRemove(bool force = false)
         {
             if (_typedData == null)
             {
@@ -96,8 +103,9 @@ namespace Terra.EffectsSystem.Abstracts
                 return;
             }
 
-            if (!CanBeRemoved) return;
+            if (!CanBeRemoved && !force) return;
 
+            //TODO: Remove VFX
             OnRemove();
         }
 

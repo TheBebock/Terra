@@ -21,7 +21,7 @@ public class TestSpawnLoot : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            PlayerManager.Instance.TakeDamage(1);
+            PlayerManager.Instance.PlayerEntity.TakeDamage(1);
         }
     }
 }

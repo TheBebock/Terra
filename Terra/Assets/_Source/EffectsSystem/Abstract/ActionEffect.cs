@@ -32,8 +32,10 @@ namespace Terra.EffectsSystem.Abstracts
         private TActionData _typedData;
         public TActionData Data => _typedData;
 
-        public override void Initialize(EffectData actionEffectData)
+        public override void Initialize(Entity target, EffectData actionEffectData)
         {
+            base.Initialize(target, actionEffectData);
+            
             if (actionEffectData == null)
             {
                 Debug.LogError(this + "ActionEffectData is null");

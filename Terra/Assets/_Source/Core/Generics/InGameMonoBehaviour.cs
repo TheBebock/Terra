@@ -33,10 +33,10 @@ public abstract class InGameMonobehaviour : MonoBehaviour, IInitializable
     protected virtual void CleanUp(){}
     private void OnDestroy()
     {
-        CleanUp();
-        
         if(this is IAttachListeners attachListeners)
             attachListeners.DetachListeners();
+        
+        CleanUp();
         
         if(this is IWithSetUp setup)
             setup.TearDown();

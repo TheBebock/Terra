@@ -289,6 +289,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2252586331894191306, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: playerStatsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cdc25e0fc61acf468ba254296bbf68e,
+        type: 2}
+    - target: {fileID: 2252586331894191306, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: playerStats.strength.baseValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
         type: 3}
       propertyPath: startingInventoryData
@@ -345,11 +356,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3776656795352527627, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 307734422}
+    - targetCorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 307734421}
   m_SourcePrefab: {fileID: 100100000, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
+--- !u!1 &307734419 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+    type: 3}
+  m_PrefabInstance: {fileID: 307734418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &307734420 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3962284766052085287, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+    type: 3}
+  m_PrefabInstance: {fileID: 307734418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &307734421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307734419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtType: 1
+  targetTransforms:
+  - {fileID: 307734420}
+  lockX: 0
+  lockY: 1
+  lockZ: 1
+--- !u!114 &307734422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307734419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcd12872a12f464dacbd56fd940248d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: -1
+  _healthController:
+    maxHealth:
+      baseValue: 0
+      StatModifiers: []
+    currentHealth: 0
+    canBeHealed: 0
+    isInvincible: 0
 --- !u!1 &334116418
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using System;
 using NaughtyAttributes;
-using OdinSerializer;
 using Terra.ID;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -14,10 +13,11 @@ namespace Terra.Core.Generics
         where T : class
     {
         
-        [Foldout("Debug"), ReadOnly] [SerializeField] private int id = Utils.Constants.DEFAULT_ID;
-        public int Identity => id;
+        [Foldout("Debug"), ReadOnly] 
+        [SerializeField] private int _id = Utils.Constants.DEFAULT_ID;
+        public int Identity => _id;
         
-        private static T _instance = null;
+        private static T _instance;
 
         public static T Instance
         {
@@ -75,7 +75,7 @@ namespace Terra.Core.Generics
 
         public void SetID(int newID)
         {
-            id = newID;
+            _id = newID;
         }
     }
 }

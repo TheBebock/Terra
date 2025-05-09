@@ -31,15 +31,16 @@ namespace Terra.Environment
         
         private Sequence _moveSequence;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _healthController = new HealthController(maxHealth);
         }
 
-        public void TakeDamage(float amount)
+        public void TakeDamage(float amount, bool isPercentage = false)
         {
             if (!CanBeDamaged) return;
-            _healthController.TakeDamage(amount);
+            _healthController.TakeDamage(amount, isPercentage);
             // Show VFX
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
 using Terra.EffectsSystem.Utils;
 using UnityEngine;
@@ -15,11 +16,18 @@ namespace Terra.EffectsSystem
     public class StatusContainer
     {
 
+        Entity _entity;
+        
         List<StatusEffectBase> _statuses = new List<StatusEffectBase>();
 
+        public StatusContainer(Entity entity)
+        {
+            _entity = entity;
+        }
+        
         public void TryAddEffect(StatusEffectData statusEffectData)
         {
-            StatusEffectBase statusEffect = StatusEffectsFactory.CreateStatusEffect(statusEffectData);
+            StatusEffectBase statusEffect = StatusEffectsFactory.CreateStatusEffect(_entity, statusEffectData);
 
             TryAddEffect(statusEffect);
         }

@@ -27,8 +27,9 @@ namespace Terra.Itemization.Items
         [SerializeField] private SpriteRenderer itemRenderer;
 
         Tween tween;
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             tween = itemRenderer.transform
                 .DOLocalMoveY(0.25f, 0.75f)
                 .SetRelative()        
@@ -82,7 +83,7 @@ namespace Terra.Itemization.Items
 
         protected override void CleanUp()
         {
-           tween?.Kill();
+            tween?.Kill();
 
             base.CleanUp();
         }

@@ -13,7 +13,7 @@ public interface IDamagable
     /// <summary>
     /// Method for damaging entity
     /// </summary>
-    public void TakeDamage(float amount);
+    public void TakeDamage(float amount, bool isPercentage = false);
     
     public HealthController HealthController { get; }
     

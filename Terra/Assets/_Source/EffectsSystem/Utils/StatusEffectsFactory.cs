@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
 using UnityEngine;
 
@@ -46,7 +47,7 @@ namespace Terra.EffectsSystem.Utils
             Debug.Log($"{nameof(StatusEffectsFactory)} initialized with {_dataToStatusMap.Count} effects.");
         }
 
-        public static StatusEffectBase CreateStatusEffect(StatusEffectData data)
+        public static StatusEffectBase CreateStatusEffect(Entity target, StatusEffectData data)
         {
             var dataType = data.GetType();
 
@@ -62,7 +63,7 @@ namespace Terra.EffectsSystem.Utils
                 return null;
             }
             
-            effect.Initialize(data);
+            effect.Initialize(target, data);
             return effect;
 
         }

@@ -1,4 +1,5 @@
 using System;
+using Terra.Core.Generics;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstracts
@@ -10,11 +11,13 @@ namespace Terra.EffectsSystem.Abstracts
     [Serializable]
     public class EffectBase
     {
+        protected Entity entity;
         /// <summary>
         ///     Initializes effect with data
         /// </summary>
-        public virtual void Initialize(EffectData effectData)
+        public virtual void Initialize(Entity target, EffectData effectData)
         {
+            entity = target;
         }
     }
 }

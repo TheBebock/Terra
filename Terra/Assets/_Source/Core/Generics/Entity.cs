@@ -3,6 +3,7 @@ using Terra.Components;
 using Terra.EffectsSystem;
 using Terra.ID;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Core.Generics
 {
@@ -14,11 +15,16 @@ namespace Terra.Core.Generics
     {
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private StatusContainer _statusContainer;
-        [Foldout("Debug"), ReadOnly] [SerializeField]
-        private int id = -1;
+        [FormerlySerializedAs("id")] [Foldout("Debug"), ReadOnly] [SerializeField]
+        private int _id = -1;
 
         public StatusContainer StatusContainer => _statusContainer;
-        public int Identity => id;
+        public virtual int Identity => _id;
+
+        protected virtual void Awake()
+        {
+            _statusContainer = new StatusContainer(this);
+        }
 
         /// <summary>
         /// Handles registering object with unique ID
@@ -40,7 +46,7 @@ namespace Terra.Core.Generics
 
         public void SetID(int newID)
         {
-            id = newID;
+            _id = newID;
         }
     }
 }
