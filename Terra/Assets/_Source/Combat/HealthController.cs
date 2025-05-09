@@ -1,5 +1,6 @@
 using System;
 using Core.ModifiableValue;
+using Terra.Extensions;
 using UnityEngine;
 
 namespace Terra.Combat
@@ -43,12 +44,18 @@ namespace Terra.Combat
             this.canBeHealed = canBeHealed;
         }
 
-        public void TakeDamage(float amount)
+        /// <summary>
+        ///     Damages entity
+        /// </summary>
+        /// <param name="amount">Amount of damage</param>
+        /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as percentage</param>
+        public void TakeDamage(float amount, bool isPercentage = false)
         {
+            
+            float calculatedValue = CalculateValue(amount, isPercentage);
+
             // Change health amount
-            currentHealth -= amount;
-
-
+            currentHealth -= calculatedValue;
             
             // Clamp value, if invincible then set health to 1
             currentHealth = Mathf.Max(currentHealth, IsInvincible ? 1f : 0f);
@@ -56,31 +63,45 @@ namespace Terra.Combat
             OnHealthChanged?.Invoke(currentHealth);
             
             if (currentHealth <= 0f) OnDeath?.Invoke();
-            else OnDamaged?.Invoke(amount);
+            else OnDamaged?.Invoke(calculatedValue);
         }
+        
 
         /// <summary>
-        /// Heals entity
+        ///     Heals entity
         /// </summary>
-        public void Heal(float amount)
+        public void Heal(float amount, bool isPercentage = false)
         {
+            float calculatedValue = CalculateValue(amount, isPercentage);
+            
             // Increase current health
-            currentHealth += amount;
-
-            // Invoke event
-            OnHealed?.Invoke(amount);
-
+            currentHealth += calculatedValue;
 
             // Clamp to max health
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth.Value);
             
+            // Invoke event
+            OnHealed?.Invoke(calculatedValue);
             OnHealthChanged?.Invoke(currentHealth);
-
-
         }
 
         /// <summary>
-        /// Change invincibility state
+        ///     Returns calculated value, either flat of percentage of max health
+        /// </summary>
+        private float CalculateValue(float amount, bool isPercentage)
+        {
+            amount = Mathf.Abs(amount);
+            
+            // flat value
+            if (!isPercentage)
+            {
+                return amount;
+            }
+            // Percentage value of max health
+            return MaxHealth * amount.ToFactor();
+        }
+        /// <summary>
+        ///     Change invincibility state
         /// </summary>
         public void SetInvincible(bool invincible)
         {

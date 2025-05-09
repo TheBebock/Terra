@@ -2,7 +2,6 @@ using System;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Pickups.Definitions;
 using Terra.Player;
-using UnityEngine;
 
 namespace Terra.Itemization.Pickups
 {
@@ -14,7 +13,7 @@ namespace Terra.Itemization.Pickups
 
         public override void OnPickUp()
         {
-            PlayerManager.Instance.Heal(Data.healthAmount);
+            PlayerManager.Instance.PlayerEntity.Heal(Data.healthAmount);
         }
         
     }

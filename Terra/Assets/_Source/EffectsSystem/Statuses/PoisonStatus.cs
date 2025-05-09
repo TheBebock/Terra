@@ -4,23 +4,28 @@ using Terra.EffectsSystem.Statuses.Data;
 namespace Terra.EffectsSystem.Statuses
 {
     [StatusEffect(typeof(PoisonStatusData))]
-    public class PoisonStatus : StatusEffect<PoisonStatusData>
+    public class PoisonStatus : TimedStatus<PoisonStatusData>
     {
-        protected override bool CanBeRemoved { get; }
-
+        IDamagable _damagable;
         protected override void OnApply()
         {
-            throw new System.NotImplementedException();
+            base.OnApply();
+            if (entity.TryGetComponent(out IDamagable damagable))
+            {
+                _damagable = damagable;
+                //TODO: Add visual effect
+            }
         }
 
-        protected override void OnUpdate()
+        protected override void OnStatusTick()
         {
-            throw new System.NotImplementedException();
+            _damagable?.TakeDamage(Data.damagePerTick);
         }
 
         protected override void OnRemove()
         {
-            throw new System.NotImplementedException();
+            base.OnRemove();
+            //TODO: remove visual effect
         }
     }
 }

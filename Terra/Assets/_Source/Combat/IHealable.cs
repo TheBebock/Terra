@@ -6,6 +6,5 @@ public interface IHealable
     /// <summary>
     /// Heal entity by given amount
     /// </summary>
-    /// <param name="amount"></param>
-    public void Heal(float amount);
+    public void Heal(float amount, bool isPercentage = false);
 }

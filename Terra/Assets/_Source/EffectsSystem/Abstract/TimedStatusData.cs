@@ -1,0 +1,14 @@
+using UnityEngine;
+
+namespace Terra.EffectsSystem.Abstracts
+{
+    /// <summary>
+    ///     Represents data for status effects that are time based 
+    /// </summary>
+    public abstract class TimedStatusData : StatusEffectData
+    {
+        [Tooltip("In seconds"), Min(1)] public float statusDuration;
+        
+        [Min(1)] public float amountOfTicks;
+    }
+}

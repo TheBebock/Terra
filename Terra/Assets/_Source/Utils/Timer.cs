@@ -1,6 +1,6 @@
 using System;
 
-namespace _Source.AI.Enemy {
+namespace Terra.Utils {
     public abstract class Timer {
         protected float initialTime;
         protected float Time { get; set; }
@@ -8,8 +8,8 @@ namespace _Source.AI.Enemy {
         
         public float Progress => Time / initialTime;
         
-        public Action OnTimerStart = delegate { };
-        public Action OnTimerStop = delegate { };
+        public event Action OnTimerStart = delegate { };
+        public event Action OnTimerStop = delegate { };
 
         protected Timer(float value) {
             initialTime = value;
@@ -20,14 +20,14 @@ namespace _Source.AI.Enemy {
             Time = initialTime;
             if (!IsRunning) {
                 IsRunning = true;
-                OnTimerStart.Invoke();
+                OnTimerStart?.Invoke();
             }
         }
 
         public void Stop() {
             if (IsRunning) {
                 IsRunning = false;
-                OnTimerStop.Invoke();
+                OnTimerStop?.Invoke();
             }
         }
         
@@ -51,7 +51,18 @@ namespace _Source.AI.Enemy {
         }
         
         public bool IsFinished => Time <= 0;
-        
+
+        public void Restart()
+        {
+            Reset();
+            Start();
+        }
+        public void Restart(float newTime)
+        {
+            Reset(newTime);
+            Start();
+        }
+
         public void Reset() => Time = initialTime;
         
         public void Reset(float newTime) {

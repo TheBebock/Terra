@@ -11,7 +11,7 @@ namespace Terra.Player
 {
     public class PlayerStatsManager : MonoBehaviourSingleton<PlayerStatsManager>
     {
-        [SerializeField] private  PlayerStatsDefinition playerStatsData;
+        [SerializeField, Expandable] private  PlayerStatsDefinition playerStatsData;
         [SerializeField, ReadOnly] private PlayerStats playerStats;
         
         public PlayerStats PlayerStats => playerStats;
@@ -20,14 +20,19 @@ namespace Terra.Player
         public event Action<float> OnStrengthChanged; 
         public event Action<float> OnDexterityChanged; 
         public event Action<float> OnLuckChanged;
-        
+
+
         protected override void Awake()
         {
             base.Awake();
+            
+            if (playerStatsData == null)
+            {
+                Debug.LogError($"{this}: playerStatsData is null. Please attach basic stats to player.");
+                return;
+            }
             playerStats = new PlayerStats(playerStatsData);
-
         }
-
 
         public void AddStrength(List<ValueModifier> modifiers)
         {
@@ -119,6 +124,16 @@ namespace Terra.Player
             }
             
             OnLuckChanged?.Invoke(playerStats.Luck);
+        }
+
+        private void OnValidate()
+        {
+            if (playerStatsData == null)
+            {
+                Debug.LogError($"{this}: playerStatsData is null. Please attach basic stats to player.");
+                return;
+            }
+            playerStats = new PlayerStats(playerStatsData);
         }
     }
 }

@@ -67,8 +67,10 @@ public class Enemy : Entity, IDamagable, IAttachListeners
     /// Initializes the enemy by validating components, setting up health, timing, and AI state machine.
     /// Subscribes to death event and configures all state transitions.
     /// </summary>
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         // Validate required components and stats
         if (agent == null || playerDetector == null || animator == null || enemyStats == null)
         {
@@ -143,8 +145,8 @@ public class Enemy : Entity, IDamagable, IAttachListeners
         if (!attackTimer.IsFinished)
             return;
 
-        var targets = ContactProvider.GetTargetsInSphere<IDamagable>(
-            transform.position, attackRadius, ContactProvider.EnemyTargetsMask);
+        var targets = ComponentProvider.GetTargetsInSphere<IDamagable>(
+            transform.position, attackRadius, ComponentProvider.EnemyTargetsMask);
 
         CombatManager.Instance.EnemyPerformedAttack(targets, enemyStats.baseStrength);
         
@@ -160,13 +162,13 @@ public class Enemy : Entity, IDamagable, IAttachListeners
     /// <summary>
     /// Applies incoming damage via HealthController and spawns a damage popup.
     /// </summary>
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool isPercentage = false)
     {
         if (!CanBeDamaged) 
             return;
 
         Debug.Log($"{gameObject.name} took {amount} damage");
-        _healthController.TakeDamage(amount);
+        _healthController.TakeDamage(amount, isPercentage);
         PopupDamageManager.Instance.UsePopup(transform.position, Quaternion.identity, amount);
     }
 

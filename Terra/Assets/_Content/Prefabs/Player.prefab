@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2400752976024735065}
   - component: {fileID: 2252586331894191306}
   - component: {fileID: 2453622083028010261}
+  - component: {fileID: 5427650705384679002}
+  - component: {fileID: 6979690526471559470}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -53,25 +55,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  healthController:
-    maxHealth:
-      baseValue: 5
-      StatModifiers: []
-    currentHealth: 5
-    canBeHealed: 1
-    isInvincible: 0
   _isPlayerDead: 0
-  playerAttackController:
-    _playerManager: {fileID: 0}
+  _playerAttackController:
+    _playerInventory: {fileID: 0}
     isTryingPerformMeleeAttack: 0
     isTryingPerformDistanceAttack: 0
     currentMeleeCD: 0
     currentRangedCD: 0
     maxMeleeCD: 0
     maxRangedCD: 0
-  playerInventory: {fileID: 2327712083050766949}
-  playerMovement: {fileID: 2400752976024735065}
-  playerAnimator: {fileID: 2453622083028010261}
+  _playerMovement: {fileID: 2400752976024735065}
+  _playerAnimator: {fileID: 2453622083028010261}
+  _playerEntity: {fileID: 5427650705384679002}
 --- !u!114 &2327712083050766949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +128,7 @@ MonoBehaviour:
   dashCooldown: 3
   _isDashing: 0
   dashCooldownTimer: 0
+  _isTryingMove: 0
   _canPlayerMove: 1
 --- !u!114 &2252586331894191306
 MonoBehaviour:
@@ -156,7 +152,7 @@ MonoBehaviour:
       baseValue: 5
       StatModifiers: []
     dexterity:
-      baseValue: 0
+      baseValue: 1
       StatModifiers: []
     luck:
       baseValue: 1
@@ -183,6 +179,44 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5427650705384679002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536515612248166870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcd12872a12f464dacbd56fd940248d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: -1
+  _healthController:
+    maxHealth:
+      baseValue: 0
+      StatModifiers: []
+    currentHealth: 0
+    canBeHealed: 0
+    isInvincible: 0
+--- !u!114 &6979690526471559470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536515612248166870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtType: 1
+  targetTransforms:
+  - {fileID: 3962284766052085287}
+  lockX: 0
+  lockY: 1
+  lockZ: 1
 --- !u!1 &6224297793211185567
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +226,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3962284766052085287}
-  - component: {fileID: 3776656795352527627}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -216,23 +249,6 @@ Transform:
   - {fileID: 3580133097048554886}
   m_Father: {fileID: 3668154996905167841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3776656795352527627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6224297793211185567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
 --- !u!1 &7160721917504650796
 GameObject:
   m_ObjectHideFlags: 0

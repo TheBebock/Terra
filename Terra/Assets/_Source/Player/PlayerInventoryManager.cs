@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Terra.Player
 {
-    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IUniqueable
+    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
     {
         [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
         

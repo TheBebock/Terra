@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using Terra.EffectsSystem;
 
 
@@ -12,7 +13,7 @@ namespace Terra.Itemization.Items.Definitions
         public int damage;
         public float range;
         public float attackSpeed;
-        public WeaponType WeaponType;
+        [ReadOnly] public WeaponType WeaponType;
     }
 
     public enum WeaponType

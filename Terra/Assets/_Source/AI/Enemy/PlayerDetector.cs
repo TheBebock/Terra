@@ -1,43 +1,47 @@
 using Terra.Combat;
+using Terra.Interfaces;
 using Terra.Player;
+using Terra.Utils;
 using UnityEngine;
 
 namespace _Source.AI.Enemy {
-    public class PlayerDetector : MonoBehaviour {
+    public class PlayerDetector : InGameMonobehaviour, IWithSetUp
+    {
         [SerializeField] float detectionAngle = 60f; // Cone in front of enemy
         [SerializeField] float detectionRadius = 10f; // Large circle around enemy
         [SerializeField] float innerDetectionRadius = 5f; // Small circle around enemy
-        [SerializeField] float detectionCooldown = 1f; // Time between detections
+        [SerializeField] float detectionCooldown = 0.2f; // Time between detections
         [SerializeField] float attackRange = 2f; // Distance from enemy to player to attack
         
-        private PlayerManager playerManager;
+        private PlayerManager _playerManager;
         
-        CountdownTimer detectionTimer;
+        private CountdownTimer _detectionTimer;
         
-        IDetectionStrategy detectionStrategy;
+        private IDetectionStrategy _detectionStrategy;
 
-        void Awake() {
-            playerManager = PlayerManager.Instance;
+        public void SetUp()
+        {
+            _detectionTimer = new CountdownTimer(detectionCooldown);
+            _detectionStrategy = new ConeDetectionStrategy(detectionAngle, detectionRadius, innerDetectionRadius);
+            _playerManager = PlayerManager.Instance;
         }
 
-        void Start() {
-            detectionTimer = new CountdownTimer(detectionCooldown);
-            detectionStrategy = new ConeDetectionStrategy(detectionAngle, detectionRadius, innerDetectionRadius);
-        }
-        
-        void Update() => detectionTimer.Tick(Time.deltaTime);
+        void Update()
+        {
+            _detectionTimer.Tick(Time.deltaTime);
+        } 
 
         public bool CanDetectPlayer() {
-            return detectionTimer.IsRunning || detectionStrategy.Execute(playerManager.transform, transform, detectionTimer);
+            return _detectionTimer.IsRunning || _detectionStrategy.Execute(_playerManager.transform, transform, _detectionTimer);
         }
 
         public bool CanAttackPlayer() {
-            var directionToPlayer = playerManager.transform.position - transform.position;
-            Debug.DrawLine(transform.position, playerManager.transform.position, Color.blue);
+            var directionToPlayer = _playerManager.transform.position - transform.position;
+            Debug.DrawLine(transform.position, _playerManager.transform.position, Color.blue);
             return directionToPlayer.magnitude <= attackRange;
         }
         
-        public void SetDetectionStrategy(IDetectionStrategy detectionStrategy) => this.detectionStrategy = detectionStrategy;
+        public void SetDetectionStrategy(IDetectionStrategy detectionStrategy) => this._detectionStrategy = detectionStrategy;
         
         void OnDrawGizmos() {
             Gizmos.color = Color.red;
@@ -53,6 +57,13 @@ namespace _Source.AI.Enemy {
             // Draw lines to represent the cone
             Gizmos.DrawLine(transform.position, transform.position + forwardConeDirection);
             Gizmos.DrawLine(transform.position, transform.position + backwardConeDirection);
+        }
+
+
+
+        public void TearDown()
+        {
+            
         }
     }
 }

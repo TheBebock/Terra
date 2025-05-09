@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using Terra.Core.Generics;
 using UnityEngine;
 
 namespace Terra.Utils
 {
-    public static class ContactProvider
+    public static class ComponentProvider
 {
     public static LayerMask PlayerTargetsMask => (1 << LayerMask.NameToLayer("Enemy")) | 
                                                  (1 << LayerMask.NameToLayer("Damageable"));

@@ -8,6 +8,7 @@ using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Player;
 using Terra.StateMachine;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 

@@ -1,11 +1,9 @@
 using System;
 using Terra.Core.Generics;
 using NaughtyAttributes;
-using StatisticsSystem;
 using Terra.Combat;
 using UnityEngine;
 using Terra.StateMachine.PlayerStates;
-using Terra.InputManagement;
 using Terra.Interfaces;
 using Terra.StateMachine;
 
@@ -14,35 +12,28 @@ namespace Terra.Player
     /// <summary>
     /// Represents a player
     /// </summary>
-    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IDamagable, IHealable, IWithSetUp, IAttachListeners
+    public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IWithSetUp
     {
-        
-        [Foldout("Debug")][SerializeField, ReadOnly] private HealthController healthController;
-        [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead = false;
-        [Foldout("Debug")][SerializeField, ReadOnly] PlayerAttackController playerAttackController;
+        [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead;
+
+        [Foldout("Debug")] [SerializeField, ReadOnly]
+        private PlayerAttackController _playerAttackController;
         [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine.StateMachine _stateMachine;
         
-        [Foldout("References")] [SerializeField] PlayerInventoryManager playerInventory;
-        [Foldout("References")][SerializeField] PlayerMovement playerMovement;
-        [Foldout("References")][SerializeField] Animator playerAnimator;
+        [Foldout("References")] [SerializeField] private PlayerMovement _playerMovement;
+        [Foldout("References")] [SerializeField] private Animator _playerAnimator;
+        [Foldout("References")] [SerializeField] private PlayerEntity _playerEntity;
 
 
         public Vector3 CurrentPosition => transform.position;
-
-        public bool CanBeDamaged { get; set; } = true;
-        public bool CanBeHealed => healthController.CanBeHealed;
-        public bool IsInvincible => healthController.IsInvincible;
-        public float MaxHealth => healthController.MaxHealth;
-        public float CurrentHealth => healthController.CurrentHealth;
-        private PlayerStats _playerStats;  
+        
         public bool IsPlayerDead => _isPlayerDead;
         
-        public HealthController HealthController => healthController;
+        public PlayerEntity PlayerEntity =>  _playerEntity;
+        public HealthController HealthController => PlayerEntity.HealthController;
 
-
-        public PlayerMovement PlayerMovement => playerMovement;
-        public PlayerInventoryManager PlayerInventory => playerInventory;
-        public PlayerAttackController PlayerAttackController => playerAttackController;
+        public PlayerMovement PlayerMovement => _playerMovement;
+        public PlayerAttackController PlayerAttackController => _playerAttackController;
         
         public event Action OnPlayerDeath;
 
@@ -50,39 +41,37 @@ namespace Terra.Player
         {
             base.Awake();
             
-             CanBeDamaged = true;
             _stateMachine = new StateMachine.StateMachine();
 
             // Set states
-            IdleState idleState = new IdleState(this, playerAnimator);
-            LocomotionState locomotionState = new LocomotionState(this, playerAnimator);
-            StunState stunState = new StunState(this, playerAnimator);
-            DashState dashState = new DashState(this, playerAnimator);
-            DeathState deathState = new DeathState(this, playerAnimator);
-            MeleeAttackState meleeAttackState = new MeleeAttackState(this, playerAnimator);
-            RangedAttackState rangedAttackState = new RangedAttackState(this, playerAnimator);
+            IdleState idleState = new IdleState(this, _playerAnimator);
+            LocomotionState locomotionState = new LocomotionState(this, _playerAnimator);
+            StunState stunState = new StunState(this, _playerAnimator);
+            DashState dashState = new DashState(this, _playerAnimator);
+            DeathState deathState = new DeathState(this, _playerAnimator);
+            MeleeAttackState meleeAttackState = new MeleeAttackState(this, _playerAnimator);
+            RangedAttackState rangedAttackState = new RangedAttackState(this, _playerAnimator);
 
             // Set transitions
-            _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => playerMovement.CanPlayerMove));
-            _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => playerMovement.IsDashing));
-            _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !playerMovement.IsDashing));
-            _stateMachine.AddTransition(idleState, locomotionState, new FuncPredicate(() => playerMovement.IsTryingMove));
-            _stateMachine.AddTransition(locomotionState, idleState, new FuncPredicate(() => !playerMovement.IsTryingMove));
+            _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => _playerMovement.CanPlayerMove));
+            _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => _playerMovement.IsDashing));
+            _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !_playerMovement.IsDashing));
+            _stateMachine.AddTransition(idleState, locomotionState, new FuncPredicate(() => _playerMovement.IsTryingMove));
+            _stateMachine.AddTransition(locomotionState, idleState, new FuncPredicate(() => !_playerMovement.IsTryingMove));
 
-            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !playerMovement.CanPlayerMove && !IsPlayerDead));
+            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !_playerMovement.CanPlayerMove && !IsPlayerDead));
             _stateMachine.AddAnyTransition(deathState, new FuncPredicate(() => IsPlayerDead));
 
-            _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformMeleeAttack));
-            _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
-            _stateMachine.AddTransition(idleState, meleeAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformMeleeAttack));
-            _stateMachine.AddTransition(idleState, rangedAttackState, new FuncPredicate(() => playerAttackController.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(idleState, meleeAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(idleState, rangedAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformDistanceAttack));
 
-            _stateMachine.AddTransition(meleeAttackState, idleState, new FuncPredicate(() => !playerAttackController.IsTryingPerformMeleeAttack));
-            _stateMachine.AddTransition(rangedAttackState, idleState, new FuncPredicate(() => !playerAttackController.IsTryingPerformDistanceAttack));
+            _stateMachine.AddTransition(meleeAttackState, idleState, new FuncPredicate(() => !_playerAttackController.IsTryingPerformMeleeAttack));
+            _stateMachine.AddTransition(rangedAttackState, idleState, new FuncPredicate(() => !_playerAttackController.IsTryingPerformDistanceAttack));
             
 
             _stateMachine.SetState(idleState);
-
         }
 
         public IState GetLastState()
@@ -92,20 +81,8 @@ namespace Terra.Player
 
         public void SetUp()
         {
-            if (PlayerInventoryManager.Instance) playerInventory = PlayerInventoryManager.Instance;
-            if(PlayerStatsManager.Instance) _playerStats = PlayerStatsManager.Instance.PlayerStats;
-            
-            healthController = new HealthController(_playerStats.ModifiableMaxHealth, true);
-            
-            if(InputManager.Instance) playerAttackController = new PlayerAttackController(InputManager.Instance.PlayerControls, this);
-            else Debug.LogError(this + " Input Manager not found.");
-            
-            ResetHealth();
-        }
-        
-        public void AttachListeners()
-        {
-            healthController.OnDeath += OnDeath;
+            //NOTE: Needs to be in SetUp, because it caches references to managers
+            _playerAttackController = new PlayerAttackController(false);
         }
 
         private void Update()
@@ -118,42 +95,31 @@ namespace Terra.Player
             _stateMachine.FixedUpdate();
         }
 
-        public void ResetHealth(bool isSilent = true) => healthController.ResetHealth(isSilent);
-        public void KIll(bool isSilent = true) => healthController.KIll(isSilent);
-
-        
-        public void OnDeath()
+        public void OnPlayerDeathNotify()
         {
             _isPlayerDead = true;
-            CanBeDamaged = false;
             OnPlayerDeath?.Invoke();
-        }
-        public void TakeDamage(float amount)
-        {
-            if(!CanBeDamaged) return;
-            
-            Debug.Log($"{gameObject.name} took {amount} damage");
-            healthController.TakeDamage(amount);
         } 
-        
-        public void Heal(float amount)
-        {
-            if(!CanBeHealed) return;
-            healthController.Heal(amount);
-        }
-        
 
         public void TearDown()
         {
-            healthController = null;
-            playerAttackController.DetachListeners();
-            playerAttackController = null;
+            _playerAttackController.DetachListeners();
+            _playerAttackController = null;
         }
 
-
-        public void DetachListeners()
+        private void OnValidate()
         {
-            healthController.OnDeath -= OnDeath;
+            if (_playerEntity == null)
+            {
+                if (TryGetComponent(out PlayerEntity playerEntity))
+                {
+                    _playerEntity = playerEntity;
+                }
+                else
+                {
+                    Debug.LogError($"{this}: reference to PlayerEntity is missing.");
+                }
+            }
         }
     }
 }

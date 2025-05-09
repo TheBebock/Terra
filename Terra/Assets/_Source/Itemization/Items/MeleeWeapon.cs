@@ -34,7 +34,7 @@ namespace Terra.Itemization.Abstracts
         }
         private void PerformThrust(Vector3 position, Quaternion rotation)
         {
-           List<IDamagable> targets = ContactProvider.GetTargetsInBox<IDamagable>(position, Data.hitboxSize, ContactProvider.PlayerTargetsMask,
+           List<IDamagable> targets = ComponentProvider.GetTargetsInBox<IDamagable>(position, Data.hitboxSize, ComponentProvider.PlayerTargetsMask,
                 rotation);
            if (!CombatManager.Instance)
            {
@@ -46,7 +46,7 @@ namespace Terra.Itemization.Abstracts
 
         private void PerformSwing(Vector3 position)
         {
-            List<IDamagable> targets = ContactProvider.GetTargetsInSphere<IDamagable>(position, Data.sphereHitboxRadius, ContactProvider.PlayerTargetsMask);
+            List<IDamagable> targets = ComponentProvider.GetTargetsInSphere<IDamagable>(position, Data.sphereHitboxRadius, ComponentProvider.PlayerTargetsMask);
             if (!CombatManager.Instance)
             {
                 Debug.LogError(this + "Combat Manager not found");

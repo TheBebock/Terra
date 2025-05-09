@@ -14,6 +14,19 @@ public class HealthUI : UIElement, IWithSetup, IAttachListeners
     private HealthController healthController;
     private List<Image> hearts = new();  
     
+    public void SetUp()
+    {
+        healthController = PlayerManager.Instance?.HealthController;
+
+        if (healthController == null)
+        {
+            Debug.LogError(this + " PlayerManager health controller does not exist");
+            return;
+        }
+
+        CreateHearts();
+        UpdateHearts(healthController.CurrentHealth);
+    }
 
     public void AttachListeners()
     {
@@ -53,19 +66,6 @@ public class HealthUI : UIElement, IWithSetup, IAttachListeners
             healthController.OnHealthChanged -= OnHealthChanged;
     }
 
-    public void SetUp()
-    {
-        healthController = PlayerManager.Instance?.HealthController;
-
-        if (healthController == null)
-        {
-            Debug.LogError(this + " PlayerManager health controller does not exist");
-            return;
-        }
-
-        CreateHearts();
-        UpdateHearts(healthController.CurrentHealth);
-    }
 
     public void TearDown()
     {
