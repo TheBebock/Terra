@@ -14,7 +14,7 @@ namespace Terra.AI.States.EnemyStates {
         
         protected const float crossFadeDuration = 0.1f;
 
-        protected EnemyBaseState(Enemy enemy, Animator animator) {
+        protected EnemyBaseState(EnemyBase enemy, Animator animator) {
             this.enemy = enemy;
             this.animator = animator;
         }

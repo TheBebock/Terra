@@ -8,7 +8,7 @@ namespace Terra.AI.States.EnemyStates {
         readonly Vector3 startPoint;
         readonly float wanderRadius;
 
-        public EnemyWanderState(Enemy enemy, Animator animator, NavMeshAgent agent, float wanderRadius) : base(enemy, animator) {
+        public EnemyWanderState(EnemyBase enemy, Animator animator, NavMeshAgent agent, float wanderRadius) : base(enemy, animator) {
             if (enemy == null || animator == null || agent == null) {
                 Debug.LogError("Nieprawidłowe przypisanie komponentów! enemy, animator lub agent jest null.");
                 return;
