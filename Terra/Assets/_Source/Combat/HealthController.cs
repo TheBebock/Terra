@@ -143,7 +143,7 @@ namespace Terra.Combat
         /// KIll target
         /// </summary>
         /// <param name="isSilent">Does not proke damage VFX when true</param>
-        public void KIll(bool isSilent = false)
+        public void Kill(bool isSilent = false)
         {
             if (isSilent)
             {

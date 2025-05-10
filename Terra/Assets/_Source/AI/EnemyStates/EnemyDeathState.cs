@@ -1,12 +1,12 @@
-using Terra.AI.States.EnemyStates;
+using Terra.AI.Enemies;
 using UnityEngine;
+using UnityEngine.AI;
 
-namespace Terra.AI.States.EnemyStates
+namespace Terra.AI.EnemyStates
 {
-
     public class EnemyDeathState : EnemyBaseState
     {
-        public EnemyDeathState(EnemyBase enemy, Animator animator) : base(enemy, animator)
+        public EnemyDeathState(EnemyBase enemy, NavMeshAgent agent, Animator animator) : base(enemy, agent, animator)
         {
         }
 

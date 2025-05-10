@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Terra.InputManagement
 {
-    public class InputManager : MonoBehaviourSingleton<InputManager>
+    public class InputManager : PersistentMonoSingleton<InputManager>
     {
         private InputSystem _inputSystem;
 
@@ -18,14 +18,13 @@ namespace Terra.InputManagement
         {
             base.Awake();
             _inputSystem = new InputSystem();
-        }
-
-        void Start()
-        {
+            
+#if UNITY_EDITOR
             // Activate global controls
             EnableAllTimeControls();
             // Activate player controls
             EnablePlayerControls();
+#endif
         }
 
 
@@ -66,13 +65,13 @@ namespace Terra.InputManagement
         /// </summary>
         private void EnableAllTimeControls()
         {
-            if (_inputSystem?.AllTime == null)
+            if (_inputSystem == null)
             {
                 Debug.LogError("InputActions or AllTime is null in " + this);
                 return;
             }
 
-            _inputSystem?.AllTime.Enable();
+            _inputSystem.AllTime.Enable();
             OnAllTimeControlsStateChanged?.Invoke(true);
         }
 
@@ -81,13 +80,13 @@ namespace Terra.InputManagement
         /// </summary>
         private void DisableAllTimeControls()
         {
-            if (_inputSystem?.AllTime == null)
+            if (_inputSystem == null)
             {
                 Debug.LogError("InputActions or AllTime is null in " + this);
                 return;
             }
 
-            _inputSystem?.AllTime.Disable();
+            _inputSystem.AllTime.Disable();
             OnAllTimeControlsStateChanged?.Invoke(false);
         }
 
@@ -97,13 +96,13 @@ namespace Terra.InputManagement
         /// </summary>
         private void EnablePlayerControls()
         {
-            if (_inputSystem?.PlayerControls == null)
+            if (_inputSystem == null)
             {
                 Debug.LogError("InputActions or PlayerControls is null in " + this);
                 return;
             }
 
-            _inputSystem?.PlayerControls.Enable();
+            _inputSystem.PlayerControls.Enable();
         }
 
         /// <summary>
@@ -111,13 +110,13 @@ namespace Terra.InputManagement
         /// </summary>
         private void DisablePlayerControls()
         {
-            if (_inputSystem?.PlayerControls == null)
+            if (_inputSystem == null)
             {
-                Debug.LogWarning("PlayerControls is null in " + this);
+                Debug.LogError("PlayerControls is null in " + this);
                 return;
             }
 
-            _inputSystem?.PlayerControls.Disable();
+            _inputSystem.PlayerControls.Disable();
         }
 
     }

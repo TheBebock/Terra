@@ -2,6 +2,7 @@ using System;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using Terra.Combat;
 using Terra.InputManagement;
 using Terra.Interfaces;
 using Terra.Utils;
@@ -175,7 +176,7 @@ namespace Terra.Player
             Vector3 attackPosition = _playerInventory.transform.position + direction * range;
             
             Debug.Log("Attack position" + attackPosition);
-            List<IDamagable> targets = ComponentProvider.GetTargetsInSphere<IDamagable>(attackPosition, range, ComponentProvider.PlayerTargetsMask);
+            List<IDamageable> targets = ComponentProvider.GetTargetsInSphere<IDamageable>(attackPosition, range, ComponentProvider.PlayerTargetsMask);
 
             CombatManager.Instance.PlayerPerformedAttack(targets, _playerInventory.MeleeWeapon.Data.damage);
 

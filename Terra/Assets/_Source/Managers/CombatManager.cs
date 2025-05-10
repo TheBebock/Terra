@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Terra.Combat;
 using Terra.Player;
 using Terra.Core.Generics;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviourSingleton<CombatManager>
 {
-    public void PlayerPerformedAttack(List<IDamagable> hitTargets, float baseWeaponDamage = 0)
+    public void PlayerPerformedAttack(List<IDamageable> hitTargets, float baseWeaponDamage = 0)
     {
         if(!PlayerStatsManager.Instance) return;
         // Get damage modifier from player stats
@@ -23,7 +24,7 @@ public class CombatManager : MonoBehaviourSingleton<CombatManager>
         }
     }
     
-    public void EnemyPerformedAttack(List<IDamagable> hitTargets, float damage)
+    public void EnemyPerformedAttack(List<IDamageable> hitTargets, float damage)
     {
         // Loop through targets and apply damage
         for (int i = 0; i < hitTargets.Count; i++)

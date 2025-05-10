@@ -1,4 +1,4 @@
-namespace Terra.StateMachine {
+namespace Terra.FSM {
     public class Transition : ITransition {
         public IState To { get; }
         public IPredicate Condition { get; }

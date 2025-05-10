@@ -2,7 +2,7 @@ using Terra.Player;
 using UnityEngine;
 using static Terra.Player.PlayerAttackController;
 
-namespace Terra.StateMachine.PlayerStates
+namespace Terra.Player.PlayerStates
 {
     public class RangedAttackState : PlayerBaseState
     {

@@ -1,12 +1,11 @@
-using Terra.Player;
+using Terra.Enums;
 using UnityEngine;
-using static Terra.Player.PlayerMovement;
 
-namespace Terra.StateMachine.PlayerStates
+namespace Terra.Player.PlayerStates
 {
     public class LocomotionState : PlayerBaseState
     {
-        private PlayerMoveDirection oldPlayerMoveDirection;
+        private FacingDirection oldPlayerMoveDirection;
         public LocomotionState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
@@ -32,10 +31,10 @@ namespace Terra.StateMachine.PlayerStates
         {
             switch (oldPlayerMoveDirection)
             {
-                case PlayerMoveDirection.Up: animator.CrossFade(LocomotionUpHash, CrossFadeDuration); break;
-                case PlayerMoveDirection.Down: animator.CrossFade(LocomotionDownHash, CrossFadeDuration); break;
-                case PlayerMoveDirection.Left: animator.CrossFade(LocomotionLeftHash, CrossFadeDuration); break;
-                case PlayerMoveDirection.Right: animator.CrossFade(LocomotionRightHash, CrossFadeDuration); break;
+                case FacingDirection.Up: animator.CrossFade(LocomotionUpHash, CrossFadeDuration); break;
+                case FacingDirection.Down: animator.CrossFade(LocomotionDownHash, CrossFadeDuration); break;
+                case FacingDirection.Left: animator.CrossFade(LocomotionLeftHash, CrossFadeDuration); break;
+                case FacingDirection.Right: animator.CrossFade(LocomotionRightHash, CrossFadeDuration); break;
             }
         }
     }

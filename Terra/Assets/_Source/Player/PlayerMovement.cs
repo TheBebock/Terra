@@ -1,5 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
+using Terra.Enums;
 using Terra.InputManagement;
 using Terra.Interfaces;
 using UnityEngine;
@@ -42,16 +43,10 @@ namespace Terra.Player
             private set => _isTryingMove = value;
         }
         
-        private PlayerMoveDirection currentplayerMoveDirection;
-        public PlayerMoveDirection CurrentPlayerMoveDirection => currentplayerMoveDirection;
+        private FacingDirection currentplayerMoveDirection;
+        public FacingDirection CurrentPlayerMoveDirection => currentplayerMoveDirection;
 
-        public enum PlayerMoveDirection
-        {
-            Up = 0,
-            Down = 1,
-            Left = 2,
-            Right = 3,
-        }
+
 
         private void OnDestroy()
         {
@@ -176,13 +171,13 @@ namespace Terra.Player
         private void ChangeMoveDirection()
         {
             if (movementInput.y > 0)
-                currentplayerMoveDirection = PlayerMoveDirection.Up;
+                currentplayerMoveDirection = FacingDirection.Up;
             if (movementInput.y < 0)
-                currentplayerMoveDirection = PlayerMoveDirection.Down;
+                currentplayerMoveDirection = FacingDirection.Down;
             if (movementInput.x < 0)
-                currentplayerMoveDirection = PlayerMoveDirection.Left;
+                currentplayerMoveDirection = FacingDirection.Left;
             if (movementInput.x > 0)
-                currentplayerMoveDirection = PlayerMoveDirection.Right;
+                currentplayerMoveDirection = FacingDirection.Right;
         }
 
         public void AttachListeners()

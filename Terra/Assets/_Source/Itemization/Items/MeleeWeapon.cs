@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Terra.Combat;
 using Terra.Itemization.Items.Definitions;
 using Terra.Utils;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace Terra.Itemization.Abstracts
         }
         private void PerformThrust(Vector3 position, Quaternion rotation)
         {
-           List<IDamagable> targets = ComponentProvider.GetTargetsInBox<IDamagable>(position, Data.hitboxSize, ComponentProvider.PlayerTargetsMask,
+           List<IDamageable> targets = ComponentProvider.GetTargetsInBox<IDamageable>(position, Data.hitboxSize, ComponentProvider.PlayerTargetsMask,
                 rotation);
            if (!CombatManager.Instance)
            {
@@ -46,7 +47,7 @@ namespace Terra.Itemization.Abstracts
 
         private void PerformSwing(Vector3 position)
         {
-            List<IDamagable> targets = ComponentProvider.GetTargetsInSphere<IDamagable>(position, Data.sphereHitboxRadius, ComponentProvider.PlayerTargetsMask);
+            List<IDamageable> targets = ComponentProvider.GetTargetsInSphere<IDamageable>(position, Data.sphereHitboxRadius, ComponentProvider.PlayerTargetsMask);
             if (!CombatManager.Instance)
             {
                 Debug.LogError(this + "Combat Manager not found");

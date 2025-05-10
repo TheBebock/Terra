@@ -1,7 +1,7 @@
-using Terra.Player;
+using Terra.FSM;
 using UnityEngine;
 
-namespace Terra.StateMachine.PlayerStates
+namespace Terra.Player.PlayerStates
 {
     public class PlayerBaseState : BaseState
     {

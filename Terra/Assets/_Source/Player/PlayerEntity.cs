@@ -10,7 +10,7 @@ namespace Terra.Player
     /// <summary>
     ///     Class represents player entity inside the game world
     /// </summary>
-    public class PlayerEntity : Entity, IDamagable, IHealable, IWithSetUp
+    public class PlayerEntity : Entity, IDamageable, IHealable, IWithSetUp
     {
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private HealthController _healthController;
@@ -20,6 +20,8 @@ namespace Terra.Player
         public bool IsInvincible => _healthController.IsInvincible;
         public float MaxHealth => _healthController.MaxHealth;
         public float CurrentHealth => _healthController.CurrentHealth;
+
+
         public HealthController HealthController => _healthController;
 
         public override int Identity => PlayerManager.Instance.Identity;
@@ -37,7 +39,7 @@ namespace Terra.Player
         public void SetUp()
         {
             _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, true);
-            _healthController.OnDeath += OnDeath;
+            _healthController.OnDeath += (this as IDamageable).OnDeath;
             CanBeDamaged = true;
         }
 
@@ -53,18 +55,23 @@ namespace Terra.Player
             _healthController.Heal(amount, isPercentage);
         }
 
-        public void OnDeath()
+        void IDamageable.OnDeath()
+        {
+            OnDeath();
+        }
+        private void OnDeath()
         {
             CanBeDamaged = false;
             PlayerManager.Instance.OnPlayerDeathNotify();
         }
         
         public void ResetHealth(bool isSilent = true) => _healthController.ResetHealth(isSilent);
-        public void KIll(bool isSilent = true) => _healthController.KIll(isSilent);
+        public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
+        
         
         public void TearDown()
         {
-            _healthController.OnDeath -= OnDeath;
+            _healthController.OnDeath -= (this as IDamageable).OnDeath;
         }
     }
 }

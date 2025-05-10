@@ -1,45 +1,52 @@
+using Terra.AI.Enemies;
+using Terra.AI.EnemyStates;
 using Terra.AI.States.EnemyStates;
+using Terra.FSM;
 using Terra.Player;
-using Terra.StateMachine;
 using UnityEngine;
 
-public class EnemyRange : EnemyBase
+namespace Terra.AI.Enemies
 {
-    [Header("Ranged Settings")]
-    [SerializeField] private BulletFactory bulletFactory;
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private BulletData bulletData;
-    [SerializeField] private float attackCooldown = 1.5f;
 
-    protected override float GetAttackCooldown() => attackCooldown;
-
-    protected override void SetupStates()
+    public class EnemyRange : EnemyBase
     {
-        var wander = new EnemyWanderState(this, animator, agent, detectionRadius);
-        var chase = new EnemyChaseState(this, animator, agent, PlayerManager.Instance.transform);
-        var attack = new EnemyRangeAttackState(this, animator, agent, PlayerManager.Instance.transform);
-        enemyDeathState = new EnemyDeathState(this, animator);
+        [Header("Ranged Settings")] [SerializeField]
+        private BulletFactory bulletFactory;
 
-        stateMachine.AddTransition(wander, chase, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
-        stateMachine.AddTransition(chase, wander, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
-        stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer()));
-        stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
-        stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
-        stateMachine.SetState(wander);
-    }
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private BulletData bulletData;
+        [SerializeField] private float attackCooldown = 1.5f;
 
-    public override void AttemptAttack()
-    {
-        if (!attackTimer.IsFinished) return;
+        protected override float GetAttackCooldown() => attackCooldown;
 
-        if (bulletFactory == null || firePoint == null)
+        protected override void SetupStates()
         {
-            Debug.LogError("EnemyRange.AttemptAttack failed: factory or firePoint missing.");
-            return;
+            var wander = new EnemyWanderState(this, agent, animator, detectionRadius);
+            var chase = new EnemyChaseState(this, agent, animator, PlayerManager.Instance.transform);
+            var attack = new EnemyRangeAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
+            enemyDeathState = new EnemyDeathState(this, agent, animator);
+
+            stateMachine.AddTransition(wander, chase, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
+            stateMachine.AddTransition(chase, wander, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
+            stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer()));
+            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
+            stateMachine.SetState(wander);
         }
 
-        var dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
-        bulletFactory.CreateBullet(bulletData, firePoint.position, dir);
-        attackTimer.Reset();
+        public override void AttemptAttack()
+        {
+            if (!attackTimer.IsFinished) return;
+
+            if (bulletFactory == null || firePoint == null)
+            {
+                Debug.LogError("EnemyRange.AttemptAttack failed: factory or firePoint missing.");
+                return;
+            }
+
+            var dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
+            bulletFactory.CreateBullet(bulletData, firePoint.position, dir);
+            attackTimer.Reset();
+        }
     }
 }

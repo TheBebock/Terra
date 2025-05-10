@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Terra.StateMachine {
+namespace Terra.FSM {
     [Serializable]
     public class StateMachine {
         StateNode current;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Terra.StateMachine;
+using Terra.FSM;
 using UnityEngine;
 
 namespace Terra.CameraController

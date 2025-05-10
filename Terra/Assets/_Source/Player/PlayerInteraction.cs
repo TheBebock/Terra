@@ -1,56 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Terra.InputManagement;
+using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Terra.Player;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMovement))]
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : InGameMonobehaviour, IAttachListeners
 {
-    [Header("Interaction Settings")]
-    public float interactionDistance = 3f;
-    public LayerMask interactionLayer;
+    [Header("Interaction Settings")] 
+    [SerializeField] private float interactionDistance = 3f;
+    [SerializeField] private LayerMask interactionLayer;
     
-    public TextMeshProUGUI interactionPromptText;
-    public Image interactionPromptBackground;
-    
-    private PlayerMovement _playerMovement;
+
     private IInteractable _currentInteractable;
-    private float _attackCooldownTimer = 0f;
-    private float _attackCooldown = 0.5f;
-    
+
+
     private List<IInteractable> _nearbyInteractables = new List<IInteractable>();
     
-    void Start()
+    
+    private void Update()
     {
-        _playerMovement = GetComponent<PlayerMovement>();
-        
-        if (interactionPromptText != null)
-        {
-            interactionPromptText.gameObject.SetActive(false);
-        }
-        
-        if (interactionPromptBackground != null)
-        {
-            interactionPromptBackground.gameObject.SetActive(false);
-        }
+        UpdateNearestInteractable();
     }
 
-    void Update()
-    {
-        // Sprawdź najbliższy interaktywny obiekt
-        UpdateNearestInteractable();
-        HandleInteractionInput();
-        
-        if (_attackCooldownTimer > 0)
-        {
-            _attackCooldownTimer -= Time.deltaTime;
-        }
-    }
-    
-    // Method to find new interaction
-    public void AddInteractable(IInteractable interactable)
+    private void AddInteractable(IInteractable interactable)
     {
         if (interactable != null && !_nearbyInteractables.Contains(interactable))
         {
@@ -58,119 +35,67 @@ public class PlayerInteraction : MonoBehaviour
             UpdateNearestInteractable();
         }
     }
-    
-    // Method to delete interactions
-    public void RemoveInteractable(IInteractable interactable)
+
+    private void RemoveInteractable(IInteractable interactable)
     {
         if (interactable != null && _nearbyInteractables.Contains(interactable))
         {
             _nearbyInteractables.Remove(interactable);
-            
+
             // If deleted object was the one chosesn
             if (_currentInteractable == interactable)
             {
                 _currentInteractable = null;
-                
-                if (interactionPromptText != null)
-                {
-                    interactionPromptText.gameObject.SetActive(false);
-                }
-                
-                if (interactionPromptBackground != null)
-                {
-                    interactionPromptBackground.gameObject.SetActive(false);
-                }
             }
-            
+
             UpdateNearestInteractable();
         }
     }
-    
+
     private void UpdateNearestInteractable()
-{
-    if (_nearbyInteractables.Count == 0)
     {
-        _currentInteractable = null;
-        
-        if (interactionPromptText != null)
+        if (_nearbyInteractables.Count == 0)
         {
-            interactionPromptText.gameObject.SetActive(false);
+            _currentInteractable = null;
+            return;
         }
-        
-        if (interactionPromptBackground != null)
+
+        // Find the nearest object 
+        float closestDistance = float.MaxValue;
+        IInteractable closestInteractable = null;
+
+        foreach (var interactable in _nearbyInteractables)
         {
-            interactionPromptBackground.gameObject.SetActive(false);
-        }
-        
-        return;
-    }
-    
-    // Find the nearest object 
-    float closestDistance = float.MaxValue;
-    IInteractable closestInteractable = null;
-    
-    foreach (var interactable in _nearbyInteractables)
-    {
-        if (!interactable.CanBeInteractedWith) continue;
-        
-        // Get the GameObject of the interactable
-        GameObject interactableObj = (interactable as MonoBehaviour)?.gameObject;
-        if (interactableObj == null) continue;
-        
-        float distance = Vector3.Distance(transform.position, interactableObj.transform.position);
-        
-        // Check if object is within interaction distance
-        if (distance <= interactionDistance && distance < closestDistance)
-        {
-            closestDistance = distance;
-            closestInteractable = interactable;
-        }
-    }
-    
-    // when new object is found
-    if (closestInteractable != null && closestInteractable != _currentInteractable)
-    {
-        _currentInteractable = closestInteractable;
-        
-        if (interactionPromptText != null)
-        {
-            string promptText = _currentInteractable.GetInteractionPrompt();
-            if (string.IsNullOrEmpty(promptText))
+            if (!interactable.CanBeInteractedWith) continue;
+
+            // Get the GameObject of the interactable
+            GameObject interactableObj = (interactable as MonoBehaviour)?.gameObject;
+            if (interactableObj == null) continue;
+
+            float distance = Vector3.Distance(transform.position, interactableObj.transform.position);
+
+            // Check if object is within interaction distance
+            if (distance <= interactionDistance && distance < closestDistance)
             {
-                promptText = "Naciśnij E, aby wejść w interakcję";
-            }
-            
-            interactionPromptText.text = promptText;
-            interactionPromptText.gameObject.SetActive(true);
-            
-            if (interactionPromptBackground != null)
-            {
-                interactionPromptBackground.gameObject.SetActive(true);
+                closestDistance = distance;
+                closestInteractable = interactable;
             }
         }
-    }
-    else if (closestInteractable == null)
-    {
-        _currentInteractable = null;
-        
-        if (interactionPromptText != null)
+
+        // when new object is found
+        if (closestInteractable != null && closestInteractable != _currentInteractable)
         {
-            interactionPromptText.gameObject.SetActive(false);
+            _currentInteractable = closestInteractable;
         }
-        
-        if (interactionPromptBackground != null)
+        else if (closestInteractable == null)
         {
-            interactionPromptBackground.gameObject.SetActive(false);
+            _currentInteractable = null;
         }
     }
-}
-    
-    private void HandleInteractionInput()
+
+    private void OnInteract(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.E)) // E - interaction
-        {
-            Interact();
-        }
+        if(context.performed) Interact();
     }
 
     private void Interact()
@@ -179,9 +104,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.Log("Interakcja z: " + _currentInteractable);
             _currentInteractable.Interact();
-            
+
             GameObject interactableObject = (_currentInteractable as MonoBehaviour)?.gameObject;
-            
+
             if (interactableObject != null)
             {
                 IPickupable pickupable = interactableObject.GetComponent<IPickupable>();
@@ -196,5 +121,16 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.Log("Nie znaleziono prawidłowego obiektu interaktywnego.");
         }
+    }
+
+    public void AttachListeners()
+    {
+        InputManager.Instance.PlayerControls.Interaction.performed += OnInteract;
+    }
+
+    public void DetachListeners()
+    {
+        if(InputManager.Instance)
+            InputManager.Instance.PlayerControls.Interaction.performed += OnInteract;
     }
 }

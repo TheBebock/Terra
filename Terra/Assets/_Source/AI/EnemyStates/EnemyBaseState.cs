@@ -1,10 +1,13 @@
-using Terra.StateMachine;
+using Terra.AI.Enemies;
+using Terra.FSM;
 using UnityEngine;
+using UnityEngine.AI;
 
-namespace Terra.AI.States.EnemyStates {
+namespace Terra.AI.EnemyStates {
     public abstract class EnemyBaseState : IState {
-        protected readonly Enemy enemy;
+        protected readonly EnemyBase enemy;
         protected readonly Animator animator;
+        protected readonly NavMeshAgent navMeshAgent;
         
         protected static readonly int IdleHash = Animator.StringToHash("IdleNormal");
         protected static readonly int RunHash = Animator.StringToHash("RunFWD");
@@ -14,7 +17,8 @@ namespace Terra.AI.States.EnemyStates {
         
         protected const float crossFadeDuration = 0.1f;
 
-        protected EnemyBaseState(EnemyBase enemy, Animator animator) {
+        protected EnemyBaseState(EnemyBase enemy, NavMeshAgent agent,  Animator animator) {
+            navMeshAgent = agent;
             this.enemy = enemy;
             this.animator = animator;
         }

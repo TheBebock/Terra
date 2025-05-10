@@ -1,4 +1,4 @@
-namespace Terra.StateMachine {
+namespace Terra.FSM {
     public interface IState {
         void OnEnter();
         void Update();

@@ -2,10 +2,10 @@ using System;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Combat;
+using Terra.FSM;
 using UnityEngine;
-using Terra.StateMachine.PlayerStates;
 using Terra.Interfaces;
-using Terra.StateMachine;
+using Terra.Player.PlayerStates;
 
 namespace Terra.Player
 {
@@ -18,7 +18,7 @@ namespace Terra.Player
 
         [Foldout("Debug")] [SerializeField, ReadOnly]
         private PlayerAttackController _playerAttackController;
-        [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine.StateMachine _stateMachine;
+        [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine _stateMachine;
         
         [Foldout("References")] [SerializeField] private PlayerMovement _playerMovement;
         [Foldout("References")] [SerializeField] private Animator _playerAnimator;
@@ -41,7 +41,7 @@ namespace Terra.Player
         {
             base.Awake();
             
-            _stateMachine = new StateMachine.StateMachine();
+            _stateMachine = new StateMachine();
 
             // Set states
             IdleState idleState = new IdleState(this, _playerAnimator);

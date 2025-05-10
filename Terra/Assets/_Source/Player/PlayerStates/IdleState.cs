@@ -1,9 +1,11 @@
+using Terra.Enums;
+using Terra.FSM;
 using Terra.Player;
 using UnityEngine;
 using static Terra.Player.PlayerAttackController;
 using static Terra.Player.PlayerMovement;
 
-namespace Terra.StateMachine.PlayerStates
+namespace Terra.Player.PlayerStates
 {
     public class IdleState : PlayerBaseState
     {
@@ -34,13 +36,13 @@ namespace Terra.StateMachine.PlayerStates
 
         private void UseMovementDirection()
         {
-            PlayerMoveDirection playerMoveDirection = player.PlayerMovement.CurrentPlayerMoveDirection;
+            FacingDirection playerMoveDirection = player.PlayerMovement.CurrentPlayerMoveDirection;
             switch (playerMoveDirection)
             {
-                case PlayerMoveDirection.Up: animator.CrossFade(IdleUpHash, CrossFadeDuration); break;
-                case PlayerMoveDirection.Down: animator.CrossFade(IdleDownHash, CrossFadeDuration); break;
-                case PlayerMoveDirection.Left: animator.CrossFade(IdleLeftHash, CrossFadeDuration); break;
-                case PlayerMoveDirection.Right: animator.CrossFade(IdleRightHash, CrossFadeDuration); break;
+                case FacingDirection.Up: animator.CrossFade(IdleUpHash, CrossFadeDuration); break;
+                case FacingDirection.Down: animator.CrossFade(IdleDownHash, CrossFadeDuration); break;
+                case FacingDirection.Left: animator.CrossFade(IdleLeftHash, CrossFadeDuration); break;
+                case FacingDirection.Right: animator.CrossFade(IdleRightHash, CrossFadeDuration); break;
             }
         }
 

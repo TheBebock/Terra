@@ -1,7 +1,6 @@
-using Terra.Player;
 using UnityEngine;
 
-namespace Terra.StateMachine.PlayerStates
+namespace Terra.Player.PlayerStates
 {
     public class DashState : PlayerBaseState
     {

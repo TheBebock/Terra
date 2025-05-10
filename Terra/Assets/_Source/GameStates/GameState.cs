@@ -1,5 +1,5 @@
 using System;
-using Terra.StateMachine;
+using Terra.FSM;
 
 namespace Terra.GameStates
 {

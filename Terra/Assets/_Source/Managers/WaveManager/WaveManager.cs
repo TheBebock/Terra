@@ -1,4 +1,5 @@
 using System.Collections;
+using Terra.AI.Enemies;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -77,7 +78,7 @@ public class WaveManager : MonoBehaviour
 
         currentActiveEnemies++;
 
-        var enemyScript = enemy.GetComponent<Enemy>();
+        var enemyScript = enemy.GetComponent<EnemyBase>();
         if (enemyScript != null)
         {
             enemyScript.HealthController.OnDeath += () =>

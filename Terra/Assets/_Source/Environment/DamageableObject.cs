@@ -12,7 +12,7 @@ namespace Terra.Environment
     /// <summary>
     /// Represents object in game world that can be damaged
     /// </summary>
-    public class DamageableObject : InteractableBase, IDamagable, IAttachListeners
+    public class DamageableObject : InteractableBase, IDamageable, IAttachListeners
     {
         [SerializeField] private ModifiableValue maxHealth;
         [SerializeField] private SpriteRenderer propModel;
@@ -26,7 +26,9 @@ namespace Terra.Environment
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0;
         public override bool CanBeInteractedWith { get; protected set; }
-    
+
+        
+
         public HealthController HealthController => _healthController;
         
         private Sequence _moveSequence;
@@ -60,7 +62,13 @@ namespace Terra.Environment
                 .Append(propModel.transform.DOLocalMove(startPos, 0.2f));
         }
 
-        public virtual void OnDeath()
+        public void Kill(bool isSilent = false) => _healthController.Kill(isSilent);
+
+        void IDamageable.OnDeath()
+        {
+            OnDeath();
+        }
+        protected virtual void OnDeath()
         {
             propModel.material.DOFade(0f, 2.5f);
             
@@ -77,14 +85,14 @@ namespace Terra.Environment
 
         public virtual void AttachListeners()
         {
-            _healthController.OnDeath += OnDeath;
+            _healthController.OnDeath += (this as IDamageable).OnDeath;
             _healthController.OnDamaged += OnDamaged;
 
         }
 
         public virtual void DetachListeners()
         {
-            _healthController.OnDeath -= OnDeath;
+            _healthController.OnDeath -= (this as IDamageable).OnDeath;
             _healthController.OnDamaged -= OnDamaged;
 
         }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Terra.StateMachine
+namespace Terra.FSM
 {
     [Serializable]
     public abstract class BaseState : IState
