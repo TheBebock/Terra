@@ -2,27 +2,30 @@ using UnityEngine;
 using Terra.Interfaces;
 
 /// <summary>
-/// Represents a projectile that deals damage on contact and self-destructs after a set time.
+/// Represents a projectile that applies damage on contact and self-destructs after its lifetime.
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float damage = 1f;       // Amount of damage the projectile inflicts
-    [SerializeField] private float lifetime = 5f;     // Time in seconds before the projectile is automatically destroyed
+    private float damage;
+    private float speed;
 
     /// <summary>
-    /// Called on the first frame the projectile exists.
-    /// Starts a timer to destroy the projectile after its lifetime expires.
+    /// Initializes the projectile with configuration data and sets its velocity.
     /// </summary>
-    private void Start()
+    public void Initialize(BulletData data, Vector3 direction)
     {
-        Destroy(gameObject, lifetime);
+        damage = data.bulletDamage;
+        speed = data.bulletSpeed;
+
+        // Schedule destruction after lifetime
+        Destroy(gameObject, data.bulletLifetime);
+
+        // Set initial velocity
+        var rb = GetComponent<Rigidbody2D>();
+        rb.velocity = direction.normalized * speed;
     }
 
-    /// <summary>
-    /// Called when the projectile collides with another trigger collider.
-    /// If the object implements IDamagable, apply damage and destroy the projectile.
-    /// </summary>
-    /// <param name="other">The collider that this projectile has entered.</param>
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<IDamagable>(out var target))
