@@ -13,18 +13,11 @@ namespace Terra.Core.Generics
     [RequireComponent(typeof(LookAtCameraComponent))]
     public abstract class Entity : InGameMonobehaviour, IUniqueable
     {
-        [Foldout("Debug"), ReadOnly] [SerializeField]
-        private StatusContainer _statusContainer;
+
         [FormerlySerializedAs("id")] [Foldout("Debug"), ReadOnly] [SerializeField]
         private int _id = -1;
-
-        public StatusContainer StatusContainer => _statusContainer;
         public virtual int Identity => _id;
-
-        protected virtual void Awake()
-        {
-            _statusContainer = new StatusContainer(this);
-        }
+        
 
         /// <summary>
         /// Handles registering object with unique ID

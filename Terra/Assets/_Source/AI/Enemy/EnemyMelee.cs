@@ -37,7 +37,7 @@ namespace Terra.AI.Enemies
             var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
                 transform.position, attackRadius, ComponentProvider.EnemyTargetsMask);
 
-            CombatManager.Instance.EnemyPerformedAttack(targets, enemyStats.baseStrength);
+            CombatManager.Instance.EnemyPerformedAttack(this, targets, enemyStats.baseStrength);
             attackTimer.Reset();
         }
     }

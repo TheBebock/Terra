@@ -65,7 +65,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MelleAttack"",
+                    ""name"": ""MeleeAttack"",
                     ""type"": ""Button"",
                     ""id"": ""0c2f8ac1-efe5-4033-a8b2-491188c85c8e"",
                     ""expectedControlType"": ""Button"",
@@ -118,7 +118,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""MelleAttack"",
+                    ""action"": ""MeleeAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -249,7 +249,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // PlayerControls
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
-        m_PlayerControls_MelleAttack = m_PlayerControls.FindAction("MelleAttack", throwIfNotFound: true);
+        m_PlayerControls_MeleeAttack = m_PlayerControls.FindAction("MeleeAttack", throwIfNotFound: true);
         m_PlayerControls_DistanceAttack = m_PlayerControls.FindAction("DistanceAttack", throwIfNotFound: true);
         m_PlayerControls_UseItem = m_PlayerControls.FindAction("UseItem", throwIfNotFound: true);
         m_PlayerControls_Interaction = m_PlayerControls.FindAction("Interaction", throwIfNotFound: true);
@@ -362,7 +362,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControls;
     private List<IPlayerControlsActions> m_PlayerControlsActionsCallbackInterfaces = new List<IPlayerControlsActions>();
     private readonly InputAction m_PlayerControls_Movement;
-    private readonly InputAction m_PlayerControls_MelleAttack;
+    private readonly InputAction m_PlayerControls_MeleeAttack;
     private readonly InputAction m_PlayerControls_DistanceAttack;
     private readonly InputAction m_PlayerControls_UseItem;
     private readonly InputAction m_PlayerControls_Interaction;
@@ -372,7 +372,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         private @InputSystem m_Wrapper;
         public PlayerControlsActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
-        public InputAction @MelleAttack => m_Wrapper.m_PlayerControls_MelleAttack;
+        public InputAction @MeleeAttack => m_Wrapper.m_PlayerControls_MeleeAttack;
         public InputAction @DistanceAttack => m_Wrapper.m_PlayerControls_DistanceAttack;
         public InputAction @UseItem => m_Wrapper.m_PlayerControls_UseItem;
         public InputAction @Interaction => m_Wrapper.m_PlayerControls_Interaction;
@@ -389,9 +389,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
-            @MelleAttack.started += instance.OnMelleAttack;
-            @MelleAttack.performed += instance.OnMelleAttack;
-            @MelleAttack.canceled += instance.OnMelleAttack;
+            @MeleeAttack.started += instance.OnMeleeAttack;
+            @MeleeAttack.performed += instance.OnMeleeAttack;
+            @MeleeAttack.canceled += instance.OnMeleeAttack;
             @DistanceAttack.started += instance.OnDistanceAttack;
             @DistanceAttack.performed += instance.OnDistanceAttack;
             @DistanceAttack.canceled += instance.OnDistanceAttack;
@@ -411,9 +411,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
-            @MelleAttack.started -= instance.OnMelleAttack;
-            @MelleAttack.performed -= instance.OnMelleAttack;
-            @MelleAttack.canceled -= instance.OnMelleAttack;
+            @MeleeAttack.started -= instance.OnMeleeAttack;
+            @MeleeAttack.performed -= instance.OnMeleeAttack;
+            @MeleeAttack.canceled -= instance.OnMeleeAttack;
             @DistanceAttack.started -= instance.OnDistanceAttack;
             @DistanceAttack.performed -= instance.OnDistanceAttack;
             @DistanceAttack.canceled -= instance.OnDistanceAttack;
@@ -459,7 +459,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     public interface IPlayerControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnMelleAttack(InputAction.CallbackContext context);
+        void OnMeleeAttack(InputAction.CallbackContext context);
         void OnDistanceAttack(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);

@@ -8,6 +8,8 @@ using Terra.AI.EnemyStates;
 using Terra.AI.States.EnemyStates;
 using Terra.Combat;
 using Terra.Core.Generics;
+using Terra.EffectsSystem;
+using Terra.EffectsSystem.Abstracts;
 using Terra.Enums;
 using Terra.FSM;
 using Terra.Interfaces;
@@ -41,8 +43,8 @@ namespace Terra.AI.Enemies
         [Foldout("References")][SerializeField] protected SpriteRenderer enemyModel;
 
 
-
-        private HealthController _healthController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         protected StateMachine stateMachine;
         protected EnemyDeathState enemyDeathState;
         protected CountdownTimer attackTimer;
@@ -52,22 +54,22 @@ namespace Terra.AI.Enemies
 
         public HealthController HealthController => _healthController;
         public FacingDirection CurrentDirection { get; set; } = FacingDirection.Right;
-
+        public StatusContainer StatusContainer => _statusContainer;
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f;
 
         /// <summary>
         /// Initialize health, timer, and build the AI state machine.
         /// </summary>
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
+           
             if (enemyStats == null)
             {
                 Debug.LogError($"[{nameof(EnemyBase)}] missing EnemyStatsDefinition on {name}");
             }
 
+            _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth));
             attackTimer = new CountdownTimer(GetAttackCooldown());
 
@@ -89,6 +91,7 @@ namespace Terra.AI.Enemies
         protected virtual void Update()
         {
             if (isDead || stateMachineLocked) return;
+            StatusContainer.UpdateEffects();
             stateMachine.Update();
             attackTimer.Tick(Time.deltaTime);
             UpdateFacingDirection();
@@ -143,7 +146,6 @@ namespace Terra.AI.Enemies
         
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
 
-        
         void IDamageable.OnDeath()
         {
             OnDeath();

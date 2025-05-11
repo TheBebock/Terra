@@ -37,9 +37,17 @@ namespace Terra.Player
         
         public event Action OnPlayerDeath;
 
-        protected override void Awake()
+
+        public IState GetLastState()
         {
-            base.Awake();
+            return _stateMachine.GetPreviousState();
+        }
+
+        public void SetUp()
+        {
+            //NOTE: Needs to be in SetUp, because it caches references to managers
+            _playerAttackController = new PlayerAttackController(false);
+            _playerAttackController.AttachListeners();
             
             _stateMachine = new StateMachine();
 
@@ -72,17 +80,6 @@ namespace Terra.Player
             
 
             _stateMachine.SetState(idleState);
-        }
-
-        public IState GetLastState()
-        {
-            return _stateMachine.GetPreviousState();
-        }
-
-        public void SetUp()
-        {
-            //NOTE: Needs to be in SetUp, because it caches references to managers
-            _playerAttackController = new PlayerAttackController(false);
         }
 
         private void Update()

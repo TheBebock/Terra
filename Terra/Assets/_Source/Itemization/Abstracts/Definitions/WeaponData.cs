@@ -9,7 +9,7 @@ namespace Terra.Itemization.Items.Definitions
     /// </summary>
     public abstract class WeaponData : ItemData
     {
-        public EffectsContainer effects = new ();
+        public EffectsContainer effects;
         public int damage;
         public float range;
         public float attackSpeed;

@@ -8,7 +8,6 @@ using Terra.Interfaces;
 using Terra.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Terra.Player.PlayerMovement;
 
 namespace Terra.Player
 {
@@ -19,45 +18,44 @@ namespace Terra.Player
     [Serializable]
     public class PlayerAttackController : IAttachListeners
     {
-        private InputSystem.PlayerControlsActions inputActions;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         
         private PlayerInventoryManager _playerInventory;
 
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private bool isTryingPerformMeleeAttack = false;
+        private bool _isTryingPerformMeleeAttack;
 
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private bool isTryingPerformDistanceAttack = false;
+        private bool _isTryingPerformDistanceAttack;
 
 
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private float currentMeleeCD = 0;
+        private float _currentMeleeCd;
 
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private float currentRangedCD = 0;
+        private float _currentRangedCd;
 
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private float maxMeleeCD = 0;
+        private float _maxMeleeCd;
 
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private float maxRangedCD = 0;
+        private float _maxRangedCd;
 
         public bool IsTryingPerformMeleeAttack
         {
-            get => isTryingPerformMeleeAttack;
-            set => isTryingPerformMeleeAttack = value;
+            get => _isTryingPerformMeleeAttack;
+            set => _isTryingPerformMeleeAttack = value;
 
         }
 
         public bool IsTryingPerformDistanceAttack
         {
-            get => isTryingPerformDistanceAttack;
-            set => isTryingPerformDistanceAttack = value;
+            get => _isTryingPerformDistanceAttack;
+            set => _isTryingPerformDistanceAttack = value;
         }
 
-        public float CurrentMeleeCooldown => currentMeleeCD;
-        public float CurrentRangedCooldown => currentRangedCD;
+        public float CurrentMeleeCooldown => _currentMeleeCd;
+        public float CurrentRangedCooldown => _currentRangedCd;
 
         private PlayerAttackDirection _currentplayerAttackDirection;
         public PlayerAttackDirection CurrentPlayerAttackDirection => _currentplayerAttackDirection;
@@ -73,15 +71,6 @@ namespace Terra.Player
         //NOTE: variable dummy was made to not override default constructor, as it was trying to construct it for serialization
         public PlayerAttackController(bool dummy)
         {
-            if (InputManager.Instance)
-            {
-                inputActions = InputManager.Instance.PlayerControls;
-            }
-            else
-            {
-                Debug.LogError($"{this}: Input Manager not found.");
-            }
-
             if (PlayerInventoryManager.Instance)
             {
                 _playerInventory = PlayerInventoryManager.Instance;
@@ -94,36 +83,36 @@ namespace Terra.Player
 
         public void AttachListeners()
         {
-            inputActions.MelleAttack.performed += OnMeleeAttackInput;
-            inputActions.DistanceAttack.performed += OnDistanceAttackInput;
+            InputManager.Instance.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
+            InputManager.Instance.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
         }
 
-        public IEnumerator DecreaseMeleeCooldown()
+        private IEnumerator DecreaseMeleeCooldown()
         {
             while (CurrentMeleeCooldown > 0)
             {
-                currentMeleeCD--;
+                _currentMeleeCd--;
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
-        public IEnumerator DecreaseRangedCooldown()
+        private IEnumerator DecreaseRangedCooldown()
         {
             while (CurrentRangedCooldown > 0)
             {
-                currentRangedCD--;
+                _currentRangedCd--;
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
-            maxMeleeCD = _playerInventory.MeleeWeapon.Data.attackSpeed;
-            if (currentMeleeCD == 0)
+            _maxMeleeCd = _playerInventory.MeleeWeapon.Data.attackSpeed;
+            if (_currentMeleeCd == 0)
             {
                 ChangeAttackDirection();
-                isTryingPerformMeleeAttack = true;
-                currentMeleeCD = maxMeleeCD;
+                _isTryingPerformMeleeAttack = true;
+                _currentMeleeCd = _maxMeleeCd;
                 _playerInventory.StartCoroutine(DecreaseMeleeCooldown());
             }
         }
@@ -133,21 +122,22 @@ namespace Terra.Player
             //TODO: Ranged attack
             return;
             
-            maxRangedCD = _playerInventory.RangedWeapon.Data.attackSpeed;
-            if (currentRangedCD == 0)
+            _maxRangedCd = _playerInventory.RangedWeapon.Data.attackSpeed;
+            if (_currentRangedCd == 0)
             {
                 ChangeAttackDirection();
-                isTryingPerformDistanceAttack = true;
-                currentRangedCD = maxRangedCD;
+                _isTryingPerformDistanceAttack = true;
+                _currentRangedCd = _maxRangedCd;
                 _playerInventory.StartCoroutine(DecreaseRangedCooldown());
             }
         }
 
         private void ChangeAttackDirection()
         {
-            if(isTryingPerformMeleeAttack) return;
+            if(_isTryingPerformMeleeAttack) return;
             
             Vector2 mousePosition = Mouse.current.position.ReadValue();
+            //TODO: Change to camera manager
             Ray ray = Camera.main.ScreenPointToRay( mousePosition );
             Plane plane = new Plane(Vector3.up, _playerInventory.transform.position);
 
@@ -174,22 +164,20 @@ namespace Terra.Player
             float range = _playerInventory.MeleeWeapon.Data.range;
             
             Vector3 attackPosition = _playerInventory.transform.position + direction * range;
-            
-            Debug.Log("Attack position" + attackPosition);
-            List<IDamageable> targets = ComponentProvider.GetTargetsInSphere<IDamageable>(attackPosition, range, ComponentProvider.PlayerTargetsMask);
+            Quaternion targetRotation = Quaternion.LookRotation(attackPosition - _playerInventory.transform.position);
+            Debug.Log($"Attack position: {attackPosition}\nTarget rotation: {targetRotation}");
 
-            CombatManager.Instance.PlayerPerformedAttack(targets, _playerInventory.MeleeWeapon.Data.damage);
+            _playerInventory.MeleeWeapon.PerformAttack(attackPosition, targetRotation);
 
         }
         
         public void DetachListeners()
         {
-            if (inputActions.MelleAttack != null)
-                inputActions.MelleAttack.performed -= OnMeleeAttackInput;
-
-            if (inputActions.DistanceAttack != null)
-                inputActions.Dash.performed -= OnDistanceAttackInput;
+            if (InputManager.Instance)
+            {
+                InputManager.Instance.PlayerControls.MeleeAttack.performed -= OnMeleeAttackInput;
+                InputManager.Instance.PlayerControls.Dash.performed -= OnDistanceAttackInput;
+            }
         }
-        
     }
 }

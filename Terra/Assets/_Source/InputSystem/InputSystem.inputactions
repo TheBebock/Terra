@@ -43,7 +43,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MelleAttack",
+                    "name": "MeleeAttack",
                     "type": "Button",
                     "id": "0c2f8ac1-efe5-4033-a8b2-491188c85c8e",
                     "expectedControlType": "Button",
@@ -96,7 +96,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "MelleAttack",
+                    "action": "MeleeAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

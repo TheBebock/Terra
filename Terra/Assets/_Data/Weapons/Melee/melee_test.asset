@@ -22,14 +22,14 @@ MonoBehaviour:
   speedModifiers: []
   luckModifiers: []
   effects:
-    _statuses:
+    statuses:
     - {fileID: 11400000, guid: f8b992a33cd2de143bfcb47aa174c6b6, type: 2}
-    _actions:
+    actions:
     - {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
-  damage: 0
+  damage: 1
   range: 3
   attackSpeed: 0
   WeaponType: 0
-  attackType: 0
-  hitboxSize: {x: 0, y: 0, z: 0}
-  sphereHitboxRadius: 0
+  attackType: 1
+  hitboxSize: {x: 1, y: 1, z: 1}
+  sphereHitboxRadius: 1

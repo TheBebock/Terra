@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PoisonStatusData_
   m_EditorClassIdentifier: 
   entityID: -1
-  duration: 5
-  ticksPerSecond: 2
+  statusDuration: 3
+  amountOfTicksPerSecond: 2
+  damagePerTick: 0.1

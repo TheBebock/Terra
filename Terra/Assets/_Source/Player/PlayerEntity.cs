@@ -1,6 +1,9 @@
+using System;
 using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Core.Generics;
+using Terra.EffectsSystem;
+using Terra.EffectsSystem.Abstracts;
 using Terra.Interfaces;
 using UnityEngine;
 
@@ -14,14 +17,15 @@ namespace Terra.Player
     {
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private HealthController _healthController;
-
+        [Foldout("Debug"), ReadOnly] [SerializeField]
+        private StatusContainer _statusContainer;
         public bool CanBeDamaged { get; set; } = true;
         public bool CanBeHealed => _healthController.CanBeHealed;
         public bool IsInvincible => _healthController.IsInvincible;
         public float MaxHealth => _healthController.MaxHealth;
         public float CurrentHealth => _healthController.CurrentHealth;
 
-
+        public StatusContainer StatusContainer => _statusContainer;
         public HealthController HealthController => _healthController;
 
         public override int Identity => PlayerManager.Instance.Identity;
@@ -38,9 +42,15 @@ namespace Terra.Player
 
         public void SetUp()
         {
+            _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, true);
             _healthController.OnDeath += (this as IDamageable).OnDeath;
             CanBeDamaged = true;
+        }
+
+        private void Update()
+        {
+            StatusContainer.UpdateEffects();
         }
 
         public void TakeDamage(float amount, bool isPercentage = false)

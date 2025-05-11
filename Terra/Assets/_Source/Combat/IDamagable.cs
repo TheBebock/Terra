@@ -1,3 +1,6 @@
+using Terra.EffectsSystem;
+using Terra.EffectsSystem.Abstracts;
+
 namespace Terra.Combat
 {
     /// <summary>
@@ -25,8 +28,11 @@ namespace Terra.Combat
         /// </summary>
         /// <param name="isSilent">If marked as true, does not provoke OnDamaged</param>
         public void Kill(bool isSilent = true);
+        
         public HealthController HealthController { get; }
-
+        
+        public StatusContainer StatusContainer { get; }
+        
         /// <summary>
         ///     Method used on entities death
         /// </summary>

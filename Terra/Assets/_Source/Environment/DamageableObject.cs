@@ -1,7 +1,10 @@
 using System;
 using Core.ModifiableValue;
 using DG.Tweening;
+using NaughtyAttributes;
 using Terra.Combat;
+using Terra.EffectsSystem;
+using Terra.EffectsSystem.Abstracts;
 using Terra.Interfaces;
 using Terra.Managers;
 using UnityEngine;
@@ -22,7 +25,8 @@ namespace Terra.Environment
         [SerializeField] private Vector3 moveOffset;
         [SerializeField] private Color damagedColor = Color.red;
         
-        private HealthController _healthController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0;
         public override bool CanBeInteractedWith { get; protected set; }
@@ -30,13 +34,19 @@ namespace Terra.Environment
         
 
         public HealthController HealthController => _healthController;
-        
+        public StatusContainer StatusContainer => _statusContainer;
+
         private Sequence _moveSequence;
 
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
+            _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(maxHealth);
+        }
+
+        protected virtual void Update()
+        {
+            StatusContainer.UpdateEffects();
         }
 
         public void TakeDamage(float amount, bool isPercentage = false)

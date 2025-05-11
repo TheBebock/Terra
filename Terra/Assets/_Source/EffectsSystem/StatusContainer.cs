@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
 using Terra.EffectsSystem.Utils;
@@ -16,9 +17,8 @@ namespace Terra.EffectsSystem
     public class StatusContainer
     {
 
-        Entity _entity;
-        
-        List<StatusEffectBase> _statuses = new List<StatusEffectBase>();
+        [SerializeField, ReadOnly] private Entity _entity;
+        [SerializeField, ReadOnly] private List<StatusEffectBase> _statuses = new List<StatusEffectBase>();
 
         public StatusContainer(Entity entity)
         {
@@ -58,6 +58,7 @@ namespace Terra.EffectsSystem
             for (int i = 0; i < _statuses.Count; ++i)
             {
                 _statuses[i].Update();
+                _statuses[i].TryRemove();
             }
         }
     }

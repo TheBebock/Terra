@@ -1,6 +1,7 @@
 using Terra.Combat;
 using Terra.EffectsSystem.Abstracts;
 using Terra.EffectsSystem.Statuses.Data;
+using UnityEngine;
 
 namespace Terra.EffectsSystem.Statuses
 {
@@ -20,13 +21,9 @@ namespace Terra.EffectsSystem.Statuses
 
         protected override void OnStatusTick()
         {
+            Debug.Log($"{entity.name} poison damaged {Data.damagePerTick}");
             _damageable?.TakeDamage(Data.damagePerTick);
         }
-
-        protected override void OnRemove()
-        {
-            base.OnRemove();
-            //TODO: remove visual effect
-        }
+        
     }
 }

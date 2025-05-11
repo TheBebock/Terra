@@ -1,54 +1,64 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using _Source.AI.Enemy;
 using Terra.EffectsSystem.Abstracts;
 using Terra.Utils;
 using UnityEngine;
 
-public abstract class TimedStatus<TStatusData> : StatusEffect<TStatusData>
-    where TStatusData : TimedStatusData
+namespace Terra.EffectsSystem.Statuses
 {
-    protected override bool CanBeRemoved => durationTimer.IsRunning;
 
-    private StopwatchTimer durationTimer;
-    private CountdownTimer tickTimer;
-
-    public float CurrentTime => durationTimer.GetTime();
-    public float Progress => durationTimer.Progress;
-    private float TimePerTick => Data.statusDuration / Data.amountOfTicks;
-    protected override void OnApply()
+    /// <summary>
+    ///     Represents a status that is time based.
+    /// </summary>
+    public abstract class TimedStatus<TStatusData> : StatusEffect<TStatusData>
+        where TStatusData : TimedStatusData
     {
-        durationTimer = new StopwatchTimer();
-        durationTimer.Start();
-        
-        tickTimer = new CountdownTimer(TimePerTick);
-        tickTimer.Start();
-        tickTimer.OnTimerStop += OnStatusTick;
-    }
+        protected override bool CanBeRemoved => !durationTimer.IsRunning;
 
-    protected override void OnUpdate()
-    {
-        tickTimer.Tick(Time.deltaTime);
-        durationTimer.Tick(Time.deltaTime);
-        
-        // Check for end of status duration
-        if (durationTimer.GetTime() >= Data.statusDuration)
+        private StopwatchTimer durationTimer;
+        private CountdownTimer tickTimer;
+
+        public float CurrentTime => durationTimer.GetTime();
+        public float Progress => durationTimer.Progress;
+        private float TotalTicks => Mathf.Round(Data.statusDuration * Data.amountOfTicksPerSecond);
+        private float TimePerTick => Data.statusDuration / TotalTicks;
+
+        protected override void OnApply()
         {
-            durationTimer.Stop();
-            return;
+            durationTimer = new StopwatchTimer();
+            durationTimer.Start();
+
+            tickTimer = new CountdownTimer(TimePerTick);
+            tickTimer.Start();
+            tickTimer.OnTimerStop += OnStatusTick;
         }
 
-        if (!tickTimer.IsFinished) return;
-        
-        // Restart timer for another status tick
-        tickTimer.Restart();
-    }
+        protected override void OnUpdate()
+        {
+            tickTimer.Tick(Time.deltaTime);
+            durationTimer.Tick(Time.deltaTime);
 
-    protected abstract void OnStatusTick();
+            // Check for end of status duration
+            if (durationTimer.GetTime() >= Data.statusDuration)
+            {
+                durationTimer.Stop();
+                return;
+            }
 
-    protected override void OnRemove()
-    {
-        tickTimer.OnTimerStop -= OnStatusTick;
+            if (!tickTimer.IsFinished) return;
+
+            // Restart timer for another status tick
+            tickTimer.Restart();
+        }
+
+        protected override void OnReset()
+        {
+            durationTimer.Reset();
+        }
+
+        protected abstract void OnStatusTick();
+
+        protected override void OnRemove()
+        {
+            tickTimer.OnTimerStop -= OnStatusTick;
+        }
     }
 }

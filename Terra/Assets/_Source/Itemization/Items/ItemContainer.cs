@@ -5,6 +5,7 @@ using Terra.Player;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Items.Definitions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Itemization.Items
 {
@@ -16,21 +17,20 @@ namespace Terra.Itemization.Items
     {
         public override bool CanBeInteractedWith
         {
-            get => isInitialized && PlayerInventoryManager.Instance.CanEquipItem(item);
+            get => _isInitialized && PlayerInventoryManager.Instance.CanEquipItem(_item);
             protected set { }
         }
 
-        [SerializeField, ReadOnly] private bool isInitialized = false;
+        [SerializeField, ReadOnly] private bool _isInitialized = false;
 
-        [SerializeField, ReadOnly] private ItemBase item;
+        [SerializeField, ReadOnly] private ItemBase _item;
         
-        [SerializeField] private SpriteRenderer itemRenderer;
+        [FormerlySerializedAs("itemRenderer")] [SerializeField] private SpriteRenderer _itemRenderer;
 
-        Tween tween;
-        protected override void Awake()
+        Tween _tween;
+        private void Awake()
         {
-            base.Awake();
-            tween = itemRenderer.transform
+            _tween = _itemRenderer.transform
                 .DOLocalMoveY(0.25f, 0.75f)
                 .SetRelative()        
                 .SetLoops(-1, LoopType.Yoyo)
@@ -48,17 +48,17 @@ namespace Terra.Itemization.Items
 
         public void Initialize(ItemBase item)
         {
-            isInitialized = true;
-            this.item = item;
+            _isInitialized = true;
+            this._item = item;
             if(item.ItemIcon)
-                itemRenderer.sprite = item.ItemIcon;
+                _itemRenderer.sprite = item.ItemIcon;
   
         }
         
 
         public override void OnInteraction()
         {
-            if (PlayerInventoryManager.Instance.TryToEquipItem(item))
+            if (PlayerInventoryManager.Instance.TryToEquipItem(_item))
             {
                 Destroy(gameObject);
             }
@@ -83,7 +83,7 @@ namespace Terra.Itemization.Items
 
         protected override void CleanUp()
         {
-            tween?.Kill();
+            _tween?.Kill();
 
             base.CleanUp();
         }

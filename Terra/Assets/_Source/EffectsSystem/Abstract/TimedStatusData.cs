@@ -9,6 +9,6 @@ namespace Terra.EffectsSystem.Abstracts
     {
         [Tooltip("In seconds"), Min(1)] public float statusDuration;
         
-        [Min(1)] public float amountOfTicks;
+        [Tooltip("Rounded up")][Min(1)] public int amountOfTicksPerSecond;
     }
 }

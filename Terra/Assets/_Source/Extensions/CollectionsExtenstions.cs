@@ -21,10 +21,10 @@ public static class CollectionsExtenstions
     {
         if (collection == null || collection.Count == 0)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
     
     /// <summary>
@@ -140,6 +140,8 @@ public static class CollectionsExtenstions
     public static bool TryFind<T>(this IEnumerable<T> collection, Predicate<T> predicate, out T element)
     {
         element = default;
+        if(collection == null) return false;
+        
         foreach (T item in collection)
         {
             if (!predicate(item)) continue;

@@ -1,36 +1,41 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
+using UnityEngine.Serialization;
 
 namespace Terra.EffectsSystem
 {
 
-    
+    /// <summary>
+    ///     Holds status and actions effects
+    /// </summary>
     [Serializable]
-    public class EffectsContainer{
+    public class EffectsContainer
+    {
 
         [Expandable]
-        public List<StatusEffectData> _statuses = new ();
+        public List<StatusEffectData> statuses = new ();
         [Expandable]
-        public List<ActionEffectData> _actions = new ();
+        public List<ActionEffectData> actions = new ();
 
         
         public void ExecuteActions(Entity source, Entity target)
         {
-            for (int i = 0; i < _actions.Count; i++)
+            for (int i = 0; i < actions.Count; i++)
             {
                 //TODO:Factory for actions
                 //_actions[i].Execute(source, target);
             }
         }
 
-        public void ApplyStatuses(Entity target)
+        public void ApplyStatuses(IDamageable target)
         {
-            for (int i = 0; i < _statuses.Count; i++)
+            for (int i = 0; i < statuses.Count; i++)
             {
-                target.StatusContainer.TryAddEffect(_statuses[i]);
+                target.StatusContainer.TryAddEffect(statuses[i]);
             }
         }
     }

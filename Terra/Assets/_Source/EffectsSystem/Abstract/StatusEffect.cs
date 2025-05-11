@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using UnityEngine;
 
@@ -12,18 +13,23 @@ namespace Terra.EffectsSystem.Abstracts
     [Serializable]
     public class StatusEffectBase : EffectBase
     {
-        
+        [SerializeField, ReadOnly] private string _name;
         protected StatusEffectBase(){}
         public void Apply()
         {
+            Type type = GetType();
+            _name = type.Name;
+            InternalApply();
         }
 
         public void Update()
         {
+            InternalUpdate();
         }
 
-        public void Remove(bool force = false)
+        public void TryRemove(bool force = false)
         {
+            InternalRemove(force);
         }
 
         public void Reset()
@@ -39,6 +45,9 @@ namespace Terra.EffectsSystem.Abstracts
         }
 
         protected virtual void InternalRemove(bool force = false)
+        {
+        }
+        protected virtual void InternalReset()
         {
         }
     }
@@ -108,9 +117,21 @@ namespace Terra.EffectsSystem.Abstracts
             //TODO: Remove VFX
             OnRemove();
         }
+        
+        protected sealed override void InternalReset()
+        {
+            if (_typedData == null)
+            {
+                Debug.LogError($"On Update {this} data is null");
+                return;
+            }
+
+            OnReset();
+        }
 
         protected abstract void OnApply();
         protected abstract void OnUpdate();
         protected abstract void OnRemove();
+        protected abstract void OnReset();
     }
 }
