@@ -29,7 +29,8 @@ namespace Terra.AI.Enemies
     {
         protected static readonly int DirectionHash = Animator.StringToHash("Direction");
         
-        [Header("Stats")] [SerializeField] protected EnemyStatsDefinition enemyStats;
+        [Header("Stats")] 
+        [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
 
         [Header("Behavior Settings")]
         [Tooltip("Distance at which the enemy detects the player and transitions states.")]
@@ -37,7 +38,7 @@ namespace Terra.AI.Enemies
         protected float detectionRadius = 5f;
         
         [Foldout("References")][SerializeField] protected NavMeshAgent agent;
-        [Foldout("References")] [SerializeField] protected PlayerDetector playerDetector;
+        [Foldout("References")][SerializeField] protected PlayerDetector playerDetector;
         [Foldout("References")][SerializeField] protected Animator animator;
         [Foldout("References")][SerializeField] protected Collider enemyCollider;
         [Foldout("References")][SerializeField] protected SpriteRenderer enemyModel;
