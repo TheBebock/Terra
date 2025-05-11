@@ -9,24 +9,24 @@ using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
 using Terra.Managers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Terra.Player
 {
     public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
     {
-        [Foldout("References")] [SerializeField] StartingInventoryData startingInventoryData;
+        [SerializeField, Expandable] StartingInventoryData _startingInventoryData;
         
-        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> meleeWeaponSlot = new ();
-        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> rangedWeaponSlot = new();
-        [Foldout("Debug"), SerializeField,  ReadOnly] private ItemSlot<ActiveItem> activeItemSlot = new ();
-        
-        [Foldout("Debug"), SerializeField, ReadOnly]private List<PassiveItem> passiveItems = new();
+        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> _meleeWeaponSlot = new ();
+        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> _rangedWeaponSlot = new();
+        [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<ActiveItem> _activeItemSlot = new ();
+        [Foldout("Debug"), SerializeField, ReadOnly] private List<PassiveItem> _passiveItems = new();
 
-        private ItemSlotBase[] itemSlots;
-        public List<PassiveItem> GetPassiveItems => passiveItems;
-        public ActiveItem ActiveItem => activeItemSlot.EquippedItem;
-        public MeleeWeapon MeleeWeapon => meleeWeaponSlot.EquippedItem;
-        public RangedWeapon RangedWeapon => rangedWeaponSlot.EquippedItem;
+        private ItemSlotBase[] _itemSlots;
+        public List<PassiveItem> GetPassiveItems => _passiveItems;
+        public ActiveItem ActiveItem => _activeItemSlot.EquippedItem;
+        public MeleeWeapon MeleeWeapon => _meleeWeaponSlot.EquippedItem;
+        public RangedWeapon RangedWeapon => _rangedWeaponSlot.EquippedItem;
 
         public event Action<PassiveItem> OnPassiveItemAdded;
         public event Action<ActiveItem> OnActiveItemChanged;
@@ -37,42 +37,48 @@ namespace Terra.Player
         protected override void Awake()
         {
             base.Awake();
-            // Create item slots
-            meleeWeaponSlot = new();
-            rangedWeaponSlot = new();
-            activeItemSlot = new();
-            passiveItems = new();
-   
             
-            
-            // Equip starting items
-            if (startingInventoryData != null)
-            {
-                meleeWeaponSlot.Equip(startingInventoryData.startingMelee);
-                rangedWeaponSlot.Equip(startingInventoryData.startingRanged);
-                activeItemSlot.Equip(startingInventoryData.startingActive);
+            InitEquipmentSlots();
 
-                for (int i = 0; i < startingInventoryData.startingPassiveItems.Count; i++)
-                {
-                    passiveItems.Add(startingInventoryData.startingPassiveItems[i]);
-                }
-                
-                for (int i = 0; i < passiveItems.Count; i++)
-                {
-                    passiveItems[i].OnEquip();
-                }
-            }
-            
             // Create fast access array to created item slots
-            itemSlots = new ItemSlotBase[Enum.GetValues(typeof(ItemType)).Length];
-            itemSlots[(int)ItemType.Melee] = meleeWeaponSlot ;
-            itemSlots[(int)ItemType.Ranged] = rangedWeaponSlot;
-            itemSlots[(int)ItemType.Active] = activeItemSlot;
+            _itemSlots = new ItemSlotBase[Enum.GetValues(typeof(ItemType)).Length];
+            _itemSlots[(int)ItemType.Melee] = _meleeWeaponSlot ;
+            _itemSlots[(int)ItemType.Ranged] = _rangedWeaponSlot;
+            _itemSlots[(int)ItemType.Active] = _activeItemSlot;
             
             // Attach listeners
             ItemSlotBase.OnItemRemoved += DropItemOnGround;
         }
 
+        private void InitEquipmentSlots()
+        {
+            // Create item slots
+            _meleeWeaponSlot = new();
+            _rangedWeaponSlot = new();
+            _activeItemSlot = new();
+            _passiveItems = new();
+   
+            
+            
+            // Equip starting items
+            if (_startingInventoryData != null)
+            {
+                _meleeWeaponSlot.Equip(_startingInventoryData.startingMelee);
+                _rangedWeaponSlot.Equip(_startingInventoryData.startingRanged);
+                _activeItemSlot.Equip(_startingInventoryData.startingActive);
+
+                for (int i = 0; i < _startingInventoryData.startingPassiveItems.Count; i++)
+                {
+                    _passiveItems.Add(_startingInventoryData.startingPassiveItems[i]);
+                }
+                
+                for (int i = 0; i < _passiveItems.Count; i++)
+                {
+                    _passiveItems[i].OnEquip();
+                }
+            }
+
+        }
         private void DropItemOnGround(ItemBase item)
         {
             LootManager.Instance?.SpawnItem(item, PlayerManager.Instance.CurrentPosition);
@@ -90,7 +96,7 @@ namespace Terra.Player
             if (newItem is PassiveItem passiveItem)
             {
                 passiveItem.OnEquip();
-                passiveItems.Add(passiveItem);
+                _passiveItems.Add(passiveItem);
                 OnPassiveItemAdded?.Invoke(passiveItem);
                 return true;
             }
@@ -114,7 +120,7 @@ namespace Terra.Player
         
         private ItemSlotBase GetItemSlotBase(ItemType itemType)
         {
-           return itemSlots[(int)itemType];
+           return _itemSlots[(int)itemType];
         }
 
         private void InvokeItemChangedEvent(ItemBase item)
@@ -165,9 +171,9 @@ namespace Terra.Player
         public bool TryToGetItemByItemType<TItem>(out TItem item) 
             where TItem : ItemBase
         {
-            for (int i = 0; i < itemSlots.Length; i++) 
+            for (int i = 0; i < _itemSlots.Length; i++) 
             {
-                if (itemSlots[i] is not ItemSlot<TItem> { IsSlotTaken: true } typedSlot) continue;
+                if (_itemSlots[i] is not ItemSlot<TItem> { IsSlotTaken: true } typedSlot) continue;
                 item = typedSlot.EquippedItem;
                 return true;
             }
@@ -178,9 +184,9 @@ namespace Terra.Player
         public ItemSlot<TItem> GetItemSlotBySlotType<TItem>()
             where TItem : ItemBase
         {
-            for (int i = 0; i < itemSlots.Length; i++)
+            for (int i = 0; i < _itemSlots.Length; i++)
             {
-                if (itemSlots[i] is ItemSlot<TItem> slot)
+                if (_itemSlots[i] is ItemSlot<TItem> slot)
                 {
                     return slot;
                 }
@@ -193,6 +199,34 @@ namespace Terra.Player
         {
             base.CleanUp();
             ItemSlotBase.OnItemRemoved -= DropItemOnGround;
+        }
+
+        private void OnValidate()
+        {
+            InitEquipmentSlots();
+        }
+
+        private void OnDrawGizmos()
+        {
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            //TODO: Change to camera manager
+            Ray ray = Camera.main.ScreenPointToRay( mousePosition );
+            Plane plane = new Plane(Vector3.up, transform.position);
+
+            // Raycast get point where player clicked on screen while we use perspective camera
+            if (!plane.Raycast(ray, out float enter)) return;
+            
+            
+            Vector3 worldClickPosition = ray.GetPoint(enter);
+            Vector3 direction = (worldClickPosition - transform.position).normalized;
+            Vector3 attackPosition = transform.position + direction * MeleeWeapon.Data.range;
+            Quaternion targetRotation = Quaternion.LookRotation(attackPosition - transform.position);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(attackPosition, MeleeWeapon.Data.sphereHitboxRadius);
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawCube(attackPosition, MeleeWeapon.Data.hitboxSize);
         }
     }
     

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Big_pajong
   m_EditorClassIdentifier: 
   baseStrength: 1
-  baseMaxHealth: 5
+  baseMaxHealth: 15
   baseSpeed: 1

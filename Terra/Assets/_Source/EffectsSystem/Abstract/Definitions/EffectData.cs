@@ -3,7 +3,7 @@ using NaughtyAttributes;
 using Terra.Utils;
 using UnityEngine;
 
-namespace Terra.EffectsSystem.Abstracts
+namespace Terra.EffectsSystem.Abstracts.Definitions
 {
     [Serializable]
     public class EffectData : ScriptableObject

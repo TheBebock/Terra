@@ -31,6 +31,7 @@ namespace Terra.Utils {
             }
         }
         
+        public void ForceSetTime(float time) => Time = time;
         public void Resume() => IsRunning = true;
         public void Pause() => IsRunning = false;
         

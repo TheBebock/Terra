@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
+using Terra.EffectsSystem.Abstracts.Definitions;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Utils

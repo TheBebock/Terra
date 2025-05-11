@@ -1,6 +1,7 @@
 using System;
 using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.EffectsSystem.Abstracts.Definitions;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstracts
@@ -27,9 +28,9 @@ namespace Terra.EffectsSystem.Abstracts
             InternalUpdate();
         }
 
-        public void TryRemove(bool force = false)
+        public bool TryRemove(bool force = false)
         {
-            InternalRemove(force);
+           return InternalRemove(force);
         }
 
         public void Reset()
@@ -44,8 +45,9 @@ namespace Terra.EffectsSystem.Abstracts
         {
         }
 
-        protected virtual void InternalRemove(bool force = false)
+        protected virtual bool InternalRemove(bool force = false)
         {
+            return false;
         }
         protected virtual void InternalReset()
         {
@@ -104,18 +106,20 @@ namespace Terra.EffectsSystem.Abstracts
             OnUpdate();
         }
 
-        protected sealed override void InternalRemove(bool force = false)
+        protected sealed override bool InternalRemove(bool force = false)
         {
             if (_typedData == null)
             {
                 Debug.LogError($"On Remove {this} data is null");
-                return;
+                return false;
             }
 
-            if (!CanBeRemoved && !force) return;
+            if (!CanBeRemoved && !force) return false;
 
             //TODO: Remove VFX
             OnRemove();
+            
+            return true;
         }
         
         protected sealed override void InternalReset()

@@ -11,10 +11,10 @@ namespace Terra.Player
 {
     public class PlayerStatsManager : MonoBehaviourSingleton<PlayerStatsManager>
     {
-        [SerializeField, Expandable] private  PlayerStatsDefinition playerStatsData;
-        [SerializeField, ReadOnly] private PlayerStats playerStats;
+        [SerializeField, Expandable] private  PlayerStatsDefinition _playerStatsData;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private PlayerStats _playerStats;
         
-        public PlayerStats PlayerStats => playerStats;
+        public PlayerStats PlayerStats => _playerStats;
 
         public event Action<float> OnMaxHealthChanged; 
         public event Action<float> OnStrengthChanged; 
@@ -26,12 +26,12 @@ namespace Terra.Player
         {
             base.Awake();
             
-            if (playerStatsData == null)
+            if (_playerStatsData == null)
             {
                 Debug.LogError($"{this}: playerStatsData is null. Please attach basic stats to player.");
                 return;
             }
-            playerStats = new PlayerStats(playerStatsData);
+            _playerStats = new PlayerStats(_playerStatsData);
         }
 
         public void AddStrength(List<ValueModifier> modifiers)
@@ -40,10 +40,10 @@ namespace Terra.Player
             
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.AddStrengthModifier(modifiers[i]);
+                _playerStats.AddStrengthModifier(modifiers[i]);
             }
             
-            OnStrengthChanged?.Invoke(playerStats.Strength);
+            OnStrengthChanged?.Invoke(_playerStats.Strength);
         }
         
         public void RemoveStrength(List<ValueModifier> modifiers)
@@ -52,10 +52,10 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.RemoveStrengthModifier(modifiers[i]);
+                _playerStats.RemoveStrengthModifier(modifiers[i]);
             }
             
-            OnStrengthChanged?.Invoke(playerStats.Strength);
+            OnStrengthChanged?.Invoke(_playerStats.Strength);
         }
         
         public void AddMaxHealth(List<ValueModifier> modifiers)
@@ -64,9 +64,9 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             {
-               playerStats.AddMaxHealthModifier(modifiers[i]);
+               _playerStats.AddMaxHealthModifier(modifiers[i]);
             }
-            OnMaxHealthChanged?.Invoke(playerStats.MaxHealth);
+            OnMaxHealthChanged?.Invoke(_playerStats.MaxHealth);
         }
         
         public void RemoveMaxHealth(List<ValueModifier> modifiers)
@@ -75,9 +75,9 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             { 
-                playerStats.RemoveMaxHealthModifier(modifiers[i]);
+                _playerStats.RemoveMaxHealthModifier(modifiers[i]);
             }
-            OnMaxHealthChanged?.Invoke(playerStats.MaxHealth);
+            OnMaxHealthChanged?.Invoke(_playerStats.MaxHealth);
         }
         
         public void AddDexterity(List<ValueModifier> modifiers)
@@ -86,9 +86,9 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.AddDexterityModifier(modifiers[i]);
+                _playerStats.AddDexterityModifier(modifiers[i]);
             }
-            OnDexterityChanged?.Invoke(playerStats.Dexterity);   
+            OnDexterityChanged?.Invoke(_playerStats.Dexterity);   
         }
         
         public void RemoveSpeed(List<ValueModifier> modifiers)
@@ -97,9 +97,9 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.RemoveDexterityModifier(modifiers[i]);
+                _playerStats.RemoveDexterityModifier(modifiers[i]);
             }
-            OnDexterityChanged?.Invoke(playerStats.Dexterity);   
+            OnDexterityChanged?.Invoke(_playerStats.Dexterity);   
         }
         
         public void AddLuck(List<ValueModifier> modifiers)
@@ -108,10 +108,10 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.AddLuckModifier(modifiers[i]);
+                _playerStats.AddLuckModifier(modifiers[i]);
             }
             
-            OnLuckChanged?.Invoke(playerStats.Luck);
+            OnLuckChanged?.Invoke(_playerStats.Luck);
         }
         
         public void RemoveLuck(List<ValueModifier> modifiers)
@@ -120,20 +120,20 @@ namespace Terra.Player
 
             for (int i = 0; i < modifiers.Count; i++)
             {
-                playerStats.RemoveLuckModifier(modifiers[i]);
+                _playerStats.RemoveLuckModifier(modifiers[i]);
             }
             
-            OnLuckChanged?.Invoke(playerStats.Luck);
+            OnLuckChanged?.Invoke(_playerStats.Luck);
         }
 
         private void OnValidate()
         {
-            if (playerStatsData == null)
+            if (_playerStatsData == null)
             {
                 Debug.LogError($"{this}: playerStatsData is null. Please attach basic stats to player.");
                 return;
             }
-            playerStats = new PlayerStats(playerStatsData);
+            _playerStats = new PlayerStats(_playerStatsData);
         }
     }
 }

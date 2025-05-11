@@ -1,5 +1,6 @@
 using System;
 using Terra.Core.Generics;
+using Terra.EffectsSystem.Abstracts.Definitions;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstracts

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
+using Terra.EffectsSystem.Abstracts.Definitions;
 using Terra.EffectsSystem.Utils;
 using UnityEngine;
 
@@ -55,10 +56,13 @@ namespace Terra.EffectsSystem
 
         public void UpdateEffects()
         {
-            for (int i = 0; i < _statuses.Count; ++i)
+            for (int i = _statuses.Count-1; i >=0; i--)
             {
                 _statuses[i].Update();
-                _statuses[i].TryRemove();
+                if(_statuses[i].TryRemove())
+                {
+                    _statuses.RemoveAt(i);
+                }
             }
         }
     }

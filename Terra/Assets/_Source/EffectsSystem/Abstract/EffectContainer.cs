@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstracts;
+using Terra.EffectsSystem.Abstracts.Definitions;
 using UnityEngine.Serialization;
 
 namespace Terra.EffectsSystem

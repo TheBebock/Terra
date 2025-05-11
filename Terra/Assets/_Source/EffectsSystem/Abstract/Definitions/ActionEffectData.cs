@@ -1,6 +1,6 @@
 using System;
 
-namespace Terra.EffectsSystem.Abstracts
+namespace Terra.EffectsSystem.Abstracts.Definitions
 {
 
     /// <summary>

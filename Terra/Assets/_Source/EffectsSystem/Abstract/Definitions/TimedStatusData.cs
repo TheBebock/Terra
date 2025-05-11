@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Terra.EffectsSystem.Abstracts
+namespace Terra.EffectsSystem.Abstracts.Definitions
 {
     /// <summary>
     ///     Represents data for status effects that are time based 
