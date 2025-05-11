@@ -41,16 +41,16 @@ namespace Terra.EffectsSystem
             }
             
             // No effect found
-            if (!_statuses.TryFind(s => s.Equals(newStatus), out StatusEffectBase currentStatus))
+            if (!_statuses.TryFind(s => s.GetType() == newStatus.GetType(), out StatusEffectBase currentStatus))
             {
                 newStatus.Apply();
                 _statuses.Add(newStatus);
                 return;
             }
 
+            //TODO: Compare current and new status, swap if better
             
-            //TODO: Compare current and new status, prolong status and update values if higher
-
+            currentStatus.Reset();
         }
 
         public void UpdateEffects()
