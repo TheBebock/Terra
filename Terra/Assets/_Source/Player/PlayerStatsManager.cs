@@ -130,7 +130,6 @@ namespace Terra.Player
         {
             if (_playerStatsData == null)
             {
-                Debug.LogError($"{this}: playerStatsData is null. Please attach basic stats to player.");
                 return;
             }
             _playerStats = new PlayerStats(_playerStatsData);
