@@ -39,7 +39,7 @@ namespace Terra.LevelGeneration
         private void PrepareNewLevel()
         {
             levelMaps[currentLevel + 1]?.gameObject.SetActive(true);
-            EnemyManager.Instance.GenerateEnemies();
+            //EnemyManager.Instance.GenerateEnemies();
 
             currentLevel++;
         }

@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164ba036bf483844a82f967d92841cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
 --- !u!1001 &282831715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -314,6 +314,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _startingInventoryData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cdfb00743da2ce489f47f1b3119d6ee,
+        type: 2}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _activeItemSlot.itemName
+      value: bbb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _passiveItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _meleeWeaponSlot.itemName
+      value: melee_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _rangedWeaponSlot.itemName
+      value: ranged_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _passiveItems.Array.data[0].data
+      value: 
+      objectReference: {fileID: 11400000, guid: 636c69d1b1927ab4ea7a85941dff093e,
+        type: 2}
     - target: {fileID: 2400752976024735065, guid: b8ad9ad7a2c60eb4bba804c20658a629,
         type: 3}
       propertyPath: dashCooldown
@@ -805,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb12fed2f6795214c8a83050f6a8b501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
   levelMaps:
   - {fileID: 1033268071}
   - {fileID: 1596854400}
@@ -990,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee62263f121d3c47a4bab36417bc680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
   popupPrefab: {fileID: 5776195157155703914, guid: 9decedc3a164ce74faecc88e19c08724,
     type: 3}
   destroyTime: 1
@@ -1060,7 +1092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02a213ac771d5c48ab4ac0d0a1bf4e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
   maxGold: 100000
   initialGold: 0
   _currentGold: 0
@@ -1176,7 +1208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8795bc99abd836c43b95d6e9813e43d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
   P_pickupContainer: {fileID: 4868003405091978973, guid: 163dc9b08a4ca50418a242db325a1893,
     type: 3}
   P_itemContainer: {fileID: 7648631588216878980, guid: b6f1c063963492c458a6932bf9a95f09,
@@ -1343,7 +1375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d73620b29ac564bba65e00f413f634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
   isGamePaused: 0
 --- !u!1 &1407340043
 GameObject:
@@ -1389,8 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd377065a7b90b42bc9d1a1664b1e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: -1
-  enemyList: []
+  _id: -1
 --- !u!1001 &1409858303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1803,7 +1834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6121c9db6b263d4d88942f95e47269f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _id: -1
 --- !u!1001 &2092199480
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ namespace Terra.Managers
 {
     public class EnemyManager: MonoBehaviourSingleton<EnemyManager>
     {
-        [SerializeField] private List<Enemy> enemyList;
+        //[SerializeField] private List<Enemy> enemyList;
 
         public void GenerateEnemies()
         {
