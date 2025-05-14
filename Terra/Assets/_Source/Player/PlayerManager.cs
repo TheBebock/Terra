@@ -1,4 +1,5 @@
 using System;
+using _Source.AI.Enemy;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Combat;
@@ -14,6 +15,7 @@ namespace Terra.Player
     /// </summary>
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IWithSetUp
     {
+        public TeamType GetTeam() => TeamType.Player;
         [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead;
 
         [Foldout("Debug")] [SerializeField, ReadOnly]

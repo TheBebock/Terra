@@ -1,41 +1,64 @@
+using _Source.AI.Enemy;
 using Terra.Combat;
 using UnityEngine;
 
-namespace Terra.Components
+namespace _Source.Components
 {
-
     /// <summary>
-    /// Represents a projectile that applies damage on contact and self-destructs after its lifetime.
+    /// Represents a projectile that moves in 3D space, applies damage on contact, and self-destructs after its lifetime.
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class Projectile : MonoBehaviour
     {
-        private float damage;
-        private float speed;
+        private float _damage;
+        private float _speed;
+        private GameObject _shooter;
+        private TeamType _shooterTeam;
 
         /// <summary>
         /// Initializes the projectile with configuration data and sets its velocity.
         /// </summary>
-        public void Initialize(BulletData data, Vector3 direction)
+        public void Initialize(BulletData data, Vector3 direction, GameObject shooter)
         {
-            damage = data.bulletDamage;
-            speed = data.bulletSpeed;
+            _damage = data.bulletDamage;
+            _speed = data.bulletSpeed;
+            _shooter = shooter;
 
-            // Schedule destruction after lifetime
+            if (shooter.TryGetComponent<ITeamMember>(out var teamMember))
+            {
+                _shooterTeam = teamMember.GetTeam();
+            }
+            else
+            {
+                Debug.LogWarning("Shooter does not implement ITeamMember. Defaulting to Enemy.");
+                _shooterTeam = TeamType.Enemy;
+            }
+
             Destroy(gameObject, data.bulletLifetime);
 
-            // Set initial velocity
-            var rb = GetComponent<Rigidbody2D>();
-            rb.velocity = direction.normalized * speed;
+            var rb = GetComponent<Rigidbody>();
+            rb.velocity = direction.normalized * _speed;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter(Collider other)
         {
+            if (other.gameObject == _shooter) return;
+
+            if (other.TryGetComponent<ITeamMember>(out var otherTeam))
+            {
+                if (otherTeam.GetTeam() == _shooterTeam)
+                {
+                    // Same team - ignore
+                    return;
+                }
+            }
+
             if (other.TryGetComponent<IDamageable>(out var target))
             {
-                target.TakeDamage(damage);
-                Destroy(gameObject);
+                target.TakeDamage(_damage);
             }
+
+            Destroy(gameObject);
         }
     }
 }

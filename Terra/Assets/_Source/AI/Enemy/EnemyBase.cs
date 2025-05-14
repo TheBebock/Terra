@@ -31,6 +31,7 @@ namespace _Source.AI.Enemy
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
     public abstract class EnemyBase :  Entity, IDamageable, IAttachListeners
     {
+        public TeamType GetTeam() => TeamType.Enemy;
         private static readonly int DirectionHash = Animator.StringToHash("Direction");
         private static readonly int Death = Animator.StringToHash("Death");
 
