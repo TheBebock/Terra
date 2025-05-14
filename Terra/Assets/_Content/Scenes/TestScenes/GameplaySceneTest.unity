@@ -373,6 +373,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5cdfb00743da2ce489f47f1b3119d6ee,
         type: 2}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _activeItemSlot.itemName
+      value: bbb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _passiveItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _meleeWeaponSlot.itemName
+      value: melee_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _rangedWeaponSlot.itemName
+      value: ranged_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327712083050766949, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _passiveItems.Array.data[0].data
+      value: 
+      objectReference: {fileID: 11400000, guid: 636c69d1b1927ab4ea7a85941dff093e,
+        type: 2}
     - target: {fileID: 3668154996905167841, guid: b8ad9ad7a2c60eb4bba804c20658a629,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1049,7 +1075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  isGamePaused: 0
+  _isGamePaused: 0
 --- !u!1001 &1415516169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1926,14 +1952,14 @@ MonoBehaviour:
   animator: {fileID: 2117646400}
   enemyCollider: {fileID: 2117646404}
   enemyModel: {fileID: 2117646399}
-  _healthController:
+  healthController:
     maxHealth:
       baseValue: 0
       StatModifiers: []
     currentHealth: 0
     canBeHealed: 0
     isInvincible: 0
-  _statusContainer:
+  statusContainer:
     _entity: {fileID: 0}
     _statuses: []
   _data: {fileID: 0}
@@ -2167,18 +2193,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6763376662478990009, guid: 48f5879e461cd4046a8fa03b4e7cfed7,
-        type: 3}
-      propertyPath: _data
-      value: 
-      objectReference: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e,
-        type: 2}
-    - target: {fileID: 6763376662478990009, guid: 48f5879e461cd4046a8fa03b4e7cfed7,
-        type: 3}
-      propertyPath: enemyStats
-      value: 
-      objectReference: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b,
-        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
