@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terra.Combat;
 using Terra.Itemization.Items.Definitions;
+using Terra.Managers;
 using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
@@ -43,7 +44,7 @@ namespace Terra.Itemization.Abstracts
                Debug.LogError(this + "Combat Manager not found");
                return;
            }
-           CombatManager.Instance.PlayerPerformedAttack(PlayerManager.Instance.PlayerEntity, 
+           CombatManager.Instance.PerformAttack(PlayerManager.Instance.PlayerEntity, 
                targets, Data.effects, Data.damage);
         }
 
@@ -56,7 +57,7 @@ namespace Terra.Itemization.Abstracts
                 Debug.LogError(this + "Combat Manager not found");
                 return;
             }
-            CombatManager.Instance.PlayerPerformedAttack(PlayerManager.Instance.PlayerEntity, 
+            CombatManager.Instance.PerformAttack(PlayerManager.Instance.PlayerEntity, 
                 targets, Data.effects, Data.damage);
         }
         

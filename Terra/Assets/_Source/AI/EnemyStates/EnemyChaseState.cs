@@ -1,8 +1,8 @@
-using _Source.AI.Enemy;
+using Terra.AI.Enemy;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.EnemyStates {
+namespace Terra.AI.EnemyStates {
     public class EnemyChaseState : EnemyBaseState {
 
         readonly Transform _player;

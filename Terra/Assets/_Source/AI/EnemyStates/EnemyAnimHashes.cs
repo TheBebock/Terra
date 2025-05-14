@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Source.AI.EnemyStates {
+namespace Terra.AI.EnemyStates {
     /// <summary>
     /// Contains precomputed hash values for the enemy's animations.
     /// Storing hashes helps to improve performance by avoiding repeated

@@ -1,16 +1,17 @@
-using _Source.AI.EnemyStates;
-using AI.Data.Definitions;
 using NaughtyAttributes;
+using Terra.AI.EnemyStates;
+using Terra.Combat.Projectiles;
+using Terra.Data.Definitions;
 using Terra.FSM;
 using Terra.Player;
 using UnityEngine;
 
-namespace _Source.AI.Enemy
+namespace Terra.AI.Enemy
 {
     public class EnemyRange : Enemy<RangedEnemyData>
     {
-        [SerializeField, Expandable] RangedEnemyData data;
-        protected override RangedEnemyData Data => data;
+        [SerializeField, Expandable] RangedEnemyData _data;
+        protected override RangedEnemyData Data => _data;
         
         [Header("References")]
         [SerializeField] private Transform firePoint;
@@ -39,14 +40,14 @@ namespace _Source.AI.Enemy
         {
             if (!AttackTimer.IsFinished) return;
 
-            if (Data.bulletFactory == null || firePoint == null)
+            if (firePoint == null)
             {
-                Debug.LogError("EnemyRange.AttemptAttack failed: factory or firePoint missing.");
+                Debug.LogError("EnemyRange.AttemptAttack failed: firePoint missing.");
                 return;
             }
 
             var dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
-            Data.bulletFactory.CreateBullet(Data.bulletData, firePoint.position, dir);
+            ProjectileFactory.CreateProjectile(Data.bulletData, firePoint.position, dir, this);
             AttackTimer.Reset();
         }
     }

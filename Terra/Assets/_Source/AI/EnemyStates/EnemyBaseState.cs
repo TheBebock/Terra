@@ -1,10 +1,10 @@
-using _Source.AI.Enemy;
+using Terra.AI.Enemy;
 using Terra.FSM;
 using Terra.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.EnemyStates {
+namespace Terra.AI.EnemyStates {
     /// <summary>
     /// Base class for all enemy states implementing IState.
     /// Provides shared references and utility logic.
@@ -62,7 +62,7 @@ namespace _Source.AI.EnemyStates {
         /// Used for logic updates.
         /// </summary>
         public virtual void Update() { }
-
+        
         /// <summary>
         /// Called when the state is exited.
         /// Used to clean up state-specific data.

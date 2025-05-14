@@ -1,10 +1,10 @@
-using _Source.AI.Enemy;
+using Terra.AI.Enemy;
 using Terra.Enums;
 using Terra.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.EnemyStates {
+namespace Terra.AI.EnemyStates {
     public class EnemyAttackState : EnemyBaseAttackState {
         
         private const float AttackCooldown = 1f;

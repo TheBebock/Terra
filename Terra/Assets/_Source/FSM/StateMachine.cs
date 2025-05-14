@@ -16,10 +16,6 @@ namespace Terra.FSM {
             
             current.State?.Update();
         }
-        
-        public void FixedUpdate() {
-            current.State?.FixedUpdate();
-        }
 
         public void SetState(IState state) {
             current = nodes[state.GetType()];

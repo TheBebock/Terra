@@ -1,11 +1,11 @@
 using System.Collections;
-using Terra.AI.Enemies;
+using Terra.AI.Enemy;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
     [Header("Wave Settings")]
-    public GameObject enemyPrefab;
+    public EnemyBase enemyPrefab;
     public float timeBetweenWaves = 5f;
 
     //TODO: CHOOSE SPAWN AREA DEPENDING ON NAVMESH
@@ -74,14 +74,12 @@ public class WaveManager : MonoBehaviour
     private void SpawnEnemy()
     {
         Vector3 spawnPosition = GetRandomSpawnPosition();
-        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        EnemyBase enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
         currentActiveEnemies++;
-
-        var enemyScript = enemy.GetComponent<EnemyBase>();
-        if (enemyScript != null)
+        if (enemy != null)
         {
-            enemyScript.HealthController.OnDeath += () =>
+            enemy.HealthController.OnDeath += () =>
             {
                 currentActiveEnemies--;
             };

@@ -1,9 +1,9 @@
-using _Source.AI.Enemy;
+using Terra.AI.Enemy;
 using Terra.Enums;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.EnemyStates {
+namespace Terra.AI.EnemyStates {
 
     // State representing the enemy wandering behavior
     public class EnemyWanderState : EnemyBaseState {

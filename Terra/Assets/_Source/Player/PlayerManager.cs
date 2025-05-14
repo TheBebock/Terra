@@ -15,7 +15,6 @@ namespace Terra.Player
     /// </summary>
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IWithSetUp
     {
-        public TeamType GetTeam() => TeamType.Player;
         [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead;
 
         [Foldout("Debug")] [SerializeField, ReadOnly]
@@ -86,12 +85,7 @@ namespace Terra.Player
 
         private void Update()
         {
-            _stateMachine.Update();
-        }
-
-        private void FixedUpdate()
-        {
-            _stateMachine.FixedUpdate();
+            _stateMachine?.Update();
         }
 
         public void OnPlayerDeathNotify()

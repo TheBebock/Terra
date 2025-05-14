@@ -1,14 +1,12 @@
-using _Source.AI.Data.Definitions;
-using AI.Data.Definitions;
-using Terra.Combat;
-using Terra.Interfaces;
+using Terra.AI.Data.Definitions;
+using Terra.Data.Definitions;
 using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
 
-namespace _Source.AI.Enemy
+namespace Terra.AI.Enemy
 {
-    public class PlayerDetector : InGameMonobehaviour, IWithSetUp
+    public class PlayerDetector : InGameMonobehaviour
     {
         [SerializeField] private EnemyData enemyData;  // Przechowujemy dane z EnemyData
         
@@ -18,29 +16,8 @@ namespace _Source.AI.Enemy
         
         private IDetectionStrategy _detectionStrategy;
 
-        public void SetUp()
-        {
-            _detectionTimer = new CountdownTimer(enemyData.detectionCooldown);  // Używamy danych z EnemyData
-            
-            // Wybór odpowiedniej strategii detekcji
-            if (enemyData is RangedEnemyData)
-            {
-                var rangedData = enemyData as RangedEnemyData;
-                _detectionStrategy = new ConeDetectionStrategy(rangedData.detectionAngle, rangedData.detectionRadius, rangedData.innerDetectionRadius);
-            }
-            else if (enemyData is MeleeEnemyData)
-            {
-                var meleeData = enemyData as MeleeEnemyData;
-                _detectionStrategy = new SphereDetectionStrategy(meleeData.detectionRadius);
-            }
 
-            _playerManager = PlayerManager.Instance;
-        }
-
-        void Update()
-        {
-            _detectionTimer.Tick(Time.deltaTime);
-        }
+        //TODO: Delete detecting player, enemy can always detect player
 
         public bool CanDetectPlayer() {
             return _detectionTimer.IsRunning || _detectionStrategy.Execute(_playerManager.transform, transform, _detectionTimer);
@@ -59,7 +36,7 @@ namespace _Source.AI.Enemy
 
             
             // Draw a spheres for the radii
-            Gizmos.DrawWireSphere(transform.position, enemyData.detectionRadius);
+            Gizmos.DrawWireSphere(transform.position, 5f);
             // Rysowanie stożka detekcji dla RangedEnemy
             if (enemyData is RangedEnemyData rangedData)
             {
@@ -68,11 +45,6 @@ namespace _Source.AI.Enemy
                 Gizmos.DrawLine(transform.position, transform.position + forwardConeDirection);
                 Gizmos.DrawLine(transform.position, transform.position + backwardConeDirection);
             }
-        }
-
-        public void TearDown()
-        {
-            
         }
     }
 }

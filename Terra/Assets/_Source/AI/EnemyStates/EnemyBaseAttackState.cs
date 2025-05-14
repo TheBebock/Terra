@@ -1,9 +1,10 @@
 using _Source.AI.Enemy;
+using Terra.AI.Enemy;
 using Terra.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.EnemyStates
+namespace Terra.AI.EnemyStates
 {
     /// <summary>
     /// Base class for all enemy attack states. Inherits from <see cref="EnemyBaseState"/>.

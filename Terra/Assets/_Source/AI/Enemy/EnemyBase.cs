@@ -1,9 +1,9 @@
-using _Source.AI.Data.Definitions;
-using _Source.AI.EnemyStates;
 using Core.ModifiableValue;
 using DG.Tweening;
 using NaughtyAttributes;
 using StatisticsSystem.Definitions;
+using Terra.AI.Data.Definitions;
+using Terra.AI.EnemyStates;
 using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem;
@@ -14,7 +14,7 @@ using Terra.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace _Source.AI.Enemy
+namespace Terra.AI.Enemy
 {
     /// <summary>
     ///     Represents enemy that has data attached to it
@@ -31,7 +31,6 @@ namespace _Source.AI.Enemy
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
     public abstract class EnemyBase :  Entity, IDamageable, IAttachListeners
     {
-        public TeamType GetTeam() => TeamType.Enemy;
         private static readonly int DirectionHash = Animator.StringToHash("Direction");
         private static readonly int Death = Animator.StringToHash("Death");
 
@@ -108,12 +107,6 @@ namespace _Source.AI.Enemy
 
                 UpdateFacingDirection(playerDetector.transform);
             }
-        }
-
-        protected virtual void FixedUpdate()
-        {
-            if (IsDead || _stateMachineLocked) return;
-            StateMachine.FixedUpdate();
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
+using Terra.EffectsSystem;
 using UnityEngine;
 
-namespace _Source.AI.Enemy
+namespace Terra.Combat.Projectiles
 {
     /// <summary>
     /// Configuration data for a bullet: speed, damage and lifetime.
@@ -8,6 +9,10 @@ namespace _Source.AI.Enemy
     [System.Serializable]
     public struct BulletData
     {
+        public Projectile bulletPrefab;
+        
+        public EffectsContainer bulletEffects;
+        
         [Tooltip("Movement speed of the bullet (units per second)")]
         public float bulletSpeed;
 
