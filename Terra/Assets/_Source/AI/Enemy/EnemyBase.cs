@@ -1,5 +1,7 @@
 using System;
+using _Source.AI.Data.Definitions;
 using _Source.AI.Enemy;
+using AI.Data.Definitions;
 using Core.ModifiableValue;
 using DG.Tweening;
 using NaughtyAttributes;
@@ -29,13 +31,11 @@ namespace Terra.AI.Enemies
     {
         protected static readonly int DirectionHash = Animator.StringToHash("Direction");
         
+        [Header("AI Data")]
+        [SerializeField, Expandable] private EnemyData enemyData;
+
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
-
-        [Header("Behavior Settings")]
-        [Tooltip("Distance at which the enemy detects the player and transitions states.")]
-        [SerializeField]
-        protected float detectionRadius = 5f;
         
         [Foldout("References")][SerializeField] protected NavMeshAgent agent;
         [Foldout("References")][SerializeField] protected PlayerDetector playerDetector;
@@ -51,6 +51,8 @@ namespace Terra.AI.Enemies
         protected CountdownTimer attackTimer;
         protected bool stateMachineLocked = false;
         protected bool isDead = false;
+        public EnemyData EnemyData => enemyData;
+
 
 
         public HealthController HealthController => _healthController;

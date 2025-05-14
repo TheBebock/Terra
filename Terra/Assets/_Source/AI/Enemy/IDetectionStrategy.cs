@@ -1,8 +1,7 @@
 using Terra.Utils;
 using UnityEngine;
 
-namespace _Source.AI.Enemy {
-    public interface IDetectionStrategy {
-        bool Execute(Transform player, Transform detector, CountdownTimer timer);
-    }
+public interface IDetectionStrategy
+{
+    bool Execute(Transform playerTransform, Transform enemyTransform, CountdownTimer detectionTimer);
 }

@@ -1,17 +1,16 @@
+using _Source.AI.Data.Definitions;
+using AI.Data.Definitions;
 using Terra.Combat;
 using Terra.Interfaces;
 using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
 
-namespace _Source.AI.Enemy {
+namespace _Source.AI.Enemy
+{
     public class PlayerDetector : InGameMonobehaviour, IWithSetUp
     {
-        [SerializeField] float detectionAngle = 60f; // Cone in front of enemy
-        [SerializeField] float detectionRadius = 10f; // Large circle around enemy
-        [SerializeField] float innerDetectionRadius = 5f; // Small circle around enemy
-        [SerializeField] float detectionCooldown = 0.2f; // Time between detections
-        [SerializeField] float attackRange = 2f; // Distance from enemy to player to attack
+        [SerializeField] private EnemyData enemyData;  // Przechowujemy dane z EnemyData
         
         private PlayerManager _playerManager;
         
@@ -21,15 +20,27 @@ namespace _Source.AI.Enemy {
 
         public void SetUp()
         {
-            _detectionTimer = new CountdownTimer(detectionCooldown);
-            _detectionStrategy = new ConeDetectionStrategy(detectionAngle, detectionRadius, innerDetectionRadius);
+            _detectionTimer = new CountdownTimer(enemyData.detectionCooldown);  // Używamy danych z EnemyData
+            
+            // Wybór odpowiedniej strategii detekcji
+            if (enemyData is RangedEnemyData)
+            {
+                var rangedData = enemyData as RangedEnemyData;
+                _detectionStrategy = new ConeDetectionStrategy(rangedData.detectionAngle, rangedData.detectionRadius, rangedData.innerDetectionRadius);
+            }
+            else if (enemyData is MeleeEnemyData)
+            {
+                var meleeData = enemyData as MeleeEnemyData;
+                _detectionStrategy = new SphereDetectionStrategy(meleeData.detectionRadius);
+            }
+
             _playerManager = PlayerManager.Instance;
         }
 
         void Update()
         {
             _detectionTimer.Tick(Time.deltaTime);
-        } 
+        }
 
         public bool CanDetectPlayer() {
             return _detectionTimer.IsRunning || _detectionStrategy.Execute(_playerManager.transform, transform, _detectionTimer);
@@ -38,7 +49,7 @@ namespace _Source.AI.Enemy {
         public bool CanAttackPlayer() {
             var directionToPlayer = _playerManager.transform.position - transform.position;
             Debug.DrawLine(transform.position, _playerManager.transform.position, Color.blue);
-            return directionToPlayer.magnitude <= attackRange;
+            return directionToPlayer.magnitude <= enemyData.attackRange;  // Używamy danych z EnemyData
         }
         
         public void SetDetectionStrategy(IDetectionStrategy detectionStrategy) => this._detectionStrategy = detectionStrategy;
@@ -47,19 +58,16 @@ namespace _Source.AI.Enemy {
             Gizmos.color = Color.red;
 
             // Draw a spheres for the radii
-            Gizmos.DrawWireSphere(transform.position, detectionRadius);
-            Gizmos.DrawWireSphere(transform.position, innerDetectionRadius);
-
-            // Calculate our cone directions
-            Vector3 forwardConeDirection = Quaternion.Euler(0, detectionAngle / 2, 0) * transform.forward * detectionRadius;
-            Vector3 backwardConeDirection = Quaternion.Euler(0, -detectionAngle / 2, 0) * transform.forward * detectionRadius;
-
-            // Draw lines to represent the cone
-            Gizmos.DrawLine(transform.position, transform.position + forwardConeDirection);
-            Gizmos.DrawLine(transform.position, transform.position + backwardConeDirection);
+            Gizmos.DrawWireSphere(transform.position, enemyData.detectionRadius);
+            // Rysowanie stożka detekcji dla RangedEnemy
+            if (enemyData is RangedEnemyData rangedData)
+            {
+                Vector3 forwardConeDirection = Quaternion.Euler(0, rangedData.detectionAngle / 2, 0) * transform.forward * rangedData.detectionRadius;
+                Vector3 backwardConeDirection = Quaternion.Euler(0, -rangedData.detectionAngle / 2, 0) * transform.forward * rangedData.detectionRadius;
+                Gizmos.DrawLine(transform.position, transform.position + forwardConeDirection);
+                Gizmos.DrawLine(transform.position, transform.position + backwardConeDirection);
+            }
         }
-
-
 
         public void TearDown()
         {

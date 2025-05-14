@@ -1,4 +1,4 @@
-using Terra.AI.Enemies;
+using AI.Data.Definitions;
 using Terra.AI.EnemyStates;
 using Terra.AI.States.EnemyStates;
 using Terra.FSM;
@@ -7,21 +7,18 @@ using UnityEngine;
 
 namespace Terra.AI.Enemies
 {
-
     public class EnemyRange : EnemyBase
     {
-        [Header("Ranged Settings")] [SerializeField]
-        private BulletFactory bulletFactory;
-
+        [Header("References")]
         [SerializeField] private Transform firePoint;
-        [SerializeField] private BulletData bulletData;
-        [SerializeField] private float attackCooldown = 1.5f;
 
-        protected override float GetAttackCooldown() => attackCooldown;
+        private RangedEnemyData RangedData => (RangedEnemyData)EnemyData;
+
+        protected override float GetAttackCooldown() => RangedData.attackCooldown;
 
         protected override void SetupStates()
         {
-            var wander = new EnemyWanderState(this, agent, animator, detectionRadius);
+            var wander = new EnemyWanderState(this, agent, animator, RangedData.detectionRadius);
             var chase = new EnemyChaseState(this, agent, animator, PlayerManager.Instance.transform);
             var attack = new EnemyRangeAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
             enemyDeathState = new EnemyDeathState(this, agent, animator);
@@ -38,14 +35,14 @@ namespace Terra.AI.Enemies
         {
             if (!attackTimer.IsFinished) return;
 
-            if (bulletFactory == null || firePoint == null)
+            if (RangedData.bulletFactory == null || firePoint == null)
             {
                 Debug.LogError("EnemyRange.AttemptAttack failed: factory or firePoint missing.");
                 return;
             }
 
             var dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
-            bulletFactory.CreateBullet(bulletData, firePoint.position, dir);
+            RangedData.bulletFactory.CreateBullet(RangedData.bulletData, firePoint.position, dir);
             attackTimer.Reset();
         }
     }

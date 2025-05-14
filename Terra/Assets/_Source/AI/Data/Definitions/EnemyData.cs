@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using AI.Data.Definitions;
 
-namespace AI.Data.Definitions
+namespace _Source.AI.Data.Definitions
 {
     public abstract class EnemyData : AIData
     {
-
+        public float detectionCooldown = 0.2f;
+        public float detectionRadius;
+        public float attackRange;
     }
 }
