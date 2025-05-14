@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using Terra.Attributes;
 using Terra.EffectsSystem.Abstract;
 
 namespace Terra.EffectsSystem.Utils
@@ -33,7 +34,7 @@ namespace Terra.EffectsSystem.Utils
                     continue;
                 }
 
-                asset.mappings.Add(new StatusEffectMapping.Mapping
+                asset.mappings.Add(new EffectsMapping
                 {
                     dataTypeName = attribute.DataType.AssemblyQualifiedName,
                     effectTypeName = statusType.AssemblyQualifiedName

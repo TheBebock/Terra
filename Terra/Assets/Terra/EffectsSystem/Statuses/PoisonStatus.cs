@@ -1,3 +1,4 @@
+using Terra.Attributes;
 using Terra.Combat;
 using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Statuses.Data;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Terra.Attributes;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Utils
@@ -11,13 +12,6 @@ namespace Terra.EffectsSystem.Utils
     /// </summary>
     public class StatusEffectMapping : ScriptableObject
     {
-        [Serializable]
-        public struct Mapping
-        {
-            public string dataTypeName;
-            public string effectTypeName;
-        }
-
-        [ReadOnly] public List<Mapping> mappings = new();
+        [ReadOnly] public List<EffectsMapping> mappings = new();
     }
 }

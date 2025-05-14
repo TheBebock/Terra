@@ -1,6 +1,6 @@
 using System;
 
-namespace Terra.EffectsSystem.Abstract
+namespace Terra.Attributes
 {
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NaughtyAttributes;
 using Terra.Core.Generics;
@@ -19,16 +20,14 @@ namespace Terra.Player
         [SerializeField] private float _dashDuration = 0.2f;
         [SerializeField] private float _dashCooldown = 1f;
 
-        private CharacterController _characterController;
-        private Vector3 _moveDirection = Vector3.zero;
-        [Foldout("Debug"), ReadOnly] [SerializeField]  private bool _isDashing;
+        [Foldout("References")] [SerializeField]private CharacterController _characterController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isDashing;
         [Foldout("Debug"), ReadOnly] [SerializeField] private float _dashCooldownTimer;
-
-
+        
         [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isTryingMove;
         [Foldout("Debug"), ReadOnly] [SerializeField] private bool _canPlayerMove = true;
-        
-        private Vector2 _movementInput;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private Vector3 _moveDirection = Vector3.zero;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private Vector2 _movementInput;
 
         public bool CanPlayerMove { 
             get => _canPlayerMove;
@@ -203,6 +202,11 @@ namespace Terra.Player
             inputActions.Movement.canceled -= OnMovementInputCanceled;
             inputActions.Dash.performed -= OnDashInput;
             inputActions.Interaction.performed -= OnInteractionInput;
+        }
+
+        private void OnValidate()
+        {
+            if(!_characterController) _characterController = GetComponent<CharacterController>();
         }
     }
 }

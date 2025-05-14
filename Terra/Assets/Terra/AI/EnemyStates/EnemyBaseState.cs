@@ -9,7 +9,7 @@ namespace Terra.AI.EnemyStates {
     /// Base class for all enemy states implementing IState.
     /// Provides shared references and utility logic.
     /// </summary>
-    public abstract class EnemyBaseState : IState {
+    public abstract class EnemyBaseState : BaseState {
         /// <summary>
         /// Reference to the enemy entity using this state.
         /// </summary>
@@ -50,23 +50,6 @@ namespace Terra.AI.EnemyStates {
             PlayerManager.Instance != null &&
             PlayerManager.Instance.HealthController != null &&
             PlayerManager.Instance.HealthController.CurrentHealth > 0;
-
-        /// <summary>
-        /// Called when the state is entered.
-        /// Used to initialize the state.
-        /// </summary>
-        public virtual void OnEnter() { }
-
-        /// <summary>
-        /// Called every frame while the state is active.
-        /// Used for logic updates.
-        /// </summary>
-        public virtual void Update() { }
         
-        /// <summary>
-        /// Called when the state is exited.
-        /// Used to clean up state-specific data.
-        /// </summary>
-        public virtual void OnExit() { }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract.Definitions;
 using UnityEngine;
@@ -12,6 +13,11 @@ namespace Terra.EffectsSystem.Abstract
     //NOTE: Class should be abstract, but due to serialization it cannot
     public class ActionEffectBase : EffectBase
     {
+        [SerializeField, ReadOnly] private string _effectType;
+        public ActionEffectBase()
+        {
+            _effectType = GetType().Name;
+        }
         public void Execute(Entity target, Entity source = null)
         {
             InternalExecute(target, source);
@@ -33,7 +39,7 @@ namespace Terra.EffectsSystem.Abstract
         private TActionData _typedData;
         public TActionData Data => _typedData;
 
-        public override void Initialize(Entity target, EffectData actionEffectData)
+        public sealed override void Initialize(Entity target, EffectData actionEffectData)
         {
             base.Initialize(target, actionEffectData);
             
@@ -54,7 +60,7 @@ namespace Terra.EffectsSystem.Abstract
         }
 
         
-        protected override void InternalExecute(Entity target, Entity source = null)
+        protected sealed override void InternalExecute(Entity target, Entity source = null)
         {
             if (_typedData == null)
             {

@@ -98,15 +98,13 @@ namespace Terra.AI.Enemy
             AttackTimer.Tick(Time.deltaTime);
 
             // Player detection and attack logic
-            if (playerDetector != null && playerDetector.CanDetectPlayer())
+            if (playerDetector.CanAttackPlayer())
             {
-                if (playerDetector.CanAttackPlayer())
-                {
-                    AttemptAttack();
-                }
-
-                UpdateFacingDirection(playerDetector.transform);
+                AttemptAttack();
             }
+
+            UpdateFacingDirection(playerDetector.transform);
+
         }
 
         /// <summary>

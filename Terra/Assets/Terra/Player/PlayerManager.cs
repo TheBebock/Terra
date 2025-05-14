@@ -87,6 +87,11 @@ namespace Terra.Player
             _stateMachine?.Update();
         }
 
+        private void FixedUpdate()
+        {
+            _stateMachine?.FixedUpdate();
+        }
+
         public void OnPlayerDeathNotify()
         {
             _isPlayerDead = true;

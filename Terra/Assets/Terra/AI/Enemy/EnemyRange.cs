@@ -28,11 +28,13 @@ namespace Terra.AI.Enemy
             var attack = new EnemyRangeAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
             EnemyDeathState = new EnemyDeathState(this, agent, animator);
 
-            StateMachine.AddTransition(wander, chase, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
-            StateMachine.AddTransition(chase, wander, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
+
             StateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) > AttackRange));
             StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+           
+            StateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
             StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
+            
             StateMachine.SetState(wander);
         }
 

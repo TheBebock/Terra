@@ -2069,7 +2069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9224ad33bd70f24449858106421f8f95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 0}
+  _enemyData: {fileID: 0}
 --- !u!195 &2117646403
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2138,6 +2138,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1849009443266694251, guid: 48f5879e461cd4046a8fa03b4e7cfed7,
+        type: 3}
+      propertyPath: _enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e,
+        type: 2}
     - target: {fileID: 4581209018012838946, guid: 48f5879e461cd4046a8fa03b4e7cfed7,
         type: 3}
       propertyPath: m_Name

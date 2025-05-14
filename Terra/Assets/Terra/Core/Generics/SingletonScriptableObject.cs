@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Terra.Core.Generics
@@ -29,8 +30,19 @@ namespace Terra.Core.Generics
             }
         }
 
-        // Optional: If you want to clear the singleton instance for any reason
-        public static void ClearInstance()
+        protected virtual void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this as T;
+            }
+            else if (_instance != this as T)
+            {
+                Destroy(this);
+            }
+        }
+
+        private void OnDestroy()
         {
             _instance = null;
         }

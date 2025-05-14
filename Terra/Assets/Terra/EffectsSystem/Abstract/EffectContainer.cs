@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract.Definitions;
+using Terra.EffectsSystem.Actions;
 
 namespace Terra.EffectsSystem.Abstract
 {
@@ -25,8 +26,7 @@ namespace Terra.EffectsSystem.Abstract
         {
             for (int i = 0; i < actions.Count; i++)
             {
-                //TODO:Factory for actions
-                //_actions[i].Execute(source, target);
+                ActionEffectsDatabase.Instance.ExecuteAction(actions[i], target, source);
             }
         }
 
