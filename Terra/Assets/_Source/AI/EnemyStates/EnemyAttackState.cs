@@ -1,11 +1,16 @@
+using _Source.AI.Data.Definitions;
+using _Source.AI.Enemy;
 using Terra.AI.Enemies;
 using Terra.Enums;
 using Terra.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Terra.AI.EnemyStates {
+namespace _Source.AI.EnemyStates {
     public class EnemyAttackState : EnemyBaseAttackState {
+        
+        private const float AttackCooldown = 1f;
+        private float _lastAttackTime;
         public EnemyAttackState(EnemyBase enemy, NavMeshAgent agent, Animator animator, PlayerEntity player) : base(enemy, agent, animator, player)
         {
         }
@@ -14,19 +19,26 @@ namespace Terra.AI.EnemyStates {
         {
             base.OnEnter();
             
-            string animationName = enemy.CurrentDirection == FacingDirection.Left ? "AttackLeft" : "AttackRight";
-            animator.CrossFade(animationName, crossFadeDuration);
+            string animationName = Enemy.CurrentDirection == FacingDirection.Left ? "AttackLeft" : "AttackRight";
+            Animator.CrossFade(animationName, CrossFadeDuration);
         }
         
         protected override void OnAttack()
         {
-            enemy.AttemptAttack();
+            if (Time.time - _lastAttackTime >= AttackCooldown)
+            {
+                //if (Vector3.Distance(Enemy.transform.position, Player.transform.position) <= Enemy.AttackRange)
+                {
+                    Enemy.AttemptAttack();
+                }
+                _lastAttackTime = Time.time;
+            }
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            navMeshAgent.isStopped = false;
+            NavMeshAgent.isStopped = false;
         }
     }
 }

@@ -1,6 +1,8 @@
+using _Source.AI.Data.Definitions;
+using _Source.AI.Enemy;
+using _Source.AI.EnemyStates;
 using AI.Data.Definitions;
 using NaughtyAttributes;
-using Terra.AI.EnemyStates;
 using Terra.Combat;
 using Terra.FSM;
 using Terra.Player;

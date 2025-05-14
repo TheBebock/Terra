@@ -1,17 +1,12 @@
-using System;
 using _Source.AI.Data.Definitions;
-using _Source.AI.Enemy;
-using AI.Data.Definitions;
+using _Source.AI.EnemyStates;
 using Core.ModifiableValue;
 using DG.Tweening;
 using NaughtyAttributes;
 using StatisticsSystem.Definitions;
-using Terra.AI.EnemyStates;
-using Terra.AI.States.EnemyStates;
 using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem;
-using Terra.EffectsSystem.Abstracts;
 using Terra.Enums;
 using Terra.FSM;
 using Terra.Interfaces;
@@ -19,8 +14,7 @@ using Terra.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-
-namespace Terra.AI.Enemies
+namespace _Source.AI.Enemy
 {
 
     /// <summary>
@@ -103,7 +97,17 @@ namespace Terra.AI.Enemies
             StatusContainer.UpdateEffects();
             stateMachine.Update();
             attackTimer.Tick(Time.deltaTime);
-            UpdateFacingDirection();
+            if (playerDetector != null && playerDetector.CanDetectPlayer())
+            {
+                // Jeśli wróg może wykryć gracza, aktualizujemy kierunek
+                if (playerDetector.CanAttackPlayer())
+                {
+                    // Jeśli wróg może zaatakować gracza, wywołujemy odpowiednie akcje
+                    AttemptAttack();
+                }
+
+                UpdateFacingDirection(playerDetector.transform);  // Przekazujemy transform gracza
+            }
         }
 
         protected virtual void FixedUpdate()
@@ -115,18 +119,27 @@ namespace Terra.AI.Enemies
         /// <summary>
         /// Updates facing based on agent velocity.
         /// </summary>
-        private void UpdateFacingDirection()
+        /// <param name="player"></param>
+        public void UpdateFacingDirection(Transform player)
         {
             float vx = agent.velocity.x;
-            if (vx > 0.05f)
+            float directionChangeThreshold = 0.05f;
+
+            if (vx > directionChangeThreshold)
             {
-                CurrentDirection = FacingDirection.Right;
-                animator.SetInteger(DirectionHash, 1);
+                if (CurrentDirection != FacingDirection.Right)
+                {
+                    CurrentDirection = FacingDirection.Right;
+                    animator.SetInteger(DirectionHash, 1); 
+                }
             }
-            else if (vx < -0.05f)
+            else if (vx < -directionChangeThreshold)
             {
-                CurrentDirection = FacingDirection.Left;
-                animator.SetInteger(DirectionHash, 0);
+                if (CurrentDirection != FacingDirection.Left)
+                {
+                    CurrentDirection = FacingDirection.Left;
+                    animator.SetInteger(DirectionHash, 0);  // Animator dla "patrzy w lewo"
+                }
             }
         }
 
