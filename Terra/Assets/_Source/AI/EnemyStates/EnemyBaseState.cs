@@ -1,5 +1,4 @@
 using _Source.AI.Enemy;
-using Terra.AI.Enemies;
 using Terra.FSM;
 using Terra.Player;
 using UnityEngine;

@@ -1,18 +1,16 @@
-using _Source.AI.Enemy;
 using _Source.AI.EnemyStates;
 using AI.Data.Definitions;
 using NaughtyAttributes;
-using Terra.AI.States.EnemyStates;
 using Terra.FSM;
 using Terra.Player;
 using UnityEngine;
 
-namespace Terra.AI.Enemies
+namespace _Source.AI.Enemy
 {
     public class EnemyRange : Enemy<RangedEnemyData>
     {
-        [SerializeField, Expandable] RangedEnemyData _data;
-        protected override RangedEnemyData Data => _data;
+        [SerializeField, Expandable] RangedEnemyData data;
+        protected override RangedEnemyData Data => data;
         
         [Header("References")]
         [SerializeField] private Transform firePoint;
@@ -20,24 +18,26 @@ namespace Terra.AI.Enemies
 
         protected override float GetAttackCooldown() => Data.attackCooldown;
 
+        public override float AttackRange => Data.attackRange;
+
         protected override void SetupStates()
         {
             var wander = new EnemyWanderState(this, agent, animator, Data.detectionRadius);
             var chase = new EnemyChaseState(this, agent, animator, PlayerManager.Instance.transform);
             var attack = new EnemyRangeAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
-            enemyDeathState = new EnemyDeathState(this, agent, animator);
+            EnemyDeathState = new EnemyDeathState(this, agent, animator);
 
-            stateMachine.AddTransition(wander, chase, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
-            stateMachine.AddTransition(chase, wander, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
-            stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer()));
-            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
-            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
-            stateMachine.SetState(wander);
+            StateMachine.AddTransition(wander, chase, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
+            StateMachine.AddTransition(chase, wander, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
+            StateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) > AttackRange));
+            StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
+            StateMachine.SetState(wander);
         }
 
         public override void AttemptAttack()
         {
-            if (!attackTimer.IsFinished) return;
+            if (!AttackTimer.IsFinished) return;
 
             if (Data.bulletFactory == null || firePoint == null)
             {
@@ -47,9 +47,7 @@ namespace Terra.AI.Enemies
 
             var dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
             Data.bulletFactory.CreateBullet(Data.bulletData, firePoint.position, dir);
-            attackTimer.Reset();
+            AttackTimer.Reset();
         }
-
-
     }
 }

@@ -1,5 +1,4 @@
 using _Source.AI.Enemy;
-using Terra.AI.Enemies;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,32 +6,45 @@ namespace _Source.AI.EnemyStates
 {
     public class EnemyDeathState : EnemyBaseState
     {
-        // Statyczny hash animacji śmierci, żeby uniknąć konwersji w każdym wywołaniu
-        public static readonly int DieHash = Animator.StringToHash("Die");
+        // Static hash for the death animation to avoid conversion on every call
+        private static readonly int DieHash = Animator.StringToHash("Die");
 
+        // Flag to ensure the death animation plays only once
+        private bool _hasPlayedDeathAnimation;
+        // Constructor that takes the enemy, agent, and animator as parameters
         public EnemyDeathState(EnemyBase enemy, NavMeshAgent agent, Animator animator) : base(enemy, agent, animator)
         {
         }
 
+        // Called when entering the death state
         public override void OnEnter()
         {
-            // Sprawdzenie, czy animacja nie jest już uruchomiona
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Die")) return;
+            // Check if the death animation is already playing
+            if (_hasPlayedDeathAnimation || Animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+                return;
 
-            // Uruchomienie animacji śmierci z płynnością
+            // Play the death animation smoothly
             base.OnEnter();
             Animator.CrossFade(DieHash, CrossFadeDuration);
+
+            // Set the flag to prevent the animation from being played again
+            _hasPlayedDeathAnimation = true;
         }
 
+        // Update method called each frame to check if the death animation is finished
         public override void Update()
         {
-            // Jeżeli animacja śmierci jest zakończona
+            // If the death animation is finished (normalizedTime >= 1f means the animation has played fully)
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Die") && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
-                // Logika po zakończeniu animacji, np. usunięcie wroga
-                //Destroy(Enemy.gameObject);
+                // Logic to execute after the animation finishes
+                // Only proceed if the death animation has been played
+                if (_hasPlayedDeathAnimation)
+                {
+                    // Destroy the enemy object after the death animation is complete
+                    Object.Destroy(Enemy.gameObject);  // You can add additional logic here before destroying the object, e.g., particle effects
+                }
             }
         }
-
     }
 }

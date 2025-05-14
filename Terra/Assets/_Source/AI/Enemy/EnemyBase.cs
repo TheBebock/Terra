@@ -16,7 +16,6 @@ using UnityEngine.AI;
 
 namespace _Source.AI.Enemy
 {
-
     /// <summary>
     ///     Represents enemy that has data attached to it
     /// </summary>
@@ -25,189 +24,191 @@ namespace _Source.AI.Enemy
     {
         protected abstract TEnemyData Data { get; }
     }
-    
+
     /// <summary>
-    ///     Represents base class for all 
+    ///     Represents base class for all enemies, handling health, state machine, and animations.
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
-    public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
+    public abstract class EnemyBase :  Entity, IDamageable, IAttachListeners
     {
-        protected static readonly int DirectionHash = Animator.StringToHash("Direction");
-        
+        private static readonly int DirectionHash = Animator.StringToHash("Direction");
+        private static readonly int Death = Animator.StringToHash("Death");
 
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
-        
+
         [Foldout("References")][SerializeField] protected NavMeshAgent agent;
         [Foldout("References")][SerializeField] protected PlayerDetector playerDetector;
         [Foldout("References")][SerializeField] protected Animator animator;
         [Foldout("References")][SerializeField] protected Collider enemyCollider;
         [Foldout("References")][SerializeField] protected SpriteRenderer enemyModel;
 
+        [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController healthController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer statusContainer;
+        protected StateMachine StateMachine;
+        protected EnemyDeathState EnemyDeathState;
+        protected CountdownTimer AttackTimer;
+        private bool _stateMachineLocked;
+        protected bool IsDead;
+        private bool CanUpdateState => !IsDead && !_stateMachineLocked;
 
-        [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
-        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
-        protected StateMachine stateMachine;
-        protected EnemyDeathState enemyDeathState;
-        protected CountdownTimer attackTimer;
-        protected bool stateMachineLocked = false;
-        protected bool isDead = false;
-
-
-
-        public HealthController HealthController => _healthController;
-        public FacingDirection CurrentDirection { get; set; } = FacingDirection.Right;
-        public StatusContainer StatusContainer => _statusContainer;
-        public bool IsInvincible => _healthController.IsInvincible;
-        public bool CanBeDamaged => _healthController.CurrentHealth > 0f;
+        public HealthController HealthController => healthController;
+        public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
+        public StatusContainer StatusContainer => statusContainer;
+        public bool IsInvincible => healthController.IsInvincible;
+        public bool CanBeDamaged => healthController.CurrentHealth > 0f;
+        public abstract float AttackRange { get; }
 
         /// <summary>
-        /// Initialize health, timer, and build the AI state machine.
+        /// Initializes health, timer, and builds the AI state machine.
         /// </summary>
         protected virtual void Awake()
         {
-           
             if (enemyStats == null)
             {
-                Debug.LogError($"[{nameof(EnemyBase)}] missing EnemyStatsDefinition on {name}");
+                Debug.LogError($"[{nameof(EnemyBase)}] Missing EnemyStatsDefinition on {name}. Please assign it in the inspector.");
+                return;
             }
 
-            _statusContainer = new StatusContainer(this);
-            _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth));
-            attackTimer = new CountdownTimer(GetAttackCooldown());
+            statusContainer = new StatusContainer(this);
+            healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth));
+            AttackTimer = new CountdownTimer(GetAttackCooldown());
 
             AttachListeners();
 
-            stateMachine = new StateMachine();
+            StateMachine = new StateMachine();
             
-            enemyDeathState = new EnemyDeathState(this, agent, animator);
-            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
+            EnemyDeathState = new EnemyDeathState(this, agent, animator);
+            StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
             
             SetupStates();
         }
 
         /// <summary>
-        /// Configures the state machine
+        /// Configures the state machine (to be implemented by subclasses).
         /// </summary>
         protected abstract void SetupStates();
 
         protected void Update()
         {
-            if (isDead || stateMachineLocked) return;
+            if (!CanUpdateState) return;
+
             StatusContainer.UpdateEffects();
-            stateMachine.Update();
-            attackTimer.Tick(Time.deltaTime);
+            StateMachine.Update();
+            AttackTimer.Tick(Time.deltaTime);
+
+            // Player detection and attack logic
             if (playerDetector != null && playerDetector.CanDetectPlayer())
             {
-                // Jeśli wróg może wykryć gracza, aktualizujemy kierunek
                 if (playerDetector.CanAttackPlayer())
                 {
-                    // Jeśli wróg może zaatakować gracza, wywołujemy odpowiednie akcje
                     AttemptAttack();
                 }
 
-                UpdateFacingDirection(playerDetector.transform);  // Przekazujemy transform gracza
+                UpdateFacingDirection(playerDetector.transform);
             }
         }
 
         protected virtual void FixedUpdate()
         {
-            if (isDead || stateMachineLocked) return;
-            stateMachine.FixedUpdate();
+            if (IsDead || _stateMachineLocked) return;
+            StateMachine.FixedUpdate();
         }
 
         /// <summary>
-        /// Updates facing based on agent velocity.
+        /// Updates facing direction based on agent velocity.
         /// </summary>
-        /// <param name="player"></param>
         public void UpdateFacingDirection(Transform player)
         {
             float vx = agent.velocity.x;
             float directionChangeThreshold = 0.05f;
 
-            if (vx > directionChangeThreshold)
+            // Use Mathf.Sign to simplify direction change logic
+            FacingDirection newDirection = vx > directionChangeThreshold ? FacingDirection.Right :
+                                          vx < -directionChangeThreshold ? FacingDirection.Left : CurrentDirection;
+
+            if (newDirection != CurrentDirection)
             {
-                if (CurrentDirection != FacingDirection.Right)
-                {
-                    CurrentDirection = FacingDirection.Right;
-                    animator.SetInteger(DirectionHash, 1); 
-                }
-            }
-            else if (vx < -directionChangeThreshold)
-            {
-                if (CurrentDirection != FacingDirection.Left)
-                {
-                    CurrentDirection = FacingDirection.Left;
-                    animator.SetInteger(DirectionHash, 0);  // Animator dla "patrzy w lewo"
-                }
+                CurrentDirection = newDirection;
+                animator.SetInteger(DirectionHash, (int)CurrentDirection);
             }
         }
 
         /// <summary>
-        /// Called to perform an attack; implemented by subclasses.
+        /// Abstract method for performing an attack, to be implemented by subclasses.
         /// </summary>
         public abstract void AttemptAttack();
 
         /// <summary>
-        /// Returns cooldown in seconds between attacks; implemented by subclasses.
+        /// Returns the cooldown duration between attacks, to be implemented by subclasses.
         /// </summary>
         protected abstract float GetAttackCooldown();
 
-
-
         /// <summary>
-        /// Applies damage, triggers feedback and popup.
+        /// Applies damage, triggers visual feedback and damage popup.
         /// </summary>
         public void TakeDamage(float amount, bool isPercentage = false)
         {
-            if (!CanBeDamaged) return;
-            _healthController.TakeDamage(amount, isPercentage);
+            if (!CanBeDamaged)
+            {
+                Debug.Log("Enemy is invincible and cannot take damage.");
+                return;
+            }
+
+            // Prevent negative damage values
+            if (amount < 0f) amount = 0f;
+
+            healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform.position, Quaternion.identity, amount);
+
+            // Flash red when damaged for feedback
             enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
         }
-        
-        public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
+
+        public void Kill(bool isSilent = true) => healthController.Kill(isSilent);
 
         void IDamageable.OnDeath()
         {
             OnDeath();
         }
-        
+
         /// <summary>
         /// Handles death behavior and schedules cleanup.
         /// </summary>
         private void OnDeath()
         {
-            if (isDead) return;
-            isDead = true;
+            if (IsDead) return;
+
+            IsDead = true;
             enemyCollider.enabled = false;
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             agent.enabled = false;
             
-            //TODO: Remove this and add normal death animations
-            animator.enabled = false;
-            enemyModel.material.DOFade(0f, 3.5f);
-            stateMachine.SetState(enemyDeathState);
-            
-            Destroy(gameObject, 5f);
+            animator.SetTrigger(Death);
+
+            // Optionally, you could replace this with object pooling if you have many enemies being destroyed.
+            Destroy(gameObject, 5f); 
         }
 
         public virtual void AttachListeners()
         {
-            _healthController.OnDeath += (this as IDamageable).OnDeath;
+            healthController.OnDeath += (this as IDamageable).OnDeath;
         }
 
         public virtual void DetachListeners()
         {
-            _healthController.OnDeath -= (this as IDamageable).OnDeath;
+            healthController.OnDeath -= (this as IDamageable).OnDeath;
         }
 
         public void SetCanUpdateState(bool value)
         {
-            stateMachineLocked = value;
+            _stateMachineLocked = value;
         }
 
+        /// <summary>
+        /// Validates and checks if all required components are assigned in the inspector.
+        /// </summary>
         protected virtual void OnValidate()
         {
             if (agent == null)

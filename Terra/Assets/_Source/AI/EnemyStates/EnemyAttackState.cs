@@ -1,6 +1,4 @@
-using _Source.AI.Data.Definitions;
 using _Source.AI.Enemy;
-using Terra.AI.Enemies;
 using Terra.Enums;
 using Terra.Player;
 using UnityEngine;
@@ -27,7 +25,7 @@ namespace _Source.AI.EnemyStates {
         {
             if (Time.time - _lastAttackTime >= AttackCooldown)
             {
-                //if (Vector3.Distance(Enemy.transform.position, Player.transform.position) <= Enemy.AttackRange)
+                if (Vector3.Distance(Enemy.transform.position, Player.transform.position) <= Enemy.AttackRange)
                 {
                     Enemy.AttemptAttack();
                 }
