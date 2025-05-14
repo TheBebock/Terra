@@ -24,6 +24,15 @@ namespace Terra.AI.Enemies
 {
 
     /// <summary>
+    ///     Represents enemy that has data attached to it
+    /// </summary>
+    public abstract class Enemy<TEnemyData> : EnemyBase
+        where TEnemyData : EnemyData
+    {
+        protected abstract TEnemyData Data { get; }
+    }
+    
+    /// <summary>
     ///     Represents base class for all 
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
@@ -31,8 +40,6 @@ namespace Terra.AI.Enemies
     {
         protected static readonly int DirectionHash = Animator.StringToHash("Direction");
         
-        [Header("AI Data")]
-        [SerializeField, Expandable] private EnemyData enemyData;
 
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
@@ -51,7 +58,6 @@ namespace Terra.AI.Enemies
         protected CountdownTimer attackTimer;
         protected bool stateMachineLocked = false;
         protected bool isDead = false;
-        public EnemyData EnemyData => enemyData;
 
 
 
@@ -64,7 +70,7 @@ namespace Terra.AI.Enemies
         /// <summary>
         /// Initialize health, timer, and build the AI state machine.
         /// </summary>
-        private void Awake()
+        protected virtual void Awake()
         {
            
             if (enemyStats == null)
@@ -91,7 +97,7 @@ namespace Terra.AI.Enemies
         /// </summary>
         protected abstract void SetupStates();
 
-        protected virtual void Update()
+        protected void Update()
         {
             if (isDead || stateMachineLocked) return;
             StatusContainer.UpdateEffects();
@@ -174,12 +180,12 @@ namespace Terra.AI.Enemies
             Destroy(gameObject, 5f);
         }
 
-        public void AttachListeners()
+        public virtual void AttachListeners()
         {
             _healthController.OnDeath += (this as IDamageable).OnDeath;
         }
 
-        public void DetachListeners()
+        public virtual void DetachListeners()
         {
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
         }

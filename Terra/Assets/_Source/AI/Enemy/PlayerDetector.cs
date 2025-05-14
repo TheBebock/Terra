@@ -57,6 +57,7 @@ namespace _Source.AI.Enemy
         void OnDrawGizmos() {
             Gizmos.color = Color.red;
 
+            
             // Draw a spheres for the radii
             Gizmos.DrawWireSphere(transform.position, enemyData.detectionRadius);
             // Rysowanie stożka detekcji dla RangedEnemy

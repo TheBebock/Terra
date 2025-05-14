@@ -48,6 +48,7 @@ namespace Terra.Player
             
             // Attach listeners
             ItemSlotBase.OnItemRemoved += DropItemOnGround;
+            
         }
 
         private void InitEquipmentSlots()

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +8,7 @@ using Terra.ID;
 using Terra.Itemization.Items.Definitions;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Itemization
 {
@@ -16,21 +16,21 @@ namespace Terra.Itemization
     [CreateAssetMenu(fileName = "ItemsDatabase", menuName = "TheBebocks/Items/Items Database")]
     public class ItemsDatabase : SingletonScriptableObject<ItemsDatabase>
     {
-        [SerializeField, ReadOnly] private List<ItemData> itemDefinitions = new();
+        [FormerlySerializedAs("itemDefinitions")] [SerializeField, ReadOnly] private List<ItemData> _itemDefinitions = new();
 
-        public List<ItemData> ItemDefinitions => itemDefinitions; 
+        public List<ItemData> ItemDefinitions => _itemDefinitions; 
 
-        private static readonly string passiveItemsPath = Path.Combine("Assets", "_Data", "Items", "Passive");
-        private static readonly string activeItemsPath = Path.Combine("Assets", "_Data", "Items", "Active");
-        private static readonly string meleeWeaponPath = Path.Combine("Assets", "_Data", "Weapons", "Melee");
-        private static readonly string rangedWeaponPath = Path.Combine("Assets", "_Data", "Weapons", "Ranged");
+        private static readonly string PassiveItemsPath = Path.Combine("Assets", "_Data", "Items", "Passive");
+        private static readonly string ActiveItemsPath = Path.Combine("Assets", "_Data", "Items", "Active");
+        private static readonly string MeleeWeaponPath = Path.Combine("Assets", "_Data", "Weapons", "Melee");
+        private static readonly string RangedWeaponPath = Path.Combine("Assets", "_Data", "Weapons", "Ranged");
 
 
         private void OnEnable()
         {
-            for (int i = 0; i < itemDefinitions.Count; i++)
+            for (int i = 0; i < _itemDefinitions.Count; i++)
             {
-                IDFactory.RegisterID(itemDefinitions[i]);
+                IDFactory.RegisterID(_itemDefinitions[i]);
             }
         }
 
@@ -41,19 +41,19 @@ namespace Terra.Itemization
             switch (itemType)
             {
                 case ItemType.Passive:
-                    AddItem(itemName, itemType, passiveItemsPath);
+                    AddItem(itemName, itemType, PassiveItemsPath);
                     return;
 
                 case ItemType.Active:
-                    AddItem(itemName, itemType, activeItemsPath);
+                    AddItem(itemName, itemType, ActiveItemsPath);
                     return;
 
                 case ItemType.Melee:
-                    AddItem(itemName, itemType, meleeWeaponPath);
+                    AddItem(itemName, itemType, MeleeWeaponPath);
                     return;
 
                 case ItemType.Ranged:
-                    AddItem(itemName, itemType, rangedWeaponPath);
+                    AddItem(itemName, itemType, RangedWeaponPath);
                     return;
             }
         }
@@ -61,28 +61,28 @@ namespace Terra.Itemization
         public void RemoveItem(string itemName)
         {
             if (string.IsNullOrEmpty(itemName) ||
-                !itemDefinitions.Exists(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
+                !_itemDefinitions.Exists(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.LogError("Remove Item - Error" +
                                $"Couldn't find an item named {itemName}");
                 return;
             }
 
-            ItemData item = itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+            ItemData item = _itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
             switch (item)
             {
                 case PassiveItemData:
-                    RemoveItem(itemName, passiveItemsPath);
+                    RemoveItem(itemName, PassiveItemsPath);
                     return;
                 case ActiveItemData:
-                    RemoveItem(itemName, activeItemsPath);
+                    RemoveItem(itemName, ActiveItemsPath);
                     return;
                 case MeleeWeaponData:
-                    RemoveItem(itemName, meleeWeaponPath);
+                    RemoveItem(itemName, MeleeWeaponPath);
                     return;
                 case RangedWeaponData:
-                    RemoveItem(itemName, rangedWeaponPath);
+                    RemoveItem(itemName, RangedWeaponPath);
                     return;
             }
         }
@@ -93,7 +93,7 @@ namespace Terra.Itemization
         {
             string assetPath = string.IsNullOrEmpty(itemName) ? string.Empty : Path.Combine(path, $"{itemName}.asset");
             if (string.IsNullOrEmpty(assetPath) || File.Exists(assetPath) ||
-                itemDefinitions.Any(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
+                _itemDefinitions.Any(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.LogError("Add Item - Error" +
                                $"Couldn't create item asset. File already exists or inserted name is invalid.");
@@ -102,7 +102,7 @@ namespace Terra.Itemization
 
             ItemData itemDefinition = CreateItemDataInstance(type);
             itemDefinition.Initialize(itemName);
-            itemDefinitions.Add(itemDefinition);
+            _itemDefinitions.Add(itemDefinition);
 #if  UNITY_EDITOR
             AssetDatabase.CreateAsset(itemDefinition, assetPath);
             AssetDatabase.SaveAssets();
@@ -116,16 +116,16 @@ namespace Terra.Itemization
         {
             string assetPath = string.IsNullOrEmpty(itemName) ? string.Empty : Path.Combine(path, $"{itemName}.asset");
             if (string.IsNullOrEmpty(assetPath) ||
-                !itemDefinitions.Exists(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
+                !_itemDefinitions.Exists(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.LogError("Remove Item - Error" +
                                $"Couldn't remove item asset. File name is invalid or item with that name doesn't exist.");
             }
             else
             {
-                ItemData itemDefinition = itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+                ItemData itemDefinition = _itemDefinitions.Find(d => d.itemName.Equals(itemName, StringComparison.OrdinalIgnoreCase));
                 itemDefinition.ReturnID();
-                itemDefinitions.Remove(itemDefinition);
+                _itemDefinitions.Remove(itemDefinition);
 #if  UNITY_EDITOR
                 AssetDatabase.DeleteAsset(assetPath);
                 AssetDatabase.SaveAssets();

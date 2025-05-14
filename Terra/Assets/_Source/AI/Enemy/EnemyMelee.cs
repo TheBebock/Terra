@@ -1,22 +1,25 @@
 using AI.Data.Definitions;
+using NaughtyAttributes;
 using Terra.AI.EnemyStates;
 using Terra.Combat;
 using Terra.FSM;
 using Terra.Player;
 using Terra.Utils;
+using UnityEngine;
 
 namespace Terra.AI.Enemies
 {
-    public class EnemyMelee : EnemyBase
+    public class EnemyMelee : Enemy<MeleeEnemyData> 
     {
-        private MeleeEnemyData MeleeData => (MeleeEnemyData)EnemyData;
+        [SerializeField, Expandable] MeleeEnemyData _data;
+        protected override MeleeEnemyData Data => _data;
 
-        protected override float GetAttackCooldown() => MeleeData.attackCooldown;
+        protected override float GetAttackCooldown() => Data.attackCooldown;
 
 
         protected override void SetupStates()
         {
-            var wander = new EnemyWanderState(this, agent, animator, MeleeData.detectionRadius);
+            var wander = new EnemyWanderState(this, agent, animator, Data.detectionRadius);
             var chase = new EnemyChaseState(this, agent, animator, PlayerManager.Instance.transform);
             var attack = new EnemyAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
 
@@ -33,10 +36,12 @@ namespace Terra.AI.Enemies
             if (!attackTimer.IsFinished) return;
 
             var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
-                transform.position, MeleeData.attackRadius, ComponentProvider.EnemyTargetsMask);
+                transform.position, Data.attackRadius, ComponentProvider.EnemyTargetsMask);
 
             CombatManager.Instance.EnemyPerformedAttack(this, targets, enemyStats.baseStrength);
             attackTimer.Reset();
         }
+
+
     }
 }

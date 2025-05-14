@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace StatisticsSystem.Definitions
 {
-    public abstract class EnemyStatsDefinition : CharacterStatsDefinition
+    [CreateAssetMenu(fileName = "EnemyStats_", menuName = "TheBebocks/AI/Statistics")]
+    public class EnemyStatsDefinition : CharacterStatsDefinition
     {
 
     }

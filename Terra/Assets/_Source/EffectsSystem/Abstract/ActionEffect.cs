@@ -9,7 +9,7 @@ namespace Terra.EffectsSystem.Abstracts
     ///     Represents base class for action effects
     /// </summary>
     [Serializable]
-    ///NOTE: Class should be abstract, but due to serialization it cannot
+    //NOTE: Class should be abstract, but due to serialization it cannot
     public class ActionEffectBase : EffectBase
     {
         public void Execute(Entity target, Entity source = null)

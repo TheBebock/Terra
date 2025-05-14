@@ -181,11 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9224ad33bd70f24449858106421f8f95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionAngle: 360
-  detectionRadius: 10
-  innerDetectionRadius: 5
-  detectionCooldown: 1
-  attackRange: 5
+  enemyData: {fileID: 0}
 --- !u!114 &7006866673334926771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,8 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  enemyStats: {fileID: 11400000, guid: 1451ac88fbda5b7448c24e08c8527c5e, type: 2}
-  detectionRadius: 5
+  enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
   agent: {fileID: 3986618462275367722}
   playerDetector: {fileID: 1849009443266694251}
   animator: {fileID: 3259441000915841612}
@@ -234,8 +229,7 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
-  attackRadius: 1.5
-  timeBetweenAttacks: 1
+  _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
 --- !u!114 &1417974242927953132
 MonoBehaviour:
   m_ObjectHideFlags: 0
