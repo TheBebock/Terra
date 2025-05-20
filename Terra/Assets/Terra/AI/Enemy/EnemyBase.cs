@@ -19,10 +19,18 @@ namespace Terra.AI.Enemy
     /// <summary>
     ///     Represents enemy that has data attached to it
     /// </summary>
-    public abstract class Enemy<TEnemyData> : EnemyBase
+    public abstract class Enemy<TEnemyData> : EnemyBase, IWithSetUp
         where TEnemyData : EnemyData
     {
         protected abstract TEnemyData Data { get; }
+        public virtual void SetUp()
+        {
+            playerDetector.Init(Data);
+        }
+        public virtual void TearDown()
+        {
+            
+        }
     }
 
     /// <summary>
@@ -238,5 +246,6 @@ namespace Terra.AI.Enemy
                     Debug.LogError($"[{name}] Missing SpriteRenderer (enemyModel) in children.", this);
             }
         }
+        
     }
 }

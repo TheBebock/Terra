@@ -14,37 +14,21 @@ namespace Terra.Core.Generics
             {
                 if (_instance == null)
                 {
-                    // Try to load the instance if it's not found
-                    _instance = Resources.FindObjectsOfTypeAll<T>()[0];
-
-                    if (_instance == null)
+                    T[] assets = Resources.LoadAll<T>("");
+                    if (assets == null)
                     {
-                        // If no instance is found, create a new one
-                        _instance = CreateInstance<T>();
-
-                        // This is important to avoid the instance being destroyed when the scene changes
-                        DontDestroyOnLoad(_instance);
+                        throw new Exception("There is no singleton scriptable object of type " + typeof(T).Name);
                     }
+                    if (assets.Length > 0)
+                    {
+                        Debug.LogWarning($"Found multiple instances of {typeof(T).Name}");
+                    }
+                    
+                    _instance = assets[0];
                 }
                 return _instance;
             }
         }
-
-        protected virtual void Awake()
-        {
-            if (_instance == null)
-            {
-                _instance = this as T;
-            }
-            else if (_instance != this as T)
-            {
-                Destroy(this);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            _instance = null;
-        }
+        
     }
 }

@@ -63,15 +63,25 @@ namespace Terra.Managers
         
         public void SpawnRandomPickup(Transform pickupTransform)
         {
-            PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupTransform);
             PickupBase pickup = lootTable.GetRandomPickup();
+            if (pickup == null)
+            {
+                Debug.LogError($"{this}: Pickup could not be found");
+                return;
+            }
+            PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupTransform);
             pickupContainer.Initialize(pickup);
         }
         
         public void SpawnRandomPickup(Vector3 pickupPosition)
         {
-            PickupContainer pickupContainer = Instantiate(P_pickupContainer,pickupPosition, Quaternion.identity);
             PickupBase pickup = lootTable.GetRandomPickup();
+            if (pickup == null)
+            {
+                Debug.LogError($"{this}: Pickup could not be found");
+                return;
+            }
+            PickupContainer pickupContainer = Instantiate(P_pickupContainer,pickupPosition, Quaternion.identity);
             pickupContainer.Initialize(pickup);
         }
 

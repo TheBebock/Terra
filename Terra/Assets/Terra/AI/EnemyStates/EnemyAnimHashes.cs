@@ -7,19 +7,17 @@ namespace Terra.AI.EnemyStates {
     /// calls to Animator.StringToHash in every state.
     /// </summary>
     public static class EnemyAnimHashes {
-        // Precomputed hash for the "IdleNormal" animation state
-        public static readonly int Idle = Animator.StringToHash("IdleNormal");
+        
+        public static readonly int Idle = Animator.StringToHash("Idle");
 
-        // Precomputed hash for the "RunFWD" animation state
-        public static readonly int Run = Animator.StringToHash("RunFWD");
+        public static readonly int WalkLeft = Animator.StringToHash("WalkLeft");
+        public static readonly int WalkRight = Animator.StringToHash("WalkRight");
 
-        // Precomputed hash for the "WalkFWD" animation state
-        public static readonly int Walk = Animator.StringToHash("WalkFWD");
 
-        // Precomputed hash for the "Attack01" animation state
-        public static readonly int Attack = Animator.StringToHash("Attack01");
+        public static readonly int AttackLeft = Animator.StringToHash("AttackLeft");
+        public static readonly int AttackRight = Animator.StringToHash("AttackRight");
 
-        // Precomputed hash for the "Die" animation state
-        public static readonly int Die = Animator.StringToHash("Die");
+        public static readonly int Death = Animator.StringToHash("Death");
+        
     }
 }

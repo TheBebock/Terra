@@ -16,7 +16,7 @@ namespace Terra.EffectsSystem.Actions
     {
 
         [SerializeField, ReadOnly] private List<EffectsMapping> _mapping = new();
-        [ShowNonSerializedField] private Dictionary<Type, Type> _dataToActionTypeMap = new();
+        private Dictionary<Type, Type> _dataToActionTypeMap = new();
         private Dictionary<Type, ActionEffectBase> _dataToActionEffectMap = new();
         
 

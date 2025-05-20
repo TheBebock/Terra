@@ -321,11 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9224ad33bd70f24449858106421f8f95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionAngle: 360
-  detectionRadius: 10
-  innerDetectionRadius: 5
-  detectionCooldown: 1
-  attackRange: 5
+  _enemyData: {fileID: 0}
 --- !u!114 &1986148890957680752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,17 +334,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: -1
+  _id: -1
+  enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
   agent: {fileID: 6404629157487420004}
   playerDetector: {fileID: 421302395010930049}
   animator: {fileID: 6565553046577328471}
   enemyCollider: {fileID: 6078002889707953221}
   enemyModel: {fileID: 8352202127488331846}
-  enemyStats: {fileID: 11400000, guid: 1451ac88fbda5b7448c24e08c8527c5e, type: 2}
-  detectionRadius: 5
-  attackRadius: 1.5
-  timeBetweenAttacks: 1
-  attackDamage: 1
+  healthController:
+    maxHealth:
+      baseValue: 0
+      StatModifiers: []
+    currentHealth: 0
+    canBeHealed: 0
+    isInvincible: 0
+  statusContainer:
+    _entity: {fileID: 0}
+    _statuses: []
+  _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
 --- !u!114 &8009901754265250444
 MonoBehaviour:
   m_ObjectHideFlags: 0

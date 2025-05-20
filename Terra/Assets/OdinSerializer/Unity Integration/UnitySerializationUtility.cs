@@ -567,7 +567,7 @@ namespace OdinSerializer
                     }
 
                     current = current.BaseType;
-                };
+                }
             }
 
             return false;

@@ -1,0 +1,168 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
+using Terra.AI.Enemy;
+using Terra.Core.Generics;
+using Terra.Extensions;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+
+namespace Terra.Managers
+{
+
+    public class WaveManager : MonoBehaviourSingleton<WaveManager>
+    {
+        [Serializable]
+        internal struct EnemySpawnData
+        {
+            public EnemyBase _enemy;
+            public int _spawnValue;
+        }
+        
+        
+        [SerializeField] private List<EnemySpawnData> _enemies;
+        [Header("Waves Settings")]
+        [SerializeField] private float _timeBetweenWaves = 10f;
+        [SerializeField] private int _startingWavesToSpawn = 3;
+        [SerializeField] private float _wavesGainPerLevel = 0.5f;
+        [SerializeField] private int _startingSpawnPoints = 100;
+        [SerializeField] private int _spawnPointsGain = 50;
+        [SerializeField] private float _enemiesToSpawnPerWave = 1f;
+        [SerializeField] private float _enemiesPerWaveGain = 0.5f;
+        [SerializeField] private float _spawnTimeInterval = 0.2f;
+        
+        //TODO: CHOOSE SPAWN AREA DEPENDING ON NAVMESH
+        [Header("Spawn Area")]
+        [SerializeField] private Vector2 _spawnMin;
+        [SerializeField] private Vector2 _spawnMax;
+
+        [Foldout("Debug"), ReadOnly][SerializeField] private bool _isPaused;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _currentSpawnPoints;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _currentWaveIndex;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _wavesToSpawn;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _currentLevel = -1;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _currentActiveEnemies;
+
+        private CancellationTokenSource _waveCancellationTokenSource;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                StartWaves();
+            }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                StopWaves();
+            }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                ResumeWaves();
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                PauseWaves();
+            }
+        }
+
+        public void StartWaves()
+        {
+            _waveCancellationTokenSource = new CancellationTokenSource(); 
+            var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
+                _waveCancellationTokenSource.Token, 
+                CancellationToken
+            );
+            _ = StartSpawningWaves(linkedCts.Token);
+        }
+        
+        public void PauseWaves() => _isPaused = true;
+        
+        public void ResumeWaves() => _isPaused = false;
+        
+        public void StopWaves() => _waveCancellationTokenSource.Cancel();
+        
+        private async UniTask StartSpawningWaves(CancellationToken token)
+        {
+
+            _currentLevel++;
+            _wavesToSpawn = _startingWavesToSpawn + Mathf.RoundToInt(_currentLevel * _wavesGainPerLevel);
+            _currentWaveIndex = 0;
+
+            while (_currentWaveIndex < _wavesToSpawn)
+            {
+                await UniTask.WaitWhile(() => _isPaused || Time.timeScale == 0, cancellationToken: token);
+                
+                _currentWaveIndex++;
+                
+                await HandleWaveSpawning(token);
+
+                float elapsed = 0f;
+                while (elapsed < _timeBetweenWaves && _currentActiveEnemies > 0)
+                {
+                    if (Time.timeScale > 0)
+                        elapsed += Time.deltaTime;
+
+                    await UniTask.Yield(PlayerLoopTiming.Update, token);
+                }
+            }
+        }
+
+        private async UniTask HandleWaveSpawning(CancellationToken token)
+        {
+            _currentSpawnPoints = _startingSpawnPoints + _spawnPointsGain * _currentWaveIndex;
+            int numberOfEnemies = Mathf.CeilToInt(_enemiesToSpawnPerWave + _currentWaveIndex * _enemiesPerWaveGain); 
+            
+            for (int i = 0; i < numberOfEnemies; i++)
+            {
+                await UniTask.WaitWhile(() => _isPaused || Time.timeScale == 0, cancellationToken: token);
+
+                SpawnEnemy(GetEnemyBasedOnSpawnValue());
+                
+                float elapsed = 0f;
+                while (elapsed < _spawnTimeInterval)
+                {
+                    await UniTask.WaitWhile(() => _isPaused || Time.timeScale == 0, cancellationToken: token);
+                    elapsed += Time.deltaTime;
+                    await UniTask.Yield(PlayerLoopTiming.Update, token);
+                }
+            }
+        }
+
+
+        private EnemyBase GetEnemyBasedOnSpawnValue()
+        {
+            // Default enemy to spawn
+            List<EnemySpawnData> possibleEnemies = new() { _enemies[0] };
+
+            for (int i = 1; i < _enemies.Count; i++)
+            {
+                if(_enemies[i]._spawnValue > _currentSpawnPoints) continue;   
+                possibleEnemies.Add(_enemies[i]);
+            }
+
+            EnemySpawnData enemyData = possibleEnemies.GetRandomElement<EnemySpawnData>();
+            _currentSpawnPoints -= enemyData._spawnValue;
+            return enemyData._enemy;
+        }
+
+        private void SpawnEnemy(EnemyBase enemyPrefab)
+        {
+            Vector3 spawnPosition = GetRandomSpawnPosition();
+            EnemyBase enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+
+            _currentActiveEnemies++;
+            enemy.HealthController.OnDeath += () => { _currentActiveEnemies--; };
+        }
+
+        private Vector3 GetRandomSpawnPosition()
+        {
+            float x = Random.Range(_spawnMin.x, _spawnMax.x);
+            float z = Random.Range(_spawnMin.y, _spawnMax.y);
+            float y = 100f;
+            return new Vector3(x, y, z);
+        }
+    }
+}

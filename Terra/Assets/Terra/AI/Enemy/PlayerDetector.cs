@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using Terra.AI.Data.Definitions;
 using Terra.Core.Generics;
 using Terra.Player;
@@ -8,7 +9,7 @@ namespace Terra.AI.Enemy
 {
     public class PlayerDetector : InGameMonobehaviour
     {
-        [SerializeField] private EnemyData _enemyData;
+        [SerializeField, ReadOnly] private EnemyData _enemyData;
         
         private PlayerManager _playerManager;
         
@@ -18,11 +19,11 @@ namespace Terra.AI.Enemy
 
 
         //TODO: Delete detecting player, enemy can always detect player
-        
+        public void Init(EnemyData enemyData) => _enemyData = enemyData;
 
         public bool CanAttackPlayer() {
-            var directionToPlayer = PlayerManager.Instance.PlayerEntity.transform.position - transform.position;
-            Debug.DrawLine(transform.position, PlayerManager.Instance.PlayerEntity.transform.position, Color.blue);
+            var directionToPlayer = PlayerManager.Instance.transform.position - transform.position;
+            Debug.DrawLine(transform.position, PlayerManager.Instance.transform.position, Color.blue);
             return directionToPlayer.magnitude <= _enemyData.attackRange;
         }
         

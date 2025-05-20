@@ -1,3 +1,4 @@
+using System.Threading;
 using Terra.ID;
 using Terra.Interfaces;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Terra.Core.Generics
     public abstract class InGameMonobehaviour : MonoBehaviour, IInitializable
     {
         public bool IsInitialized { get; private set; }
+        protected CancellationToken CancellationToken => destroyCancellationToken; 
     
         private void Start()
         {
