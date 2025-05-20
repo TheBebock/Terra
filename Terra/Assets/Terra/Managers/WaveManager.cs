@@ -6,6 +6,8 @@ using NaughtyAttributes;
 using Terra.AI.Enemy;
 using Terra.Core.Generics;
 using Terra.Extensions;
+using Terra.GameStates;
+using Terra.Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +15,7 @@ using Random = UnityEngine.Random;
 namespace Terra.Managers
 {
 
-    public class WaveManager : MonoBehaviourSingleton<WaveManager>
+    public class WaveManager : MonoBehaviourSingleton<WaveManager>, IAttachListeners
     {
         [Serializable]
         internal struct EnemySpawnData
@@ -24,10 +26,12 @@ namespace Terra.Managers
         
         
         [SerializeField] private List<EnemySpawnData> _enemies;
-        [Header("Waves Settings")]
+
+        [Header("Waves Settings")] 
+        [SerializeField] private float _delayBeforeFirstWave = 5f;
         [SerializeField] private float _timeBetweenWaves = 10f;
         [SerializeField] private int _startingWavesToSpawn = 3;
-        [SerializeField] private float _wavesGainPerLevel = 0.5f;
+        [SerializeField] private float _wavesGainPerLevel = 0.33f;
         [SerializeField] private int _startingSpawnPoints = 100;
         [SerializeField] private int _spawnPointsGain = 50;
         [SerializeField] private float _enemiesToSpawnPerWave = 1f;
@@ -47,46 +51,37 @@ namespace Terra.Managers
         [Foldout("Debug"), ReadOnly][SerializeField] private int _currentActiveEnemies;
 
         private CancellationTokenSource _waveCancellationTokenSource;
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                StartWaves();
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                StopWaves();
-            }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                ResumeWaves();
-            }
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                PauseWaves();
-            }
-        }
+        private CancellationTokenSource _linkedCts;
+        
 
         public void StartWaves()
         {
+            StopWaves();
+            
             _waveCancellationTokenSource = new CancellationTokenSource(); 
-            var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
+            _linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
                 _waveCancellationTokenSource.Token, 
                 CancellationToken
             );
-            _ = StartSpawningWaves(linkedCts.Token);
+            _ = StartSpawningWaves(_linkedCts.Token);
         }
-        
+        public void StopWaves()
+        {
+            _waveCancellationTokenSource?.Cancel();
+            
+            _linkedCts?.Dispose();
+            _waveCancellationTokenSource?.Dispose();
+        } 
+
         public void PauseWaves() => _isPaused = true;
         
         public void ResumeWaves() => _isPaused = false;
         
-        public void StopWaves() => _waveCancellationTokenSource.Cancel();
-        
         private async UniTask StartSpawningWaves(CancellationToken token)
         {
 
+            await UniTask.WaitForSeconds(_delayBeforeFirstWave, cancellationToken: token);
+            
             _currentLevel++;
             _wavesToSpawn = _startingWavesToSpawn + Mathf.RoundToInt(_currentLevel * _wavesGainPerLevel);
             _currentWaveIndex = 0;
@@ -108,6 +103,13 @@ namespace Terra.Managers
                     await UniTask.Yield(PlayerLoopTiming.Update, token);
                 }
             }
+
+            while (_currentActiveEnemies > 0)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+            }
+            
+            OnLevelEnd();
         }
 
         private async UniTask HandleWaveSpawning(CancellationToken token)
@@ -130,8 +132,7 @@ namespace Terra.Managers
                 }
             }
         }
-
-
+        
         private EnemyBase GetEnemyBasedOnSpawnValue()
         {
             // Default enemy to spawn
@@ -157,12 +158,40 @@ namespace Terra.Managers
             enemy.HealthController.OnDeath += () => { _currentActiveEnemies--; };
         }
 
+        private void OnLevelEnd()
+        {
+            GameManager.Instance.SwitchToGameState<UpgradeGameState>();
+        }
+
         private Vector3 GetRandomSpawnPosition()
         {
             float x = Random.Range(_spawnMin.x, _spawnMax.x);
             float z = Random.Range(_spawnMin.y, _spawnMax.y);
             float y = 100f;
             return new Vector3(x, y, z);
+        }
+        
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            _linkedCts.Dispose();
+            _waveCancellationTokenSource.Dispose();
+        }
+
+        public void AttachListeners()
+        {
+            if (!TimeManager.Instance) return;
+
+            TimeManager.Instance.OnGamePaused += PauseWaves;
+            TimeManager.Instance.OnGameResumed += ResumeWaves;
+        }
+
+        public void DetachListeners()
+        {
+            if (!TimeManager.Instance) return;
+            
+            TimeManager.Instance.OnGamePaused -= PauseWaves;
+            TimeManager.Instance.OnGameResumed -= ResumeWaves;
         }
     }
 }

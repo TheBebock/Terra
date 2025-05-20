@@ -161,7 +161,7 @@ namespace Terra.Player
             
             Vector3 attackPosition = _playerInventory.transform.position + direction * range;
             Quaternion targetRotation = Quaternion.LookRotation(attackPosition - _playerInventory.transform.position);
-            Debug.Log($"Attack position: {attackPosition}\nTarget rotation: {targetRotation}");
+            //Debug.Log($"Attack position: {attackPosition}\nTarget rotation: {targetRotation}");
 
             _playerInventory.MeleeWeapon.PerformAttack(attackPosition, targetRotation);
 

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {
@@ -18,16 +21,9 @@ namespace Terra.Managers
     /// </summary>
     public class ScenesManager : PersistentMonoSingleton<ScenesManager>
     {
-        [SerializeField] private List<string> sceneNames = new List<string>();
+        [SerializeField, ReadOnly] private List<string> _sceneNames = new ();
 
         public string CurrentSceneName => SceneManager.GetActiveScene().name;
-        protected override void Awake()
-        {
-            base.Awake();
-            sceneNames.Add(SceneNames.MainMenu);
-            sceneNames.Add(SceneNames.Gameplay);
-            sceneNames.Add(SceneNames.Loading);
-        }
 
         //TODO: Add async LoadScene, that implements correct initialization pipeline, ie: load ground first, then entities, then ui.. etc
 
@@ -51,13 +47,23 @@ namespace Terra.Managers
         
         public void ForceLoadScene(string sceneName)
         {
-            if (!sceneNames.Contains(sceneName))
+            if (!_sceneNames.Contains(sceneName))
             {
                 Debug.LogError("Scene name does not exist.");
                 return;
             } 
             
             SceneManager.LoadScene(sceneName);
+        }
+
+        private void OnValidate()
+        {
+            if (_sceneNames.Count == 0)
+            {
+                _sceneNames.Add(SceneNames.MainMenu);
+                _sceneNames.Add(SceneNames.Gameplay);
+                _sceneNames.Add(SceneNames.Loading);
+            }
         }
     }
 }

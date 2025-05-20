@@ -1,14 +1,17 @@
 using System;
+using NaughtyAttributes;
+using UnityEngine;
 
 namespace Terra.FSM
 {
     [Serializable]
     public abstract class BaseState : IState
     {
-        
+        [SerializeField, ReadOnly] private string _name;
+
         protected BaseState()
         {
-            
+            _name = GetType().Name;
         }
         
         public virtual void OnEnter()

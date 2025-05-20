@@ -9,6 +9,5 @@ namespace Terra.GameStates
     [Serializable]
     public class GameState : BaseState
     {
-        
     }
 }

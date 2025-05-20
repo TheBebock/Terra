@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Terra.GameStates;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
@@ -23,24 +24,20 @@ namespace Terra.UI
             }
 
             acceptButton.onClick.AddListener(ApplyReward);
-            acceptButton.onClick.AddListener(Resume);
         }
 
         private void ApplyReward()
         {
             if (!IsAnyToggleOn()) return;
 
+            
+            
             // TODO: Apply reward for player
-        }
-
-        private void Resume()
-        {
-            if (!IsAnyToggleOn()) return;
-
-            TimeManager.Instance?.ResumeTime();
+            GameManager.Instance.SwitchToGameState<GameplayState>();
             Close();
-        }
 
+        }
+        
         private bool IsAnyToggleOn()
         {
             foreach (var toggle in rewardToggles)

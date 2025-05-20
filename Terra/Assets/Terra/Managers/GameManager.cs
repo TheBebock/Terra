@@ -23,9 +23,9 @@ namespace Terra.Managers
             if(!Instance == this) return;
         
             allGameStates.Clear();
-            allGameStates.Add(typeof(NewGameState), new NewGameState());
+            allGameStates.Add(typeof(GameplayState), new GameplayState());
+            allGameStates.Add(typeof(UpgradeGameState), new UpgradeGameState());
             allGameStates.Add(typeof(LoadGameState), new LoadGameState());
-            allGameStates.Add(typeof(MainMenuState), new MainMenuState());
             allGameStates.Add(typeof(DefaultGameState), new DefaultGameState());
         }
 
@@ -35,16 +35,16 @@ namespace Terra.Managers
 #if UNITY_EDITOR
             if (ScenesManager.Instance.CurrentSceneName == SceneNames.Gameplay)
             {
-                SwitchToNewGameState<DefaultGameState>();
+                SwitchToGameState<GameplayState>();
                 return;
             }
 #endif
         
-            SwitchToNewGameState<MainMenuState>();
+            SwitchToGameState<DefaultGameState>();
         }
     
 
-        public void SwitchToNewGameState<T>() where T : GameState
+        public void SwitchToGameState<T>() where T : GameState
         {
             // Check if the game state exists in the dictionary
             if (!allGameStates.ContainsKey(typeof(T)))
@@ -64,18 +64,7 @@ namespace Terra.Managers
             else
                 SwitchToNewGameState(newGameState);
         }
-
-        public void StartNewGame()
-        {
-            SwitchToNewGameState<NewGameState>();
-        }
-
-        public void LoadGame()
-        {
-            SwitchToNewGameState<LoadGameState>();
-
-        }
-
+        
         /// <summary>
         /// Checks if the current game state is of desired type.
         /// </summary>

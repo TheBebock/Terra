@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.Extensions;
 using Terra.Interfaces;
 using Terra.UI;
 using UIExtensionPackage.UISystem.UI.Windows;
@@ -21,9 +22,9 @@ namespace Terra.Managers
     
         public bool IsGamePaused => _isGamePaused;
     
-        private List<object> saveLocks = new List<object>();
+        private List<object> pauseLocks = new ();
     
-        public bool CanBePaused => !IsGamePaused && saveLocks.Count <= 0;
+        public bool CanBePaused => !IsGamePaused && pauseLocks.Count <= 0;
         public event Action OnGamePaused;
         public event Action OnGameResumed;
         
@@ -42,8 +43,7 @@ namespace Terra.Managers
         {
         
             bool pauseState = !_isGamePaused;
-        
-            // Additional logic here
+            
         
             if(pauseState) PauseGame();
             else ResumeGame();
@@ -79,6 +79,11 @@ namespace Terra.Managers
             OnGameResumed?.Invoke();
             OnGamePauseStateChanged?.Invoke(_isGamePaused);
         }
+        
+        
+        public void AddPauseLock(object lockObject) => pauseLocks.Add(lockObject);
+
+        public void RemovePauseLock(object lockObject) => pauseLocks.RemoveElement(lockObject);
         
         public void PauseTime() => ChangeTimeScale(0f);
         public void ResumeTime() => ChangeTimeScale(1f);
