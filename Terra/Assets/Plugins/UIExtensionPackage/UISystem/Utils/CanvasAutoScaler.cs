@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +16,6 @@ namespace UIExtensionPackage.UISystem.Utils
         CanvasScaler canvasScaler;
         [Foldout("Debug"), SerializeField, ReadOnly]
         private float resolutionRatio;
-        private void Awake()
-        {
-            canvasScaler = GetComponent<CanvasScaler>();
-        }
 
         /// <summary>
         /// Should be fixed update as resolution may change during runtime.
@@ -32,6 +29,11 @@ namespace UIExtensionPackage.UISystem.Utils
             // the screen is wider than the base resolution, then match height.
             // Otherwise, match width.
             canvasScaler.matchWidthOrHeight = resolutionRatio > DefaultConstants.BASE_RESOLUTION_RATIO ? 1 : 0;
+        }
+
+        private void OnValidate()
+        {
+            if(!canvasScaler) canvasScaler = GetComponent<CanvasScaler>();
         }
     }
 }

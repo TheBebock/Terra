@@ -344,5 +344,11 @@ namespace UIExtensionPackage.UISystem.UI.Windows
             canvasGroup.blocksRaycasts = false;
             canvasGroup.interactable = false;
         }
+
+        private void OnValidate()
+        {
+            if (!windowsContainer) windowsContainer = transform;
+            if(!canvasGroup)canvasGroup = GetComponent<CanvasGroup>();
+        }
     }
 }
