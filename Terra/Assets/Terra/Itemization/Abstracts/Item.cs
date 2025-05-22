@@ -47,10 +47,15 @@ namespace Terra.Itemization.Abstracts
                 Debug.LogError($"{this} data was null. It should never happen.");
                 return;
             }
-            PlayerStatsManager.Instance.AddStrength(Data.strengthModifiers);
-            PlayerStatsManager.Instance.AddMaxHealth(Data.maxHealthModifiers);
-            PlayerStatsManager.Instance.AddDexterity(Data.speedModifiers);
-            PlayerStatsManager.Instance.AddLuck(Data.luckModifiers);
+
+            if (!PlayerManager.Instance)
+            {
+                Debug.LogError($"{this}: Player Manager not found, cannot add stat modifiers.");
+            }
+            PlayerStatsManager.Instance?.AddStrength(Data.strengthModifiers);
+            PlayerStatsManager.Instance?.AddMaxHealth(Data.maxHealthModifiers);
+            PlayerStatsManager.Instance?.AddDexterity(Data.speedModifiers);
+            PlayerStatsManager.Instance?.AddLuck(Data.luckModifiers);
         }
         
         public void OnUnEquip()
@@ -60,10 +65,14 @@ namespace Terra.Itemization.Abstracts
                 Debug.LogError($"{this} data was null. It should never happen.");
                 return;
             }
-            PlayerStatsManager.Instance.RemoveStrength(Data.strengthModifiers);
-            PlayerStatsManager.Instance.RemoveMaxHealth(Data.maxHealthModifiers);
-            PlayerStatsManager.Instance.RemoveSpeed(Data.speedModifiers);
-            PlayerStatsManager.Instance.RemoveLuck(Data.luckModifiers);
+            if (!PlayerManager.Instance)
+            {
+                Debug.LogError($"{this}: Player Manager not found, cannot remove stat modifiers.");
+            }
+            PlayerStatsManager.Instance?.RemoveStrength(Data.strengthModifiers);
+            PlayerStatsManager.Instance?.RemoveMaxHealth(Data.maxHealthModifiers);
+            PlayerStatsManager.Instance?.RemoveSpeed(Data.speedModifiers);
+            PlayerStatsManager.Instance?.RemoveLuck(Data.luckModifiers);
         }
         
     }

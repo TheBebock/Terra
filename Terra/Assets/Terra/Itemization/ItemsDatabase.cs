@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using NaughtyAttributes;
 using OdinSerializer.Utilities;
-using Terra.Core.Generics;
 using Terra.ID;
 using Terra.Itemization.Abstracts.Definitions;
 using UnityEditor;
@@ -15,11 +14,11 @@ namespace Terra.Itemization
 {
 
     [CreateAssetMenu(fileName = "ItemsDatabase", menuName = "TheBebocks/Items/Items Database")]
-    public class ItemsDatabase : SingletonScriptableObject<ItemsDatabase>
+    public class ItemsDatabase : Core.Generics.ScriptableSingleton<ItemsDatabase>
     {
         [FormerlySerializedAs("itemDefinitions")] [SerializeField, ReadOnly] private List<ItemData> _itemDefinitions = new();
 
-        public List<ItemData> ItemDefinitions => _itemDefinitions; 
+        public List<ItemData> ItemDefinitions => _itemDefinitions;
 
         private static readonly string PassiveItemsPath = Path.Combine("Assets", "_Data", "Items", "Passive");
         private static readonly string ActiveItemsPath = Path.Combine("Assets", "_Data", "Items", "Active");

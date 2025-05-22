@@ -18,7 +18,7 @@ namespace Terra.Itemization.Items
     public class ItemSlot<TItem> : ItemSlotBase<TItem>
     where TItem : ItemBase
     {
-        [SerializeField, ReadOnly] private string itemName;
+        [SerializeField, ReadOnly] private string _itemName;
         public TItem EquippedItem { get; private set; }
         public override bool IsSlotTaken { get; set; }
 
@@ -46,7 +46,7 @@ namespace Terra.Itemization.Items
             if (!CanEquip()) return false;
             IsSlotTaken = true;
             EquippedItem = newItem;
-            itemName = newItem.ItemName;
+            _itemName = newItem.ItemName;
             equipable.OnEquip();
             return true;
         }
@@ -65,7 +65,7 @@ namespace Terra.Itemization.Items
             IsSlotTaken = false;
             // Clear cached item
             EquippedItem = null;
-            itemName = String.Empty;
+            _itemName = String.Empty;
             return true;
         }
         
