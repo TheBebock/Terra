@@ -49,10 +49,9 @@ namespace Terra.AI.EnemyStates {
 
         // Check if the player is within the attack range
         private bool IsPlayerInRange() {
-            float attackRange = 10f;  // Example attack range (can be adjusted)
             float distanceToPlayer = Vector3.Distance(enemy.transform.position, Player.transform.position);
             
-            return distanceToPlayer <= attackRange;  // Return true if the player is within range
+            return distanceToPlayer <= enemy.AttackRange;  // Return true if the player is within range
         }
 
         // Check if there is an unobstructed path to the player
@@ -75,6 +74,11 @@ namespace Terra.AI.EnemyStates {
         public override void OnExit() {
             base.OnExit();
             navMeshAgent.isStopped = false;  // Resume the agent's movement when exiting the attack state
+        }
+        public override void Update()
+        {
+            base.Update(); // jeśli EnemyBaseAttackState coś robi w OnUpdate
+            OnAttack();
         }
     }
 }
