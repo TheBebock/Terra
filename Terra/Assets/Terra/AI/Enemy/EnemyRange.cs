@@ -29,9 +29,9 @@ namespace Terra.AI.Enemy
             EnemyDeathState = new EnemyDeathState(this, agent, animator);
 
 
-            StateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) > AttackRange));
+            StateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
             StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
-           
+            
             StateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
             StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
             
@@ -41,15 +41,23 @@ namespace Terra.AI.Enemy
         public override void AttemptAttack()
         {
             if (!AttackTimer.IsFinished) return;
+            if (firePoint == null) { Debug.LogError("firePoint missing"); return; }
 
-            if (firePoint == null)
-            {
-                Debug.LogError("EnemyRange.AttemptAttack failed: firePoint missing.");
-                return;
-            }
+            // Kierunek do gracza
+            Vector3 dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
+            // Obrót pocisku od razu w kierunku dir
+            Quaternion rot = Quaternion.LookRotation(dir);
 
-            var dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
-            ProjectileFactory.CreateProjectile(Data.bulletData, firePoint.position, dir, this);
+            // Instantiate z odpowiednim obrotem
+            Projectile p = ProjectileFactory.CreateProjectile(
+                Data.bulletData,
+                firePoint.position,
+                dir,
+                this
+            );
+            // Upewnij się, że CreateProjectile nie przekreśla rotacji transformu
+            p.transform.rotation = rot;
+
             AttackTimer.Reset();
         }
     }

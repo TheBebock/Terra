@@ -20,14 +20,20 @@ namespace Terra.Combat.Projectiles
         /// <summary>
         /// Initializes the projectile with configuration data and sets its velocity.
         /// </summary>
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
         public void Initialize(BulletData data, Vector3 direction, Entity origin)
         {
             _damage = data.bulletDamage;
             _speed = data.bulletSpeed;
             _effects = data.bulletEffects;
             _origin = origin;
-            
-            _rigidbody.velocity = direction.normalized * _speed;
+            _originLayer = origin.gameObject.layer;
+            _rigidbody.velocity = direction.normalized * data.bulletSpeed;
+            transform.forward  = direction.normalized;
+            Destroy(gameObject, data.bulletLifetime);
         }
 
         private void OnTriggerEnter(Collider other)

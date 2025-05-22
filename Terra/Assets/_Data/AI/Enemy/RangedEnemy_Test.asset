@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3b53379c7509844a2bde2d8e07f421, type: 3}
   m_Name: RangedEnemy_Test
   m_EditorClassIdentifier: 
-  detectionCooldown: 0.2
-  detectionRadius: 0
-  attackRange: 0
-  attackCooldown: 1.5
-  bulletFactory: {fileID: 0}
+  attackCooldown: 10
+  attackRange: 200
   bulletData:
-    bulletSpeed: 0
-    bulletDamage: 0
-    bulletLifetime: 0
+    bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,
+      type: 3}
+    bulletEffects:
+      statuses: []
+      actions: []
+    bulletSpeed: 2000
+    bulletDamage: 10
+    bulletLifetime: 20
   detectionAngle: 60
   detectionRadius: 10
   innerDetectionRadius: 5
-  attackRange: 2
