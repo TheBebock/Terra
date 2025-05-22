@@ -1,17 +1,18 @@
 using NaughtyAttributes;
 using Terra.EffectsSystem.Abstract;
+using UnityEngine;
 
 namespace Terra.Itemization.Abstracts.Definitions
 {
     /// <summary>
-    ///     Reperesents data for all weapons
+    ///     Represents data for all weapons
     /// </summary>
-    public abstract class WeaponData : ItemData
+    public abstract class WeaponData : ItemData 
     {
+        public GameObject attackPrefab;
         public EffectsContainer effects;
         public int damage;
-        public float range;
-        public float attackSpeed;
+        public float attackCooldown;
         [ReadOnly] public WeaponType WeaponType;
     }
 

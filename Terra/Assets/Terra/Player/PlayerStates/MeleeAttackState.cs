@@ -1,11 +1,11 @@
+using Terra.Enums;
 using UnityEngine;
-using static Terra.Player.PlayerAttackController;
 
 namespace Terra.Player.PlayerStates
 {
     public class MeleeAttackState : PlayerBaseState
     {
-        private int actualStateHash;
+        private int _actualStateHash;
         public MeleeAttackState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
@@ -18,7 +18,7 @@ namespace Terra.Player.PlayerStates
         public override void Update()
         {
             // Check if animator already changed state
-            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != actualStateHash) return;
+            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != _actualStateHash) return;
 
             // Disable player attack trigger when animation end
             if(animator.GetCurrentAnimatorStateInfo(0).length < animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
@@ -27,14 +27,14 @@ namespace Terra.Player.PlayerStates
             }
         }
 
-        private void ChangeDirectionOfAnimation(PlayerAttackDirection playerAttackDirection)
+        private void ChangeDirectionOfAnimation(FacingDirection playerAttackDirection)
         {
             switch (playerAttackDirection)
             {
-                case PlayerAttackDirection.Up: animator.CrossFade(MeleeAttackUpHash, CrossFadeDuration); actualStateHash = MeleeAttackUpHash; break;
-                case PlayerAttackDirection.Down: animator.CrossFade(MeleeAttackDownHash, CrossFadeDuration); actualStateHash = MeleeAttackDownHash; break;
-                case PlayerAttackDirection.Left: animator.CrossFade(MeleeAttackLeftHash, CrossFadeDuration); actualStateHash = MeleeAttackLeftHash; break;
-                case PlayerAttackDirection.Right: animator.CrossFade(MeleeAttackRightHash, CrossFadeDuration); actualStateHash = MeleeAttackRightHash; break;
+                case FacingDirection.Up: animator.CrossFade(MeleeAttackUpHash, CrossFadeDuration); _actualStateHash = MeleeAttackUpHash; break;
+                case FacingDirection.Down: animator.CrossFade(MeleeAttackDownHash, CrossFadeDuration); _actualStateHash = MeleeAttackDownHash; break;
+                case FacingDirection.Left: animator.CrossFade(MeleeAttackLeftHash, CrossFadeDuration); _actualStateHash = MeleeAttackLeftHash; break;
+                case FacingDirection.Right: animator.CrossFade(MeleeAttackRightHash, CrossFadeDuration); _actualStateHash = MeleeAttackRightHash; break;
             }
         }
     }

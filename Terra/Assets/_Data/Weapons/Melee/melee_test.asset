@@ -21,14 +21,15 @@ MonoBehaviour:
   maxHealthModifiers: []
   speedModifiers: []
   luckModifiers: []
+  attackPrefab: {fileID: 8613042151254537667, guid: 8d9bf7f8ae9fec641abf863efbefa942,
+    type: 3}
   effects:
     statuses:
     - {fileID: 11400000, guid: f8b992a33cd2de143bfcb47aa174c6b6, type: 2}
     actions:
     - {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
   damage: 1
-  range: 3
-  attackSpeed: 0
+  attackCooldown: 0.5
   WeaponType: 0
   attackType: 1
   hitboxSize: {x: 1, y: 1, z: 1}

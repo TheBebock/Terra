@@ -1,3 +1,4 @@
+using Terra.Combat.Projectiles;
 using UnityEngine;
 
 namespace Terra.Itemization.Abstracts.Definitions
@@ -13,10 +14,8 @@ namespace Terra.Itemization.Abstracts.Definitions
         public float explosionRadius;
         public float explosionDamage;
         
-        public GameObject projectilePrefab;
+        public BulletData bulletData;
         public AudioClip firingSound;
-        public ParticleSystem explosionEffect;
-        public AudioClip explosionSound;
         
     }
 }

@@ -415,9 +415,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: -1
   _enemies:
-  - _enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3,
-      type: 3}
-    _spawnValue: 10
+  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
+    spawnValue: 10
   _delayBeforeFirstWave: 5
   _timeBetweenWaves: 10
   _startingWavesToSpawn: 1
@@ -447,26 +446,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2252586331894191306, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: _playerStats.maxHealth.StatModifiers.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2252586331894191306, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: _playerStats.maxHealth.StatModifiers.Array.data[0].Type
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2252586331894191306, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: _playerStats.maxHealth.StatModifiers.Array.data[0].Value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2252586331894191306, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: _playerStats.maxHealth.StatModifiers.Array.data[0].SourceID
-      value: 1080377478
       objectReference: {fileID: 0}
     - target: {fileID: 3668154996905167841, guid: b8ad9ad7a2c60eb4bba804c20658a629,
         type: 3}
@@ -905,13 +884,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1012875021}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 100, y: 91.81, z: 86.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &1012875024
 MonoBehaviour:
   m_ObjectHideFlags: 0

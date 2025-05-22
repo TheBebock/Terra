@@ -17,17 +17,17 @@ namespace Terra.AI.EnemyStates {
         {
             base.OnEnter();
             
-            string animationName = Enemy.CurrentDirection == FacingDirection.Left ? "AttackLeft" : "AttackRight";
-            Animator.CrossFade(animationName, CrossFadeDuration);
+            string animationName = enemy.CurrentDirection == FacingDirection.Left ? "AttackLeft" : "AttackRight";
+            animator.CrossFade(animationName, CrossFadeDuration);
         }
         
         protected override void OnAttack()
         {
             if (Time.time - _lastAttackTime >= AttackCooldown)
             {
-                if (Vector3.Distance(Enemy.transform.position, Player.transform.position) <= Enemy.AttackRange)
+                if (Vector3.Distance(enemy.transform.position, Player.transform.position) <= enemy.AttackRange)
                 {
-                    Enemy.AttemptAttack();
+                    enemy.AttemptAttack();
                 }
                 _lastAttackTime = Time.time;
             }
@@ -36,7 +36,7 @@ namespace Terra.AI.EnemyStates {
         public override void OnExit()
         {
             base.OnExit();
-            NavMeshAgent.isStopped = false;
+            navMeshAgent.isStopped = false;
         }
     }
 }

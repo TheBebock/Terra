@@ -1,6 +1,7 @@
 using System;
 using NaughtyAttributes;
 using System.Collections;
+using Terra.Enums;
 using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,6 +38,8 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxRangedCd;
 
+        public event Action<FacingDirection> OnMeleeAttackPerformed;
+        
         public bool IsTryingPerformMeleeAttack
         {
             get => _isTryingPerformMeleeAttack;
@@ -53,16 +56,9 @@ namespace Terra.Player
         public float CurrentMeleeCooldown => _currentMeleeCd;
         public float CurrentRangedCooldown => _currentRangedCd;
 
-        private PlayerAttackDirection _currentplayerAttackDirection;
-        public PlayerAttackDirection CurrentPlayerAttackDirection => _currentplayerAttackDirection;
-
-        public enum PlayerAttackDirection
-        {
-            Up = 0,
-            Down = 1,
-            Left = 2,
-            Right = 3,
-        }
+        private FacingDirection _currentPlayerAttackDirection;
+        public FacingDirection CurrentPlayerAttackDirection => _currentPlayerAttackDirection;
+        
 
         //NOTE: variable dummy was made to not override default constructor, as it was trying to construct it for serialization
         public PlayerAttackController(bool dummy)
@@ -70,6 +66,9 @@ namespace Terra.Player
             if (PlayerInventoryManager.Instance)
             {
                 _playerInventory = PlayerInventoryManager.Instance;
+
+                _maxMeleeCd = _playerInventory.MeleeWeapon.Data.attackCooldown;
+                _maxRangedCd = _playerInventory.RangedWeapon.Data.attackCooldown;
             }
             else
             {
@@ -87,7 +86,7 @@ namespace Terra.Player
         {
             while (CurrentMeleeCooldown > 0)
             {
-                _currentMeleeCd--;
+                _currentMeleeCd -=0.1f;
                 yield return new WaitForSeconds(0.1f);
             }
         }
@@ -96,19 +95,20 @@ namespace Terra.Player
         {
             while (CurrentRangedCooldown > 0)
             {
-                _currentRangedCd--;
+                _currentMeleeCd -=0.1f;
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
-            _maxMeleeCd = _playerInventory.MeleeWeapon.Data.attackSpeed;
-            if (_currentMeleeCd == 0)
+            Debug.Log($"Input test ${context.ReadValue<float>()} ");
+            if (_currentMeleeCd <= 0 && !_isTryingPerformMeleeAttack)
             {
                 ChangeAttackDirection();
                 _isTryingPerformMeleeAttack = true;
                 _currentMeleeCd = _maxMeleeCd;
+                OnMeleeAttackPerformed?.Invoke(_currentPlayerAttackDirection);
                 _playerInventory.StartCoroutine(DecreaseMeleeCooldown());
             }
         }
@@ -118,8 +118,7 @@ namespace Terra.Player
             //TODO: Ranged attack
             return;
             
-            _maxRangedCd = _playerInventory.RangedWeapon.Data.attackSpeed;
-            if (_currentRangedCd == 0)
+            if (_currentRangedCd <= 0 && !_isTryingPerformDistanceAttack)
             {
                 ChangeAttackDirection();
                 _isTryingPerformDistanceAttack = true;
@@ -146,25 +145,14 @@ namespace Terra.Player
 
             if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
             {
-                if(direction.x > 0) _currentplayerAttackDirection = PlayerAttackDirection.Right;
-                else _currentplayerAttackDirection = PlayerAttackDirection.Left;
+                if(direction.x > 0) _currentPlayerAttackDirection = FacingDirection.Right;
+                else _currentPlayerAttackDirection = FacingDirection.Left;
             }
             else
             {
-                if(direction.z > 0) _currentplayerAttackDirection = PlayerAttackDirection.Up;
-                else _currentplayerAttackDirection = PlayerAttackDirection.Down;
+                if(direction.z > 0) _currentPlayerAttackDirection = FacingDirection.Up;
+                else _currentPlayerAttackDirection = FacingDirection.Down;
             }
-            
-            //TODO: Refactor later - move to attack state
-
-            float range = _playerInventory.MeleeWeapon.Data.range;
-            
-            Vector3 attackPosition = _playerInventory.transform.position + direction * range;
-            Quaternion targetRotation = Quaternion.LookRotation(attackPosition - _playerInventory.transform.position);
-            //Debug.Log($"Attack position: {attackPosition}\nTarget rotation: {targetRotation}");
-
-            _playerInventory.MeleeWeapon.PerformAttack(attackPosition, targetRotation);
-
         }
         
         public void DetachListeners()

@@ -13,17 +13,17 @@ namespace Terra.AI.EnemyStates {
         /// <summary>
         /// Reference to the enemy entity using this state.
         /// </summary>
-        protected readonly EnemyBase Enemy;
+        protected readonly EnemyBase enemy;
 
         /// <summary>
         /// Reference to the enemy's Animator component.
         /// </summary>
-        protected readonly Animator Animator;
+        protected readonly Animator animator;
 
         /// <summary>
         /// Reference to the enemy's NavMeshAgent used for navigation.
         /// </summary>
-        protected readonly NavMeshAgent NavMeshAgent;
+        protected readonly NavMeshAgent navMeshAgent;
 
         /// <summary>
         /// Duration of cross-fade animations (in seconds).
@@ -34,12 +34,12 @@ namespace Terra.AI.EnemyStates {
         /// Constructs a new enemy state with required references.
         /// </summary>
         /// <param name="enemy">The enemy entity.</param>
-        /// <param name="agent">The NavMeshAgent used for movement.</param>
+        /// <param name="navMeshAgent">The NavMeshAgent used for movement.</param>
         /// <param name="animator">The Animator used for transitions.</param>
-        protected EnemyBaseState(EnemyBase enemy, NavMeshAgent agent, Animator animator) {
-            this.Enemy = enemy;
-            this.NavMeshAgent = agent;
-            this.Animator = animator;
+        protected EnemyBaseState(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator) {
+            this.enemy = enemy;
+            this.navMeshAgent = navMeshAgent;
+            this.animator = animator;
         }
 
         /// <summary>

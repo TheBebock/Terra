@@ -46,13 +46,13 @@ namespace Terra.Player.PlayerStates
 
         private void UseAttackDirection()
         {
-            PlayerAttackDirection playerAttackDirection = player.PlayerAttackController.CurrentPlayerAttackDirection;
+            FacingDirection playerAttackDirection = player.PlayerAttackController.CurrentPlayerAttackDirection;
             switch (playerAttackDirection)
             {
-                case PlayerAttackDirection.Up: animator.CrossFade(IdleUpHash, CrossFadeDuration); break;
-                case PlayerAttackDirection.Down: animator.CrossFade(IdleDownHash, CrossFadeDuration); break;
-                case PlayerAttackDirection.Left: animator.CrossFade(IdleLeftHash, CrossFadeDuration); break;
-                case PlayerAttackDirection.Right: animator.CrossFade(IdleRightHash, CrossFadeDuration); break;
+                case FacingDirection.Up: animator.CrossFade(IdleUpHash, CrossFadeDuration); break;
+                case FacingDirection.Down: animator.CrossFade(IdleDownHash, CrossFadeDuration); break;
+                case FacingDirection.Left: animator.CrossFade(IdleLeftHash, CrossFadeDuration); break;
+                case FacingDirection.Right: animator.CrossFade(IdleRightHash, CrossFadeDuration); break;
             }
         }
     }

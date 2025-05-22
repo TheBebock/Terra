@@ -15,9 +15,10 @@ namespace Terra.Itemization.Items
             Data = itemData;
         }
 
-        public override void PerformAttack(Vector3 position, Quaternion rotation)
+        public void PerformAttack(Vector3 direction, Quaternion rotation)
         {
-            
+         
+            //TODO: Most likely delete this and move spawning projectile logic
         }
         
     }

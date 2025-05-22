@@ -32,8 +32,9 @@ namespace Terra.Core.Generics
             if(this is IUniqueable uniqueable)
                 uniqueable.RegisterID();
         }
-    
-        protected virtual void CleanUp(){}
+
+        protected virtual void CleanUp()
+        { }
         private void OnDestroy()
         {
             if(this is IAttachListeners attachListeners)

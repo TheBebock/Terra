@@ -47,3 +47,6 @@ TagManager:
   - name: Standard
     uniqueID: 1484355073
     locked: 0
+  - name: AttackVFX
+    uniqueID: 2902649541
+    locked: 0

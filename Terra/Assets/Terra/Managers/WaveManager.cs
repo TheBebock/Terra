@@ -9,6 +9,7 @@ using Terra.Extensions;
 using Terra.GameStates;
 using Terra.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
@@ -20,10 +21,9 @@ namespace Terra.Managers
         [Serializable]
         internal struct EnemySpawnData
         {
-            public EnemyBase _enemy;
-            public int _spawnValue;
+            public EnemyBase enemy;
+            public int spawnValue;
         }
-        
         
         [SerializeField] private List<EnemySpawnData> _enemies;
 
@@ -67,7 +67,11 @@ namespace Terra.Managers
         }
         public void StopWaves()
         {
-            _waveCancellationTokenSource?.Cancel();
+
+            if (_waveCancellationTokenSource != null && !_waveCancellationTokenSource.IsCancellationRequested)
+            {
+                _waveCancellationTokenSource?.Cancel();
+            }
             
             _linkedCts?.Dispose();
             _waveCancellationTokenSource?.Dispose();
@@ -140,13 +144,13 @@ namespace Terra.Managers
 
             for (int i = 1; i < _enemies.Count; i++)
             {
-                if(_enemies[i]._spawnValue > _currentSpawnPoints) continue;   
+                if(_enemies[i].spawnValue > _currentSpawnPoints) continue;   
                 possibleEnemies.Add(_enemies[i]);
             }
 
             EnemySpawnData enemyData = possibleEnemies.GetRandomElement<EnemySpawnData>();
-            _currentSpawnPoints -= enemyData._spawnValue;
-            return enemyData._enemy;
+            _currentSpawnPoints -= enemyData.spawnValue;
+            return enemyData.enemy;
         }
 
         private void SpawnEnemy(EnemyBase enemyPrefab)

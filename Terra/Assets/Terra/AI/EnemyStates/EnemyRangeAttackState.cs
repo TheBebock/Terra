@@ -21,8 +21,8 @@ namespace Terra.AI.EnemyStates {
             base.OnEnter();
             
             // Set the animation based on the direction the enemy is facing
-            string animationName = Enemy.CurrentDirection == FacingDirection.Left ? "RangeAttackLeft" : "RangeAttackRight";
-            Animator.CrossFade(animationName, CrossFadeDuration);  // Cross-fade to the attack animation
+            string animationName = enemy.CurrentDirection == FacingDirection.Left ? "RangeAttackLeft" : "RangeAttackRight";
+            animator.CrossFade(animationName, CrossFadeDuration);  // Cross-fade to the attack animation
         }
 
         // The attack logic, called during each update
@@ -40,7 +40,7 @@ namespace Terra.AI.EnemyStates {
             // Check if the path to the player is clear (no obstacles)
             if (Time.time - _lastAttackTime >= AttackCooldownTime && IsPathClearToPlayer()) {
                 // If there's no obstacle, perform the attack
-                Enemy.AttemptAttack();
+                enemy.AttemptAttack();
                 _lastAttackTime = Time.time;  // Update the last attack time
             } else {
                 Debug.Log("Path is blocked or cooldown not finished, cannot attack.");  // Log if the path is blocked or cooldown is active
@@ -50,7 +50,7 @@ namespace Terra.AI.EnemyStates {
         // Check if the player is within the attack range
         private bool IsPlayerInRange() {
             float attackRange = 10f;  // Example attack range (can be adjusted)
-            float distanceToPlayer = Vector3.Distance(Enemy.transform.position, Player.transform.position);
+            float distanceToPlayer = Vector3.Distance(enemy.transform.position, Player.transform.position);
             
             return distanceToPlayer <= attackRange;  // Return true if the player is within range
         }
@@ -58,11 +58,11 @@ namespace Terra.AI.EnemyStates {
         // Check if there is an unobstructed path to the player
         private bool IsPathClearToPlayer() {
             // Calculate direction towards the player
-            Vector3 directionToPlayer = (Player.transform.position - Enemy.transform.position).normalized;
+            Vector3 directionToPlayer = (Player.transform.position - enemy.transform.position).normalized;
             
             
             // Perform a raycast to check if anything blocks the path
-            if (Physics.Raycast(Enemy.transform.position, directionToPlayer, out RaycastHit hit, Mathf.Infinity)) {
+            if (Physics.Raycast(enemy.transform.position, directionToPlayer, out RaycastHit hit, Mathf.Infinity)) {
                 // If the ray hits something that isn't the player, return false (path is blocked)
                 if (hit.transform != Player.transform) {
                     return false;
@@ -74,7 +74,7 @@ namespace Terra.AI.EnemyStates {
         // Called when exiting the attack state
         public override void OnExit() {
             base.OnExit();
-            NavMeshAgent.isStopped = false;  // Resume the agent's movement when exiting the attack state
+            navMeshAgent.isStopped = false;  // Resume the agent's movement when exiting the attack state
         }
     }
 }

@@ -9,14 +9,12 @@ using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
 using Terra.Managers;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Terra.Player
 {
     public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
     {
         [SerializeField, Expandable] StartingInventoryData _startingInventoryData;
-        
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> _meleeWeaponSlot = new ();
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> _rangedWeaponSlot = new();
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<ActiveItem> _activeItemSlot = new ();
@@ -27,12 +25,10 @@ namespace Terra.Player
         public ActiveItem ActiveItem => _activeItemSlot.EquippedItem;
         public MeleeWeapon MeleeWeapon => _meleeWeaponSlot.EquippedItem;
         public RangedWeapon RangedWeapon => _rangedWeaponSlot.EquippedItem;
-
         public event Action<PassiveItem> OnPassiveItemAdded;
         public event Action<ActiveItem> OnActiveItemChanged;
         public event Action<MeleeWeapon> OnMeleeWeaponChanged;
         public event Action<RangedWeapon> OnRangedWeaponChanged;
-
 
         protected override void Awake()
         {
@@ -106,15 +102,18 @@ namespace Terra.Player
 
             if (itemSlot.IsSlotTaken)
             {
-                return itemSlot.SwapNonGeneric(newItem);
+
+                if (itemSlot.SwapNonGeneric(newItem))
+                {
+                    InvokeItemChangedEvent(newItem);
+                    return true;
+                }
             }
 
-            if (itemSlot.EquipNonGeneric(newItem))
-            {
-                InvokeItemChangedEvent(newItem);
-                return true;
-            }
-            return false;
+            if (!itemSlot.EquipNonGeneric(newItem)) return false;
+            
+            InvokeItemChangedEvent(newItem);
+            return true;
         }
         
         
@@ -201,34 +200,5 @@ namespace Terra.Player
             base.CleanUp();
             ItemSlotBase.OnItemRemoved -= DropItemOnGround;
         }
-
-        private void OnValidate()
-        {
-            InitEquipmentSlots();
-        }
-
-        private void OnDrawGizmos()
-        {
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            //TODO: Change to camera manager
-            Ray ray = Camera.main.ScreenPointToRay( mousePosition );
-            Plane plane = new Plane(Vector3.up, transform.position);
-
-            // Raycast get point where player clicked on screen while we use perspective camera
-            if (!plane.Raycast(ray, out float enter)) return;
-            
-            
-            Vector3 worldClickPosition = ray.GetPoint(enter);
-            Vector3 direction = (worldClickPosition - transform.position).normalized;
-            Vector3 attackPosition = transform.position + direction * MeleeWeapon.Data.range;
-            Quaternion targetRotation = Quaternion.LookRotation(attackPosition - transform.position);
-            
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackPosition, MeleeWeapon.Data.sphereHitboxRadius);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawCube(attackPosition, MeleeWeapon.Data.hitboxSize);
-        }
     }
-    
 }

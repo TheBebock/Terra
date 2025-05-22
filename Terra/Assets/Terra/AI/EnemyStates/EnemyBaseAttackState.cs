@@ -35,8 +35,8 @@ namespace Terra.AI.EnemyStates
         public override void OnEnter()
         {
             base.OnEnter();
-            NavMeshAgent.isStopped = true;
-            NavMeshAgent.velocity = Vector3.zero;
+            navMeshAgent.isStopped = true;
+            navMeshAgent.velocity = Vector3.zero;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Terra.AI.EnemyStates
         public override void OnExit()
         {
             base.OnExit();
-            NavMeshAgent.isStopped = false;
+            navMeshAgent.isStopped = false;
         }
     }
 }

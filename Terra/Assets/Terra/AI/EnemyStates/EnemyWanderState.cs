@@ -32,14 +32,14 @@ namespace Terra.AI.EnemyStates {
             Debug.Log("Wander");
     
             // Use appropriate animation based on the direction the enemy is facing
-            int animationHash = Enemy.CurrentDirection == FacingDirection.Left ? WalkLeftHash : WalkRightHash;
-            Animator.CrossFade(animationHash, CrossFadeDuration);
+            int animationHash = enemy.CurrentDirection == FacingDirection.Left ? WalkLeftHash : WalkRightHash;
+            animator.CrossFade(animationHash, CrossFadeDuration);
         }
 
         // Called every frame while the enemy is in the wander state
         public override void Update() 
         {
-            if (NavMeshAgent == null) {
+            if (navMeshAgent == null) {
                 Debug.LogError("NavMeshAgent is null in EnemyWanderState.");
                 return;
             }
@@ -52,7 +52,7 @@ namespace Terra.AI.EnemyStates {
                 // Sample the NavMesh to find a valid position within the radius
                 if (NavMesh.SamplePosition(randomDirection, out var hit, _wanderRadius, NavMesh.AllAreas)) {
                     // Set the new destination for the enemy
-                    NavMeshAgent.SetDestination(hit.position);
+                    navMeshAgent.SetDestination(hit.position);
                 } else {
                     // Log a warning if a valid point was not found on the NavMesh
                     Debug.LogWarning("No valid point found on NavMesh.");
@@ -64,9 +64,9 @@ namespace Terra.AI.EnemyStates {
         bool HasReachedDestination() 
         {
             float tolerance = 0.1f;
-            return !NavMeshAgent.pathPending
-                   && NavMeshAgent.remainingDistance <= NavMeshAgent.stoppingDistance + tolerance
-                   && (!NavMeshAgent.hasPath || NavMeshAgent.velocity.sqrMagnitude == 0f);
+            return !navMeshAgent.pathPending
+                   && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance + tolerance
+                   && (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f);
         }
     }
 }

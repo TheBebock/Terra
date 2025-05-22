@@ -21,20 +21,6 @@ namespace Terra.Itemization.Items
         }
         
         
-        public override void PerformAttack(Vector3 position, Quaternion rotation)
-        {
-            switch (Data.attackType)
-            {
-                case AttackType.Thrust:
-                    PerformThrust(position, rotation);
-                    return;
-                
-                case AttackType.Swing:
-                    PerformSwing(position);
-                    return;
-
-            }
-        }
         private void PerformThrust(Vector3 position, Quaternion rotation)
         {
            List<IDamageable> targets = ComponentProvider.GetTargetsInBox<IDamageable>(position, 

@@ -40,7 +40,7 @@ namespace Terra.Itemization.Abstracts
 
         public override Sprite ItemIcon => data.itemSprite;
 
-        public void OnEquip()
+        public virtual void OnEquip()
         {
             if (Data == null)
             {

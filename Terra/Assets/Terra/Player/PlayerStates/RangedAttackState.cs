@@ -1,3 +1,4 @@
+using Terra.Enums;
 using UnityEngine;
 using static Terra.Player.PlayerAttackController;
 
@@ -28,14 +29,14 @@ namespace Terra.Player.PlayerStates
             }
         }
 
-        private void ChangeDirectionOfAnimation(PlayerAttackDirection playerAttackDirection)
+        private void ChangeDirectionOfAnimation(FacingDirection playerAttackDirection)
         {
             switch (playerAttackDirection)
             {
-                case PlayerAttackDirection.Up: animator.CrossFade(RangedAttackUpHash, CrossFadeDuration); actualStateHash = RangedAttackUpHash; break;
-                case PlayerAttackDirection.Down: animator.CrossFade(RangedAttackDownHash, CrossFadeDuration); actualStateHash = RangedAttackDownHash; break;
-                case PlayerAttackDirection.Left: animator.CrossFade(RangedAttackLeftHash, CrossFadeDuration); actualStateHash = RangedAttackLeftHash; break;
-                case PlayerAttackDirection.Right: animator.CrossFade(RangedAttackRightHash, CrossFadeDuration); actualStateHash = RangedAttackRightHash; break;
+                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, CrossFadeDuration); actualStateHash = RangedAttackUpHash; break;
+                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, CrossFadeDuration); actualStateHash = RangedAttackDownHash; break;
+                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, CrossFadeDuration); actualStateHash = RangedAttackLeftHash; break;
+                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, CrossFadeDuration); actualStateHash = RangedAttackRightHash; break;
             }
         }
     }
