@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Terra.EffectsSystem.Actions
 {
-    public class ActionEffectsDatabase : SingletonScriptableObject<ActionEffectsDatabase>
+    public class ActionEffectsDatabase : ScriptableSingleton<ActionEffectsDatabase>
     {
 
         [SerializeField, ReadOnly] private List<EffectsMapping> _mapping = new();
