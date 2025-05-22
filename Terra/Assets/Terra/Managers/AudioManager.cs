@@ -95,6 +95,13 @@ namespace Terra.Managers
 
         public void PlaySFXAtSource(AudioClip clip, AudioSource source, float pitch = 1f)
         {
+            if (source.isPlaying)
+            {
+                if(source.clip == clip)
+                    return;
+            }
+            
+            source.clip = clip;
             source.volume = sfxSource.volume;
             source.pitch = pitch;
             source.PlayOneShot(clip);
@@ -131,61 +138,21 @@ namespace Terra.Managers
             return musicSource.isPlaying && musicSource.clip == s.clip;
         }
 
-        //TODO: Normal saving settings
         private void LoadVolume()
         {
-            if (PlayerPrefs.HasKey("MasterVolume"))
-            {
-                float volume = 0f;
-                if (PlayerPrefs.GetFloat("MasterVolume") == 0)
-                    volume = -80;
-                else
-                    volume = Mathf.Lerp(MinDB, MaxDB, PlayerPrefs.GetFloat("MasterVolume") / 10f);
-
-                AudioMixer.SetFloat("MasterVolume", volume);
-            }
-            else
-            {
-                float volume = Mathf.Lerp(MinDB, MaxDB, -1f / 10f);
-                AudioMixer.SetFloat("MasterVolume", volume);
-
-            }
-
-            if (PlayerPrefs.HasKey("SFXVolume"))
-            {
-                float volume = 0f;
-                if (PlayerPrefs.GetFloat("SFXVolume") == 0)
-                    volume = -80;
-                else
-                    volume = Mathf.Lerp(MinDB, MaxDB, PlayerPrefs.GetFloat("SFXVolume") / 10f);
-
-                AudioMixer.SetFloat("SFXVolume", volume);
-            }
-            else
-            {
-                float volume = Mathf.Lerp(MinDB, MaxDB, -1f / 10f);
-                AudioMixer.SetFloat("SFXVolume", volume);
-
-            }
-
-            if (PlayerPrefs.HasKey("MusicVolume"))
-            {
-                float volume = 0f;
-                if (PlayerPrefs.GetFloat("MusicVolume") == 0)
-                    volume = -80;
-                else
-                    volume = Mathf.Lerp(MinDB, MaxDB, PlayerPrefs.GetFloat("MusicVolume") / 10f);
-
-                AudioMixer.SetFloat("MusicVolume", volume);
-            }
-            else
-            {
-                float volume = Mathf.Lerp(MinDB, MaxDB, -1f / 10f);
-                AudioMixer.SetFloat("MusicVolume", volume);
-
-            }
+            LoadVolumeSetting("MasterVolume", MinDB, MaxDB);
+            LoadVolumeSetting("SFXVolume", MinDB, MaxDB);
+            LoadVolumeSetting("MusicVolume", MinDB, MaxDB);
+            LoadVolumeSetting("AmbientVolume", MinDB, MaxDB);
         }
 
+        private void LoadVolumeSetting(string parameterName, float minDB, float maxDB)
+        {
+            float normalizedValue = PlayerPrefs.GetFloat(parameterName, -1f);
+            float volume = normalizedValue <= 0 ? -80f : Mathf.Lerp(minDB, maxDB, normalizedValue / 10f);
+            AudioMixer.SetFloat(parameterName, volume);
+        }
+        
         public void EnableMusicLowPassFilter(bool enable)
         {
             MusicAudioLowPassFilter.enabled = enable;
@@ -196,5 +163,20 @@ namespace Terra.Managers
         {
             musicSource.pitch = pitch;
         }
+        private void SetVolume(string parameterName, float value)
+        {
+            float volume = value == 0 ? -80 : Mathf.Lerp(MinDB, MaxDB, value / 10f);
+            Debug.Log("Zmieniono glosnosc");
+            AudioMixer.SetFloat(parameterName, volume);
+            PlayerPrefs.SetFloat(parameterName, value);
+            PlayerPrefs.Save();
+        }
+
+        public void SetMasterVolume(float value) => SetVolume("MasterVolume", value);
+        public void SetSFXVolume(float value) => SetVolume("SFXVolume", value);
+        public void SetMusicVolume(float value) => SetVolume("MusicVolume", value);
+        public void SetAmbientVolume(float value) => SetVolume("AmbientVolume", value);
+
     }
+    
 }
