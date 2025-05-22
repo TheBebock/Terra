@@ -16,10 +16,10 @@ MonoBehaviour:
   itemName: bbb
   itemDescription: 
   itemSprite: {fileID: 0}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers: []
   maxHealthModifiers: []
   speedModifiers: []
   luckModifiers: []
-  cooldown: 0
+  itemCooldown: 0
   activationAnimationClip: {fileID: 0}

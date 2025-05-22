@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Booze
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 2b8ad4fb8a33fa04c820852b6d1dce04, type: 3}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers:
   - Value: 2
     Type: 100

@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Canary
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 6ddc835f92f7aae41923933d3a0efa49, type: 3}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers: []
   maxHealthModifiers: []
   speedModifiers: []

@@ -6,7 +6,6 @@ namespace Terra.Itemization.Abstracts.Definitions
     public class ActiveItemData : ItemData
     {
         public float itemCooldown;
-        public AnimationClip activationAnimationClip;
         
         public virtual void ActivateItem(){}
     }

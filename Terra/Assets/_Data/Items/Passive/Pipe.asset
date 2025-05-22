@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Pipe
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: c25655344e6036a4b945bba2830c7984, type: 3}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers: []
   maxHealthModifiers: []
   speedModifiers:

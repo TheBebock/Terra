@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: aaa
   itemDescription: 
   itemSprite: {fileID: 0}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers:
   - Value: 5
     Type: 100

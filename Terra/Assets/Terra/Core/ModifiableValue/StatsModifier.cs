@@ -2,6 +2,7 @@ using System;
 using NaughtyAttributes;
 using Terra.ID;
 using Terra.Utils;
+using UnityEngine;
 
 namespace Terra.Core.ModifiableValue
 {
@@ -13,12 +14,12 @@ namespace Terra.Core.ModifiableValue
     }
 
     [Serializable]
-    public class ValueModifier
+    public class ValueModifier 
     {
         public float Value;
         public StatModType Type;
-        [ReadOnly] public int SourceID;
-        [ReadOnly] public readonly int Order;
+        [HideInInspector, ReadOnly] public int SourceID;
+        [HideInInspector, ReadOnly] public readonly int Order;
 
         public ValueModifier(float value, StatModType type, int sourceID = Constants.DEFAULT_ID)
         {

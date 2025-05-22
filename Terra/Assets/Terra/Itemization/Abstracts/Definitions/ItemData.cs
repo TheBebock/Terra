@@ -24,7 +24,7 @@ namespace Terra.Itemization.Abstracts.Definitions
         [ReadOnly] public string itemName;
         public string itemDescription;
         public Sprite itemSprite;
-        public bool canBeRemoved;
+        public bool canBeRemoved = true;
         
         public List<ValueModifier> strengthModifiers;
         public List<ValueModifier> maxHealthModifiers;

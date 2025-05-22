@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: melee_test
   itemDescription: 
   itemSprite: {fileID: 0}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers: []
   maxHealthModifiers: []
   speedModifiers: []

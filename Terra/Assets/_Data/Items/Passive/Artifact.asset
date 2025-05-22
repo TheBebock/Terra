@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Artifact
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 02919fb39b7fa2740af3fe9d9b2685fc, type: 3}
-  canBeRemoved: 0
+  canBeRemoved: 1
   strengthModifiers: []
   maxHealthModifiers: []
   speedModifiers:
