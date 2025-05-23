@@ -54,6 +54,7 @@ namespace Terra.Player
         public void TakeDamage(float amount, bool isPercentage = false)
         {
             if (!CanBeDamaged) return;
+            Debug.Log($"{this}: Taking Damage {amount}");
             _healthController.TakeDamage(amount, isPercentage);
         }
 

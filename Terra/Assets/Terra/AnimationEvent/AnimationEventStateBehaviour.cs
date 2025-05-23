@@ -12,7 +12,7 @@ namespace Terra.AnimationEvent
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             hasTriggered = false;
-            receiver = animator.GetComponent<AnimationEventReceiver>();
+            receiver = animator.GetComponentInParent<AnimationEventReceiver>();
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -30,6 +30,10 @@ namespace Terra.AnimationEvent
             if (receiver != null)
             {
                 receiver.OnAnimationEventTriggered(eventName);
+            }
+            else
+            {
+                Debug.LogError($"{this} : Animator {animator.name} has no receiver");
             }
         }
     }

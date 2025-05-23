@@ -386,6 +386,8 @@ MonoBehaviour:
   _enemies:
   - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
     spawnValue: 10
+  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
+    spawnValue: 10
   _delayBeforeFirstWave: 5
   _timeBetweenWaves: 10
   _startingWavesToSpawn: 1
@@ -469,7 +471,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 943562092}
   m_SourcePrefab: {fileID: 100100000, guid: b8ad9ad7a2c60eb4bba804c20658a629, type: 3}
 --- !u!1001 &458049108
 PrefabInstance:
@@ -488,6 +494,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799263795066511319, guid: 1afdc10da17970346ac71ef0d8e601c3,
+        type: 3}
+      propertyPath: animationEvents.Array.data[0].OnAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5511451956620070862, guid: 1afdc10da17970346ac71ef0d8e601c3,
         type: 3}
@@ -725,6 +736,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &943562082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1536515612248166870, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+    type: 3}
+  m_PrefabInstance: {fileID: 307734418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &943562092
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943562082}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &994548645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,31 +1613,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 73830323971223633, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 73830323971223633, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 7182c8bb77b205f40bc8c10d45138d65, type: 2}
-    - target: {fileID: 4903469478785577389, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4861
-      objectReference: {fileID: 0}
-    - target: {fileID: 4903469478785577389, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.501704
-      objectReference: {fileID: 0}
-    - target: {fileID: 4903469478785577389, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4861
-      objectReference: {fileID: 0}
     - target: {fileID: 4903469478785577389, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1657,11 +1672,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7628904998404875950, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.63
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4367602464811906805}
   - component: {fileID: 2276162231350725899}
   - component: {fileID: 4048340942986829069}
+  - component: {fileID: 496297180109255898}
   m_Layer: 7
   m_Name: SmallSpider
   m_TagString: Untagged
@@ -144,6 +145,35 @@ MonoBehaviour:
   lockX: 0
   lockY: 1
   lockZ: 1
+--- !u!114 &496297180109255898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5259231035723147046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ce3437a73c46b08cb5d5dcf4630ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationEvents:
+  - eventName: OnAttack
+    OnAnimationEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyMelee, Terra
+          m_MethodName: AttemptAttack
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
 --- !u!1 &6318773038464118577
 GameObject:
   m_ObjectHideFlags: 0

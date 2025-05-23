@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 421302395010930049}
   - component: {fileID: 1986148890957680752}
   - component: {fileID: 8009901754265250444}
+  - component: {fileID: 3799263795066511319}
   m_Layer: 7
   m_Name: Big_spider_enemy
   m_TagString: Untagged
@@ -370,3 +371,32 @@ MonoBehaviour:
   lockX: 0
   lockY: 1
   lockZ: 1
+--- !u!114 &3799263795066511319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723416919822668793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ce3437a73c46b08cb5d5dcf4630ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationEvents:
+  - eventName: OnAttack
+    OnAnimationEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1986148890957680752}
+          m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyMelee, Terra
+          m_MethodName: AttemptAttack
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

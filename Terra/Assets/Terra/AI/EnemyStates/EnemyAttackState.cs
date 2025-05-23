@@ -23,7 +23,7 @@ namespace Terra.AI.EnemyStates {
         
         protected override void OnAttack()
         {
-            
+            return;
             if (Time.time - _lastAttackTime >= AttackCooldown)
             {
                 if (Vector3.Distance(enemy.transform.position, Player.transform.position) <= enemy.AttackRange)

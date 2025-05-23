@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using Terra.AI.Data.Definitions;
 using Terra.AI.EnemyStates;
@@ -35,13 +36,20 @@ namespace Terra.AI.Enemy
 
         public override void AttemptAttack()
         {
-            if (!attackTimer.IsFinished) return;
+            //if (!attackTimer.IsFinished) return;
 
             var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
                 transform.position, Data.attackRadius, ComponentProvider.EnemyTargetsMask);
 
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: enemyStats.baseStrength);
-            attackTimer.Reset();
+            //attackTimer.Reset();
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            
+            Gizmos.DrawWireSphere(transform.position, Data.attackRadius);
         }
     }
 }

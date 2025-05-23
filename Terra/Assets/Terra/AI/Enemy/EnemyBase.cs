@@ -104,12 +104,6 @@ namespace Terra.AI.Enemy
             stateMachine.Update();
             attackTimer.Tick(Time.deltaTime);
 
-            // Player detection and attack logic
-            if (playerDetector.CanAttackPlayer())
-            {
-                AttemptAttack();
-            }
-
             UpdateFacingDirection(playerDetector.transform);
 
         }

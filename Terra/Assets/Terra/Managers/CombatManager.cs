@@ -19,7 +19,6 @@ namespace Terra.Managers
         protected override void Awake()
         {
             base.Awake();
-
             _playerLayer = LayerMask.GetMask("Player");
         }
 
