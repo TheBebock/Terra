@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6a3a9a319f06ac4b915c4ebafd8d5af, type: 3}
+  m_Name: ActiveveveTest
+  m_EditorClassIdentifier: 
+  id: 567739236
+  itemName: ActiveveveTest
+  itemDescription: 
+  itemSprite: {fileID: 21300000, guid: eef8aa4ce99fbdb44bcdda73a21c43ad, type: 3}
+  canBeRemoved: 1
+  strengthModifiers:
+  - Value: 5
+    Type: 100
+    SourceID: 567739236
+  maxHealthModifiers:
+  - Value: 7
+    Type: 100
+    SourceID: 567739236
+  speedModifiers:
+  - Value: 2
+    Type: 100
+    SourceID: 567739236
+  luckModifiers:
+  - Value: -7
+    Type: 100
+    SourceID: 567739236
+  itemCooldown: 0

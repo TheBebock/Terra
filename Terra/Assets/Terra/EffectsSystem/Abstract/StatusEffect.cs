@@ -60,7 +60,7 @@ namespace Terra.EffectsSystem.Abstract
         protected abstract bool CanBeRemoved { get; }
 
         private TStatusData _typedData;
-        protected TStatusData Data => _typedData;
+        public TStatusData Data => _typedData;
 
         public override void Initialize(Entity target, EffectData effectData)
         {

@@ -24,8 +24,7 @@ MonoBehaviour:
   attackPrefab: {fileID: 8613042151254537667, guid: 8d9bf7f8ae9fec641abf863efbefa942,
     type: 3}
   effects:
-    statuses:
-    - {fileID: 11400000, guid: f8b992a33cd2de143bfcb47aa174c6b6, type: 2}
+    statuses: []
     actions:
     - {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
   damage: 1

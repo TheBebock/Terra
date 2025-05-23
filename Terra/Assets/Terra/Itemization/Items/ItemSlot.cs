@@ -19,6 +19,7 @@ namespace Terra.Itemization.Items
     where TItem : ItemBase
     {
         [SerializeField, ReadOnly] private string _itemName;
+        [SerializeField, ReadOnly] private bool _canBeRemoved;
         public TItem EquippedItem { get; private set; }
         public override bool IsSlotTaken { get; set; }
 
@@ -47,6 +48,7 @@ namespace Terra.Itemization.Items
             IsSlotTaken = true;
             EquippedItem = newItem;
             _itemName = newItem.ItemName;
+            _canBeRemoved = newItem.CanBeRemoved;
             equipable.OnEquip();
             return true;
         }

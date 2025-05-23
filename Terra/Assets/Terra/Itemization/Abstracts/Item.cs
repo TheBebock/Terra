@@ -36,9 +36,11 @@ namespace Terra.Itemization.Abstracts
             protected set => data = value;
         }
 
-        public override string ItemName => data.itemName;
+        public sealed override string ItemName => data.itemName;
 
-        public override Sprite ItemIcon => data.itemSprite;
+        public sealed override Sprite ItemIcon => data.itemSprite;
+
+        public sealed override bool CanBeRemoved => data.canBeRemoved;
 
         public virtual void OnEquip()
         {

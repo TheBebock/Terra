@@ -16,7 +16,7 @@ namespace Terra.RewardSystem
         private List<ValueModifier> modifiersLuck = new();
 
         private int maxFlatModifier = 5;
-        private float maxPercentAddModifier = 0.5f;
+        //private float maxPercentAddModifier = 0.5f;
         private float maxPercentMultModifier = 0.5f;
 
         public string RewardName => rewardName;
@@ -33,7 +33,7 @@ namespace Terra.RewardSystem
 
         public void AddRandomStat()
         {
-            switch(Random.Range(0, 3))
+            switch(Random.Range(0, 4))
             {
                 case 0: 
                     modifiersMaxHealth.Add(AddRandomModifier());
@@ -57,19 +57,18 @@ namespace Terra.RewardSystem
 
         public ValueModifier AddRandomModifier()
         {
-            StatModType statModType = (StatModType)(Random.Range(1, 3) * 100);
             float modifierMaxValue = 0;
+            StatModType statModType = default;
 
-            switch (statModType)
+            switch (Random.Range(0, 2))
             {
-                case StatModType.Flat: 
-                    modifierMaxValue = maxFlatModifier; 
+                case 0: 
+                    modifierMaxValue = maxFlatModifier;
+                    statModType = StatModType.Flat;
                     break;
-                case StatModType.PercentAdd:
-                    modifierMaxValue = maxPercentAddModifier;
-                    break;
-                case StatModType.PercentMult:
+                case 1:
                     modifierMaxValue = maxPercentMultModifier;
+                    statModType = StatModType.PercentMult;
                     break;
                 default: break;
             }
@@ -82,11 +81,10 @@ namespace Terra.RewardSystem
 
         private void SetUIDescription(ValueModifier valueModifier)
         {
-            char rewardSign = valueModifier.Type == StatModType.PercentMult ? '*' : '+';
-            float rewardValue = valueModifier.Value;
-            char rewardPercentSign = valueModifier.Type == StatModType.Flat ? ' ' : '%';
+            char rewardSign = valueModifier.Type == StatModType.Flat ? '+' : 'x';
+            float rewardValue = valueModifier.Type == StatModType.Flat ? (int)valueModifier.Value : 1 + valueModifier.Value;
 
-            rewardDescription = $"{rewardSign}{rewardValue}{rewardPercentSign}";
+            rewardDescription = $"{rewardSign}{rewardValue:0.00}";
         }
         
     }

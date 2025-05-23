@@ -42,8 +42,8 @@ namespace Terra.UI
         {
             rewardToggles[0].RewardType = Enums.RewardType.Stats;
             rewardToggles[1].RewardType = Enums.RewardType.Stats;
-            rewardToggles[2].RewardType = Enums.RewardType.Weapon;
-            rewardToggles[3].RewardType = Enums.RewardType.Weapon;
+            rewardToggles[2].RewardType = (Enums.RewardType)Random.Range(1, 5);
+            rewardToggles[3].RewardType = (Enums.RewardType)Random.Range(1, 5);
 
             foreach (var toggle in rewardToggles)
             {
