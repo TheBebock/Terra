@@ -791,11 +791,11 @@ PrefabInstance:
         type: 3}
       propertyPath: musicSounds.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 8e5df2542aa6bab4cb02b987e9f0c40e, type: 3}
+      objectReference: {fileID: 8300000, guid: 26c3129d4e195b844b71490a2fcac4a4, type: 3}
     - target: {fileID: 7989669726117095230, guid: c28da9bbeefa69b4382e162583929cb2,
         type: 3}
       propertyPath: musicSounds.Array.data[0].name
-      value: Gameplay_music
+      value: Elevator_music
       objectReference: {fileID: 0}
     - target: {fileID: 8504667737644599380, guid: c28da9bbeefa69b4382e162583929cb2,
         type: 3}
