@@ -16,8 +16,7 @@ namespace Terra.AI.Enemy
         protected override MeleeEnemyData Data => _data;
 
         protected override float GetAttackCooldown() => Data.attackCooldown;
-
-
+        
         public override float AttackRange => Data.attackRange;
 
         protected override void SetupStates()
@@ -44,7 +43,5 @@ namespace Terra.AI.Enemy
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: enemyStats.baseStrength);
             AttackTimer.Reset();
         }
-
-
     }
 }

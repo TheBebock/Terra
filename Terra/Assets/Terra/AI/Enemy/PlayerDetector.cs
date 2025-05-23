@@ -31,10 +31,7 @@ namespace Terra.AI.Enemy
         
         void OnDrawGizmos() {
             Gizmos.color = Color.red;
-
             
-            // Draw a spheres for the radii
-            Gizmos.DrawWireSphere(transform.position, 5f);
             // Rysowanie stożka detekcji dla RangedEnemy
             if (_enemyData is RangedEnemyData rangedData)
             {
