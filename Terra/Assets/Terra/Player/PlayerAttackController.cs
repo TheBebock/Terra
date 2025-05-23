@@ -38,7 +38,7 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxRangedCd;
 
-        public event Action<FacingDirection> OnMeleeAttackPerformed;
+        public static event Action<FacingDirection> OnMeleeAttackPerformed;
         
         public bool IsTryingPerformMeleeAttack
         {

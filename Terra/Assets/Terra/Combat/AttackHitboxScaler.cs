@@ -47,9 +47,9 @@ namespace Terra.Combat
                 PlayerInventoryManager.Instance.OnMeleeWeaponChanged += UpdateHeldHitbox;
             }
             
-            if (PlayerManager.Instance.PlayerAttackController != null)
+            if (PlayerManager.Instance)
             {
-                PlayerManager.Instance.PlayerAttackController.OnMeleeAttackPerformed += StartAttack;
+                PlayerAttackController.OnMeleeAttackPerformed += StartAttack;
             }
         }
         
@@ -149,9 +149,9 @@ namespace Terra.Combat
                 PlayerInventoryManager.Instance.OnMeleeWeaponChanged -= UpdateHeldHitbox;
             }
 
-            if (PlayerManager.Instance != null)
+            if (PlayerManager.Instance)
             {
-                PlayerManager.Instance.PlayerAttackController.OnMeleeAttackPerformed -= StartAttack;
+                PlayerAttackController.OnMeleeAttackPerformed -= StartAttack;
             }
         }
 
