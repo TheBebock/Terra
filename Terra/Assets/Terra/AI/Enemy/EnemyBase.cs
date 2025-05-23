@@ -9,6 +9,7 @@ using Terra.EffectsSystem;
 using Terra.Enums;
 using Terra.FSM;
 using Terra.Interfaces;
+using Terra.Managers;
 using Terra.StatisticsSystem.Definitions;
 using Terra.Utils;
 using UnityEngine;
@@ -52,6 +53,10 @@ namespace Terra.AI.Enemy
 
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
+        
+        [Foldout("SFX")] [SerializeField] protected AudioClip hurtSFX;
+        [Foldout("SFX")] [SerializeField] protected AudioClip deathSFX;
+        
         protected StateMachine stateMachine;
         protected EnemyDeathState enemyDeathState;
         protected CountdownTimer attackTimer;
@@ -65,12 +70,14 @@ namespace Terra.AI.Enemy
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f;
         public abstract float AttackRange { get; }
+        protected AudioSource audioSource;
 
         /// <summary>
         /// Initializes health, timer, and builds the AI state machine.
         /// </summary>
         protected virtual void Awake()
         {
+            audioSource = GetComponent<AudioSource>();
             if (enemyStats == null)
             {
                 Debug.LogError($"[{nameof(EnemyBase)}] Missing EnemyStatsDefinition on {name}. Please assign it in the inspector.");
@@ -147,7 +154,9 @@ namespace Terra.AI.Enemy
                 Debug.Log("Enemy is invincible and cannot take damage.");
                 return;
             }
-
+            
+            AudioManager.Instance.PlaySFXAtSource(hurtSFX, audioSource);
+            
             // Prevent negative damage values
             if (amount < 0f) amount = 0f;
 
@@ -171,7 +180,8 @@ namespace Terra.AI.Enemy
         private void OnDeath()
         {
             if (isDead) return;
-
+            
+            AudioManager.Instance.PlaySFXAtSource(deathSFX, audioSource);
             isDead = true;
             enemyCollider.enabled = false;
             agent.isStopped = true;
@@ -236,6 +246,5 @@ namespace Terra.AI.Enemy
                     Debug.LogError($"[{name}] Missing SpriteRenderer (enemyModel) in children.", this);
             }
         }
-        
     }
 }

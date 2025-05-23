@@ -23,6 +23,7 @@ namespace Terra.Player
         [Foldout("References")] [SerializeField] private PlayerMovement _playerMovement;
         [Foldout("References")] [SerializeField] private Animator _playerAnimator;
         [Foldout("References")] [SerializeField] private PlayerEntity _playerEntity;
+        [Foldout("References")] [SerializeField]private AudioSource _audioSource;
 
 
         public Vector3 CurrentPosition => transform.position;
@@ -46,7 +47,7 @@ namespace Terra.Player
         public void SetUp()
         {
             //NOTE: Needs to be in SetUp, because it caches references to managers
-            _playerAttackController = new PlayerAttackController(false);
+            _playerAttackController = new PlayerAttackController(_audioSource);
             _playerAttackController.AttachListeners();
             
             _stateMachine = new StateMachine();

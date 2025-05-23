@@ -26,6 +26,8 @@ namespace Terra.Environment
         
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
+        
+        [Foldout("SFX")] [SerializeField] public AudioClip destroySfx;
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0;
         public override bool CanBeInteractedWith { get; protected set; }
@@ -36,9 +38,12 @@ namespace Terra.Environment
         public StatusContainer StatusContainer => _statusContainer;
 
         private Sequence _moveSequence;
+        
+        private AudioSource audioSource;
 
         protected virtual void Awake()
         {
+            audioSource = GetComponent<AudioSource>();
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(maxHealth);
         }
@@ -79,6 +84,7 @@ namespace Terra.Environment
         }
         protected virtual void OnDeath()
         {
+            AudioManager.Instance.PlaySFXAtSource(destroySfx, audioSource);
             propModel.material.DOFade(0f, 2.5f);
             
             LootManager.Instance.SpawnRandomItem(transform.position);
@@ -111,5 +117,6 @@ namespace Terra.Environment
             base.CleanUp();
             _moveSequence?.Kill();
         }
+        
     }
 }

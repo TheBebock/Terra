@@ -13,6 +13,7 @@ namespace Terra.Itemization.Abstracts.Definitions
         public EffectsContainer effects;
         public int damage;
         public float attackCooldown;
+        public AudioClip attackSFX;
         [ReadOnly] public WeaponType WeaponType;
     }
 

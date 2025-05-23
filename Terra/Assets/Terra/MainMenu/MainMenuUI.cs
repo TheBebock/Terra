@@ -21,26 +21,27 @@ public class MainMenuUI : MonoBehaviour
 
     public void ShowSettings()
     {
+        AudioManager.Instance.PlaySFX("UI_Interaction");
         settingsPanel.SetActive(true);
     }
 
     public void PlayGame()
     {
+        AudioManager.Instance.PlaySFX("UI_Interaction");
         SceneManager.LoadScene("GameplayScene");
     }
 
     public void QuitGame()
     {
-        // TODO: AudioManager.Instance.Play("Click");
+        AudioManager.Instance.PlaySFX("UI_Interaction");
         Application.Quit();
         Debug.Log("Quit Game");
     }
 
     public void BackToMenu()
     {
+        AudioManager.Instance.PlaySFX("UI_Interaction");
         settingsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
-
-        // TODO: AudioManager.Instance.Play("Back");
     }
 }

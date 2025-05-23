@@ -3,6 +3,9 @@ using NaughtyAttributes;
 using System.Collections;
 using Terra.Enums;
 using Terra.Interfaces;
+using Terra.Itemization.Abstracts.Definitions;
+using Terra.Itemization.Items;
+using Terra.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,6 +41,9 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxRangedCd;
 
+        [SerializeField] private AudioClip _attackSFX;
+
+        private AudioSource _audioSource;
         public static event Action<FacingDirection> OnMeleeAttackPerformed;
         
         public bool IsTryingPerformMeleeAttack
@@ -61,12 +67,14 @@ namespace Terra.Player
         
 
         //NOTE: variable dummy was made to not override default constructor, as it was trying to construct it for serialization
-        public PlayerAttackController(bool dummy)
+        public PlayerAttackController(AudioSource audioSource)
         {
+            _audioSource = audioSource;
+            
             if (PlayerInventoryManager.Instance)
             {
                 _playerInventory = PlayerInventoryManager.Instance;
-
+                _attackSFX = _playerInventory.MeleeWeapon.Data.attackSFX;
                 _maxMeleeCd = _playerInventory.MeleeWeapon.Data.attackCooldown;
                 _maxRangedCd = _playerInventory.RangedWeapon.Data.attackCooldown;
             }
@@ -80,6 +88,7 @@ namespace Terra.Player
         {
             InputManager.Instance.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
             InputManager.Instance.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
+            PlayerInventoryManager.Instance.OnMeleeWeaponChanged += OnMeleeWeaponChanged;
         }
 
         private IEnumerator DecreaseMeleeCooldown()
@@ -105,6 +114,7 @@ namespace Terra.Player
             Debug.Log($"Input test ${context.ReadValue<float>()} ");
             if (_currentMeleeCd <= 0 && !_isTryingPerformMeleeAttack)
             {
+                AudioManager.Instance.PlaySFXAtSource(_attackSFX, _audioSource);
                 ChangeAttackDirection();
                 _isTryingPerformMeleeAttack = true;
                 _currentMeleeCd = _maxMeleeCd;
@@ -125,6 +135,11 @@ namespace Terra.Player
                 _currentRangedCd = _maxRangedCd;
                 _playerInventory.StartCoroutine(DecreaseRangedCooldown());
             }
+        }
+
+        private void OnMeleeWeaponChanged(MeleeWeapon meleeWeapon)
+        {
+            _attackSFX = meleeWeapon.Data.attackSFX;
         }
 
         private void ChangeAttackDirection()
@@ -161,6 +176,11 @@ namespace Terra.Player
             {
                 InputManager.Instance.PlayerControls.MeleeAttack.performed -= OnMeleeAttackInput;
                 InputManager.Instance.PlayerControls.Dash.performed -= OnDistanceAttackInput;
+            }
+
+            if (PlayerInventoryManager.Instance)
+            {
+                PlayerInventoryManager.Instance.OnMeleeWeaponChanged -= OnMeleeWeaponChanged;
             }
         }
     }

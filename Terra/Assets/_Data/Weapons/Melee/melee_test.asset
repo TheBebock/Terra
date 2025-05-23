@@ -30,6 +30,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
   damage: 1
   attackCooldown: 0.5
+  attackSFX: {fileID: 8300000, guid: 12d75895461f34342b45c2df053c683a, type: 3}
   WeaponType: 0
   attackType: 1
   hitboxSize: {x: 1, y: 1, z: 1}

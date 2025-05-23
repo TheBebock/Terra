@@ -166,7 +166,6 @@ namespace Terra.Managers
         private void SetVolume(string parameterName, float value)
         {
             float volume = value == 0 ? -80 : Mathf.Lerp(MinDB, MaxDB, value / 10f);
-            Debug.Log("Zmieniono glosnosc");
             AudioMixer.SetFloat(parameterName, volume);
             PlayerPrefs.SetFloat(parameterName, value);
             PlayerPrefs.Save();

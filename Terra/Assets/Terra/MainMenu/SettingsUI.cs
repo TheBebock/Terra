@@ -8,10 +8,12 @@ public class SettingsUI : MonoBehaviour
     public Slider sfxSlider;
     public Slider musicSlider;
     public Slider ambientSlider;
+    private float lastPlayTime = -1f;
+    private float sfxCooldown = 0.3f;
+    
 
     public void Start()
     {
-        Debug.Log("Zmieniono glosnosc");
         masterSlider.value = PlayerPrefs.HasKey("MasterVolume") ? PlayerPrefs.GetFloat("MasterVolume") : 10f;
         sfxSlider.value = PlayerPrefs.HasKey("SFXVolume") ? PlayerPrefs.GetFloat("SFXVolume") : 10f;
         musicSlider.value = PlayerPrefs.HasKey("MusicVolume") ? PlayerPrefs.GetFloat("MusicVolume") : 10f;
@@ -21,12 +23,24 @@ public class SettingsUI : MonoBehaviour
         masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
 
         sfxSlider.onValueChanged.RemoveAllListeners();
-        sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSFXVolume);
+        sfxSlider.onValueChanged.AddListener((value) =>
+        {
+            AudioManager.Instance.SetSFXVolume(value);
+            PlayTestSFX();
+        });
 
         musicSlider.onValueChanged.RemoveAllListeners();
         musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
 
         ambientSlider.onValueChanged.RemoveAllListeners();
         ambientSlider.onValueChanged.AddListener(AudioManager.Instance.SetAmbientVolume);
+    }
+    
+    private void PlayTestSFX()
+    {
+        if (Time.time - lastPlayTime < sfxCooldown) return;
+        
+        AudioManager.Instance.PlaySFX("UI_Interaction");
+        lastPlayTime = Time.time;
     }
 }

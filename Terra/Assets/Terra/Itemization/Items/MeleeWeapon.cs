@@ -13,11 +13,13 @@ namespace Terra.Itemization.Items
     [Serializable]
     public class MeleeWeapon : Weapon<MeleeWeaponData>
     {
+        private AudioSource audioSource;
         public override ItemType ItemType => ItemType.Melee;
 
         public MeleeWeapon(MeleeWeaponData itemData)
         {
             Data = itemData;
+            audioSource = PlayerManager.Instance.PlayerEntity.GetComponent<AudioSource>();
         }
         
         
@@ -36,6 +38,7 @@ namespace Terra.Itemization.Items
 
         private void PerformSwing(Vector3 position)
         {
+           
             List<IDamageable> targets = ComponentProvider.GetTargetsInSphere<IDamageable>(position, 
                 Data.sphereHitboxRadius, ComponentProvider.PlayerTargetsMask);
             if (!CombatManager.Instance)
@@ -46,6 +49,5 @@ namespace Terra.Itemization.Items
             CombatManager.Instance.PerformAttack(PlayerManager.Instance.PlayerEntity, 
                 targets, Data.effects, Data.damage);
         }
-        
     }
 }
