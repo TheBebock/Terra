@@ -18,8 +18,8 @@ TagManager:
   - Damageable
   - Interactable
   - Pickupable
-  - 
-  - 
+  - EnviroWalls
+  - EnviroObjects
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3379141585
+    locked: 0
+  - name: Middleground
+    uniqueID: 884532341
+    locked: 0
   - name: Shadows
     uniqueID: 4128152101
     locked: 0
@@ -49,4 +55,7 @@ TagManager:
     locked: 0
   - name: AttackVFX
     uniqueID: 2902649541
+    locked: 0
+  - name: Foreground
+    uniqueID: 1376602561
     locked: 0

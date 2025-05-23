@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 601027a8867cd3f49bd8493c01521ec7
+guid: fc66c3938263c824cbc2a5571659fc88
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 70
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_attack-down_0
+      name: player_attack_up_13
       rect:
         serializedVersion: 2
-        x: 68
-        y: 36
-        width: 100
-        height: 184
+        x: 233
+        y: 149
+        width: 152
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d167ee16872c604aaa3a623129b64ac
-      internalID: 1601500285
+      spriteID: 0665701107d1313419694b6d0aa83eb8
+      internalID: 1818600941
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_attack-down_1
+      name: player_attack_up_16
       rect:
         serializedVersion: 2
-        x: 328
-        y: 36
-        width: 96
-        height: 184
+        x: 810
+        y: 149
+        width: 133
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 069ae32c586d59e4d9d3250d04565d07
-      internalID: -1317469620
+      spriteID: 7199bdb09d2fcdd4d8a859d68014a5e3
+      internalID: -382429421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_attack-down_2
+      name: player_attack_up_17
       rect:
         serializedVersion: 2
-        x: 576
-        y: 36
-        width: 128
-        height: 180
+        x: 1355
+        y: 149
+        width: 164
+        height: 272
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3829c65180648ff4c9e3b15502a50a04
-      internalID: 530066387
+      spriteID: 86fb4fd5249b6f94fb005dd3cbb0b658
+      internalID: 1102093605
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_attack-down_3
+      name: player_attack_up_18
       rect:
         serializedVersion: 2
-        x: 840
-        y: 36
-        width: 120
-        height: 180
+        x: 1937
+        y: 149
+        width: 157
+        height: 272
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 201205bbf0b7eef46834ba6e1a16aff8
-      internalID: 261635594
+      spriteID: 283aca521aa038145a4d12c4452ac85a
+      internalID: -338700986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_attack-down_4
+      name: player_attack_up_19
       rect:
         serializedVersion: 2
-        x: 1096
-        y: 36
-        width: 120
-        height: 184
+        x: 2513
+        y: 149
+        width: 158
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83ca1e12cf3592b4d919ba4dadfff6e3
-      internalID: 2131983855
+      spriteID: d28b96b25f2b11b479f77ceb53d18d93
+      internalID: 1884667498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_attack-down_6
+      name: player_attack_up_20
       rect:
         serializedVersion: 2
-        x: 1372
-        y: 36
-        width: 76
-        height: 184
+        x: 3113
+        y: 149
+        width: 117
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4b086b7ac2259441b1e221bbe41b11b
-      internalID: 1822150254
+      spriteID: 1d0745f19203e2f4e9f16dc5433445a7
+      internalID: 14367686
       vertices: []
       indices: 
       edges: []
@@ -251,7 +251,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2e11f1e053da21c4aa1522b254f7c446
+    spriteID: 3c4576777ec769c40a403f29daea1533
     internalID: 0
     vertices: []
     indices: 
@@ -259,13 +259,41 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_attack-down_0: 1601500285
-      player_attack-down_1: -1317469620
-      player_attack-down_2: 530066387
-      player_attack-down_3: 261635594
-      player_attack-down_4: 2131983855
-      player_attack-down_5: 663715918
-      player_attack-down_6: 1822150254
+      player_attack_up_0: 964351831
+      player_attack_up_1: -1181077521
+      player_attack_up_10: -1843105822
+      player_attack_up_11: 550315695
+      player_attack_up_12: -1491852680
+      player_attack_up_13: 1818600941
+      player_attack_up_14: 169150472
+      player_attack_up_15: 966952966
+      player_attack_up_16: -382429421
+      player_attack_up_17: 1102093605
+      player_attack_up_18: -338700986
+      player_attack_up_19: 1884667498
+      player_attack_up_2: 214386326
+      player_attack_up_20: 14367686
+      player_attack_up_21: -2066356301
+      player_attack_up_22: -1591985827
+      player_attack_up_23: -401611438
+      player_attack_up_24: -1243482573
+      player_attack_up_25: -143000281
+      player_attack_up_26: -1880870185
+      player_attack_up_27: 272974424
+      player_attack_up_28: 1999130547
+      player_attack_up_29: -297779584
+      player_attack_up_3: -1175460669
+      player_attack_up_30: 229778454
+      player_attack_up_31: 1431845317
+      player_attack_up_32: 732706330
+      player_attack_up_33: -1624531431
+      player_attack_up_34: -1551776622
+      player_attack_up_4: 1624139768
+      player_attack_up_5: 518267336
+      player_attack_up_6: -840158249
+      player_attack_up_7: -1764560689
+      player_attack_up_8: -15848479
+      player_attack_up_9: -782405762
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

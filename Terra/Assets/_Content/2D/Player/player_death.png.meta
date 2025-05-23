@@ -113,10 +113,10 @@ TextureImporter:
       name: player_death_0
       rect:
         serializedVersion: 2
-        x: 85
-        y: 34
-        width: 84
-        height: 188
+        x: 0
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: player_death_1
       rect:
         serializedVersion: 2
-        x: 342
-        y: 22
-        width: 83
-        height: 185
+        x: 384
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,10 +155,10 @@ TextureImporter:
       name: player_death_2
       rect:
         serializedVersion: 2
-        x: 598
-        y: 22
-        width: 84
-        height: 185
+        x: 768
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,10 +176,10 @@ TextureImporter:
       name: player_death_3
       rect:
         serializedVersion: 2
-        x: 855
-        y: 22
-        width: 83
-        height: 171
+        x: 1152
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: player_death_4
       rect:
         serializedVersion: 2
-        x: 1109
-        y: 22
-        width: 86
-        height: 180
+        x: 1536
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +218,10 @@ TextureImporter:
       name: player_death_5
       rect:
         serializedVersion: 2
-        x: 1370
-        y: 29
-        width: 95
-        height: 153
+        x: 1920
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,10 +239,10 @@ TextureImporter:
       name: player_death_6
       rect:
         serializedVersion: 2
-        x: 1633
-        y: 22
-        width: 124
-        height: 131
+        x: 2304
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: player_death_7
       rect:
         serializedVersion: 2
-        x: 1759
-        y: 135
-        width: 5
-        height: 11
+        x: 2688
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,10 +281,10 @@ TextureImporter:
       name: player_death_8
       rect:
         serializedVersion: 2
-        x: 1870
-        y: 27
-        width: 164
-        height: 94
+        x: 3072
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -302,10 +302,10 @@ TextureImporter:
       name: player_death_19
       rect:
         serializedVersion: 2
-        x: 2106
-        y: 7
-        width: 187
-        height: 78
+        x: 7296
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -323,10 +323,10 @@ TextureImporter:
       name: player_death_20
       rect:
         serializedVersion: 2
-        x: 2362
-        y: 7
-        width: 187
-        height: 78
+        x: 7680
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -344,10 +344,10 @@ TextureImporter:
       name: player_death_21
       rect:
         serializedVersion: 2
-        x: 2619
-        y: 7
-        width: 187
-        height: 78
+        x: 8064
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -365,10 +365,10 @@ TextureImporter:
       name: player_death_22
       rect:
         serializedVersion: 2
-        x: 2873
-        y: 7
-        width: 189
-        height: 78
+        x: 8448
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -386,10 +386,10 @@ TextureImporter:
       name: player_death_23
       rect:
         serializedVersion: 2
-        x: 3130
-        y: 7
-        width: 189
-        height: 78
+        x: 8832
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -407,10 +407,10 @@ TextureImporter:
       name: player_death_24
       rect:
         serializedVersion: 2
-        x: 3386
-        y: 18
-        width: 187
-        height: 67
+        x: 9216
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -425,13 +425,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_death_26
+      name: player_death_9
       rect:
         serializedVersion: 2
-        x: 3643
-        y: 18
-        width: 186
-        height: 67
+        x: 3456
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -439,20 +439,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32e664ad541fea34b972514697b63a0b
-      internalID: 181709940
+      spriteID: 37201f50b472e284c8699a4dce3f80f1
+      internalID: -1512155762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_death_28
+      name: player_death_10
       rect:
         serializedVersion: 2
-        x: 3899
-        y: 18
-        width: 187
-        height: 67
+        x: 3840
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -460,20 +460,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcac1bfa6344ef84e87981d4f5fe5dc0
-      internalID: -366609306
+      spriteID: f3c809458f2724e4f92bd8f242e2ed9b
+      internalID: 1118852105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_death_29
+      name: player_death_11
       rect:
         serializedVersion: 2
-        x: 4153
-        y: 18
-        width: 189
-        height: 67
+        x: 4224
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -481,20 +481,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5681e19dc0a0f114ca2fd8d2dd50600a
-      internalID: 1479509756
+      spriteID: 1f0ff1504f80eac4b946da7aba474a8c
+      internalID: 1103661949
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_death_31
+      name: player_death_12
       rect:
         serializedVersion: 2
-        x: 4410
-        y: 18
-        width: 187
-        height: 67
+        x: 4608
+        y: 0
+        width: 384
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -502,8 +502,134 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88fab07b4672e6f4689039fa43983466
-      internalID: 507492838
+      spriteID: 698d8110954066f4cb0b66234ca5e3db
+      internalID: -1471294132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_death_13
+      rect:
+        serializedVersion: 2
+        x: 4992
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34beed6b56df7434ba78a938e5b378fe
+      internalID: -443736806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_death_14
+      rect:
+        serializedVersion: 2
+        x: 5376
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 712b5c978fa15d1498e8b492da7acea7
+      internalID: -14769908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_death_15
+      rect:
+        serializedVersion: 2
+        x: 5760
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55a7593654bc88740ba69a0c61394b9c
+      internalID: -637752244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_death_16
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee7a4a6e932a461418defc0bcda1110b
+      internalID: 488711930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_death_17
+      rect:
+        serializedVersion: 2
+        x: 6528
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bf1eeb3e2ab6b343b522fac820fb0f4
+      internalID: 2112862053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_death_18
+      rect:
+        serializedVersion: 2
+        x: 6912
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ade94e826c1d4dc459c44b671bcd283f
+      internalID: 1009847648
       vertices: []
       indices: 
       edges: []
@@ -537,16 +663,7 @@ TextureImporter:
       player_death_22: -962997978
       player_death_23: 1919944738
       player_death_24: 727414996
-      player_death_25: 1431205848
-      player_death_26: 181709940
-      player_death_27: -1450127717
-      player_death_28: -366609306
-      player_death_29: 1479509756
       player_death_3: 401936553
-      player_death_30: -560081044
-      player_death_31: 507492838
-      player_death_32: 1078327650
-      player_death_33: -1984001150
       player_death_4: -228241237
       player_death_5: -82749595
       player_death_6: 568681732
