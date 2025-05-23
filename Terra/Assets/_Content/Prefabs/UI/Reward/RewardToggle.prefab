@@ -170,10 +170,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.05
-  m_fontSizeBase: 18
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -532,8 +532,9 @@ MonoBehaviour:
   _interactionState: 0
   rewardName: {fileID: 7224918067557912729}
   rewardDescription: {fileID: 8481390096693955279}
-  rewardSprite: {fileID: 1080521085028082324}
+  rewardIcon: {fileID: 1080521085028082324}
   rewardToggle: {fileID: 819990627029470164}
+  rewardType: 0
 --- !u!1 &8699903276045143099
 GameObject:
   m_ObjectHideFlags: 0

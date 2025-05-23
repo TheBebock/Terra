@@ -14,14 +14,13 @@ namespace Terra.UI
         [SerializeField] List<RewardToggle> rewardToggles = new();
         [SerializeField] Button acceptButton;
 
+        [SerializeField] RewardToggle currentlyActiveToogle;
+
         public override void SetUp()
         {
             base.SetUp();
 
-            foreach (var toggle in rewardToggles)
-            {
-                toggle?.SetUp();
-            }
+            LoadRewardsData();
 
             acceptButton.onClick.AddListener(ApplyReward);
         }
@@ -33,16 +32,34 @@ namespace Terra.UI
             
             
             // TODO: Apply reward for player
+            currentlyActiveToogle.ApplyReward();
+
             GameManager.Instance.SwitchToGameState<GameplayState>();
             Close();
+        }
 
+        private void LoadRewardsData()
+        {
+            rewardToggles[0].RewardType = Enums.RewardType.Stats;
+            rewardToggles[1].RewardType = Enums.RewardType.Stats;
+            rewardToggles[2].RewardType = Enums.RewardType.Weapon;
+            rewardToggles[3].RewardType = Enums.RewardType.Weapon;
+
+            foreach (var toggle in rewardToggles)
+            {
+                toggle?.SetUp();
+            }
         }
         
         private bool IsAnyToggleOn()
         {
             foreach (var toggle in rewardToggles)
             {
-                if (toggle.GetToggleStatus()) return true;
+                if (toggle.GetToggleStatus())
+                {
+                    currentlyActiveToogle = toggle;
+                    return true;
+                }
             }
             return false;
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.GameStates;
 using Terra.Managers;
 using Terra.UI;
 using UIExtensionPackage.UISystem.UI.Windows;
@@ -26,8 +27,8 @@ namespace Terra.LevelGeneration
         {
             if (currentLevel >= levelMaps.Count - 1) return;
 
-            TimeManager.Instance?.PauseTime();
-            ShowUpgradePanel();
+            //TimeManager.Instance?.PauseTime();
+            //ShowUpgradePanel();
 
             UnloadCurrentLevel();
             PrepareNewLevel();
@@ -60,6 +61,7 @@ namespace Terra.LevelGeneration
             if(Input.GetKeyDown(KeyCode.I))
             {
                 LoadNewLevel();
+                GameManager.Instance.SwitchToGameState<UpgradeGameState>();
             }
         }
     }

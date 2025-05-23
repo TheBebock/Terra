@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffea5c24ca42d645a2fa22788f36f21, type: 3}
+  m_Name: StatsReward_
+  m_EditorClassIdentifier: 
+  rewardName: 
+  rewardDescription: 
+  rewardSpriteIcon: {fileID: 0}
+  modifiersMaxHealth:
+  - Value: 5
+    Type: 100
+    SourceID: 0
+  - Value: 10
+    Type: 200
+    SourceID: 0
+  modifiersDexterity: []
+  modifiersStrength: []
+  modifiersLuck: []

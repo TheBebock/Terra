@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using NaughtyAttributes;
 using Terra.Utils;
 using UnityEngine;
@@ -9,5 +10,10 @@ namespace Terra.EffectsSystem.Abstract.Definitions
     public class EffectData : ScriptableObject
     {
         [ReadOnly] public int entityID = Constants.DEFAULT_ID;
+
+        public Sprite effectIcon;
+        public string effectName;
+        public string effectDescription;
+        public ParticleSystem effectParticle;
     }
 }
