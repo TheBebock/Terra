@@ -1605,6 +1605,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8684688ac53222d4e88d713bf3d033fb, type: 3}
+--- !u!114 &2126876676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 458049108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2219758090951517338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1613,6 +1625,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 496297180109255898, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
+        type: 3}
+      propertyPath: animationEvents.Array.data[0].OnAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2126876676}
     - target: {fileID: 4903469478785577389, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
         type: 3}
       propertyPath: m_LocalPosition.x
