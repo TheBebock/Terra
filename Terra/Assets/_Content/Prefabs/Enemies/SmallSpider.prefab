@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 86.34144, y: 101.46, z: 96.909}
-  m_LocalScale: {x: 1, y: 1.0105, z: 1}
+  m_LocalScale: {x: 1.4861, y: 1.501704, z: 1.4861}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7628904998404875950}
@@ -115,14 +115,14 @@ MonoBehaviour:
   animator: {fileID: 73830323971223633}
   enemyCollider: {fileID: 5619882945703890573}
   enemyModel: {fileID: 8514623365129911429}
-  healthController:
+  _healthController:
     maxHealth:
       baseValue: 0
       StatModifiers: []
     currentHealth: 0
     canBeHealed: 0
     isInvincible: 0
-  statusContainer:
+  _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
@@ -171,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 6318773038464118577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.24, z: 0}
+  m_LocalPosition: {x: 0, y: -0.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -241,7 +241,7 @@ Animator:
   m_GameObject: {fileID: 6318773038464118577}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bde8866846733604e9900385ed2309e7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7182c8bb77b205f40bc8c10d45138d65, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

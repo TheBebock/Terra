@@ -23,6 +23,7 @@ namespace Terra.AI.EnemyStates {
         
         protected override void OnAttack()
         {
+            
             if (Time.time - _lastAttackTime >= AttackCooldown)
             {
                 if (Vector3.Distance(enemy.transform.position, Player.transform.position) <= enemy.AttackRange)
@@ -31,12 +32,6 @@ namespace Terra.AI.EnemyStates {
                 }
                 _lastAttackTime = Time.time;
             }
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-            navMeshAgent.isStopped = false;
         }
     }
 }

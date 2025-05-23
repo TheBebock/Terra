@@ -26,22 +26,22 @@ namespace Terra.AI.Enemy
             var attack = new EnemyAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
             
 
-            StateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
-            StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
+            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
      
-            StateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
-            StateMachine.SetState(chase);
+            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
+            stateMachine.SetState(chase);
         }
 
         public override void AttemptAttack()
         {
-            if (!AttackTimer.IsFinished) return;
+            if (!attackTimer.IsFinished) return;
 
             var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
                 transform.position, Data.attackRadius, ComponentProvider.EnemyTargetsMask);
 
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: enemyStats.baseStrength);
-            AttackTimer.Reset();
+            attackTimer.Reset();
         }
     }
 }

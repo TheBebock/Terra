@@ -26,39 +26,39 @@ namespace Terra.AI.Enemy
             var wander = new EnemyWanderState(this, agent, animator, Data.detectionRadius);
             var chase = new EnemyChaseState(this, agent, animator, PlayerManager.Instance.transform);
             var attack = new EnemyRangeAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
-            EnemyDeathState = new EnemyDeathState(this, agent, animator);
+            enemyDeathState = new EnemyDeathState(this, agent, animator);
 
 
-            StateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
-            StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
+            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
             
-            StateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
-            StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
+            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
+            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
             
-            StateMachine.SetState(wander);
+            stateMachine.SetState(wander);
         }
 
         public override void AttemptAttack()
         {
-            if (!AttackTimer.IsFinished) return;
+            if (!attackTimer.IsFinished) return;
             if (firePoint == null) { Debug.LogError("firePoint missing"); return; }
 
-            // Kierunek do gracza
+
             Vector3 dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
-            // Obrót pocisku od razu w kierunku dir
+
             Quaternion rot = Quaternion.LookRotation(dir);
 
-            // Instantiate z odpowiednim obrotem
+   
             Projectile p = ProjectileFactory.CreateProjectile(
                 Data.bulletData,
                 firePoint.position,
                 dir,
                 this
             );
-            // Upewnij się, że CreateProjectile nie przekreśla rotacji transformu
+
             p.transform.rotation = rot;
 
-            AttackTimer.Reset();
+            attackTimer.Reset();
         }
     }
 }

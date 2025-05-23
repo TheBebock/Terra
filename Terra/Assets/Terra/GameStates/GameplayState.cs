@@ -1,5 +1,6 @@
 using System;
 using Terra.Managers;
+using UnityEngine;
 
 namespace Terra.GameStates
 {
@@ -10,7 +11,15 @@ namespace Terra.GameStates
         public override void OnEnter()
         {
             base.OnEnter();
-            WaveManager.Instance.StartWaves();
+            if (WaveManager.Instance)
+            {
+                WaveManager.Instance.StartWaves();
+                Debug.Log($"{this}: Starting Waves {WaveManager.Instance.name} + {WaveManager.Instance.gameObject.activeInHierarchy}");
+            }
+            else
+            {
+                Debug.LogError($"{this}: No Wave Manager found");
+            }
         }
     }
 }

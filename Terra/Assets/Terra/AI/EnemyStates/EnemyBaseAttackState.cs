@@ -59,7 +59,7 @@ namespace Terra.AI.EnemyStates
         public override void OnExit()
         {
             base.OnExit();
-            navMeshAgent.isStopped = false;
+            if(navMeshAgent.isActiveAndEnabled) navMeshAgent.isStopped = false;
         }
     }
 }

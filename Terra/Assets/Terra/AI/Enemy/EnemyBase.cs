@@ -37,10 +37,9 @@ namespace Terra.AI.Enemy
     ///     Represents base class for all enemies, handling health, state machine, and animations.
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
-    public abstract class EnemyBase :  Entity, IDamageable, IAttachListeners
+    public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
-        private static readonly int DirectionHash = Animator.StringToHash("Direction");
-        private static readonly int Death = Animator.StringToHash("Death");
+
 
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
@@ -51,20 +50,20 @@ namespace Terra.AI.Enemy
         [Foldout("References")][SerializeField] protected Collider enemyCollider;
         [Foldout("References")][SerializeField] protected SpriteRenderer enemyModel;
 
-        [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController healthController;
-        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer statusContainer;
-        protected StateMachine StateMachine;
-        protected EnemyDeathState EnemyDeathState;
-        protected CountdownTimer AttackTimer;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
+        protected StateMachine stateMachine;
+        protected EnemyDeathState enemyDeathState;
+        protected CountdownTimer attackTimer;
         private bool _stateMachineLocked;
-        protected bool IsDead;
-        private bool CanUpdateState => !IsDead && !_stateMachineLocked;
+        protected bool isDead;
+        private bool CanUpdateState => !isDead || !_stateMachineLocked;
 
-        public HealthController HealthController => healthController;
+        public HealthController HealthController => _healthController;
         public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
-        public StatusContainer StatusContainer => statusContainer;
-        public bool IsInvincible => healthController.IsInvincible;
-        public bool CanBeDamaged => healthController.CurrentHealth > 0f;
+        public StatusContainer StatusContainer => _statusContainer;
+        public bool IsInvincible => _healthController.IsInvincible;
+        public bool CanBeDamaged => _healthController.CurrentHealth > 0f;
         public abstract float AttackRange { get; }
 
         /// <summary>
@@ -78,16 +77,16 @@ namespace Terra.AI.Enemy
                 return;
             }
 
-            statusContainer = new StatusContainer(this);
-            healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth));
-            AttackTimer = new CountdownTimer(GetAttackCooldown());
+            _statusContainer = new StatusContainer(this);
+            _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth));
+            attackTimer = new CountdownTimer(GetAttackCooldown());
 
             AttachListeners();
 
-            StateMachine = new StateMachine();
+            stateMachine = new StateMachine();
             
-            EnemyDeathState = new EnemyDeathState(this, agent, animator);
-            StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
+            enemyDeathState = new EnemyDeathState(this, agent, animator);
+            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
             
             SetupStates();
         }
@@ -102,8 +101,8 @@ namespace Terra.AI.Enemy
             if (!CanUpdateState) return;
 
             StatusContainer.UpdateEffects();
-            StateMachine.Update();
-            AttackTimer.Tick(Time.deltaTime);
+            stateMachine.Update();
+            attackTimer.Tick(Time.deltaTime);
 
             // Player detection and attack logic
             if (playerDetector.CanAttackPlayer())
@@ -130,7 +129,7 @@ namespace Terra.AI.Enemy
             if (newDirection != CurrentDirection)
             {
                 CurrentDirection = newDirection;
-                animator.SetInteger(DirectionHash, (int)CurrentDirection);
+                animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
             }
         }
 
@@ -158,14 +157,14 @@ namespace Terra.AI.Enemy
             // Prevent negative damage values
             if (amount < 0f) amount = 0f;
 
-            healthController.TakeDamage(amount, isPercentage);
+            _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform.position, Quaternion.identity, amount);
 
             // Flash red when damaged for feedback
             enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
         }
 
-        public void Kill(bool isSilent = true) => healthController.Kill(isSilent);
+        public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
 
         void IDamageable.OnDeath()
         {
@@ -177,28 +176,25 @@ namespace Terra.AI.Enemy
         /// </summary>
         private void OnDeath()
         {
-            if (IsDead) return;
+            if (isDead) return;
 
-            IsDead = true;
+            isDead = true;
             enemyCollider.enabled = false;
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             agent.enabled = false;
-            
-            animator.SetTrigger(Death);
 
-            // Optionally, you could replace this with object pooling if you have many enemies being destroyed.
             Destroy(gameObject, 5f); 
         }
 
         public virtual void AttachListeners()
         {
-            healthController.OnDeath += (this as IDamageable).OnDeath;
+            _healthController.OnDeath += (this as IDamageable).OnDeath;
         }
 
         public virtual void DetachListeners()
         {
-            healthController.OnDeath -= (this as IDamageable).OnDeath;
+            _healthController.OnDeath -= (this as IDamageable).OnDeath;
         }
 
         public void SetCanUpdateState(bool value)

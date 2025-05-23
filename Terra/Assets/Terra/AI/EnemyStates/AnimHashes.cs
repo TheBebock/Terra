@@ -16,7 +16,10 @@ namespace Terra.AI.EnemyStates {
         public static readonly int AttackLeft = Animator.StringToHash("AttackLeft");
         public static readonly int AttackRight = Animator.StringToHash("AttackRight");
 
-        public static readonly int Death = Animator.StringToHash("Death");
+        public static readonly int Death = Animator.StringToHash("Death");        
+        public static readonly int DeathLeft = Animator.StringToHash("DeathLeft");        
+        public static readonly int DeathRight = Animator.StringToHash("DeathRight");        
+        public static readonly int Direction = Animator.StringToHash("Direction");
         
     }
 }

@@ -21,7 +21,7 @@ namespace Terra.AI.EnemyStates {
             base.OnEnter();
             
             // Set the animation based on the direction the enemy is facing
-            string animationName = enemy.CurrentDirection == FacingDirection.Left ? "RangeAttackLeft" : "RangeAttackRight";
+            int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);  // Cross-fade to the attack animation
         }
 
@@ -68,17 +68,6 @@ namespace Terra.AI.EnemyStates {
                 }
             }
             return true;  // Return true if the path is clear
-        }
-
-        // Called when exiting the attack state
-        public override void OnExit() {
-            base.OnExit();
-            navMeshAgent.isStopped = false;  // Resume the agent's movement when exiting the attack state
-        }
-        public override void Update()
-        {
-            base.Update(); // jeśli EnemyBaseAttackState coś robi w OnUpdate
-            OnAttack();
         }
     }
 }
