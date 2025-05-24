@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89f82ca8eaca80e4990f544a15f3c8a6, type: 3}
-  m_Name: EnemyStats_Spider
+  m_Name: EnemyStats_Spider_Big
   m_EditorClassIdentifier: 
-  baseStrength: 1
+  baseStrength: 5
   baseMaxHealth: 15
-  baseSpeed: 1
+  baseSpeed: 0.75

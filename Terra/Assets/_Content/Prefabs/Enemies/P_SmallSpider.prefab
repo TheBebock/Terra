@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 496297180109255898}
   - component: {fileID: 7726756270914062923}
   m_Layer: 7
-  m_Name: SmallSpider
+  m_Name: P_SmallSpider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
+  enemyStats: {fileID: 11400000, guid: 2f7fd78398e681e4cb427fd792416aef, type: 2}
   agent: {fileID: 2388211542503742126}
   playerDetector: {fileID: 4367602464811906805}
   animator: {fileID: 73830323971223633}
@@ -165,7 +165,7 @@ MonoBehaviour:
     OnAnimationEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2276162231350725899}
           m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyMelee, Terra
           m_MethodName: AttemptAttack
           m_Mode: 1

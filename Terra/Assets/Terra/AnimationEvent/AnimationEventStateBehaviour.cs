@@ -17,7 +17,10 @@ namespace Terra.AnimationEvent
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            
             float currentTime=stateInfo.normalizedTime % 1f;
+            if(currentTime <= 0.1f) hasTriggered = false;
+            
             if (!hasTriggered && currentTime >= triggerTime)
             {
                 NotifyReceiver(animator);

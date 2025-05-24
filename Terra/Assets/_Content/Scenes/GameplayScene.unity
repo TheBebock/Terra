@@ -906,7 +906,7 @@ MonoBehaviour:
   _id: -1
   _slider: {fileID: 162581446}
   _currentHealthText: {fileID: 1993177761}
-  _maxHealthText: {fileID: 0}
+  _maxHealthText: {fileID: 1460511366}
   _currentHealth: 0
   _maxHealth: 0
 --- !u!1 &167168435
@@ -957,17 +957,17 @@ MonoBehaviour:
   _enemies:
   - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
     spawnValue: 10
-  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
-    spawnValue: 10
+  - enemy: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b, type: 3}
+    spawnValue: 5
   _delayBeforeFirstWave: 5
   _timeBetweenWaves: 10
-  _startingWavesToSpawn: 1
+  _startingWavesToSpawn: 2
   _wavesGainPerLevel: 0.5
   _startingSpawnPoints: 100
   _spawnPointsGain: 50
   _enemiesToSpawnPerWave: 1
-  _enemiesPerWaveGain: 0.2
-  _spawnTimeInterval: 1
+  _enemiesPerWaveGain: 0.4
+  _spawnTimeInterval: 1.5
   _spawnMin: {x: 81, y: 90}
   _spawnMax: {x: 119, y: 108}
   _isPaused: 0
