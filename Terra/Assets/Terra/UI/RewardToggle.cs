@@ -150,17 +150,28 @@ namespace Terra.UI
             switch (UnityEngine.Random.Range(0, 2))
             {
                 case 0: 
-                    effectReward = TemporaryEffectsContainer.Instance.actionEffectDatas.GetRandomElement<ActionEffectData>();
-                    effectType = typeof(ActionEffectData);
+                    effectReward = TemporaryEffectsContainer.Instance.actionEffectDatas?.GetRandomElement<ActionEffectData>();
+                    if (effectReward != null)
+                        effectType = typeof(ActionEffectData);
+                    else
+                        TurnOffToogle();
                     break;
                 case 1:
-                    effectReward = TemporaryEffectsContainer.Instance.statusEffectDatas.GetRandomElement<StatusEffectData>();
+                    effectReward = TemporaryEffectsContainer.Instance.statusEffectDatas?.GetRandomElement<StatusEffectData>();
+                    if(effectReward != null)
                     effectType = typeof(StatusEffectData);
+                    else
+                        TurnOffToogle();
                     break;
             }
 
             LoadEffectData(effectReward);
              
+        }
+
+        private void TurnOffToogle()
+        {
+            gameObject.SetActive(false);
         }
 
         private void GetRandomWeaponRandomType()
