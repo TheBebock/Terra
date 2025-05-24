@@ -3957,8 +3957,12 @@ MonoBehaviour:
   _id: -1
   popupPrefab: {fileID: 5776195157155703914, guid: 9decedc3a164ce74faecc88e19c08724,
     type: 3}
+  popupTMPPrefab: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
+    type: 3}
+  popupCanvasPrefab: {fileID: 44556668393241724, guid: 349417750e94b0045a26e83d65fd58b8,
+    type: 3}
   destroyTime: 1
-  popupOffset: {x: 0, y: 2, z: 0}
+  popupOffset: {x: 0, y: -300, z: 300}
   randomizerdPosition: {x: 1, y: 1, z: 1}
   pooledPopups: []
   amountToPool: 20

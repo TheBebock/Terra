@@ -161,10 +161,10 @@ namespace Terra.AI.Enemy
             if (amount < 0f) amount = 0f;
 
             _healthController.TakeDamage(amount, isPercentage);
-            PopupDamageManager.Instance.UsePopup(transform.position, Quaternion.identity, amount);
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
 
             // Flash red when damaged for feedback
-            enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
+            //enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
         }
 
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
