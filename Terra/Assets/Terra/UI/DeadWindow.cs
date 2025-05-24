@@ -25,7 +25,9 @@ namespace Terra.UI
 
         private void Resume()
         {
-            TimeManager.Instance?.ResumeGame();
+            TimeManager.Instance?.ResumeTime();
+            InputManager.Instance?.SetPlayerControlsState(true);
+            ScenesManager.Instance?.ForceLoadScene(SceneNames.Gameplay);  
             Close();
         }
 

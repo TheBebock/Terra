@@ -167,6 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allWindowsPrefabs:
   - {fileID: 1263540499599686288, guid: 75ed0f48ceb140248aed37b0ec2991cd, type: 3}
+  - {fileID: 3555435988966253307, guid: 023f0c2fc0a7dcb45b39f697b5c0ddbf, type: 3}
+  - {fileID: 3683479635362296766, guid: d7283a79373b14941ad8117784cd6cc8, type: 3}
   windowsContainer: {fileID: 4406410}
   canvasGroup: {fileID: 4406412}
   windowStacks: []
@@ -527,68 +529,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &64270700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 64270701}
-  - component: {fileID: 64270703}
-  - component: {fileID: 64270702}
-  m_Layer: 0
-  m_Name: UIWindowManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &64270701
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64270700}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 769353738}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &64270702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64270700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d5ebbe92e99cc4ba4fafc0020ae37a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allWindowsPrefabs:
-  - {fileID: 3555435988966253307, guid: 023f0c2fc0a7dcb45b39f697b5c0ddbf, type: 3}
-  windowsContainer: {fileID: 64270701}
-  canvasGroup: {fileID: 64270703}
-  windowStacks: []
---- !u!225 &64270703
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64270700}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &73492905
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +819,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 554461345}
   m_HandleRect: {fileID: 0}
@@ -1637,16 +1577,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2737291622463993773, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2737291622463993773, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.28
-      objectReference: {fileID: 0}
     - target: {fileID: 3668154996905167841, guid: b8ad9ad7a2c60eb4bba804c20658a629,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1696,21 +1626,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5703810774435451130, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: m_Range
-      value: 8.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5703810774435451130, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5703810774435451130, guid: b8ad9ad7a2c60eb4bba804c20658a629,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3087,7 +3002,6 @@ Transform:
   - {fileID: 1053719989}
   - {fileID: 1395607266}
   - {fileID: 1132558795}
-  - {fileID: 64270701}
   - {fileID: 2022804750}
   - {fileID: 1021323611}
   - {fileID: 167168436}
@@ -6210,7 +6124,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!1001 &1891488765
 PrefabInstance:

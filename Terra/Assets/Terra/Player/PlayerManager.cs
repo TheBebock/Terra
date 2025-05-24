@@ -1,11 +1,15 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Combat;
 using Terra.FSM;
 using UnityEngine;
 using Terra.Interfaces;
+using Terra.Managers;
 using Terra.Player.PlayerStates;
+using Terra.UI;
+using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.Player
 {
@@ -46,6 +50,7 @@ namespace Terra.Player
 
         public void SetUp()
         {
+            _audioSource = GetComponent<AudioSource>();
             //NOTE: Needs to be in SetUp, because it caches references to managers
             _playerAttackController = new PlayerAttackController(_audioSource);
             _playerAttackController.AttachListeners();
@@ -102,9 +107,18 @@ namespace Terra.Player
             _isPlayerDead = true;
             OnPlayerDeath?.Invoke();
             InputManager.Instance.SetPlayerControlsState(false);
+            GetComponent<Collider>().enabled = false;
             _stateMachine.SetState(_deathState);
-        } 
-        
+            _ = InvokeDeathWindow();
+        }
+
+
+        private async UniTask InvokeDeathWindow()
+        {
+            await UniTask.WaitForSeconds(3f);
+            TimeManager.Instance.PauseTime();
+            UIWindowManager.Instance.OpenWindow<DeadWindow>();
+        }
 
         public void TearDown()
         {

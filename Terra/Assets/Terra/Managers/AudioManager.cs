@@ -95,7 +95,7 @@ namespace Terra.Managers
 
         public void PlaySFXAtSource(AudioClip clip, AudioSource source, float pitch = 1f)
         {
-            if (source.isPlaying)
+                if (source.isPlaying)
             {
                 if(source.clip == clip)
                     return;

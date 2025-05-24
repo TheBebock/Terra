@@ -148,13 +148,9 @@ namespace Terra.Combat
             {
                 PlayerInventoryManager.Instance.OnMeleeWeaponChanged -= UpdateHeldHitbox;
             }
-
-            if (PlayerManager.Instance)
-            {
-                PlayerAttackController.OnMeleeAttackPerformed -= StartAttack;
-            }
+            
+            PlayerAttackController.OnMeleeAttackPerformed -= StartAttack;
         }
-
         public void TearDown()
         {
         }
