@@ -22,26 +22,32 @@ namespace Terra.Combat
         public bool IsInvincible => isInvincible;
         public float MaxHealth => maxHealth.Value;
         public float CurrentHealth => currentHealth;
+        public float NormalizedCurrentHealth => currentHealth / maxHealth.Value;
+
         public bool IsDead => currentHealth <= 0;
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
         public event Action<bool> OnCanBeHealedChanged;
+        public event Action<float> OnHealthChangedNormalized;
         public event Action<float> OnHealthChanged;
         public event Action<float> OnDamaged;
         public event Action<float> OnHealed;
-
-
+        
+        public event Action<float, float> OnHealthCreated;
         public HealthController(ModifiableValue modifiableValue, bool canBeHealed = false)
         {
             maxHealth = modifiableValue;
             currentHealth = maxHealth.Value;
             this.canBeHealed = canBeHealed;
+            OnHealthCreated?.Invoke(currentHealth, maxHealth.Value);
         }
         public HealthController(float maxHealthValue, bool canBeHealed = false)
         {
             maxHealth = new ModifiableValue(maxHealthValue);
             currentHealth = maxHealth.Value;
             this.canBeHealed = canBeHealed;
+            OnHealthCreated?.Invoke(currentHealth, maxHealth.Value);
+
         }
 
         /// <summary>
@@ -52,6 +58,8 @@ namespace Terra.Combat
         public void TakeDamage(float amount, bool isPercentage = false)
         {
             
+            if(IsDead) return;
+            
             float calculatedValue = CalculateValue(amount, isPercentage);
 
             // Change health amount
@@ -61,8 +69,12 @@ namespace Terra.Combat
             currentHealth = Mathf.Max(currentHealth, IsInvincible ? 1f : 0f);
             
             OnHealthChanged?.Invoke(currentHealth);
+            OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
             
-            if (currentHealth <= 0f) OnDeath?.Invoke();
+            if (currentHealth <= 0f)
+            {
+                OnDeath?.Invoke();
+            }
             else OnDamaged?.Invoke(calculatedValue);
         }
         
@@ -83,6 +95,7 @@ namespace Terra.Combat
             // Invoke event
             OnHealed?.Invoke(calculatedValue);
             OnHealthChanged?.Invoke(currentHealth);
+            OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
         }
 
         /// <summary>

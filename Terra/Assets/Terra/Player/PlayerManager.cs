@@ -38,7 +38,7 @@ namespace Terra.Player
         
         public event Action OnPlayerDeath;
 
-
+        private DeathState _deathState;
         public IState GetLastState()
         {
             return _stateMachine.GetPreviousState();
@@ -57,7 +57,7 @@ namespace Terra.Player
             LocomotionState locomotionState = new LocomotionState(this, _playerAnimator);
             StunState stunState = new StunState(this, _playerAnimator);
             DashState dashState = new DashState(this, _playerAnimator);
-            DeathState deathState = new DeathState(this, _playerAnimator);
+            _deathState = new DeathState(this, _playerAnimator);
             MeleeAttackState meleeAttackState = new MeleeAttackState(this, _playerAnimator);
             RangedAttackState rangedAttackState = new RangedAttackState(this, _playerAnimator);
 
@@ -69,7 +69,7 @@ namespace Terra.Player
             _stateMachine.AddTransition(locomotionState, idleState, new FuncPredicate(() => !_playerMovement.IsTryingMove));
 
             _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !_playerMovement.CanPlayerMove && !IsPlayerDead));
-            _stateMachine.AddAnyTransition(deathState, new FuncPredicate(() => IsPlayerDead));
+            _stateMachine.AddAnyTransition(_deathState, new FuncPredicate(() => IsPlayerDead));
 
             _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformDistanceAttack));
@@ -85,11 +85,15 @@ namespace Terra.Player
 
         private void Update()
         {
+            if(_isPlayerDead) return;
+            
             _stateMachine?.Update();
         }
 
         private void FixedUpdate()
         {
+            if(_isPlayerDead) return;
+
             _stateMachine?.FixedUpdate();
         }
 
@@ -97,7 +101,10 @@ namespace Terra.Player
         {
             _isPlayerDead = true;
             OnPlayerDeath?.Invoke();
+            InputManager.Instance.SetPlayerControlsState(false);
+            _stateMachine.SetState(_deathState);
         } 
+        
 
         public void TearDown()
         {

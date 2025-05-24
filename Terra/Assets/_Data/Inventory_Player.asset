@@ -17,7 +17,6 @@ MonoBehaviour:
   startingRanged:
     data: {fileID: 11400000, guid: b8793dfb83edab24f839b03127c0a6c5, type: 2}
   startingActive:
-    data: {fileID: 11400000, guid: 6a4fb439287dca740b71d251c7b70cd3, type: 2}
+    data: {fileID: 0}
     currentCD: 0
-  startingPassiveItems:
-  - data: {fileID: 11400000, guid: 636c69d1b1927ab4ea7a85941dff093e, type: 2}
+  startingPassiveItems: []

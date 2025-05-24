@@ -3,6 +3,7 @@ using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem;
 using Terra.Interfaces;
+using Terra.UI.HUD;
 using UnityEngine;
 
 namespace Terra.Player
@@ -43,6 +44,7 @@ namespace Terra.Player
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, true);
             _healthController.OnDeath += (this as IDamageable).OnDeath;
+            HPSlider.Instance.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
             CanBeDamaged = true;
         }
 
