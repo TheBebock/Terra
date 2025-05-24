@@ -1,12 +1,13 @@
 using System;
 using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Terra.Managers
 {
-    public class AudioManager : PersistentMonoSingleton<AudioManager>
+    public class AudioManager : PersistentMonoSingleton<AudioManager>, IWithSetUp
     {
 
         [Serializable]
@@ -33,6 +34,8 @@ namespace Terra.Managers
 
         [Foldout("References")] [SerializeField]
         private AudioLowPassFilter AmbientAudioLowPassFilter;
+        
+        
         
         public void PlayMusic(string clip)
         {
@@ -176,6 +179,15 @@ namespace Terra.Managers
         public void SetMusicVolume(float value) => SetVolume("MusicVolume", value);
         public void SetAmbientVolume(float value) => SetVolume("AmbientVolume", value);
 
+        public void SetUp()
+        {
+            PlayMusic("Music");
+        }
+
+        public void TearDown()
+        {
+            StopMusic();
+        }
     }
     
 }

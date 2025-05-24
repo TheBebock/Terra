@@ -40,7 +40,7 @@ namespace Terra.Managers
             }
 #endif
         
-            SwitchToGameState<DefaultGameState>();
+            SwitchToGameState<GameplayState>();
         }
     
 
