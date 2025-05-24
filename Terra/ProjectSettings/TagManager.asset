@@ -47,6 +47,12 @@ TagManager:
   - name: Middleground
     uniqueID: 884532341
     locked: 0
+  - name: Fog
+    uniqueID: 2441787055
+    locked: 0
+  - name: Ground
+    uniqueID: 4182181471
+    locked: 0
   - name: Shadows
     uniqueID: 4128152101
     locked: 0
