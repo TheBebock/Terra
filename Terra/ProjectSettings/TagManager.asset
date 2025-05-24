@@ -44,7 +44,7 @@ TagManager:
   - name: Background
     uniqueID: 3379141585
     locked: 0
-  - name: Middleground
+  - name: EnviroObjects
     uniqueID: 884532341
     locked: 0
   - name: Fog
