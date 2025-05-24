@@ -42,6 +42,10 @@ namespace Terra.UI
 
         public RewardType RewardType { get { return rewardType; } set { rewardType = value; } }
 
+        public void SetUp()
+        {
+            ChooseRewardData();
+        }
         public bool GetToggleStatus()
         {
             return rewardToggle.isOn;
@@ -219,16 +223,6 @@ namespace Terra.UI
             rewardIcon.sprite = effectData.effectIcon;  
         }
 
-        public void SetUp()
-        {
-            ChooseRewardData();
-        }
-
-        public void TearDown()
-        {
-            
-        }
-
         public void ApplyReward()
         {
             switch (rewardType)
@@ -252,6 +246,10 @@ namespace Terra.UI
                     PlayerInventoryManager.Instance.TryToEquipItem(passiveItemReward);
                     break;
             }
+        }
+        public void TearDown()
+        {
+            
         }
     }
 }

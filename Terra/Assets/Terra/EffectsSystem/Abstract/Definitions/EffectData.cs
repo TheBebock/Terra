@@ -15,5 +15,10 @@ namespace Terra.EffectsSystem.Abstract.Definitions
         public string effectName;
         public string effectDescription;
         public ParticleSystem effectParticle;
+
+        public virtual string GetUIInfo()
+        {
+            return "";
+        }
     }
 }

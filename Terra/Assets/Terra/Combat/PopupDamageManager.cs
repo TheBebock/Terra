@@ -23,6 +23,7 @@ namespace Terra.Combat
             for(int i = 0; i < amountToPool; i++)
             {
                 popupTemp = Instantiate(popupPrefab);
+                popupTemp.transform.parent = gameObject.transform;
                 popupTemp.gameObject.SetActive(false);
                 pooledPopups.Add(popupTemp);
             }

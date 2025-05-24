@@ -56,6 +56,7 @@ namespace Terra.Player
             if (!CanBeDamaged) return;
             Debug.Log($"{this}: Taking Damage {amount}");
             _healthController.TakeDamage(amount, isPercentage);
+            PopupDamageManager.Instance.UsePopup(transform.position, Quaternion.identity, amount);
         }
 
         public void Heal(float amount, bool isPercentage = false)
