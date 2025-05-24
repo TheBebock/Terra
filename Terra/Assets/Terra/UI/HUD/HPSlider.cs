@@ -10,16 +10,18 @@ namespace Terra.UI.HUD
     public class HPSlider : MonoBehaviourSingleton<HPSlider>
     {
         [SerializeField] private Slider _slider;
-        [SerializeField] private TMP_Text _text;
+        [SerializeField] private TMP_Text _currentHealthText;
+        [SerializeField] private TMP_Text _maxHealthText;
         [SerializeField] private float _currentHealth;
         [SerializeField] private float _maxHealth;
-        private string HealthDisplayFormat => $"{_currentHealth} {_maxHealth}";
         
         public void Init(float currentHealth, float maxHealth)
         {
             _maxHealth = maxHealth;
+            _maxHealthText.SetText(_maxHealth.ToString());
+
             _currentHealth = currentHealth;
-            _text.SetText(HealthDisplayFormat);
+            _currentHealthText.SetText(_currentHealth.ToString());
             
             AttachListeners();
         }
@@ -41,13 +43,13 @@ namespace Terra.UI.HUD
         private void UpdateCurrentHealth(float value)
         {
             _currentHealth = value;
-            _text.SetText(HealthDisplayFormat);
+            _currentHealthText.SetText(_currentHealth.ToString());
         }
 
         private void UpdateMaxHealth(float value)
         {
             _maxHealth = value;
-            _text.SetText(HealthDisplayFormat);
+            _maxHealthText.SetText(_maxHealth.ToString());
         }
         private void DetachListeners()
         {
