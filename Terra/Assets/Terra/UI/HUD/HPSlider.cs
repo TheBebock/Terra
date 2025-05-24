@@ -62,7 +62,7 @@ namespace Terra.UI.HUD
 
             if (PlayerStatsManager.Instance)
             {
-                PlayerStatsManager.Instance.OnStrengthChanged += UpdateMaxHealth;
+                PlayerStatsManager.Instance.OnMaxHealthChanged -= UpdateMaxHealth;
             }
         }
 
