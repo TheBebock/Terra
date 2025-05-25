@@ -29,13 +29,18 @@ namespace Terra.AI.Enemy
             enemyDeathState = new EnemyDeathState(this, agent, animator);
 
 
-            stateMachine.AddTransition(wander, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
-            stateMachine.AddTransition(attack, wander, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            stateMachine.AddTransition(wander, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange && !IsPlayerNear()));
+            stateMachine.AddTransition(attack, wander, new FuncPredicate(() => !playerDetector.CanAttackPlayer() || IsPlayerNear()));
             
             stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
             stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
             
             stateMachine.SetState(wander);
+        }
+
+        private bool IsPlayerNear()
+        {
+            return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= Data.detectionRadius;
         }
 
         public override void AttemptAttack()
