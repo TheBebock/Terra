@@ -2756,6 +2756,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1951589751369908458, guid: f20278945b8f17b42aa7a0bcfb67e639,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2721634413150843950, guid: f20278945b8f17b42aa7a0bcfb67e639,
         type: 3}
       propertyPath: m_Layer
@@ -3299,6 +3304,7 @@ Transform:
   - {fileID: 160549290}
   - {fileID: 1891488766}
   - {fileID: 1282051262}
+  - {fileID: 1250028926}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &812992617
@@ -4952,6 +4958,58 @@ Transform:
   - {fileID: 625111672}
   m_Father: {fileID: 370206992}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1250028925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1250028926}
+  - component: {fileID: 1250028927}
+  m_Layer: 0
+  m_Name: AirDropManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1250028926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250028925}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 769353738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1250028927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250028925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eda4b0759b0f0249b13c27e229cf42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flarePrefab: {fileID: 7813380913943337015, guid: 37a5edc52f1503344857ccd293adfcb0,
+    type: 3}
+  cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
+    type: 3}
+  dropInterval: 5
+  crateDelay: 5
+  spawnAreaCenter: {x: 98.2, y: 100.5, z: 100.1}
+  spawnAreaSize: {x: 30.7, y: 0, z: 13.6}
 --- !u!1 &1282051260
 GameObject:
   m_ObjectHideFlags: 0
