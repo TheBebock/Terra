@@ -19,7 +19,7 @@ namespace Terra.Managers
         protected override void Awake()
         {
             base.Awake();
-            _playerLayer = LayerMask.GetMask("Player");
+            _playerLayer = LayerMask.NameToLayer("Player");
         }
 
         public void PerformAttack(Entity source, IDamageable target, EffectsContainer effectsContainer = null,
