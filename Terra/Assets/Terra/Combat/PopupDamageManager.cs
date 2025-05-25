@@ -54,7 +54,7 @@ namespace Terra.Combat
                 //popup.transform.SetPositionAndRotation(position, rotation);
                 SetupAdditionalPositionPopup(popupCanvas);
 
-                popup.text = value.ToString();
+                popup.text = $"{value}:0";
                 popupCanvas.gameObject.SetActive(true);
 
                 StartCoroutine(ReturnToPoolCoroutine(popupCanvas));
