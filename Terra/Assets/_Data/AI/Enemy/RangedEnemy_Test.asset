@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RangedEnemy_Test
   m_EditorClassIdentifier: 
   attackCooldown: 1
-  attackRange: 200
+  attackRange: 20
   bulletData:
     bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,
       type: 3}

@@ -164,7 +164,7 @@ namespace Terra.AI.Enemy
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
 
             // Flash red when damaged for feedback
-            //enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
+            enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
         }
 
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
