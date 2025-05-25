@@ -67,7 +67,7 @@ namespace Terra.Player
             {
                _playerStats.AddMaxHealthModifier(modifiers[i]);
             }
-            OnMaxHealthChanged?.Invoke(_playerStats.MaxHealth);
+            OnMaxHealthChanged?.Invoke(Mathf.RoundToInt(_playerStats.MaxHealth));
         }
         
         public void RemoveMaxHealth(List<ValueModifier> modifiers)
@@ -78,7 +78,7 @@ namespace Terra.Player
             { 
                 _playerStats.RemoveMaxHealthModifier(modifiers[i]);
             }
-            OnMaxHealthChanged?.Invoke(_playerStats.MaxHealth);
+            OnMaxHealthChanged?.Invoke(Mathf.RoundToInt(_playerStats.MaxHealth));
         }
         
         public void AddDexterity(List<ValueModifier> modifiers)
