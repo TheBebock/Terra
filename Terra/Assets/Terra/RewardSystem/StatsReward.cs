@@ -59,21 +59,24 @@ namespace Terra.RewardSystem
         {
             float modifierMaxValue = 0;
             StatModType statModType = default;
+            ValueModifier valueModifier = default;
 
             switch (Random.Range(0, 2))
             {
                 case 0: 
                     modifierMaxValue = maxFlatModifier;
                     statModType = StatModType.Flat;
+                    valueModifier = new ValueModifier(value: Random.Range(1, (int)modifierMaxValue), type: statModType);
                     break;
                 case 1:
                     modifierMaxValue = maxPercentMultModifier;
                     statModType = StatModType.PercentMult;
+                    valueModifier = new ValueModifier(value: Random.Range(1, modifierMaxValue), type: statModType);
                     break;
                 default: break;
             }
 
-            ValueModifier valueModifier = new ValueModifier(value: Random.Range(1, modifierMaxValue), type: statModType);
+            
             SetUIDescription(valueModifier);
 
             return valueModifier;

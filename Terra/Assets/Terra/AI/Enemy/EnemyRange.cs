@@ -29,8 +29,8 @@ namespace Terra.AI.Enemy
             enemyDeathState = new EnemyDeathState(this, agent, animator);
 
 
-            stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
-            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            stateMachine.AddTransition(wander, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
+            stateMachine.AddTransition(attack, wander, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
             
             stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
             stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
@@ -58,7 +58,7 @@ namespace Terra.AI.Enemy
 
             p.transform.rotation = rot;
 
-            attackTimer.Reset();
+            attackTimer.Restart();
         }
     }
 }
