@@ -24,5 +24,5 @@ MonoBehaviour:
     bulletDamage: 10
     bulletLifetime: 20
   detectionAngle: 60
-  detectionRadius: 10
+  detectionRadius: 7
   innerDetectionRadius: 5

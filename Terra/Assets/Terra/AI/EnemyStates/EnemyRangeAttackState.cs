@@ -20,6 +20,7 @@ namespace Terra.AI.EnemyStates {
         public override void OnEnter() {
             base.OnEnter();
             
+            enemy.transform.LookAt(Player.transform);
             // Set the animation based on the direction the enemy is facing
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);  // Cross-fade to the attack animation
