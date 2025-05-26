@@ -2845,6 +2845,10 @@ PrefabInstance:
     - {fileID: 2016269637408663881, guid: f20278945b8f17b42aa7a0bcfb67e639, type: 3}
     - {fileID: 6883725436898730776, guid: f20278945b8f17b42aa7a0bcfb67e639, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6939109926685834763, guid: f20278945b8f17b42aa7a0bcfb67e639,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1553924743}
     - targetCorrespondingSourceObject: {fileID: 8081239975875736152, guid: f20278945b8f17b42aa7a0bcfb67e639,
         type: 3}
       insertIndex: -1
@@ -3252,6 +3256,12 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!4 &634059494 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6939109926685834763, guid: f20278945b8f17b42aa7a0bcfb67e639,
+    type: 3}
+  m_PrefabInstance: {fileID: 607582297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &666323063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 964347703832810894, guid: b3d5e9e6c945592498afe30200c1a14f,
@@ -5000,6 +5010,7 @@ MonoBehaviour:
     type: 3}
   cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
     type: 3}
+  dropContainer: {fileID: 1553924743}
   dropInterval: 5
   crateDelay: 5
   spawnAreaCenter: {x: 98.2, y: 100.5, z: 100.1}
@@ -5680,6 +5691,37 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1553924742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1553924743}
+  m_Layer: 0
+  m_Name: AirDropContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1553924743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553924742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 18, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 634059494}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1577237393
 GameObject:
   m_ObjectHideFlags: 0

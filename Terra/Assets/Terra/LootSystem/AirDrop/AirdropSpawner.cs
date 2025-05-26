@@ -9,6 +9,7 @@ namespace Terra.LootSystem.AirDrop
     {
         public GameObject flarePrefab;
         public GameObject cratePrefab;
+        [SerializeField] private Transform dropContainer;
 
         public float dropInterval = 60f;
         public float crateDelay = 5f;
@@ -102,7 +103,7 @@ namespace Terra.LootSystem.AirDrop
             Vector3 airPosition = groundPosition + Vector3.up * 100f;
             Debug.Log($"Instantiating flare at: {airPosition}");
 
-            GameObject flare = Instantiate(flarePrefab, airPosition, Quaternion.identity);
+            GameObject flare = Instantiate(flarePrefab, airPosition, Quaternion.identity, dropContainer);
             FlareLandingNotifier notifier = flare.GetComponent<FlareLandingNotifier>();
 
             if (notifier == null)
@@ -131,7 +132,7 @@ namespace Terra.LootSystem.AirDrop
             yield return new WaitForSeconds(crateDelay);
 
             Debug.Log($"Instantiating crate at: {groundPosition + Vector3.up * 1f}");
-            Instantiate(cratePrefab, groundPosition + Vector3.up * 1f, Quaternion.identity);
+            Instantiate(cratePrefab, groundPosition + Vector3.up * 1f, Quaternion.identity, dropContainer);
         }
 
         private void OnDrawGizmosSelected()
