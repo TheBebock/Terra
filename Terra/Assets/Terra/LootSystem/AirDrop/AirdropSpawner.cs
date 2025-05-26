@@ -20,6 +20,7 @@ namespace Terra.LootSystem.AirDrop
         public Vector3 spawnAreaSize;
 
         private LayerMask _groundLayer;
+        private float _distanceToEdge = 0.5f;
 
         void Start()
         {
@@ -58,7 +59,7 @@ namespace Terra.LootSystem.AirDrop
             }
 
             spawnAreaCenter = combined.center;
-            spawnAreaSize = new Vector3(combined.size.x, 0f, combined.size.z);
+            spawnAreaSize = new Vector3(combined.size.x - _distanceToEdge, 0f, combined.size.z - _distanceToEdge);
 
             Debug.Log($"Ground bounds: Center={spawnAreaCenter}, Size={spawnAreaSize}");
         }

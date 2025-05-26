@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5922325539392790742}
   - component: {fileID: 7648631588216878980}
   - component: {fileID: 7754915034031940339}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: P_ItemContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,9 +70,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55616dd75eb969f4eb672c15612d559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: -1
-  isInitialized: 0
-  itemRenderer: {fileID: 8213990560137699798}
+  _id: -1
+  _isInitialized: 0
+  _itemRenderer: {fileID: 8213990560137699798}
 --- !u!114 &7754915034031940339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 234342035530698077}
   - component: {fileID: 8213990560137699798}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ItemIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 2
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
