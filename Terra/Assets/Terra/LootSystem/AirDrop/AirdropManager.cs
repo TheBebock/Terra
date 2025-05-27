@@ -33,7 +33,7 @@ namespace Terra.LootSystem.AirDrop
 
         public void SetUp()
         {
-            _ = AirdropLoop().AttachExternalCancellation(CancellationToken);
+            _ = AirdropLoop();
         }
         
         private void CalculateGroundBounds()
@@ -71,20 +71,20 @@ namespace Terra.LootSystem.AirDrop
             Debug.Log($"Ground bounds: Center={spawnAreaCenter}, Size={spawnAreaSize}");
         }
 
-        private async UniTask AirdropLoop()
+        private async UniTaskVoid AirdropLoop()
         {
             Debug.Log("Airdrop loop started.");
             while (true)
             {
                 float spawnDelay = Random.Range(_dropIntervalRange.x, _dropIntervalRange.y); ;
-                await UniTask.WaitForSeconds(spawnDelay);
+                await UniTask.WaitForSeconds(spawnDelay, cancellationToken:CancellationToken);
 
                 Debug.Log("Dropping flare...");
 
                 Vector3 dropPos = GetRandomPosition();
                 Debug.Log($"Flare drop position: {dropPos}");
 
-                StartCoroutine(HandleDrop(dropPos));
+                _ = HandleDrop(dropPos);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Terra.LootSystem.AirDrop
             return new Vector3(x, spawnAreaCenter.y, z);
         }
 
-        private IEnumerator HandleDrop(Vector3 groundPosition)
+        private async UniTaskVoid HandleDrop(Vector3 groundPosition)
         {
             Vector3 airPosition = groundPosition + Vector3.up * 100f;
             Debug.Log($"Instantiating flare at: {airPosition}");
@@ -118,7 +118,7 @@ namespace Terra.LootSystem.AirDrop
             if (flare == null)
             {
                 Debug.LogError("Flare prefab nie ma komponentu FlareLandingNotifier!");
-                yield break;
+                
             }
 
             bool landed = flare.HasLanded;
@@ -133,12 +133,12 @@ namespace Terra.LootSystem.AirDrop
 
             Debug.Log("Czekam aż flara wyląduje...");
 
-            while (!landed)
-                yield return null;
+            await UniTask.WaitUntil( ()=> landed, cancellationToken:CancellationToken);
+              
 
             Debug.Log("Flara wylądowała. Czekam na skrzynkę...");
 
-            yield return new WaitForSeconds(_crateDelay);
+            await UniTask.WaitForSeconds(_crateDelay, cancellationToken:CancellationToken);
 
             groundPosition.y += _crateHeightSpawnOffset;
             

@@ -1,17 +1,21 @@
-using System;
+using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Extensions;
+using Terra.Managers;
 using UnityEngine;
 
 namespace Terra.LootSystem.AirDrop
 {
     public class CrateLanding : MonoBehaviour
     {
-        [SerializeField] private Rigidbody _rb;
+        [SerializeField] private AudioClip _dropSound;
         [SerializeField] private LayerMask _setToLayerAfterHit;
+        [SerializeField, ReadOnly] private AudioSource _audioSource;
+        [SerializeField, ReadOnly] private Rigidbody _rb;
         private AirdropDamageHandler _damageHandler;
         private IDamageable _selfDamageable;
         private bool _isHit;
+        
         private void Awake()
         { 
             _damageHandler = GetComponentInChildren<AirdropDamageHandler>();           
@@ -44,6 +48,7 @@ namespace Terra.LootSystem.AirDrop
             else
             {
                 gameObject.SetLayer(_setToLayerAfterHit, true);
+                if (_dropSound) AudioManager.Instance.PlaySFXAtSourceOnce(_dropSound, _audioSource);
             }
 
             Destroy(this);
@@ -56,6 +61,7 @@ namespace Terra.LootSystem.AirDrop
         private void OnValidate()
         {
             if(!_rb) _rb = GetComponent<Rigidbody>();
+            if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
     }
 }
