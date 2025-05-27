@@ -1,34 +1,41 @@
 using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
+using Terra.Core.Generics;
+using Terra.Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Terra.LootSystem.AirDrop
 {
-    public class AirdropSpawner : MonoBehaviour
+    public class AirdropManager : MonoBehaviourSingleton<AirdropManager>, IWithSetUp
     {
-        public GameObject flarePrefab;
-        public GameObject cratePrefab;
+        [SerializeField] private FlareLandingNotifier flarePrefab;
+        [SerializeField] private GameObject cratePrefab;
         [SerializeField] private Transform dropContainer;
 
-        public float dropInterval = 60f;
-        public float crateDelay = 5f;
-
-        [HideInInspector]
-        public Vector3 spawnAreaCenter;
-        [HideInInspector]
-        public Vector3 spawnAreaSize;
+        [SerializeField] private float _distanceToEdge = 0.5f;
+        [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
+        [SerializeField] private float _crateDelay = 5f;
+        [SerializeField] private float _crateHeightSpawnOffset = 10f;
+        [Foldout("Debug"), ReadOnly][SerializeField]private Vector3 spawnAreaCenter;
+        [Foldout("Debug"), ReadOnly][SerializeField] private Vector3 spawnAreaSize;
 
         private LayerMask _groundLayer;
-        private float _distanceToEdge = 0.5f;
+        
 
-        void Start()
+        protected override void Awake()
         {
-            _groundLayer = LayerMask.GetMask("Ground");
+            _groundLayer = LayerMask.NameToLayer("Ground");
             CalculateGroundBounds();
-            StartCoroutine(AirdropLoop());
         }
 
+        public void SetUp()
+        {
+            _ = AirdropLoop().AttachExternalCancellation(CancellationToken);
+        }
+        
         private void CalculateGroundBounds()
         {
             Collider[] groundColliders = FindObjectsOfType<Collider>();
@@ -64,12 +71,13 @@ namespace Terra.LootSystem.AirDrop
             Debug.Log($"Ground bounds: Center={spawnAreaCenter}, Size={spawnAreaSize}");
         }
 
-        private IEnumerator AirdropLoop()
+        private async UniTask AirdropLoop()
         {
             Debug.Log("Airdrop loop started.");
             while (true)
             {
-                yield return new WaitForSeconds(dropInterval);
+                float spawnDelay = Random.Range(_dropIntervalRange.x, _dropIntervalRange.y); ;
+                await UniTask.WaitForSeconds(spawnDelay);
 
                 Debug.Log("Dropping flare...");
 
@@ -88,7 +96,7 @@ namespace Terra.LootSystem.AirDrop
             float x = Random.Range(spawnAreaCenter.x - halfX, spawnAreaCenter.x + halfX);
             float z = Random.Range(spawnAreaCenter.z - halfZ, spawnAreaCenter.z + halfZ);
 
-            Vector3 rayOrigin = new Vector3(x, spawnAreaCenter.y + 100f, z);
+            Vector3 rayOrigin = new Vector3(x, spawnAreaCenter.y + 20f, z);
             if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 200f, _groundLayer))
             {
                 Debug.Log($"Found ground at: {hit.point}");
@@ -104,19 +112,19 @@ namespace Terra.LootSystem.AirDrop
             Vector3 airPosition = groundPosition + Vector3.up * 100f;
             Debug.Log($"Instantiating flare at: {airPosition}");
 
-            GameObject flare = Instantiate(flarePrefab, airPosition, Quaternion.identity, dropContainer);
-            FlareLandingNotifier notifier = flare.GetComponent<FlareLandingNotifier>();
+            FlareLandingNotifier flare = Instantiate(flarePrefab, airPosition, Quaternion.identity, dropContainer);
 
-            if (notifier == null)
+
+            if (flare == null)
             {
                 Debug.LogError("Flare prefab nie ma komponentu FlareLandingNotifier!");
                 yield break;
             }
 
-            bool landed = notifier.HasLanded;
+            bool landed = flare.HasLanded;
             if (!landed)
             {
-                notifier.OnLanded += () =>
+                flare.OnLanded += () =>
                 {
                     Debug.Log("Flare landed event triggered.");
                     landed = true;
@@ -130,10 +138,13 @@ namespace Terra.LootSystem.AirDrop
 
             Debug.Log("Flara wylądowała. Czekam na skrzynkę...");
 
-            yield return new WaitForSeconds(crateDelay);
+            yield return new WaitForSeconds(_crateDelay);
 
-            Debug.Log($"Instantiating crate at: {groundPosition + Vector3.up * 1f}");
-            Instantiate(cratePrefab, groundPosition + Vector3.up * 1f, Quaternion.identity, dropContainer);
+            groundPosition.y += _crateHeightSpawnOffset;
+            
+            Debug.Log($"Instantiating crate at: {groundPosition}");
+            
+            Instantiate(cratePrefab, groundPosition, Quaternion.identity, dropContainer);
         }
 
         private void OnDrawGizmosSelected()
@@ -143,6 +154,11 @@ namespace Terra.LootSystem.AirDrop
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireCube(spawnAreaCenter, spawnAreaSize);
             }
+        }
+        
+        public void TearDown()
+        {
+            
         }
     }
 }

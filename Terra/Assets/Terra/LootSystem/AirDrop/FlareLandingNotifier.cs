@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Terra.LootSystem.AirDrop
@@ -9,6 +10,8 @@ namespace Terra.LootSystem.AirDrop
 
         private bool _hasLanded = false;
         public bool HasLanded => _hasLanded;
+        
+        [SerializeField, ReadOnly] Rigidbody _rigidbody;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -18,8 +21,17 @@ namespace Terra.LootSystem.AirDrop
             {
                 Debug.Log("Flare landed on ground.");
                 _hasLanded = true;
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.isKinematic = true;
+                _rigidbody.useGravity = false;
+                _rigidbody.constraints = RigidbodyConstraints.FreezePosition;
                 OnLanded?.Invoke();
             }
+        }
+
+        private void OnValidate()
+        {
+            if(!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
         }
     }
 }

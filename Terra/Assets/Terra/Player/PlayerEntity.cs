@@ -19,7 +19,7 @@ namespace Terra.Player
         private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private StatusContainer _statusContainer;
-        public bool CanBeDamaged { get; set; } = true;
+        public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public bool CanBeHealed => _healthController.CanBeHealed;
         public bool IsInvincible => _healthController.IsInvincible;
         public float MaxHealth => _healthController.MaxHealth;
@@ -45,10 +45,9 @@ namespace Terra.Player
         public void SetUp()
         {
             _statusContainer = new StatusContainer(this);
-            _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, true);
+            _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, CancellationToken, true);
             _healthController.OnDeath += (this as IDamageable).OnDeath;
             HPSlider.Instance.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
-            CanBeDamaged = true;
         }
 
         private void Update()
@@ -77,7 +76,6 @@ namespace Terra.Player
         }
         private void OnDeath()
         {
-            CanBeDamaged = false;
             PlayerManager.Instance.OnPlayerDeathNotify();
         }
         

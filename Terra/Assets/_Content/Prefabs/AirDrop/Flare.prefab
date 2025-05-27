@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 2967336599148840749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.24, y: 0.03, z: 0}
+  m_LocalPosition: {x: 0.555, y: 0.698, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -150,9 +150,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 0.87565076, b: 0.0039215684, a: 1}
-  m_Intensity: 2
-  m_Range: 5
+  m_Color: {r: 1, g: 0.2760729, b: 0, a: 1}
+  m_Intensity: 1.5
+  m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -188,7 +188,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -239,6 +239,7 @@ MonoBehaviour:
   minIntensity: 2
   maxIntensity: 5
   flickerSpeed: 0.1
+  _light: {fileID: 8666933444630377222}
 --- !u!1 &6679672376958221553
 GameObject:
   m_ObjectHideFlags: 0
@@ -5100,7 +5101,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 86.34144, y: 101.46, z: 98.16611}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 0.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8232403450878813543}
@@ -5116,8 +5117,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7813380913943337015}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 0.8
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -5134,7 +5135,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!65 &6602071480513227518
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5142,20 +5143,20 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7813380913943337015}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 031d23fc221e0f542a06b0503f9409a2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65792
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65271
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.97637177, y: 0.7333716, z: 0.3938675}
+  m_Center: {x: -0.22802353, y: 0.25108916, z: 0.038146973}
 --- !u!114 &3421784659982580509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5168,3 +5169,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4800b79bab2b74e961e651323f641a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 8071504688529136924}

@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Terra.Core.ModifiableValue;
 using Terra.Extensions;
 using UnityEngine;
@@ -12,19 +14,23 @@ namespace Terra.Combat
     public class HealthController
     {
 
-        [SerializeField] private ModifiableValue maxHealth;
-        [SerializeField] private float currentHealth=10;
+        [SerializeField] private ModifiableValue _maxHealth;
+        [SerializeField] private float _currentHealth;
 
-        [SerializeField] private bool canBeHealed = false;
-        [SerializeField] private bool isInvincible = false;
+        [SerializeField] private bool _canBeHealed;
+        [SerializeField] private bool _isInvincible;
 
-        public bool CanBeHealed => canBeHealed;
-        public bool IsInvincible => isInvincible;
-        public float MaxHealth => maxHealth.Value;
-        public float CurrentHealth => currentHealth;
-        public float NormalizedCurrentHealth => currentHealth / maxHealth.Value;
+        [SerializeField] private bool _immuneAfterHit;
+        
+        private static float _invincibilityTimeAfterHit = 0.2f;
+        public bool CanBeHealed => _canBeHealed;
+        public bool IsInvincible => _isInvincible;
+        public float MaxHealth => _maxHealth.Value;
+        public float CurrentHealth => _currentHealth;
+        public bool IsImmuneAfterHit => _immuneAfterHit;
+        public float NormalizedCurrentHealth => _currentHealth / _maxHealth.Value;
 
-        public bool IsDead => currentHealth <= 0;
+        public bool IsDead => _currentHealth <= 0;
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
         public event Action<bool> OnCanBeHealedChanged;
@@ -33,68 +39,78 @@ namespace Terra.Combat
         public event Action<float> OnDamaged;
         public event Action<float> OnHealed;
         
-        public event Action<float, float> OnHealthCreated;
-        public HealthController(ModifiableValue modifiableValue, bool canBeHealed = false)
+        CancellationToken _cancellationToken;
+        public HealthController(ModifiableValue modifiableValue, CancellationToken cancellationToken, bool canBeHealed = false)
         {
-            maxHealth = modifiableValue;
-            currentHealth = maxHealth.Value;
-            this.canBeHealed = canBeHealed;
-            OnHealthCreated?.Invoke(currentHealth, maxHealth.Value);
+            _maxHealth = modifiableValue;
+            _currentHealth = _maxHealth.Value;
+            _canBeHealed = canBeHealed;
+            _cancellationToken = cancellationToken;
         }
-        public HealthController(float maxHealthValue, bool canBeHealed = false)
+        public HealthController(float maxHealthValue, CancellationToken cancellationToken, bool canBeHealed = false)
         {
-            maxHealth = new ModifiableValue(maxHealthValue);
-            currentHealth = maxHealth.Value;
-            this.canBeHealed = canBeHealed;
-            OnHealthCreated?.Invoke(currentHealth, maxHealth.Value);
-
+            _maxHealth = new ModifiableValue(maxHealthValue);
+            _currentHealth = _maxHealth.Value;
+            _canBeHealed = canBeHealed;
+            _cancellationToken = cancellationToken;
         }
 
         /// <summary>
         ///     Damages entity
         /// </summary>
         /// <param name="amount">Amount of damage</param>
-        /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as percentage</param>
-        public void TakeDamage(float amount, bool isPercentage = false)
+        /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as a percentage</param>
+        /// <param name="isSilent">If marked as true, <see cref="OnDamaged"/> won't be called</param>
+        public void TakeDamage(float amount, bool isPercentage = false, bool isSilent = false)
         {
-            
-            if(IsDead) return;
-            
+
+            if (IsDead || IsImmuneAfterHit) return;
+
             float calculatedValue = CalculateValue(amount, isPercentage);
 
             // Change health amount
-            currentHealth -= calculatedValue;
-            
+            _currentHealth -= calculatedValue;
+
             // Clamp value, if invincible then set health to 1
-            currentHealth = Mathf.Max(currentHealth, IsInvincible ? 1f : 0f);
-            
-            OnHealthChanged?.Invoke(currentHealth);
+            _currentHealth = Mathf.Max(_currentHealth, IsInvincible ? 1f : 0f);
+
+
+            OnHealthChanged?.Invoke(_currentHealth);
             OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
-            
-            if (currentHealth <= 0f)
+
+            if (_currentHealth <= 0f)
             {
                 OnDeath?.Invoke();
+                return;
             }
-            else OnDamaged?.Invoke(calculatedValue);
+
+            if (!isSilent)
+            {
+                OnDamaged?.Invoke(calculatedValue);
+            }
+
+            _ = ImmunityTimer().AttachExternalCancellation(_cancellationToken);
         }
-        
+
 
         /// <summary>
         ///     Heals entity
         /// </summary>
+        /// <param name="amount">Heal amount</param>
+        /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as a percentage</param>
         public void Heal(float amount, bool isPercentage = false)
         {
             float calculatedValue = CalculateValue(amount, isPercentage);
             
             // Increase current health
-            currentHealth += calculatedValue;
+            _currentHealth += calculatedValue;
 
             // Clamp to max health
-            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth.Value);
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth.Value);
             
             // Invoke event
             OnHealed?.Invoke(calculatedValue);
-            OnHealthChanged?.Invoke(currentHealth);
+            OnHealthChanged?.Invoke(_currentHealth);
             OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
         }
 
@@ -119,10 +135,10 @@ namespace Terra.Combat
         public void SetInvincible(bool invincible)
         {
             // Invoke event if status is different
-            if(isInvincible != invincible) 
+            if(_isInvincible != invincible) 
                 OnInvincibilityChanged?.Invoke(invincible);
  
-            isInvincible = invincible;
+            _isInvincible = invincible;
  
         }
 
@@ -132,10 +148,10 @@ namespace Terra.Combat
         public void SetCanBeHealed(bool healed)
         {
             // Invoke event if status is different
-            if(canBeHealed != healed) 
+            if(_canBeHealed != healed) 
                 OnCanBeHealedChanged?.Invoke(healed);
             
-            canBeHealed = healed;
+            _canBeHealed = healed;
         }
 
         /// <summary>
@@ -146,7 +162,7 @@ namespace Terra.Combat
         {
             if (isSilent)
             {
-                currentHealth = MaxHealth;
+                _currentHealth = MaxHealth;
                 return;
             }     
             
@@ -158,13 +174,14 @@ namespace Terra.Combat
         /// <param name="isSilent">Does not proke damage VFX when true</param>
         public void Kill(bool isSilent = false)
         {
-            if (isSilent)
-            {
-                OnDeath?.Invoke();
-                return;
-            }
+            TakeDamage(MaxHealth, isSilent: isSilent);
+        }
 
-            TakeDamage(MaxHealth);
+        private async UniTask ImmunityTimer()
+        {
+            _immuneAfterHit = true;
+            await UniTask.WaitForSeconds(_invincibilityTimeAfterHit, cancellationToken: _cancellationToken);
+            _immuneAfterHit = false;
         }
 
     }

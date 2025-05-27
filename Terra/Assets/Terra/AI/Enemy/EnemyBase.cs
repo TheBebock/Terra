@@ -68,7 +68,7 @@ namespace Terra.AI.Enemy
         public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
         public StatusContainer StatusContainer => _statusContainer;
         public bool IsInvincible => _healthController.IsInvincible;
-        public bool CanBeDamaged => _healthController.CurrentHealth > 0f;
+        public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float AttackRange { get; }
         protected AudioSource audioSource;
 
@@ -85,7 +85,7 @@ namespace Terra.AI.Enemy
             }
 
             _statusContainer = new StatusContainer(this);
-            _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth));
+            _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth), CancellationToken);
             attackTimer = new CountdownTimer(GetAttackCooldown());
 
             AttachListeners();

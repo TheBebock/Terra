@@ -1,5 +1,7 @@
+using System;
 using DG.Tweening;
 using NaughtyAttributes;
+using Terra.AI.EnemyStates;
 using Terra.Combat;
 using Terra.Core.ModifiableValue;
 using Terra.EffectsSystem;
@@ -16,36 +18,39 @@ namespace Terra.Environment
     /// </summary>
     public class DamageableObject : InteractableBase, IDamageable, IAttachListeners
     {
-        [SerializeField] private ModifiableValue maxHealth;
-        [SerializeField] private SpriteRenderer propModel;
-
-        [Header("On Damage VFX")] 
-        [SerializeField] private Vector3 scale;
-        [SerializeField] private Vector3 moveOffset;
-        [SerializeField] private Color damagedColor = Color.red;
-        
+        [SerializeField] private ModifiableValue _maxHealth;
+        [SerializeField] private SpriteRenderer _propModel;
+        [SerializeField] private SpriteRenderer _propShadow;
+        [SerializeField] private Animator _propAnimator;
+        [SerializeField, Min(0.1f)] private float _spawnItemOffset = 0.3f;
+            
+        [SerializeField] private Color _onDamagedColor = Color.red;
+        [SerializeField] private float _deathFadeDuration = 2.5f;
+        [SerializeField] private AnimationCurve _deathFadeCurve;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private AudioSource _audioSource;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private Collider _collider;
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
         [Foldout("SFX")] [SerializeField] public AudioClip destroySfx;
-        public bool IsInvincible => _healthController.IsInvincible;
-        public bool CanBeDamaged => _healthController.CurrentHealth > 0;
-        public override bool CanBeInteractedWith { get; protected set; }
-
         
-
+        
+        private Sequence _doSequence;
+        
+        
+        
+        public bool IsInvincible => _healthController.IsInvincible;
+        public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
+        public override bool CanBeInteractedWith { get; protected set; }
+        
         public HealthController HealthController => _healthController;
         public StatusContainer StatusContainer => _statusContainer;
 
-        private Sequence _moveSequence;
-        
-        private AudioSource audioSource;
 
         protected virtual void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
             _statusContainer = new StatusContainer(this);
-            _healthController = new HealthController(maxHealth);
+            _healthController = new HealthController(_maxHealth, CancellationToken);
         }
 
         protected virtual void Update()
@@ -57,23 +62,21 @@ namespace Terra.Environment
         {
             if (!CanBeDamaged) return;
             _healthController.TakeDamage(amount, isPercentage);
+            
             // Show VFX
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
         }
 
         private void OnDamaged(float value)
         {
-            propModel.material.DOColor(damagedColor, 0.25f)
-                .SetLoops(2, LoopType.Yoyo);
-            propModel.transform.DOScale(scale, 0.25f)
-                .SetLoops(2, LoopType.Yoyo);
             
-            Vector3 startPos = propModel.transform.localPosition;
-            
+            _propAnimator.SetTrigger(AnimationHashes.OnDamaged);
 
-            _moveSequence
-                .Append(propModel.transform.DOLocalMove(-moveOffset, 0.2f).SetRelative())
-                .Append(propModel.transform.DOLocalMove(moveOffset * 2f, 0.2f).SetRelative())
-                .Append(propModel.transform.DOLocalMove(startPos, 0.2f));
+            if (_doSequence == null)
+            {
+                _doSequence.Append(_propModel.material.DOColor(_onDamagedColor, 0.25f)
+                    .SetLoops(2, LoopType.Yoyo));
+            }
         }
 
         public void Kill(bool isSilent = false) => _healthController.Kill(isSilent);
@@ -84,13 +87,16 @@ namespace Terra.Environment
         }
         protected virtual void OnDeath()
         {
-            AudioManager.Instance.PlaySFXAtSource(destroySfx, audioSource);
-            propModel.material.DOFade(0f, 2.5f);
-            
-            LootManager.Instance.SpawnRandomItem(transform.position);
-            
-            Destroy(gameObject, 3f);
+            _collider.enabled = false;
+            _propShadow.enabled = false;
 
+            AudioManager.Instance.PlaySFXAtSource(destroySfx, _audioSource);
+            _propAnimator.SetTrigger(AnimationHashes.Death);
+            _propModel.material.DOFade(0f, _deathFadeDuration).SetEase(_deathFadeCurve);
+            Vector3 offset = new Vector3(0, 0, -_spawnItemOffset);
+            LootManager.Instance.SpawnRandomItem(transform.position + offset);
+           
+            Destroy(gameObject, _deathFadeDuration + 0.5f);
         }
         
         public override void OnInteraction()
@@ -115,8 +121,13 @@ namespace Terra.Environment
         protected override void CleanUp()
         {
             base.CleanUp();
-            _moveSequence?.Kill();
+            _doSequence?.Kill();
         }
-        
+
+        private void OnValidate()
+        {
+            if(!_collider) _collider = GetComponent<Collider>();
+            if(!_audioSource) _audioSource = GetComponent<AudioSource>();
+        }
     }
 }

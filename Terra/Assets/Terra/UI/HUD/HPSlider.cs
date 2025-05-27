@@ -30,7 +30,6 @@ namespace Terra.UI.HUD
         {
             PlayerManager.Instance.PlayerEntity.HealthController.OnHealthChangedNormalized += SetSliderValue;
             PlayerManager.Instance.PlayerEntity.HealthController.OnHealthChanged += UpdateCurrentHealth;
-            PlayerManager.Instance.PlayerEntity.HealthController.OnHealthCreated += Init;
             
             PlayerStatsManager.Instance.OnMaxHealthChanged += UpdateMaxHealth;
         }
@@ -57,7 +56,6 @@ namespace Terra.UI.HUD
             {
                 PlayerManager.Instance.PlayerEntity.HealthController.OnHealthChangedNormalized -= SetSliderValue;
                 PlayerManager.Instance.PlayerEntity.HealthController.OnHealthChanged -= UpdateCurrentHealth;
-                PlayerManager.Instance.PlayerEntity.HealthController.OnHealthCreated -= Init;
             }
 
             if (PlayerStatsManager.Instance)
