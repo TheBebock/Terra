@@ -164,7 +164,7 @@ namespace Terra.Managers
 
         private void OnLevelEnd()
         {
-            GameManager.Instance.SwitchToGameState<UpgradeGameState>();
+            GameManager.Instance.SwitchToGameState<EndOfFloorState>();
         }
 
         private Vector3 GetRandomSpawnPosition()

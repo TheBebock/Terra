@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5571074905435104054}
   - component: {fileID: 6853354944451118671}
   - component: {fileID: 3011708763127672821}
+  - component: {fileID: 1165519195851251762}
   - component: {fileID: 3364251591881998357}
   m_Layer: 0
   m_Name: Main Camera
@@ -68,11 +69,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 60.000004
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -116,10 +117,10 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -153,14 +154,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  config:
-    offset: {x: 0, y: 15, z: -15}
-    minConstraints: {x: 75, y: 100, z: 70}
-    maxConstraints: {x: 125, y: 150, z: 90}
-    smoothSpeed: 1
-  currentState:
-    _name: 
-  states: []
+  _spriteMask: {fileID: 6657519624193426700}
+  _cinemachineBrain: {fileID: 1165519195851251762}
+  _followPlayerCamera: {fileID: 0}
+  _elevatorCamera: {fileID: 0}
+  _elevatorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.009886242
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.43191653
+      value: 0.6498976
+      inSlope: 1.4125936
+      outSlope: 1.4125936
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.73804283
+      value: 1.0813432
+      inSlope: 0.5171274
+      outSlope: 0.5171274
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9983884
+      value: 1.000873
+      inSlope: -0.15435159
+      outSlope: -0.15435159
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1347025
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _upwardsPath: {fileID: 0}
+  _downwardsPath: {fileID: 0}
+  _pathTransform: {fileID: 0}
+  _dollyDuration: 3
+  _currentElevatorPathProgress: 0
+  _mainCamera: {fileID: 2299763789462783656}
+--- !u!114 &1165519195851251762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3335581170440290334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3364251591881998357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,7 +269,7 @@ GameObject:
   - component: {fileID: 4293342902464258884}
   - component: {fileID: 5882741317273066626}
   m_Layer: 0
-  m_Name: Mask
+  m_Name: SpriteMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

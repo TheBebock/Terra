@@ -172,8 +172,8 @@ RectTransform:
   m_GameObject: {fileID: 4853851017480522746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.01, y: 1.01, z: 1.01}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1028948845667244236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -502,6 +502,7 @@ MonoBehaviour:
   - {fileID: 8731669036002200415}
   - {fileID: 9170438856966539622}
   acceptButton: {fileID: 2197929521292473020}
+  currentlyActiveToogle: {fileID: 0}
 --- !u!114 &6790220197464283819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,17 +1101,72 @@ PrefabInstance:
     - target: {fileID: 4298173522593531519, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
         type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4298173522593531519, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
         type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4298173522593531519, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
         type: 3}
       propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].normalColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].normalColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].normalColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].pressedColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].pressedColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].pressedColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].highlightedColor.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].highlightedColor.b
+      value: 0.1981132
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].highlightedColor.g
+      value: 0.1981132
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539668851659322578, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
+        type: 3}
+      propertyPath: targetGraphics.Array.data[0].highlightedColor.r
+      value: 0.1981132
       objectReference: {fileID: 0}
     - target: {fileID: 7391065491099391211, guid: 2324fcf8e4d3ece4f8a1151a7d2e33b1,
         type: 3}

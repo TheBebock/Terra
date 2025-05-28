@@ -47,7 +47,7 @@ namespace Terra.Player
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, CancellationToken, true);
             _healthController.OnDeath += (this as IDamageable).OnDeath;
-            HPSlider.Instance.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
+            HUDManager.Instance.HPSlider.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
         }
 
         private void Update()

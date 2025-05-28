@@ -9,7 +9,6 @@ namespace Terra.GameStates
         public override void OnEnter()
         {
             base.OnEnter();
-            WaveManager.Instance.StopWaves();
             TimeManager.Instance.AddPauseLock(this);
             TimeManager.Instance.PauseTime();
             UIWindowManager.Instance.OpenWindow<RewardWindow>();

@@ -2,12 +2,13 @@ using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Player;
 using TMPro;
+using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
-    public class HPSlider : MonoBehaviourSingleton<HPSlider>
+    public class HPSlider : UIObject
     {
         [SerializeField] private Slider _slider;
         [SerializeField] private TMP_Text _currentHealthText;

@@ -1,0 +1,42 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Terra.Managers;
+using Terra.Player;
+using Terra.UI.HUD;
+
+namespace Terra.GameStates
+{
+    public class EndOfFloorState : GameState
+    {
+        private CancellationToken _cancellationTokentoken;
+        public EndOfFloorState(CancellationToken cancellationToken)
+        {
+            _cancellationTokentoken = cancellationToken;
+        }
+        public override void OnEnter() 
+        {
+            base.OnEnter();
+        
+            WaveManager.Instance?.StopWaves();
+            InputManager.Instance.SetPlayerControlsState(false);
+            InputManager.Instance.SetAllTimeControlsState(false);
+            _ = StartAnimation();
+        }
+
+        //TODO: Move all the different values for the animations into the GameManager
+        private async UniTaskVoid StartAnimation()
+        {
+            //AudioManger.Instance.PlaySFX("...")
+            HUDManager.Instance.HideGameplayHUD();
+            await HUDManager.Instance.ElevatorDoors.CloseDoors();
+            CameraManager.Instance.SpriteMask.SetActive(false);
+            CameraManager.Instance.ChangeToElevatorCamera();
+            await CameraManager.Instance.StartElevatorAnimation();
+            await HUDManager.Instance.FadeInDarkScreen(1.5f);
+            PlayerManager.Instance.MovePlayerToStartingPosition();
+            GameManager.Instance.SwitchToGameState<UpgradeGameState>();
+            CameraManager.Instance.SpriteMask.SetActive(true);
+
+        }
+    }
+}

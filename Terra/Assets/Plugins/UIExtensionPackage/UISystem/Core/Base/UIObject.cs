@@ -95,8 +95,13 @@ namespace UIExtensionPackage.UISystem.Core.Base
             _activeState = state;
         }
         
+        protected virtual void CleanUp()
+        {
+        }
         protected virtual void OnDestroy()
         {
+            CleanUp();
+            
             if (this is IWithSetup setup)
             {
                 setup.TearDown();

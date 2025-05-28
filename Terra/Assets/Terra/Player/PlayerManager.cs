@@ -24,10 +24,11 @@ namespace Terra.Player
         private PlayerAttackController _playerAttackController;
         [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine _stateMachine;
         
+        [Foldout("References")] [SerializeField] private Vector3 _startingPlayerPosition;
         [Foldout("References")] [SerializeField] private PlayerMovement _playerMovement;
         [Foldout("References")] [SerializeField] private Animator _playerAnimator;
         [Foldout("References")] [SerializeField] private PlayerEntity _playerEntity;
-        [Foldout("References")] [SerializeField]private AudioSource _audioSource;
+        [Foldout("References")] [SerializeField] private AudioSource _audioSource;
 
 
         public Vector3 CurrentPosition => transform.position;
@@ -46,6 +47,12 @@ namespace Terra.Player
         public IState GetLastState()
         {
             return _stateMachine.GetPreviousState();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _startingPlayerPosition = transform.position;
         }
 
         public void SetUp()
@@ -100,6 +107,11 @@ namespace Terra.Player
             if(_isPlayerDead) return;
 
             _stateMachine?.FixedUpdate();
+        }
+
+        public void MovePlayerToStartingPosition()
+        {
+            transform.position = _startingPlayerPosition;
         }
 
         public void OnPlayerDeathNotify()

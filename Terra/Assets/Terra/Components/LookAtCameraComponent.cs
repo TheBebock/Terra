@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Terra.CameraController;
 using Terra.Core.Generics;
 using Terra.Extensions;
 using Terra.Interfaces;
+using Terra.Managers;
 using UnityEngine;
 
 namespace Terra.Components

@@ -13,7 +13,9 @@
         "UIExtensionPackage.UISystem",
         "UISystem.Generics",
         "UniTask.Editor",
-        "UnityEditor.UI"
+        "UnityEditor.UI",
+        "Cinemachine",
+        "DOTween.Modules"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

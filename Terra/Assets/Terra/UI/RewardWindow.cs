@@ -34,7 +34,7 @@ namespace Terra.UI
             // TODO: Apply reward for player
             currentlyActiveToogle.ApplyReward();
 
-            GameManager.Instance.SwitchToGameState<GameplayState>();
+            GameManager.Instance.SwitchToGameState<StartOfFloorState>();
             Close();
         }
 

@@ -1,5 +1,6 @@
 using System;
 using Terra.Managers;
+using Terra.UI.HUD;
 using UnityEngine;
 
 namespace Terra.GameStates
@@ -11,6 +12,9 @@ namespace Terra.GameStates
         public override void OnEnter()
         {
             base.OnEnter();
+            
+            HUDManager.Instance?.ShowGameplayHUD();
+            
             if (WaveManager.Instance)
             {
                 WaveManager.Instance.StartWaves();
@@ -21,9 +25,9 @@ namespace Terra.GameStates
                 Debug.LogError($"{this}: No Wave Manager found");
             }
             
-            InputManager.Instance.SetPlayerControlsState(true);
-            InputManager.Instance.SetAllTimeControlsState(true);
-            TimeManager.Instance.ResumeTime();
+            InputManager.Instance?.SetPlayerControlsState(true);
+            InputManager.Instance?.SetAllTimeControlsState(true);
+            TimeManager.Instance?.ResumeTime();
             
         }
     }
