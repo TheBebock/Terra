@@ -36,6 +36,11 @@ namespace Terra.Managers
         private AudioLowPassFilter AmbientAudioLowPassFilter;
         
         
+        public void SetUp()
+        {
+            
+        }
+
         
         public void PlayMusic(string clip)
         {
@@ -179,10 +184,6 @@ namespace Terra.Managers
         public void SetMusicVolume(float value) => SetVolume("MusicVolume", value);
         public void SetAmbientVolume(float value) => SetVolume("AmbientVolume", value);
 
-        public void SetUp()
-        {
-            PlayMusic("Music");
-        }
 
         public void TearDown()
         {

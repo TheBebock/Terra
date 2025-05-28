@@ -70,7 +70,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 5000
+  far clip plane: 100
   field of view: 60.000004
   orthographic: 0
   orthographic size: 10
@@ -163,7 +163,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.009886242
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -171,31 +171,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.43191653
-      value: 0.6498976
-      inSlope: 1.4125936
-      outSlope: 1.4125936
+      time: 0.76804805
+      value: 0.55620503
+      inSlope: 1.1194293
+      outSlope: 1.1194293
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.73804283
-      value: 1.0813432
-      inSlope: 0.5171274
-      outSlope: 0.5171274
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9983884
-      value: 1.000873
-      inSlope: -0.15435159
-      outSlope: -0.15435159
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.1347025
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -203,7 +194,7 @@ MonoBehaviour:
   _upwardsPath: {fileID: 0}
   _downwardsPath: {fileID: 0}
   _pathTransform: {fileID: 0}
-  _dollyDuration: 3
+  _dollyDuration: 5.9
   _currentElevatorPathProgress: 0
   _mainCamera: {fileID: 2299763789462783656}
 --- !u!114 &1165519195851251762
@@ -225,8 +216,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
+    m_Style: 2
+    m_Time: 0.5
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -285,7 +276,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.41, z: 3.73}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 266426143114503830}

@@ -24,7 +24,7 @@ namespace Terra.GameStates
             HUDManager.Instance.ElevatorDoors.ForceSetDoorOpenPercentage(0);
             HUDManager.Instance.HideGameplayHUD();
             CameraManager.Instance.ChangeToElevatorCamera();
-
+            AudioManager.Instance.PlayMusic("track_1");
             _ = StartAnimation();
         }
 
