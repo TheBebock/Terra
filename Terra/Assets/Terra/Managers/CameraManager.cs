@@ -47,6 +47,11 @@ namespace Terra.Managers
         {
             SetNewVCamTopPriority(_followPlayerCamera);
         }
+
+        public void SetCameraBlendStyle(CinemachineBlendDefinition.Style newBlendStyle = CinemachineBlendDefinition.Style.EaseInOut, float time = 0.5f)
+        {
+            _cinemachineBrain.m_DefaultBlend =  new CinemachineBlendDefinition(newBlendStyle, time);
+        }
         
         public void ChangeToElevatorCamera()
         {

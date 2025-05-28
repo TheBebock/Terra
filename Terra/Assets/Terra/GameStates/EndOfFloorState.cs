@@ -1,4 +1,5 @@
 using System.Threading;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Terra.Managers;
 using Terra.Player;
@@ -16,10 +17,14 @@ namespace Terra.GameStates
         public override void OnEnter() 
         {
             base.OnEnter();
-        
-            WaveManager.Instance?.StopWaves();
             InputManager.Instance.SetPlayerControlsState(false);
             InputManager.Instance.SetAllTimeControlsState(false);
+            
+            CameraManager.Instance.SetCameraBlendStyle();
+            CameraManager.Instance.SpriteMask.SetActive(false);
+            
+            HUDManager.Instance.HideGameplayHUD();
+
             _ = StartAnimation();
         }
 
@@ -27,14 +32,20 @@ namespace Terra.GameStates
         private async UniTaskVoid StartAnimation()
         {
             //AudioManger.Instance.PlaySFX("...")
-            HUDManager.Instance.HideGameplayHUD();
+
             await HUDManager.Instance.ElevatorDoors.CloseDoors();
-            CameraManager.Instance.SpriteMask.SetActive(false);
             CameraManager.Instance.ChangeToElevatorCamera();
             await CameraManager.Instance.StartElevatorAnimation();
             await HUDManager.Instance.FadeInDarkScreen(1.5f);
-            PlayerManager.Instance.MovePlayerToStartingPosition();
             GameManager.Instance.SwitchToGameState<UpgradeGameState>();
+
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            
+            PlayerManager.Instance.MovePlayerToStartingPosition();
             CameraManager.Instance.SpriteMask.SetActive(true);
             CameraManager.Instance.ForceSetElevatorCameraPosition(0f, true);
         }

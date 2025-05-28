@@ -178,8 +178,8 @@ namespace Terra.Managers
         protected override void CleanUp()
         {
             base.CleanUp();
-            _linkedCts.Dispose();
-            _waveCancellationTokenSource.Dispose();
+            _linkedCts?.Dispose();
+            _waveCancellationTokenSource?.Dispose();
         }
 
         public void AttachListeners()

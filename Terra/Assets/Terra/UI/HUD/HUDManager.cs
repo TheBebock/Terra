@@ -32,6 +32,10 @@ namespace Terra.UI.HUD
             }
         }
 
+        public void ForceSetDarkScreenAlpha(float alpha)
+        {
+            _darkScreen.color = new Color(0,0,0, alpha);
+        }
         public async UniTask FadeInDarkScreen(float duration)
         {
             _darkSequence?.Kill();

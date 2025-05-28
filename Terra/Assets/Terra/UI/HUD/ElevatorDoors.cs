@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Terra.Extensions;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
@@ -14,14 +15,23 @@ namespace Terra.UI.HUD
         [SerializeField] private Image _leftDoor;
         [SerializeField] private Image _rightDoor;
         [SerializeField] private AudioClip _doorsSound;
-        [SerializeField] private float _doorsOffset = 1920;
+        [SerializeField] private float _doorsOffset = 960;
         [SerializeField] private float _animationDuration = 2f;
         [SerializeField] private AnimationCurve _openAnimationCurve;
         [FormerlySerializedAs("_animationCurve")][SerializeField] private AnimationCurve _closeAnimationCurve;
 
         private Sequence _doorSequence;
 
-        public async UniTask OpenDoors()
+        public void ForceSetDoorOpenPercentage(float openPercentage)
+        {
+            openPercentage = Mathf.Clamp(openPercentage, 0f, 100f);
+            float newOffset = openPercentage.ToFactor() * _doorsOffset;
+            
+            _leftDoor.rectTransform.DOMoveX(-newOffset , 0.1f);
+            _rightDoor.rectTransform.DOMoveX(newOffset + _doorsOffset*2, 0.1f);
+        }
+        
+        public async UniTask OpenDoors() 
         {
             if (_doorsSound)
             {
@@ -31,12 +41,12 @@ namespace Terra.UI.HUD
             _doorSequence = DOTween.Sequence();
 
             _doorSequence.Append(_leftDoor.rectTransform
-                    .DOLocalMoveX(-_doorsOffset, _animationDuration)
+                    .DOMoveX(-_doorsOffset, _animationDuration)
                     .SetEase(_openAnimationCurve)
             );
                 
             _doorSequence.Join(_rightDoor.rectTransform
-                .DOLocalMoveX(_doorsOffset, _animationDuration)
+                .DOMoveX(_doorsOffset*3, _animationDuration)
                 .SetEase(_openAnimationCurve)
             );
             
@@ -54,12 +64,12 @@ namespace Terra.UI.HUD
             _doorSequence = DOTween.Sequence();
             
             _doorSequence.Append(_leftDoor.rectTransform
-                .DOLocalMoveX(-_doorsOffset/2, _animationDuration)
+                .DOMoveX(0, _animationDuration)
                 .SetEase(_closeAnimationCurve)
             );
             
             _doorSequence.Join(_rightDoor.rectTransform
-                    .DOLocalMoveX(_doorsOffset/2, _animationDuration)
+                    .DOMoveX(_doorsOffset*2, _animationDuration)
                     .SetEase(_closeAnimationCurve)
             );
 

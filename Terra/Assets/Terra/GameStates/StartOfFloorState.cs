@@ -1,4 +1,5 @@
 using System.Threading;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Terra.Managers;
 using Terra.UI.HUD;
@@ -17,8 +18,13 @@ namespace Terra.GameStates
             base.OnEnter();
             InputManager.Instance.SetPlayerControlsState(false);
             InputManager.Instance.SetPlayerControlsState(false);
-            HUDManager.Instance.HideGameplayHUD();
             CameraManager.Instance.SpriteMask.SetActive(false);
+            CameraManager.Instance.SetCameraBlendStyle(CinemachineBlendDefinition.Style.Cut);
+            HUDManager.Instance.ForceSetDarkScreenAlpha(1f);
+            HUDManager.Instance.ElevatorDoors.ForceSetDoorOpenPercentage(0);
+            HUDManager.Instance.HideGameplayHUD();
+            CameraManager.Instance.ChangeToElevatorCamera();
+
             _ = StartAnimation();
         }
 
@@ -26,15 +32,12 @@ namespace Terra.GameStates
         private async UniTaskVoid StartAnimation()
         {
             
-            CameraManager.Instance.ChangeToElevatorCamera();
             await HUDManager.Instance.FadeOutDarkScreen(1.5f);
             await CameraManager.Instance.StartElevatorAnimation(useUpwardsPath:true);
-            CameraManager.Instance?.ChangeToFollowPlayerCamera();
             
-            if (HUDManager.Instance)
-            {
-                await HUDManager.Instance.ElevatorDoors.OpenDoors();
-            }
+            CameraManager.Instance.ChangeToFollowPlayerCamera();
+            await HUDManager.Instance.ElevatorDoors.OpenDoors();
+            
             
             CameraManager.Instance?.SpriteMask.SetActive(true);
             GameManager.Instance?.SwitchToGameState<GameplayState>();
