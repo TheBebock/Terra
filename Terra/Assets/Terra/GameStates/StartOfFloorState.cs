@@ -25,7 +25,7 @@ namespace Terra.GameStates
             HUDManager.Instance.HideGameplayHUD();
             CameraManager.Instance.ChangeToElevatorCamera();
             await HUDManager.Instance.FadeOutDarkScreen(1.5f);
-            await CameraManager.Instance.StartElevatorAnimation(true);
+            await CameraManager.Instance.StartElevatorAnimation(useUpwardsPath:true);
             CameraManager.Instance?.ChangeToFollowPlayerCamera();
             
             if (HUDManager.Instance)

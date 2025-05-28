@@ -36,7 +36,7 @@ namespace Terra.GameStates
             PlayerManager.Instance.MovePlayerToStartingPosition();
             GameManager.Instance.SwitchToGameState<UpgradeGameState>();
             CameraManager.Instance.SpriteMask.SetActive(true);
-
+            CameraManager.Instance.ForceSetElevatorCameraPosition(0f, true);
         }
     }
 }

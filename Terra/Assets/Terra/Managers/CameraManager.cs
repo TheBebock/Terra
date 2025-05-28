@@ -52,11 +52,19 @@ namespace Terra.Managers
         {
             SetNewVCamTopPriority(_elevatorCamera);
         }
-        
-        public async UniTask StartElevatorAnimation(bool useUpwardsPath = false, float startingPathProgress = 0f)
+
+        public void ForceSetElevatorCameraPosition(float normalizedPathProgress, bool useUpwardsPath = false)
         {
-            startingPathProgress = Mathf.Clamp01(startingPathProgress);
-            _currentElevatorPathProgress = startingPathProgress;
+            normalizedPathProgress = Mathf.Clamp01(normalizedPathProgress);
+            _currentElevatorPathProgress = normalizedPathProgress;
+            
+            _elevatorTrackedDolly.m_Path = useUpwardsPath ? _upwardsPath : _downwardsPath;
+            
+            _elevatorTrackedDolly.m_PathPosition = _currentElevatorPathProgress;
+        }
+        public async UniTask StartElevatorAnimation(bool useUpwardsPath = false)
+        {
+            _currentElevatorPathProgress = 0;
             
             _elevatorTrackedDolly.m_Path = useUpwardsPath ? _upwardsPath : _downwardsPath;
             _pathTransform.position = useUpwardsPath ? _startingLevelPosition
