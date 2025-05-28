@@ -41,16 +41,7 @@ namespace Terra.Managers
 
         public void SetUp()
         {
-                
-#if UNITY_EDITOR
-            if (ScenesManager.Instance.CurrentSceneName == SceneNames.Gameplay)
-            {
-                SwitchToGameState<GameplayState>();
-                return;
-            }
-#endif
-        
-            SwitchToGameState<GameplayState>();
+            SwitchToGameState<StartOfFloorState>();
         }
     
 

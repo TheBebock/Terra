@@ -15,6 +15,9 @@ namespace Terra.GameStates
         public override void OnEnter() 
         {
             base.OnEnter();
+            InputManager.Instance.SetPlayerControlsState(false);
+            InputManager.Instance.SetPlayerControlsState(false);
+            HUDManager.Instance.HideGameplayHUD();
             CameraManager.Instance.SpriteMask.SetActive(false);
             _ = StartAnimation();
         }
@@ -22,7 +25,7 @@ namespace Terra.GameStates
         //TODO: Move all the different values for the animations into the GameManager
         private async UniTaskVoid StartAnimation()
         {
-            HUDManager.Instance.HideGameplayHUD();
+            
             CameraManager.Instance.ChangeToElevatorCamera();
             await HUDManager.Instance.FadeOutDarkScreen(1.5f);
             await CameraManager.Instance.StartElevatorAnimation(useUpwardsPath:true);
