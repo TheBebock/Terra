@@ -147,8 +147,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.1255646, y: 1, z: 1}
+  m_Center: {x: -0.06278229, y: 0, z: 0}
 --- !u!208 &5259803077617614644
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -177,10 +177,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd21e51b337aee4788af369085bb4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 8454795406954784286}
+  _dropSound: {fileID: 0}
   _setToLayerAfterHit:
     serializedVersion: 2
     m_Bits: 1024
+  _audioSource: {fileID: 3738220313931052250}
+  _rb: {fileID: 8454795406954784286}
 --- !u!54 &8454795406954784286
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -509,7 +511,7 @@ Transform:
   m_GameObject: {fileID: 8787745343714061282}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.08, y: -0.9489975, z: -0.71}
+  m_LocalPosition: {x: 0.08, y: -0.9489975, z: -0.996}
   m_LocalScale: {x: 0.76513803, y: 0.17409731, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
