@@ -92,6 +92,17 @@ namespace Terra.Managers
             SpawnPickupContainer(pickup, pickupPosition);
         }
 
+        public void SpawnCrystalPickup(Vector3 pickupPosition)
+        {
+            PickupBase pickup = lootTable.GetRandomCrystalPickup();
+            if (pickup == null)
+            {
+                Debug.LogError($"{this}: Pickup could not be found");
+                return;
+            }
+            SpawnPickupContainer(pickup, pickupPosition);
+        }
+
         private void SpawnPickupContainer(PickupBase pickup, Vector3 pickupPosition)
         {
             PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupPosition, Quaternion.identity);

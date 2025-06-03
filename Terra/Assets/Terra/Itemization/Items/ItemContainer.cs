@@ -24,7 +24,7 @@ namespace Terra.Itemization.Items
 
         [SerializeField, ReadOnly] private ItemBase _item;
         
-        [FormerlySerializedAs("itemRenderer")] [SerializeField] private SpriteRenderer _itemRenderer;
+        [SerializeField] private SpriteRenderer _itemRenderer;
 
         Tween _tween;
         private void Awake()

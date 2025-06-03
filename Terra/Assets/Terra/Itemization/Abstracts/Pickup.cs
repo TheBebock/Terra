@@ -20,14 +20,11 @@ namespace Terra.Itemization.Abstracts
     [Serializable]
     public class PickupBase
     {
-        public virtual string PickupName { get; }
-        public virtual PickupType PickupType { get; }
-        
-        public virtual Sprite ItemIcon { get; }
-        public virtual float DropRate { get; }
-
+        public virtual string PickupName => throw new NotImplementedException();
+        public virtual PickupType PickupType => throw new NotImplementedException();
+        public virtual Sprite ItemIcon => throw new NotImplementedException();
+        public virtual float DropRate => throw new NotImplementedException();
         public virtual void OnPickUp() { }
-
     }
     
     /// <summary>

@@ -40,8 +40,6 @@ namespace Terra.AI.Enemy
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
     public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
-
-
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
 
@@ -72,6 +70,11 @@ namespace Terra.AI.Enemy
         public abstract float AttackRange { get; }
         protected AudioSource audioSource;
 
+        protected Vector3 ItemsSpawnPosition => new(
+            transform.position.x, 
+            transform.position.y,
+            transform.position.z - 1f);
+        
         /// <summary>
         /// Initializes health, timer, and builds the AI state machine.
         /// </summary>
@@ -188,6 +191,8 @@ namespace Terra.AI.Enemy
             agent.velocity = Vector3.zero;
             agent.enabled = false;
 
+            LootManager.Instance.SpawnCrystalPickup(ItemsSpawnPosition);
+            
             Destroy(gameObject, 5f); 
         }
 
