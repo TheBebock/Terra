@@ -13,7 +13,7 @@ namespace Terra.Itemization.Pickups
 
         public override void OnPickUp()
         {
-            PlayerManager.Instance.PlayerEntity.Heal(Data.healthAmount);
+            PlayerManager.Instance.PlayerEntity.Heal(Data.maxHealthHealAmount, true);
         }
         
     }

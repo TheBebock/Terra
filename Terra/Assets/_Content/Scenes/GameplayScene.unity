@@ -5616,15 +5616,19 @@ MonoBehaviour:
   P_itemContainer: {fileID: 7648631588216878980, guid: b6f1c063963492c458a6932bf9a95f09,
     type: 3}
   lootTable:
-    isInitialized: 0
-    activeItems: []
-    passiveItems: []
-    meleeWeapons: []
-    rangedWeapons: []
-    healthPickups:
-    - data: {fileID: 11400000, guid: 9b83f9dd8907b8b4a9ab9f458c7bb533, type: 2}
-    ammoPickups: []
-    crystalPickups: []
+    _activeItems: []
+    _passiveItems: []
+    _meleeWeapons: []
+    _rangedWeapons: []
+    _healthPickups:
+    - _data: {fileID: 11400000, guid: 9b83f9dd8907b8b4a9ab9f458c7bb533, type: 2}
+    - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
+    - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
+    - _data: {fileID: 11400000, guid: 672cc341075a1e1438d070544313a65d, type: 2}
+    _ammoPickups:
+    - _data: {fileID: 11400000, guid: c60dbaa7027d62d4599de820c83be0bc, type: 2}
+    _crystalPickups:
+    - _data: {fileID: 11400000, guid: 319f7f17e969c6a47ad6dcfb5357b419, type: 2}
 --- !u!4 &1158039037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8603174597279937021, guid: a61b888d5c85f324d942d323fa71ed10,
@@ -5784,6 +5788,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 38fbd407c0193c04982bed4fc824422a,
         type: 3}
+    - target: {fileID: 8918788780655767752, guid: a61b888d5c85f324d942d323fa71ed10,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918788780655767752, guid: a61b888d5c85f324d942d323fa71ed10,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918788780655767752, guid: a61b888d5c85f324d942d323fa71ed10,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8918788780655767752, guid: a61b888d5c85f324d942d323fa71ed10,
         type: 3}
       propertyPath: m_SortingLayer

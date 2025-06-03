@@ -60,7 +60,8 @@ namespace Terra.Managers
             ItemBase item = lootTable.GetRandomItem();
             itemContainer.Initialize(item);
         }
-        
+
+
         public void SpawnRandomPickup(Transform pickupTransform)
         {
             PickupBase pickup = lootTable.GetRandomPickup();
@@ -85,6 +86,17 @@ namespace Terra.Managers
             pickupContainer.Initialize(pickup);
         }
 
+        public void SpawnHealthPickup(Vector3 pickupPosition)
+        {
+            PickupBase pickup = lootTable.GetRandomHealthPickup();
+            if (pickup == null)
+            {
+                Debug.LogError($"{this}: Pickup could not be found");
+                return;
+            }
+            PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupPosition, Quaternion.identity);
+            pickupContainer.Initialize(pickup);
+        }
 
     }
 }

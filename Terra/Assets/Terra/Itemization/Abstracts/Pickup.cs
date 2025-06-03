@@ -24,6 +24,7 @@ namespace Terra.Itemization.Abstracts
         public virtual PickupType PickupType { get; }
         
         public virtual Sprite ItemIcon { get; }
+        public virtual float DropRate { get; }
 
         public virtual void OnPickUp() { }
 
@@ -36,11 +37,12 @@ namespace Terra.Itemization.Abstracts
     public class Pickup<TData> : PickupBase
     where TData : PickupData
     {
-        [SerializeField] private TData data;
-        public TData Data => data;
+        [SerializeField] private TData _data;
+        public TData Data => _data;
 
-        public override string PickupName => Data.pickupName;
-        public override Sprite ItemIcon => Data.pickupSprite;
+        public sealed override float DropRate => _data.dropRateChance;
+        public sealed override string PickupName => _data.pickupName;
+        public sealed override Sprite ItemIcon => _data.pickupSprite;
     }
 }
 

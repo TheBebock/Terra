@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0ca3ee2d2de9954d89aa1aefa2100d8, type: 3}
-  m_Name: HealthPickupPrefab
+  m_Name: Pickup_Health50
   m_EditorClassIdentifier: 
   pickupName: Health
-  pickupSprite: {fileID: 0}
-  healthAmount: 1
+  pickupSprite: {fileID: 21300000, guid: 059aed2ce2991624f9cb3298422f2184, type: 3}
+  maxHealthHealAmount: 50

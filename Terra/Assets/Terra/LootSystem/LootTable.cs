@@ -9,6 +9,7 @@ using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Itemization.Pickups;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.LootSystem
 {
@@ -18,41 +19,43 @@ namespace Terra.LootSystem
     [Serializable]
     public class LootTable
     {
-        [SerializeField, ReadOnly]
-        private bool isInitialized = false;
         
-        [SerializeField] private List<ActiveItem> activeItems = new (); 
-        [SerializeField] private List<PassiveItem> passiveItems = new ();
-        [SerializeField] private List<MeleeWeapon> meleeWeapons = new ();
-        [SerializeField] private List<RangedWeapon> rangedWeapons = new ();
+        [Header("Items - Assigned Automatically")]
+        [SerializeField] private List<ActiveItem> _activeItems = new (); 
+        [SerializeField] private List<PassiveItem> _passiveItems = new ();
+        [SerializeField] private List<MeleeWeapon> _meleeWeapons = new ();
+        [SerializeField] private List<RangedWeapon> _rangedWeapons = new ();
         
-        [SerializeField] private List<HealthPickup> healthPickups = new ();
-        [SerializeField] private List<AmmoPickup> ammoPickups = new ();
-        [SerializeField] private List<CrystalPickup> crystalPickups = new ();
+        [Header("Pickups - Assigned Manually")]
+        [SerializeField] private List<HealthPickup> _healthPickups = new ();
+        [SerializeField] private List<AmmoPickup> _ammoPickups = new ();
+        [SerializeField] private List<CrystalPickup> _crystalPickups = new ();
 
-        public List<Item<ItemData>> GetAllItems()
+        private bool _isInitialized;
+
+        public List<ItemBase> GetAllItems()
         {
-            List<Item<ItemData>> allItems = new List<Item<ItemData>>();
-            allItems.AddRange(activeItems.Cast<Item<ItemData>>());
-            allItems.AddRange(passiveItems.Cast<Item<ItemData>>());
-            allItems.AddRange(meleeWeapons.Cast<Item<ItemData>>());
-            allItems.AddRange(rangedWeapons.Cast<Item<ItemData>>());
+            List<ItemBase> allItems = new ();
+            allItems.AddRange(_activeItems);
+            allItems.AddRange(_passiveItems);
+            allItems.AddRange(_meleeWeapons);
+            allItems.AddRange(_rangedWeapons);
             return allItems;
         }
         
         public List<PickupBase> GetAllPickups()
         {
             List<PickupBase> allPickups = new();
-            allPickups.AddRange(healthPickups);
-            allPickups.AddRange(ammoPickups);
-            allPickups.AddRange(crystalPickups);
+            allPickups.AddRange(_healthPickups);
+            allPickups.AddRange(_ammoPickups);
+            allPickups.AddRange(_crystalPickups);
             return allPickups;
         }
 
         public void Initialize()
         {
-            if(isInitialized) return;
-            isInitialized = true;
+            if(_isInitialized) return;
+            _isInitialized = true;
             ItemsDatabase database = Resources.Load<ItemsDatabase>(nameof(ItemsDatabase));
             if (!database)
             {
@@ -66,7 +69,9 @@ namespace Terra.LootSystem
                 if(item == null) continue;
                 AddItemToLootTable(item);
             }
-            
+            _healthPickups = _healthPickups.OrderByDescending(pickup => pickup.Data.dropRateChance).ToList();
+            _ammoPickups = _ammoPickups.OrderByDescending(pickup => pickup.Data.dropRateChance).ToList();
+            _crystalPickups = _crystalPickups.OrderByDescending(pickup => pickup.Data.dropRateChance).ToList();
         }
 
         private ItemBase CreateNewItem(ItemData data)
@@ -140,43 +145,56 @@ namespace Terra.LootSystem
             return selectedPickups;
         }
 
-        //TODO: Change all of this to PopRandomElement, which also deletes it from the list
         public ActiveItem GetRandomActiveItem()
         {
-            return activeItems.GetRandomElement<ActiveItem>();
+            return _activeItems.PopRandomElement();
         }
 
         public PassiveItem GetRandomPassiveItem()
         {
-            return passiveItems.GetRandomElement<PassiveItem>();
+            return _passiveItems.PopRandomElement();
         }
 
         public MeleeWeapon GetRandomMeleeWeapon()
         {
-            return meleeWeapons.GetRandomElement<MeleeWeapon>();
+            return _meleeWeapons.PopRandomElement();
         }
 
         public RangedWeapon GetRandomRangedWeapon()
         {
-            return rangedWeapons.GetRandomElement<RangedWeapon>();
+            return _rangedWeapons.PopRandomElement();
         }
         
         public PickupBase GetRandomPickup() => GetRandomPickupsFromEachCategory().GetRandomElement<PickupBase>();
         public HealthPickup GetRandomHealthPickup()
         {
-            return healthPickups.GetRandomElement<HealthPickup>();
+            return GetPickup(_healthPickups) as HealthPickup;
         }
 
         public AmmoPickup GetRandomAmmoPickup()
         {
-            return ammoPickups.GetRandomElement<AmmoPickup>();
+            return GetPickup(_ammoPickups) as AmmoPickup;
         }
         
         public CrystalPickup GetRandomCrystalPickup()
         {
-            return crystalPickups.GetRandomElement<CrystalPickup>();
+            return GetPickup(_crystalPickups) as CrystalPickup;
         }
-        
+
+        private PickupBase GetPickup(IEnumerable<PickupBase> pickups)
+        {
+            float randomChance = UnityEngine.Random.Range(0f, 100f);
+            List<PickupBase> pickupBases = pickups.ToList();
+            for (int i =  pickupBases.Count; i > 0 ; i--)
+            {
+                if (randomChance <= pickupBases[i].DropRate && pickupBases[i].DropRate > 0f)
+                {
+                    return pickupBases[i];
+                }
+            }
+            return pickupBases[^1];
+        }
+
         public bool AddItemToLootTable(ItemBase item)
         {
            
@@ -184,22 +202,22 @@ namespace Terra.LootSystem
             switch (item.ItemType)
             {
                 case ItemType.Passive:
-                    if (!passiveItems.AddUnique(item as PassiveItem))
+                    if (!_passiveItems.AddUnique(item as PassiveItem))
                         break;
                     return true;
 
                 case ItemType.Active:
-                    if (!activeItems.AddUnique(item as ActiveItem))
+                    if (!_activeItems.AddUnique(item as ActiveItem))
                         break;
                     return true;
 
                 case ItemType.Melee:
-                    if (!meleeWeapons.AddUnique(item as MeleeWeapon))
+                    if (!_meleeWeapons.AddUnique(item as MeleeWeapon))
                         break;
                     return true;
 
                 case ItemType.Ranged:
-                    if (!rangedWeapons.AddUnique(item as RangedWeapon))
+                    if (!_rangedWeapons.AddUnique(item as RangedWeapon))
                         break;
                     return true;
                 
@@ -212,32 +230,32 @@ namespace Terra.LootSystem
             return false;
         }
         
-        public bool AddPickupToLootTable(PickupBase PickupBase)
+        public bool AddPickupToLootTable(PickupBase pickupBase)
         {
-            if(PickupBase == null) return false;
-            switch (PickupBase.PickupType)
+            if(pickupBase == null) return false;
+            switch (pickupBase.PickupType)
             {
                 case PickupType.Health:
-                    if (!healthPickups.AddUnique(PickupBase as HealthPickup))
+                    if (!_healthPickups.AddUnique(pickupBase as HealthPickup))
                         break;
                     return true;
                 
                 case PickupType.Ammo:
-                    if (!ammoPickups.AddUnique(PickupBase as AmmoPickup))
+                    if (!_ammoPickups.AddUnique(pickupBase as AmmoPickup))
                         break;
                     return true;
                 
                 case PickupType.Crystal:
-                    if (!crystalPickups.AddUnique(PickupBase as CrystalPickup))
+                    if (!_crystalPickups.AddUnique(pickupBase as CrystalPickup))
                         break;
                     return true;
                 
                 default:
-                    Debug.LogError($"PickupBase {PickupBase.PickupType} is not a valid item type");
+                    Debug.LogError($"PickupBase {pickupBase.PickupType} is not a valid item type");
                     return false;
             }
             
-            Debug.LogError($"PickupBase {PickupBase.PickupName} already exists in the loot table");
+            Debug.LogError($"PickupBase {pickupBase.PickupName} already exists in the loot table");
             return false;
         }
     }
