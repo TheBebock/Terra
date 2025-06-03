@@ -78,7 +78,7 @@ namespace Terra.Player
         }
         private void DropItemOnGround(ItemBase item)
         {
-            LootManager.Instance?.SpawnItem(item, PlayerManager.Instance.CurrentPosition);
+            LootManager.Instance?.SpawnItemContainer(item, PlayerManager.Instance.CurrentPosition);
         }
 
         public bool TryToEquipItem<TItem>(TItem newItem)

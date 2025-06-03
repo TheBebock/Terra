@@ -38,7 +38,6 @@ namespace Terra.Managers
         [SerializeField] private float _enemiesPerWaveGain = 0.5f;
         [SerializeField] private float _spawnTimeInterval = 0.2f;
         
-        //TODO: CHOOSE SPAWN AREA DEPENDING ON NAVMESH
         [Header("Spawn Area")]
         [SerializeField] private Vector2 _spawnMin;
         [SerializeField] private Vector2 _spawnMax;

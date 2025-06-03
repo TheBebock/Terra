@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NaughtyAttributes;
 using Terra.Extensions;
 using Terra.Itemization;
 using Terra.Itemization.Abstracts;
@@ -9,7 +8,6 @@ using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Itemization.Pickups;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Terra.LootSystem
 {
@@ -185,14 +183,14 @@ namespace Terra.LootSystem
         {
             float randomChance = UnityEngine.Random.Range(0f, 100f);
             List<PickupBase> pickupBases = pickups.ToList();
-            for (int i =  pickupBases.Count; i > 0 ; i--)
+            for (int i = pickupBases.Count-1; i >= 0 ; i--)
             {
                 if (randomChance <= pickupBases[i].DropRate && pickupBases[i].DropRate > 0f)
                 {
                     return pickupBases[i];
                 }
             }
-            return pickupBases[^1];
+            return pickupBases[0];
         }
 
         public bool AddItemToLootTable(ItemBase item)

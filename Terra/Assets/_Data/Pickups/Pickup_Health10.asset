@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ca3ee2d2de9954d89aa1aefa2100d8, type: 3}
   m_Name: Pickup_Health10
   m_EditorClassIdentifier: 
+  dropRateChance: 75
   pickupName: Health
   pickupSprite: {fileID: 21300000, guid: ea759422ee11e604ea32a953b710ec96, type: 3}
   maxHealthHealAmount: 10

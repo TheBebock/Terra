@@ -19,14 +19,15 @@ namespace Terra.Environment
     public class DamageableObject : InteractableBase, IDamageable, IAttachListeners
     {
         [SerializeField] private ModifiableValue _maxHealth;
-        [SerializeField] private SpriteRenderer _propModel;
-        [SerializeField] private SpriteRenderer _propShadow;
-        [SerializeField] private Animator _propAnimator;
-        [SerializeField, Min(0.1f)] private float _spawnItemOffset = 0.3f;
-            
+        [SerializeField, Min(0.1f)] private float _spawnItemOffset = 1f;
         [SerializeField] private Color _onDamagedColor = Color.red;
         [SerializeField] private float _deathFadeDuration = 2.5f;
         [SerializeField] private AnimationCurve _deathFadeCurve;
+        
+        [Foldout("References")][SerializeField] private SpriteRenderer _propModel;
+        [Foldout("References")][SerializeField] private Animator _propAnimator;
+        [Foldout("References")][SerializeField] private SpriteRenderer _propShadow;
+        
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioSource _audioSource;
         [Foldout("Debug"), ReadOnly] [SerializeField] private Collider _collider;
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
@@ -45,7 +46,10 @@ namespace Terra.Environment
         
         public HealthController HealthController => _healthController;
         public StatusContainer StatusContainer => _statusContainer;
-
+        protected Vector3 SpawnLootOffset => new(
+            transform.position.x, 
+            transform.position.y, 
+            transform.position.z - _spawnItemOffset);
 
         protected virtual void Awake()
         {
@@ -67,7 +71,7 @@ namespace Terra.Environment
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
         }
 
-        private void OnDamaged(float value)
+        protected virtual void OnDamaged(float value)
         {
             
             _propAnimator.SetTrigger(AnimationHashes.OnDamaged);
@@ -93,8 +97,6 @@ namespace Terra.Environment
             AudioManager.Instance.PlaySFXAtSource(destroySfx, _audioSource);
             _propAnimator.SetTrigger(AnimationHashes.Death);
             _propModel.material.DOFade(0f, _deathFadeDuration).SetEase(_deathFadeCurve);
-            Vector3 offset = new Vector3(0, 0, -_spawnItemOffset);
-            LootManager.Instance.SpawnRandomItem(transform.position + offset);
            
             Destroy(gameObject, _deathFadeDuration + 0.5f);
         }

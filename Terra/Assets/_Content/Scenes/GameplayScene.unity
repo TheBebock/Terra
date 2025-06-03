@@ -2360,6 +2360,37 @@ MonoBehaviour:
   lockX: 0
   lockY: 1
   lockZ: 1
+--- !u!1 &400027224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400027225}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400027225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400027224}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 116.18, y: 117.42, z: 93.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &412148732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1943241331123909872, guid: 716a3a0a21fa8b74b96893fe22772d95,
@@ -5621,10 +5652,10 @@ MonoBehaviour:
     _meleeWeapons: []
     _rangedWeapons: []
     _healthPickups:
-    - _data: {fileID: 11400000, guid: 9b83f9dd8907b8b4a9ab9f458c7bb533, type: 2}
-    - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
-    - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
     - _data: {fileID: 11400000, guid: 672cc341075a1e1438d070544313a65d, type: 2}
+    - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
+    - _data: {fileID: 11400000, guid: a98211e2e93a0ae44811fe752af5b6eb, type: 2}
+    - _data: {fileID: 11400000, guid: 9b83f9dd8907b8b4a9ab9f458c7bb533, type: 2}
     _ammoPickups:
     - _data: {fileID: 11400000, guid: c60dbaa7027d62d4599de820c83be0bc, type: 2}
     _crystalPickups:
@@ -5917,7 +5948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1250028926
 Transform:
   m_ObjectHideFlags: 0
@@ -5955,8 +5986,8 @@ MonoBehaviour:
   _dropIntervalRange: {x: 30, y: 45}
   _crateDelay: 5
   _crateHeightSpawnOffset: 10
-  spawnAreaCenter: {x: 98.2, y: 100.5, z: 100.1}
-  spawnAreaSize: {x: 30.7, y: 0, z: 13.6}
+  _spawnMin: {x: 84, y: 93}
+  _spawnMax: {x: 115, y: 105}
 --- !u!1 &1282051260
 GameObject:
   m_ObjectHideFlags: 0
@@ -9224,3 +9255,4 @@ SceneRoots:
   - {fileID: 1828299864}
   - {fileID: 458049108}
   - {fileID: 2219758090951517338}
+  - {fileID: 400027225}

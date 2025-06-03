@@ -12,7 +12,7 @@ namespace Terra.Itemization.Items
     /// <summary>
     /// Represents a container for a single Item type
     /// </summary>
-    public class ItemContainer : InteractableBase
+    public sealed class ItemContainer : InteractableBase
     {
         public override bool CanBeInteractedWith
         {
@@ -36,25 +36,14 @@ namespace Terra.Itemization.Items
                 .SetEase(Ease.InOutSine); 
         }
 
-        //TODO: Delete
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Interact();
-            }
-        }
-
         public void Initialize(ItemBase item)
         {
             _isInitialized = true;
             this._item = item;
             if(item.ItemIcon)
                 _itemRenderer.sprite = item.ItemIcon;
-  
         }
         
-
         public override void OnInteraction()
         {
             if (PlayerInventoryManager.Instance.TryToEquipItem(_item))

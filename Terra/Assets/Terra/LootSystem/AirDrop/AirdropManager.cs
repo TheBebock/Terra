@@ -19,16 +19,19 @@ namespace Terra.LootSystem.AirDrop
         [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
         [SerializeField] private float _crateDelay = 5f;
         [SerializeField] private float _crateHeightSpawnOffset = 10f;
-        [Foldout("Debug"), ReadOnly][SerializeField]private Vector3 spawnAreaCenter;
-        [Foldout("Debug"), ReadOnly][SerializeField] private Vector3 spawnAreaSize;
+        
+        [Header("Spawn Area")]
+        [SerializeField] private Vector2 _spawnMin;
+        [SerializeField] private Vector2 _spawnMax;
+        
 
+        
         private LayerMask _groundLayer;
         
 
         protected override void Awake()
         {
             _groundLayer = LayerMask.NameToLayer("Ground");
-            CalculateGroundBounds();
         }
 
         public void SetUp()
@@ -36,40 +39,7 @@ namespace Terra.LootSystem.AirDrop
             _ = AirdropLoop();
         }
         
-        private void CalculateGroundBounds()
-        {
-            Collider[] groundColliders = FindObjectsOfType<Collider>();
-
-            Bounds combined = new Bounds();
-            bool hasAny = false;
-
-            foreach (var col in groundColliders)
-            {
-                if (col.gameObject.layer != LayerMask.NameToLayer("Ground"))
-                    continue;
-
-                if (!hasAny)
-                {
-                    combined = new Bounds(col.bounds.center, col.bounds.size);
-                    hasAny = true;
-                }
-                else
-                {
-                    combined.Encapsulate(col.bounds);
-                }
-            }
-
-            if (!hasAny)
-            {
-                Debug.LogWarning("Nie znaleziono colliderów na warstwie 'Ground'");
-                return;
-            }
-
-            spawnAreaCenter = combined.center;
-            spawnAreaSize = new Vector3(combined.size.x - _distanceToEdge, 0f, combined.size.z - _distanceToEdge);
-
-            Debug.Log($"Ground bounds: Center={spawnAreaCenter}, Size={spawnAreaSize}");
-        }
+       
 
         private async UniTaskVoid AirdropLoop()
         {
@@ -90,21 +60,18 @@ namespace Terra.LootSystem.AirDrop
 
         private Vector3 GetRandomPosition()
         {
-            float halfX = spawnAreaSize.x / 2f;
-            float halfZ = spawnAreaSize.z / 2f;
+            float x = Random.Range(_spawnMin.x , _spawnMax.x);
+            float z = Random.Range(_spawnMin.y , _spawnMax.y);
 
-            float x = Random.Range(spawnAreaCenter.x - halfX, spawnAreaCenter.x + halfX);
-            float z = Random.Range(spawnAreaCenter.z - halfZ, spawnAreaCenter.z + halfZ);
-
-            Vector3 rayOrigin = new Vector3(x, spawnAreaCenter.y + 20f, z);
-            if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 200f, _groundLayer))
+            Vector3 rayOrigin = new Vector3(x, 120f, z);
+            if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, _groundLayer))
             {
                 Debug.Log($"Found ground at: {hit.point}");
                 return hit.point;
             }
 
-            Debug.LogWarning("Raycast failed! Returning fallback spawn position.");
-            return new Vector3(x, spawnAreaCenter.y, z);
+            Debug.LogError("Raycast failed! Returning fallback spawn position.");
+            return new Vector3(x, 100, z);
         }
 
         private async UniTaskVoid HandleDrop(Vector3 groundPosition)
@@ -113,14 +80,7 @@ namespace Terra.LootSystem.AirDrop
             Debug.Log($"Instantiating flare at: {airPosition}");
 
             FlareLandingNotifier flare = Instantiate(flarePrefab, airPosition, Quaternion.identity, dropContainer);
-
-
-            if (flare == null)
-            {
-                Debug.LogError("Flare prefab nie ma komponentu FlareLandingNotifier!");
-                
-            }
-
+            
             bool landed = flare.HasLanded;
             if (!landed)
             {
@@ -130,13 +90,10 @@ namespace Terra.LootSystem.AirDrop
                     landed = true;
                 };
             }
-
-            Debug.Log("Czekam aż flara wyląduje...");
+            
 
             await UniTask.WaitUntil( ()=> landed, cancellationToken:CancellationToken);
-              
-
-            Debug.Log("Flara wylądowała. Czekam na skrzynkę...");
+            
 
             await UniTask.WaitForSeconds(_crateDelay, cancellationToken:CancellationToken);
 
@@ -146,15 +103,7 @@ namespace Terra.LootSystem.AirDrop
             
             Instantiate(cratePrefab, groundPosition, Quaternion.identity, dropContainer);
         }
-
-        private void OnDrawGizmosSelected()
-        {
-            if (spawnAreaSize != Vector3.zero)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireCube(spawnAreaCenter, spawnAreaSize);
-            }
-        }
+        
         
         public void TearDown()
         {
