@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NaughtyAttributes;
-using OdinSerializer.Utilities;
+using Terra.Extensions;
 using Terra.ID;
 using Terra.Itemization.Abstracts.Definitions;
 using UnityEditor;

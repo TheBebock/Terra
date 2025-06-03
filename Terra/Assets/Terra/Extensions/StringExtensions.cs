@@ -8,5 +8,9 @@ namespace Terra.Extensions
         {
             return string.IsNullOrEmpty(input) ? input : Regex.Replace(input, "\\s+", string.Empty);
         }
+        public static bool IsNullOrWhitespace(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value);
+        }
     }
 }
