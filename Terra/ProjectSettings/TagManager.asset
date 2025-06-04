@@ -19,7 +19,7 @@ TagManager:
   - Object
   - Damageable
   - Interactable
-  - Pickupable
+  - Pickups
   - EnviroWalls
   - EnviroObjects
   - Bounds
