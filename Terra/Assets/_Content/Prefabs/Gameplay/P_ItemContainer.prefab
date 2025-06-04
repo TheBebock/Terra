@@ -86,7 +86,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtType: 1
-  targetTransforms: []
+  targetTransforms:
+  - {fileID: 234342035530698077}
   lockX: 0
   lockY: 1
   lockZ: 1

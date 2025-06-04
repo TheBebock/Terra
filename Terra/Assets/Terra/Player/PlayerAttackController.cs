@@ -1,9 +1,9 @@
 using System;
 using NaughtyAttributes;
 using System.Collections;
+using Terra.Combat.Projectiles;
 using Terra.Enums;
 using Terra.Interfaces;
-using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Managers;
 using UnityEngine;
@@ -19,32 +19,28 @@ namespace Terra.Player
     public class PlayerAttackController : IAttachListeners
     {
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        
         private PlayerInventoryManager _playerInventory;
-
+        [Foldout("Debug"), ReadOnly] [SerializeField]
+        private Transform _firePoint;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private bool _isTryingPerformMeleeAttack;
-
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private bool _isTryingPerformDistanceAttack;
-
-
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _currentMeleeCd;
-
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _currentRangedCd;
-
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxMeleeCd;
-
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxRangedCd;
 
-        [SerializeField] private AudioClip _attackSFX;
+        [SerializeField] private AudioClip _meleeAttackSFX;
+        [SerializeField] private AudioClip _rangedAttackSFX;
 
         private AudioSource _audioSource;
         public static event Action<FacingDirection> OnMeleeAttackPerformed;
+        public static event Action OnRangeAttackPerformed;
         
         public bool IsTryingPerformMeleeAttack
         {
@@ -66,15 +62,16 @@ namespace Terra.Player
         public FacingDirection CurrentPlayerAttackDirection => _currentPlayerAttackDirection;
         
 
-        //NOTE: variable dummy was made to not override default constructor, as it was trying to construct it for serialization
-        public PlayerAttackController(AudioSource audioSource)
+        //NOTE: variable made to not override default constructor, as it was trying to construct it for serialization
+        public PlayerAttackController(AudioSource audioSource, Transform firePoint)
         {
             _audioSource = audioSource;
-            
+            _firePoint = firePoint;
             if (PlayerInventoryManager.Instance)
             {
                 _playerInventory = PlayerInventoryManager.Instance;
-                _attackSFX = _playerInventory.MeleeWeapon.Data.attackSFX;
+                _meleeAttackSFX = _playerInventory.MeleeWeapon.Data.attackSFX;
+                _rangedAttackSFX = _playerInventory.RangedWeapon.Data.attackSFX;
                 _maxMeleeCd = _playerInventory.MeleeWeapon.Data.attackCooldown;
                 _maxRangedCd = _playerInventory.RangedWeapon.Data.attackCooldown;
             }
@@ -87,8 +84,9 @@ namespace Terra.Player
         public void AttachListeners()
         {
             InputManager.Instance.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
-            InputManager.Instance.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
+            InputManager.Instance.PlayerControls.RangeAttack.performed += OnRangeAttackInput;
             PlayerInventoryManager.Instance.OnMeleeWeaponChanged += OnMeleeWeaponChanged;
+            PlayerInventoryManager.Instance.OnRangedWeaponChanged += OnRangedWeaponChanged;
         }
 
         private IEnumerator DecreaseMeleeCooldown()
@@ -104,17 +102,16 @@ namespace Terra.Player
         {
             while (CurrentRangedCooldown > 0)
             {
-                _currentMeleeCd -=0.1f;
+                _currentRangedCd -=0.1f;
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
-            Debug.Log($"Input test ${context.ReadValue<float>()} ");
             if (_currentMeleeCd <= 0 && !_isTryingPerformMeleeAttack)
             {
-                AudioManager.Instance.PlaySFXAtSource(_attackSFX, _audioSource);
+                AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource);
                 ChangeAttackDirection();
                 _isTryingPerformMeleeAttack = true;
                 _currentMeleeCd = _maxMeleeCd;
@@ -123,40 +120,39 @@ namespace Terra.Player
             }
         }
 
-        private void OnDistanceAttackInput(InputAction.CallbackContext context)
+        private void OnRangeAttackInput(InputAction.CallbackContext context)
         {
-            //TODO: Ranged attack
-            return;
-            
             if (_currentRangedCd <= 0 && !_isTryingPerformDistanceAttack)
             {
+                AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
                 ChangeAttackDirection();
                 _isTryingPerformDistanceAttack = true;
                 _currentRangedCd = _maxRangedCd;
+                OnRangeAttackPerformed?.Invoke();
+                ProjectileFactory.CreateProjectile(
+                    _playerInventory.RangedWeapon.Data.bulletData,
+                    _firePoint.position, 
+                    MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position),
+                    PlayerManager.Instance.PlayerEntity);
                 _playerInventory.StartCoroutine(DecreaseRangedCooldown());
             }
         }
 
         private void OnMeleeWeaponChanged(MeleeWeapon meleeWeapon)
         {
-            _attackSFX = meleeWeapon.Data.attackSFX;
+            _meleeAttackSFX = meleeWeapon.Data.attackSFX;
         }
 
+        private void OnRangedWeaponChanged(RangedWeapon rangedWeapon)
+        {
+            _rangedAttackSFX = rangedWeapon.Data.attackSFX;
+        }
+        
         private void ChangeAttackDirection()
         {
             if(_isTryingPerformMeleeAttack) return;
             
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            //TODO: Change to camera manager
-            Ray ray = Camera.main.ScreenPointToRay( mousePosition );
-            Plane plane = new Plane(Vector3.up, _playerInventory.transform.position);
-
-            // Raycast get point where player clicked on screen while we use perspective camera
-            if (!plane.Raycast(ray, out float enter)) return;
-            
-            
-            Vector3 worldClickPosition = ray.GetPoint(enter);
-            Vector3 direction = (worldClickPosition - _playerInventory.transform.position).normalized;
+            Vector3 direction = MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_playerInventory.transform.position);
 
             if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
             {
@@ -175,12 +171,13 @@ namespace Terra.Player
             if (InputManager.Instance)
             {
                 InputManager.Instance.PlayerControls.MeleeAttack.performed -= OnMeleeAttackInput;
-                InputManager.Instance.PlayerControls.Dash.performed -= OnDistanceAttackInput;
+                InputManager.Instance.PlayerControls.Dash.performed -= OnRangeAttackInput;
             }
 
             if (PlayerInventoryManager.Instance)
             {
                 PlayerInventoryManager.Instance.OnMeleeWeaponChanged -= OnMeleeWeaponChanged;
+                PlayerInventoryManager.Instance.OnRangedWeaponChanged -= OnRangedWeaponChanged;
             }
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using NaughtyAttributes;
+using Terra.Interfaces;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Interfaces;
@@ -12,15 +13,19 @@ using UnityEngine;
 
 namespace Terra.Player
 {
-    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>
+    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IAttachListeners
     {
         [SerializeField, Expandable] StartingInventoryData _startingInventoryData;
+        [Foldout("Debug"), SerializeField, ReadOnly]private int _currentAmmo =20;
+        [Foldout("Debug"), SerializeField, ReadOnly]private int _maxAmmo;
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<MeleeWeapon> _meleeWeaponSlot = new ();
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<RangedWeapon> _rangedWeaponSlot = new();
         [Foldout("Debug"), SerializeField, ReadOnly] private ItemSlot<ActiveItem> _activeItemSlot = new ();
         [Foldout("Debug"), SerializeField, ReadOnly] private List<PassiveItem> _passiveItems = new();
 
-        private ItemSlotBase[] _itemSlots;
+        private ItemSlotBase[] _itemSlots;       
+        public int CurrentAmmo => _currentAmmo;
+        public int MaxAmmo => _currentAmmo;
         public List<PassiveItem> GetPassiveItems => _passiveItems;
         public ActiveItem ActiveItem => _activeItemSlot.EquippedItem;
         public MeleeWeapon MeleeWeapon => _meleeWeaponSlot.EquippedItem;
@@ -29,6 +34,8 @@ namespace Terra.Player
         public event Action<ActiveItem> OnActiveItemChanged;
         public event Action<MeleeWeapon> OnMeleeWeaponChanged;
         public event Action<RangedWeapon> OnRangedWeaponChanged;
+        public event Action<int> OnCurrentAmmoChanged;  
+        public event Action<int> OnMaxAmmoChanged;  
 
         protected override void Awake()
         {
@@ -56,7 +63,6 @@ namespace Terra.Player
             _passiveItems = new();
    
             
-            
             // Equip starting items
             if (_startingInventoryData != null)
             {
@@ -74,8 +80,14 @@ namespace Terra.Player
                     _passiveItems[i].OnEquip();
                 }
             }
-
+            ModifyCurrentAmmo(_startingInventoryData.startingAmmo);
         }
+        
+        public void AttachListeners()
+        {
+            PlayerAttackController.OnRangeAttackPerformed += OnRangedAttack;
+        }
+        
         private void DropItemOnGround(ItemBase item)
         {
             LootManager.Instance?.SpawnItemContainer(item, PlayerManager.Instance.CurrentPosition);
@@ -193,12 +205,33 @@ namespace Terra.Player
             }
             return null;
         }
+
+        public void SetMaxAmmo(int maxAmmo)
+        {
+            _maxAmmo = maxAmmo;
+            OnMaxAmmoChanged?.Invoke(_maxAmmo);
+        }
+
+        public void SetCurrentAmmo(int currentAmmo)
+        {
+            _currentAmmo = currentAmmo;
+            OnCurrentAmmoChanged?.Invoke(_currentAmmo);
+        }
+
+        public void ModifyCurrentAmmo(int value)
+        {
+            _currentAmmo += value;
+            _currentAmmo = Mathf.Clamp(_currentAmmo, 0, _maxAmmo);
+            OnCurrentAmmoChanged?.Invoke(_currentAmmo);
+        }
+
+        private void OnRangedAttack() => ModifyCurrentAmmo(-1);
         
 
-        protected override void CleanUp()
+        public void DetachListeners()
         {
-            base.CleanUp();
             ItemSlotBase.OnItemRemoved -= DropItemOnGround;
+            PlayerAttackController.OnRangeAttackPerformed -= OnRangedAttack;
         }
     }
 }

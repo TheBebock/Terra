@@ -43,6 +43,7 @@ Transform:
   - {fileID: 2577472208730139768}
   - {fileID: 2737291622463993773}
   - {fileID: 4901941884654805569}
+  - {fileID: 3709463398460671174}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8083079388278282322
@@ -67,7 +68,9 @@ MonoBehaviour:
     _currentRangedCd: 0
     _maxMeleeCd: 0
     _maxRangedCd: 0
-    _attackSFX: {fileID: 0}
+    _meleeAttackSFX: {fileID: 0}
+    _rangedAttackSFX: {fileID: 0}
+  _startingPlayerPosition: {x: 0, y: 0, z: 0}
   _playerMovement: {fileID: 2400752976024735065}
   _playerAnimator: {fileID: 2453622083028010261}
   _playerEntity: {fileID: 5427650705384679002}
@@ -211,15 +214,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: -1
   _healthController:
-    maxHealth:
+    _maxHealth:
       baseValue: 0
       StatModifiers: []
-    currentHealth: 0
-    canBeHealed: 0
-    isInvincible: 0
+    _currentHealth: 0
+    _canBeHealed: 0
+    _isInvincible: 0
+    _immuneAfterHit: 0
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
+  _playerModel: {fileID: 585892353238847723}
 --- !u!114 &6979690526471559470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,14 +258,14 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.019821167, z: 0}
 --- !u!82 &1189192986816225722
 AudioSource:
   m_ObjectHideFlags: 0
@@ -359,6 +364,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &5135065046327646901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3709463398460671174}
+  m_Layer: 6
+  m_Name: RangeFirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3709463398460671174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135065046327646901}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.642, z: -0.157}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3668154996905167841}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5984595329131823275
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +406,7 @@ GameObject:
   - component: {fileID: 4901941884654805569}
   - component: {fileID: 1705310150633793738}
   m_Layer: 6
-  m_Name: WeaponAttackPivot
+  m_Name: MeleeWeaponAttackPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -720,7 +756,7 @@ SpriteRenderer:
   m_SortingLayerID: 1484355073
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: -860955616, guid: 078a02a402783aa4989b5cd2a89cc7d5, type: 3}
+  m_Sprite: {fileID: -1493425326, guid: cc35d193bb60716448fb0166cccdb26d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

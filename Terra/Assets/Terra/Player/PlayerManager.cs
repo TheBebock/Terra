@@ -28,6 +28,7 @@ namespace Terra.Player
         [Foldout("References")] [SerializeField] private PlayerMovement _playerMovement;
         [Foldout("References")] [SerializeField] private Animator _playerAnimator;
         [Foldout("References")] [SerializeField] private PlayerEntity _playerEntity;
+        [Foldout("References")] [SerializeField] private Transform _firePoint;
         [Foldout("References")] [SerializeField] private AudioSource _audioSource;
 
 
@@ -59,7 +60,7 @@ namespace Terra.Player
         {
             _audioSource = GetComponent<AudioSource>();
             //NOTE: Needs to be in SetUp, because it caches references to managers
-            _playerAttackController = new PlayerAttackController(_audioSource);
+            _playerAttackController = new PlayerAttackController(_audioSource, _firePoint);
             _playerAttackController.AttachListeners();
             
             _stateMachine = new StateMachine();

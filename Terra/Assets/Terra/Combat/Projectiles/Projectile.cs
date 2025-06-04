@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
 using Terra.Managers;
@@ -6,17 +7,20 @@ using UnityEngine;
 namespace Terra.Combat.Projectiles
 {
     /// <summary>
-    /// Represents a projectile that moves in 3D space, applies damage on contact, and self-destructs after its lifetime.
+    ///     Represents a projectile that moves in 3D space, applies damage on contact.
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public class Projectile : MonoBehaviour
     {
-        private float _damage;
-        private float _speed;
-        private Entity _origin;
-        private Rigidbody _rigidbody;
-        private LayerMask _originLayer;
-        private EffectsContainer _effects;
+        [Foldout("References")][SerializeField] private SpriteRenderer _spriteRenderer;
+        [Foldout("References")][SerializeField] private Rigidbody _rigidbody;
+        
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _penetrationTargets;
+        [Foldout("Debug"), ReadOnly][SerializeField] private float _damage;
+        [Foldout("Debug"), ReadOnly][SerializeField] private Entity _origin;
+        [Foldout("Debug"), ReadOnly][SerializeField] private LayerMask _originLayer;
+        [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effects;
+        
         /// <summary>
         /// Initializes the projectile with configuration data and sets its velocity.
         /// </summary>
@@ -26,14 +30,16 @@ namespace Terra.Combat.Projectiles
         }
         public void Initialize(BulletData data, Vector3 direction, Entity origin)
         {
+            if(data.bulletSprite) _spriteRenderer.sprite = data.bulletSprite;
+            _penetrationTargets = data.penetrationPower;
             _damage = data.bulletDamage;
-            _speed = data.bulletSpeed;
             _effects = data.bulletEffects;
             _origin = origin;
             _originLayer = origin.gameObject.layer;
             _rigidbody.velocity = direction.normalized * data.bulletSpeed;
             transform.forward  = direction.normalized;
-            Destroy(gameObject, data.bulletLifetime);
+            
+            Destroy(gameObject, 10f);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -45,7 +51,9 @@ namespace Terra.Combat.Projectiles
                 CombatManager.Instance.PerformAttack(_origin, target, _effects,  _damage);
             }
 
-            Destroy(gameObject);
+            _penetrationTargets--;
+            
+            if(_penetrationTargets <0) Destroy(gameObject);
         }
 
         private void OnValidate()

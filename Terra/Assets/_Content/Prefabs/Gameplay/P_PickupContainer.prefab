@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7022833042691563649}
   - component: {fileID: 4367382562170315303}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PickupRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 2212019684343905845}
   - component: {fileID: 4868003405091978973}
   - component: {fileID: 2061838132432818342}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: P_PickupContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtType: 1
-  targetTransforms: []
+  targetTransforms:
+  - {fileID: 7022833042691563649}
   lockX: 0
   lockY: 1
   lockZ: 1

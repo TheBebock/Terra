@@ -1,7 +1,7 @@
 using System;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Abstracts.Definitions;
-using UnityEngine;
+using Terra.Player;
 
 namespace Terra.Itemization.Items
 {
@@ -10,16 +10,18 @@ namespace Terra.Itemization.Items
     {
         public override ItemType ItemType => ItemType.Ranged;
 
+
         public RangedWeapon(RangedWeaponData itemData)
         {
             Data = itemData;
         }
 
-        public void PerformAttack(Vector3 direction, Quaternion rotation)
+        public override void OnEquip()
         {
-         
-            //TODO: Most likely delete this and move spawning projectile logic
+            base.OnEquip();
+            
+            PlayerInventoryManager.Instance.SetMaxAmmo(Data.ammoCapacity);
+            PlayerInventoryManager.Instance.ModifyCurrentAmmo(0);
         }
-        
     }
 }

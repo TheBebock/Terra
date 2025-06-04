@@ -76,7 +76,7 @@ namespace Terra.InputSystem
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DistanceAttack"",
+                    ""name"": ""RangeAttack"",
                     ""type"": ""Button"",
                     ""id"": ""5b87042a-2765-4ba4-aad8-8b10e8614921"",
                     ""expectedControlType"": ""Button"",
@@ -131,7 +131,7 @@ namespace Terra.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""DistanceAttack"",
+                    ""action"": ""RangeAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -252,7 +252,7 @@ namespace Terra.InputSystem
             m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
             m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
             m_PlayerControls_MeleeAttack = m_PlayerControls.FindAction("MeleeAttack", throwIfNotFound: true);
-            m_PlayerControls_DistanceAttack = m_PlayerControls.FindAction("DistanceAttack", throwIfNotFound: true);
+            m_PlayerControls_RangeAttack = m_PlayerControls.FindAction("RangeAttack", throwIfNotFound: true);
             m_PlayerControls_UseItem = m_PlayerControls.FindAction("UseItem", throwIfNotFound: true);
             m_PlayerControls_Interaction = m_PlayerControls.FindAction("Interaction", throwIfNotFound: true);
             m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
@@ -365,7 +365,7 @@ namespace Terra.InputSystem
         private List<IPlayerControlsActions> m_PlayerControlsActionsCallbackInterfaces = new List<IPlayerControlsActions>();
         private readonly InputAction m_PlayerControls_Movement;
         private readonly InputAction m_PlayerControls_MeleeAttack;
-        private readonly InputAction m_PlayerControls_DistanceAttack;
+        private readonly InputAction m_PlayerControls_RangeAttack;
         private readonly InputAction m_PlayerControls_UseItem;
         private readonly InputAction m_PlayerControls_Interaction;
         private readonly InputAction m_PlayerControls_Dash;
@@ -375,7 +375,7 @@ namespace Terra.InputSystem
             public PlayerControlsActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
             public InputAction @MeleeAttack => m_Wrapper.m_PlayerControls_MeleeAttack;
-            public InputAction @DistanceAttack => m_Wrapper.m_PlayerControls_DistanceAttack;
+            public InputAction @RangeAttack => m_Wrapper.m_PlayerControls_RangeAttack;
             public InputAction @UseItem => m_Wrapper.m_PlayerControls_UseItem;
             public InputAction @Interaction => m_Wrapper.m_PlayerControls_Interaction;
             public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
@@ -394,9 +394,9 @@ namespace Terra.InputSystem
                 @MeleeAttack.started += instance.OnMeleeAttack;
                 @MeleeAttack.performed += instance.OnMeleeAttack;
                 @MeleeAttack.canceled += instance.OnMeleeAttack;
-                @DistanceAttack.started += instance.OnDistanceAttack;
-                @DistanceAttack.performed += instance.OnDistanceAttack;
-                @DistanceAttack.canceled += instance.OnDistanceAttack;
+                @RangeAttack.started += instance.OnRangeAttack;
+                @RangeAttack.performed += instance.OnRangeAttack;
+                @RangeAttack.canceled += instance.OnRangeAttack;
                 @UseItem.started += instance.OnUseItem;
                 @UseItem.performed += instance.OnUseItem;
                 @UseItem.canceled += instance.OnUseItem;
@@ -416,9 +416,9 @@ namespace Terra.InputSystem
                 @MeleeAttack.started -= instance.OnMeleeAttack;
                 @MeleeAttack.performed -= instance.OnMeleeAttack;
                 @MeleeAttack.canceled -= instance.OnMeleeAttack;
-                @DistanceAttack.started -= instance.OnDistanceAttack;
-                @DistanceAttack.performed -= instance.OnDistanceAttack;
-                @DistanceAttack.canceled -= instance.OnDistanceAttack;
+                @RangeAttack.started -= instance.OnRangeAttack;
+                @RangeAttack.performed -= instance.OnRangeAttack;
+                @RangeAttack.canceled -= instance.OnRangeAttack;
                 @UseItem.started -= instance.OnUseItem;
                 @UseItem.performed -= instance.OnUseItem;
                 @UseItem.canceled -= instance.OnUseItem;
@@ -462,7 +462,7 @@ namespace Terra.InputSystem
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnMeleeAttack(InputAction.CallbackContext context);
-            void OnDistanceAttack(InputAction.CallbackContext context);
+            void OnRangeAttack(InputAction.CallbackContext context);
             void OnUseItem(InputAction.CallbackContext context);
             void OnInteraction(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);

@@ -9,12 +9,11 @@ namespace Terra.Itemization.Abstracts.Definitions
     /// </summary>
     public abstract class WeaponData : ItemData 
     {
-        public GameObject attackPrefab;
         public EffectsContainer effects;
         public int damage;
         public float attackCooldown;
         public AudioClip attackSFX;
-        [ReadOnly] public WeaponType WeaponType;
+        public abstract WeaponType WeaponType { get; }
     }
 
     public enum WeaponType

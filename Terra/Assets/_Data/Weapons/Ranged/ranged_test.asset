@@ -21,26 +21,20 @@ MonoBehaviour:
   maxHealthModifiers: []
   speedModifiers: []
   luckModifiers: []
-  attackPrefab: {fileID: 0}
   effects:
     statuses: []
     actions: []
   damage: 0
-  attackCooldown: 0
+  attackCooldown: 0.5
   attackSFX: {fileID: 0}
-  WeaponType: 0
-  ammoType: 
-  ammoCapacity: 0
-  reloadTime: 0
-  isExplosive: 0
-  explosionRadius: 0
-  explosionDamage: 0
+  ammoCapacity: 30
   bulletData:
-    bulletPrefab: {fileID: 0}
+    bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,
+      type: 3}
     bulletEffects:
       statuses: []
       actions: []
-    bulletSpeed: 0
-    bulletDamage: 0
-    bulletLifetime: 0
-  firingSound: {fileID: 0}
+    bulletSprite: {fileID: 0}
+    penetrationPower: 0
+    bulletSpeed: 10
+    bulletDamage: 5

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Terra.Itemization.Items.Definitions
 {
     /// <summary>
@@ -10,6 +9,7 @@ namespace Terra.Itemization.Items.Definitions
     [CreateAssetMenu(fileName ="Inventory_", menuName = "TheBebocks/Inventory/StartingInventoryData")]
     public class StartingInventoryData : ScriptableObject
     {
+        public int startingAmmo = 15;
         public MeleeWeapon startingMelee;
         public RangedWeapon startingRanged;
         public ActiveItem startingActive;

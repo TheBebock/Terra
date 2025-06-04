@@ -6,7 +6,7 @@ namespace Terra.Player.PlayerStates
 {
     public class RangedAttackState : PlayerBaseState
     {
-        private int actualStateHash;
+        private int _actualStateHash;
         public RangedAttackState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
@@ -14,13 +14,11 @@ namespace Terra.Player.PlayerStates
         public override void OnEnter()
         {
             ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection);
-
-            PlayerInventoryManager.Instance.RangedWeapon.PerformAttack(player.CurrentPosition, player.transform.rotation);
         }
         public override void Update()
         {
             // Check if animator already changed state
-            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != actualStateHash) return;
+            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != _actualStateHash) return;
 
             // Disable player attack trigger when animation end
             if (animator.GetCurrentAnimatorStateInfo(0).length < animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
@@ -33,10 +31,10 @@ namespace Terra.Player.PlayerStates
         {
             switch (playerAttackDirection)
             {
-                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, CrossFadeDuration); actualStateHash = RangedAttackUpHash; break;
-                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, CrossFadeDuration); actualStateHash = RangedAttackDownHash; break;
-                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, CrossFadeDuration); actualStateHash = RangedAttackLeftHash; break;
-                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, CrossFadeDuration); actualStateHash = RangedAttackRightHash; break;
+                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, CrossFadeDuration); _actualStateHash = RangedAttackUpHash; break;
+                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, CrossFadeDuration); _actualStateHash = RangedAttackDownHash; break;
+                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, CrossFadeDuration); _actualStateHash = RangedAttackLeftHash; break;
+                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, CrossFadeDuration); _actualStateHash = RangedAttackRightHash; break;
             }
         }
     }

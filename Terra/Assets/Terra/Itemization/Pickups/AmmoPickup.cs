@@ -1,6 +1,7 @@
 using System;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Pickups.Definitions;
+using Terra.Player;
 
 namespace Terra.Itemization.Pickups
 {
@@ -12,7 +13,7 @@ namespace Terra.Itemization.Pickups
 
         public override void OnPickUp()
         {
-            //TODO: Add adding ammo logic
+            PlayerInventoryManager.Instance.ModifyCurrentAmmo(Data.ammoAmount);
         }
     }
 }

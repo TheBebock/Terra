@@ -13,13 +13,15 @@ namespace Terra.Combat.Projectiles
         
         public EffectsContainer bulletEffects;
         
+        public Sprite bulletSprite;
+        
+        [Tooltip("Amount of additional targets before destroying")]
+        [Min(0)]public int penetrationPower;
+        
         [Tooltip("Movement speed of the bullet (units per second)")]
-        public float bulletSpeed;
+        [Min(2)]public float bulletSpeed;
 
         [Tooltip("Damage dealt by the bullet on hit")]
-        public float bulletDamage;
-
-        [Tooltip("Lifetime of the bullet in seconds before auto-destroy")]
-        public float bulletLifetime;
+        [Min(1)]public float bulletDamage;
     }
 }
