@@ -5,7 +5,6 @@
         "Unity.TextMeshPro",
         "NaughtyAttributes.Core",
         "Unity.InputSystem",
-        "OdinSerializer",
         "Unity.Addressables",
         "UniTask",
         "UniTask.Addressables",
@@ -15,7 +14,9 @@
         "UniTask.Editor",
         "UnityEditor.UI",
         "Cinemachine",
-        "DOTween.Modules"
+        "DOTween.Modules",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

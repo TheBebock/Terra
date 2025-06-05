@@ -1657,7 +1657,7 @@ GameObject:
   - component: {fileID: 223233488}
   - component: {fileID: 223233487}
   m_Layer: 0
-  m_Name: PostProcessingVolume
+  m_Name: GlobalPostProcessingVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1688,12 +1688,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223233486}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 108.52239, y: 94.46198, z: 113.696266}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.657608, y: -22.958015, z: 20.306267}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 400027225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &226180225
 GameObject:
@@ -2343,8 +2343,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400027225}
+  - component: {fileID: 400027226}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: VolumesManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2362,9 +2363,30 @@ Transform:
   m_LocalPosition: {x: 116.18, y: 117.42, z: 93.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 223233488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &400027226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400027224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6ca04412488e54da45b88e4fc427a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: -1
+  _currentGamma: 0
+  _currentBloom: 2
+  _gammaRange: {x: 0.1, y: 5}
+  _bloomRange: {x: 0, y: 5}
+  _globalVolume: {fileID: 223233487}
+  _bloom: {fileID: 1641740166786297975, guid: 3b5b3509cb5a216439eec4a9a904953f, type: 2}
+  _gamma: {fileID: 7434142548217873340, guid: 3b5b3509cb5a216439eec4a9a904953f, type: 2}
 --- !u!4 &412148732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1943241331123909872, guid: 716a3a0a21fa8b74b96893fe22772d95,
@@ -5328,6 +5350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fadecb2bee888541881cd6368121aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: -1
 --- !u!1001 &1051073947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9264,7 +9287,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 223233488}
   - {fileID: 1412895161}
   - {fileID: 1096739001}
   - {fileID: 307734418}
