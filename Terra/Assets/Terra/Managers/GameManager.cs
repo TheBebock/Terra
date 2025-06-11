@@ -27,16 +27,9 @@ namespace Terra.Managers
             allGameStates.Add(typeof(UpgradeGameState), new UpgradeGameState());
             allGameStates.Add(typeof(LoadGameState), new LoadGameState());
             allGameStates.Add(typeof(DefaultGameState), new DefaultGameState());
-            allGameStates.Add(typeof(EndOfFloorState), new EndOfFloorState(CancellationToken));
-            allGameStates.Add(typeof(StartOfFloorState), new StartOfFloorState(CancellationToken));
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                SwitchToGameState<EndOfFloorState>();
-            }
+            allGameStates.Add(typeof(EndOfFloorState), new EndOfFloorState());
+            allGameStates.Add(typeof(StartOfFloorState), new StartOfFloorState());
+            allGameStates.Add(typeof(PlayerDeadState), new PlayerDeadState());
         }
 
         public void SetUp()

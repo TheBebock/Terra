@@ -30,8 +30,6 @@ namespace Terra.Player
 
         public override int Identity => PlayerManager.Instance.Identity;
 
-        [SerializeField] private SpriteRenderer _playerModel;
-
         public override void RegisterID()
         {
             //Do not register
@@ -61,7 +59,7 @@ namespace Terra.Player
             Debug.Log($"{this}: Taking Damage {amount}");
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
-            _playerModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
+            VFXController.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
         }
 
         public void Heal(float amount, bool isPercentage = false)

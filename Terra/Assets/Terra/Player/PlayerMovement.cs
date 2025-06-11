@@ -3,6 +3,7 @@ using System.Collections;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Enums;
+using Terra.InputSystem;
 using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using System.Collections;
 using Terra.Combat.Projectiles;
 using Terra.Enums;
+using Terra.InputSystem;
 using Terra.Interfaces;
 using Terra.Itemization.Items;
 using Terra.Managers;

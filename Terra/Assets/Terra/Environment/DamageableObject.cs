@@ -126,8 +126,9 @@ namespace Terra.Environment
             _doSequence?.Kill();
         }
 
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if(!_collider) _collider = GetComponent<Collider>();
             if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }

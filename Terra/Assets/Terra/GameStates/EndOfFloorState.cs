@@ -1,6 +1,7 @@
 using System.Threading;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using Terra.InputSystem;
 using Terra.Managers;
 using Terra.Player;
 using Terra.UI.HUD;
@@ -9,11 +10,6 @@ namespace Terra.GameStates
 {
     public class EndOfFloorState : GameState
     {
-        private CancellationToken _cancellationTokentoken;
-        public EndOfFloorState(CancellationToken cancellationToken)
-        {
-            _cancellationTokentoken = cancellationToken;
-        }
         public override void OnEnter() 
         {
             base.OnEnter();

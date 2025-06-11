@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2400752976024735065}
   - component: {fileID: 2252586331894191306}
   - component: {fileID: 2453622083028010261}
+  - component: {fileID: 4552041071504109202}
   - component: {fileID: 5427650705384679002}
   - component: {fileID: 6979690526471559470}
   - component: {fileID: 6608576668348398462}
@@ -62,6 +63,7 @@ MonoBehaviour:
   _isPlayerDead: 0
   _playerAttackController:
     _playerInventory: {fileID: 0}
+    _firePoint: {fileID: 0}
     _isTryingPerformMeleeAttack: 0
     _isTryingPerformDistanceAttack: 0
     _currentMeleeCd: 0
@@ -74,6 +76,7 @@ MonoBehaviour:
   _playerMovement: {fileID: 2400752976024735065}
   _playerAnimator: {fileID: 2453622083028010261}
   _playerEntity: {fileID: 5427650705384679002}
+  _firePoint: {fileID: 3709463398460671174}
   _audioSource: {fileID: 1189192986816225722}
 --- !u!114 &2327712083050766949
 MonoBehaviour:
@@ -90,6 +93,8 @@ MonoBehaviour:
   _id: -1
   _startingInventoryData: {fileID: 11400000, guid: 5cdfb00743da2ce489f47f1b3119d6ee,
     type: 2}
+  _currentAmmo: 20
+  _maxAmmo: 0
   _meleeWeaponSlot:
     _itemName: melee_test
     _canBeRemoved: 0
@@ -200,6 +205,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4552041071504109202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536515612248166870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: 5427650705384679002}
+  _entityModel: {fileID: 585892353238847723}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5427650705384679002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcd12872a12f464dacbd56fd940248d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxController: {fileID: 0}
   _id: -1
   _healthController:
     _maxHealth:

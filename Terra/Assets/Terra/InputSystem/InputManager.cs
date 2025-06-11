@@ -1,8 +1,8 @@
-using System;
 using Terra.Core.Generics;
-using Terra.InputSystem;
 using UnityEngine;
 
+namespace Terra.InputSystem
+{
     public class InputManager : PersistentMonoSingleton<InputManager>
     {
         private InputSystem _inputSystem;
@@ -10,8 +10,6 @@ using UnityEngine;
         public InputSystem InputSystem => _inputSystem;
         public InputSystem.PlayerControlsActions PlayerControls => _inputSystem.PlayerControls;
         public InputSystem.AllTimeActions AllTimeControls => _inputSystem.AllTime;
-
-        public static event Action<bool> OnAllTimeControlsStateChanged;
 
         protected override void Awake()
         {
@@ -71,7 +69,6 @@ using UnityEngine;
             }
 
             _inputSystem.AllTime.Enable();
-            OnAllTimeControlsStateChanged?.Invoke(true);
         }
 
         /// <summary>
@@ -86,7 +83,6 @@ using UnityEngine;
             }
 
             _inputSystem.AllTime.Disable();
-            OnAllTimeControlsStateChanged?.Invoke(false);
         }
 
 
@@ -119,3 +115,4 @@ using UnityEngine;
         }
 
     }
+}

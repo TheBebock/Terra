@@ -211,11 +211,9 @@ namespace Terra.AI.Enemy
             _stateMachineLocked = value;
         }
 
-        /// <summary>
-        /// Validates and checks if all required components are assigned in the inspector.
-        /// </summary>
-        protected virtual void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if (agent == null)
             {
                 agent = GetComponent<NavMeshAgent>();

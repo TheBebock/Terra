@@ -1,6 +1,7 @@
 using System.Threading;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
 
@@ -8,14 +9,10 @@ namespace Terra.GameStates
 {
     public class StartOfFloorState : GameState
     {
-        private CancellationToken _cancellationTokentoken;
-        public StartOfFloorState(CancellationToken cancellationToken)
-        {
-            _cancellationTokentoken = cancellationToken;
-        }
         public override void OnEnter() 
         {
             base.OnEnter();
+            TimeManager.Instance.ResumeTime();
             InputManager.Instance.SetPlayerControlsState(false);
             InputManager.Instance.SetPlayerControlsState(false);
             CameraManager.Instance.SpriteMask.SetActive(false);

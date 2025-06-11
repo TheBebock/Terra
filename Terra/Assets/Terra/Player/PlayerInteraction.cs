@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Terra.Core.Generics;
+using Terra.InputSystem;
 using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;

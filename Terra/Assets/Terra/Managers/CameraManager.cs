@@ -29,7 +29,7 @@ namespace Terra.Managers
         
         private CinemachineTrackedDolly _elevatorTrackedDolly;
         private const int StandardPriority = 10;
-        private const int TopPriority = 15;
+        private const int TopPriority = 25;
         private Vector3 _startingLevelPosition;
         protected override void Awake()
         {
@@ -103,7 +103,10 @@ namespace Terra.Managers
 
         private void SetNewVCamTopPriority(ICinemachineCamera vCam)
         {
-            _cinemachineBrain.ActiveVirtualCamera.Priority = StandardPriority;
+            if (_cinemachineBrain.ActiveVirtualCamera != null)
+            {
+                _cinemachineBrain.ActiveVirtualCamera.Priority = StandardPriority;
+            }
             vCam.Priority = TopPriority;
         }
         

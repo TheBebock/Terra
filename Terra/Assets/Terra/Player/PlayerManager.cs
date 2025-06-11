@@ -4,6 +4,7 @@ using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Combat;
 using Terra.FSM;
+using Terra.GameStates;
 using UnityEngine;
 using Terra.Interfaces;
 using Terra.Managers;
@@ -119,9 +120,9 @@ namespace Terra.Player
         {
             _isPlayerDead = true;
             OnPlayerDeath?.Invoke();
-            InputManager.Instance.SetPlayerControlsState(false);
             GetComponent<Collider>().enabled = false;
             _stateMachine.SetState(_deathState);
+            GameManager.Instance.SwitchToGameState<PlayerDeadState>();
             _ = InvokeDeathWindow();
         }
 

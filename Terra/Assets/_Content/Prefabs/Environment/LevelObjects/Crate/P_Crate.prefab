@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5259803077617614644}
   - component: {fileID: 8454795406954784286}
   - component: {fileID: 3738220313931052250}
+  - component: {fileID: 9117060413447175260}
   m_Layer: 16
   m_Name: P_Crate
   m_TagString: EntityObject
@@ -71,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f2eb59348b6dc448e578f6ec108f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxController: {fileID: 9117060413447175260}
   _id: -1
   _maxHealth:
     baseValue: 5
@@ -308,6 +310,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9117060413447175260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097873109363800671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: -7630435035549966089}
+  _entityModel: {fileID: 3758829928549677497}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6608501513485370200
 GameObject:
   m_ObjectHideFlags: 0

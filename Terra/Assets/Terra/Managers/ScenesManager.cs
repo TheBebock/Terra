@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using UnityEngine;
@@ -56,6 +58,39 @@ namespace Terra.Managers
             SceneManager.LoadScene(sceneName);
         }
 
+        public async UniTask<float> LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single,
+            bool allowSceneActivation = false, Action<float> onProgress = null, float activationDelay = 0f)
+        {
+
+            AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, mode);
+            if (asyncOp == null)
+            {
+                Debug.LogError($"{gameObject.name}: Scene not found.");
+                return -1;
+            }
+            asyncOp.allowSceneActivation = allowSceneActivation;
+
+            // Track progress (progress goes up to 0.9 before activation)
+            while (!asyncOp.isDone)
+            {
+                float progress = Mathf.Clamp01(asyncOp.progress / 0.9f);
+                onProgress?.Invoke(progress);
+
+                // Scene is loaded, waiting for activation
+                if (asyncOp.progress >= 0.9f && !allowSceneActivation)
+                {
+                    if (activationDelay > 0f)
+                        await UniTask.Delay(TimeSpan.FromSeconds(activationDelay), cancellationToken: CancellationToken);
+
+                    asyncOp.allowSceneActivation = true;
+                }
+
+                await UniTask.Yield(PlayerLoopTiming.Update, CancellationToken);
+            }
+
+            onProgress?.Invoke(1f); // Ensure 100% progress
+            return 0;
+        }
         private void OnValidate()
         {
             if (_sceneNames.Count == 0)

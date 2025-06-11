@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 346939443830890629}
   - component: {fileID: 8888007274786749166}
   - component: {fileID: 1624681826800207199}
+  - component: {fileID: 507655667590181319}
   m_Layer: 7
   m_Name: Range_Big_spider_enemy
   m_TagString: Untagged
@@ -251,8 +252,8 @@ MonoBehaviour:
     OnAnimationEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyMelee, Terra
+        - m_Target: {fileID: 1624681826800207199}
+          m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyRange, Terra
           m_MethodName: AttemptAttack
           m_Mode: 1
           m_Arguments:
@@ -373,6 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0102efaa04676ad48a5aa27ed68fd5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxController: {fileID: 507655667590181319}
   _id: -1
   enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
   agent: {fileID: 4917703580583619858}
@@ -381,12 +383,13 @@ MonoBehaviour:
   enemyCollider: {fileID: 1054731030885756022}
   enemyModel: {fileID: 5322432112080383420}
   _healthController:
-    maxHealth:
+    _maxHealth:
       baseValue: 0
       StatModifiers: []
-    currentHealth: 0
-    canBeHealed: 0
-    isInvincible: 0
+    _currentHealth: 0
+    _canBeHealed: 0
+    _isInvincible: 0
+    _immuneAfterHit: 0
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
@@ -394,6 +397,23 @@ MonoBehaviour:
   deathSFX: {fileID: 0}
   _data: {fileID: 11400000, guid: 5c6a7a1e331a80e4da45b7dc3e3d2189, type: 2}
   firePoint: {fileID: 866614074123166130}
+--- !u!114 &507655667590181319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508670294350392265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: 1624681826800207199}
+  _entityModel: {fileID: 5322432112080383420}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5210159598535450721
 GameObject:
   m_ObjectHideFlags: 0

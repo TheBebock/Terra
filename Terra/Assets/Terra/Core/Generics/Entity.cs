@@ -1,6 +1,8 @@
+using System;
 using NaughtyAttributes;
 using Terra.Components;
 using Terra.ID;
+using Terra.Particles;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,13 +12,14 @@ namespace Terra.Core.Generics
     /// Class that represents object inside the game world
     /// </summary>
     [RequireComponent(typeof(LookAtCameraComponent))]
+    [RequireComponent(typeof(VFXController))]
     public abstract class Entity : InGameMonobehaviour, IUniqueable
     {
 
-        [FormerlySerializedAs("id")] [Foldout("Debug"), ReadOnly] [SerializeField]
-        private int _id = -1;
+        [Foldout("References")] [SerializeField] VFXController _vfxController;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private int _id = -1;
         public virtual int Identity => _id;
-        
+        public VFXController VFXController => _vfxController;
 
         /// <summary>
         /// Handles registering object with unique ID
@@ -39,6 +42,14 @@ namespace Terra.Core.Generics
         public void SetID(int newID)
         {
             _id = newID;
+        }
+
+        protected virtual void OnValidate()
+        {
+            if (!_vfxController)
+            {
+                _vfxController = GetComponent<VFXController>();
+            }
         }
     }
 }
