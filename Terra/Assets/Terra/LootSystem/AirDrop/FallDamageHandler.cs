@@ -12,7 +12,7 @@ namespace Terra.LootSystem.AirDrop
     public class AirdropDamageHandler : MonoBehaviour 
     {
         
-        [SerializeField] private float _collisionDamage = 15f;
+        [SerializeField] private int _collisionDamage = 15;
         
         [SerializeField] private DamageableObject _object;
   

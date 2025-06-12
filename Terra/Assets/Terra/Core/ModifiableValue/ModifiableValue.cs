@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Terra.Extensions;
 using UnityEngine;
 
 namespace Terra.Core.ModifiableValue
@@ -7,14 +8,14 @@ namespace Terra.Core.ModifiableValue
    [Serializable]
    public class ModifiableValue
    {
-      [SerializeField] private float baseValue;
+      [SerializeField] private int baseValue;
       [SerializeField] protected List<ValueModifier> StatModifiers = new();
 
 
       protected bool IsDirty = true;
-      protected float _value = 0;
-      protected float LastBaseValue = float.MinValue;
-      public float Value
+      protected int _value = 0;
+      protected int LastBaseValue = int.MinValue;
+      public int Value
       {
          get
          {
@@ -29,7 +30,7 @@ namespace Terra.Core.ModifiableValue
          }
       }
 
-      public ModifiableValue(float baseValue)
+      public ModifiableValue(int baseValue)
       {
          this.baseValue = baseValue;
       }
@@ -77,7 +78,7 @@ namespace Terra.Core.ModifiableValue
          return didRemove;
       }
 
-      protected virtual float CalculateFinalValue()
+      protected virtual int CalculateFinalValue()
       {
          float finalValue = baseValue;
          float sumPercentAdd = 0;
@@ -90,23 +91,19 @@ namespace Terra.Core.ModifiableValue
                   finalValue += mod.Value;
                   break;
 
-               case StatModType.PercentAdd:
+               case StatModType.PercentMult:
                   sumPercentAdd += mod.Value;
-                  if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentAdd)
+                  if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentMult)
                   {
-                     finalValue *= 1 + sumPercentAdd;
+                     finalValue *= (1 + sumPercentAdd.ToFactor());
                      sumPercentAdd = 0;
                   }
-                  break;
-
-               case StatModType.PercentMult:
-                  finalValue *= 1 + mod.Value;
                   break;
             }
          }
 
 
-         return (float)Math.Round(finalValue, 4);
+         return (int)Math.Round(finalValue, 4);
       }
    }
 

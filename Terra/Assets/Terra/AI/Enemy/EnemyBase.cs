@@ -150,7 +150,7 @@ namespace Terra.AI.Enemy
         /// <summary>
         /// Applies damage, triggers visual feedback and damage popup.
         /// </summary>
-        public void TakeDamage(float amount, bool isPercentage = false)
+        public void TakeDamage(int amount, bool isPercentage = false)
         {
             if (!CanBeDamaged)
             {
@@ -161,7 +161,7 @@ namespace Terra.AI.Enemy
             AudioManager.Instance.PlaySFXAtSource(hurtSFX, audioSource);
             
             // Prevent negative damage values
-            if (amount < 0f) amount = 0f;
+            if (amount < 0) amount = 0;
 
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);

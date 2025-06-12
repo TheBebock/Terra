@@ -53,7 +53,7 @@ namespace Terra.Player
             StatusContainer.UpdateEffects();
         }
 
-        public void TakeDamage(float amount, bool isPercentage = false)
+        public void TakeDamage(int amount, bool isPercentage = false)
         {
             if (!CanBeDamaged) return;
             Debug.Log($"{this}: Taking Damage {amount}");
@@ -62,7 +62,7 @@ namespace Terra.Player
             VFXController.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
         }
 
-        public void Heal(float amount, bool isPercentage = false)
+        public void Heal(int amount, bool isPercentage = false)
         {
             if(!CanBeHealed) return;
             _healthController.Heal(amount, isPercentage);

@@ -16,7 +16,7 @@ namespace Terra.Combat.Projectiles
         [Foldout("References")][SerializeField] private Rigidbody _rigidbody;
         
         [Foldout("Debug"), ReadOnly][SerializeField] private int _penetrationTargets;
-        [Foldout("Debug"), ReadOnly][SerializeField] private float _damage;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _damage;
         [Foldout("Debug"), ReadOnly][SerializeField] private Entity _origin;
         [Foldout("Debug"), ReadOnly][SerializeField] private LayerMask _originLayer;
         [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effects;

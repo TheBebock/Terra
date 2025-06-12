@@ -17,16 +17,16 @@ namespace Terra.StatisticsSystem
         [Foldout("Debug")][SerializeField] private ModifiableValue maxHealth;
         [Foldout("Debug")][SerializeField] private ModifiableValue dexterity;
         
-        public CharacterStats(float basestrength, float basemaxHealth, float basespeed)
+        public CharacterStats(int baseStrength, int baseMaxHealth, int baseSpeed)
         {
-            strength = new ModifiableValue(basestrength);
-            maxHealth = new ModifiableValue(basemaxHealth);
-            dexterity = new ModifiableValue(basespeed);
+            strength = new ModifiableValue(baseStrength);
+            maxHealth = new ModifiableValue(baseMaxHealth);
+            dexterity = new ModifiableValue(baseSpeed);
         }
 
-        public float Strength => strength.Value;
-        public float MaxHealth => maxHealth.Value;
-        public float Dexterity => dexterity.Value;
+        public int Strength => strength.Value;
+        public int MaxHealth => maxHealth.Value;
+        public int Dexterity => dexterity.Value;
 
         public ModifiableValue ModifiableMaxHealth => maxHealth;
         

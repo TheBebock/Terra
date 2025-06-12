@@ -47,7 +47,7 @@ namespace Terra.UI.HUD
             }
         }
 
-        private void OnHealthChanged(float currentHealth)
+        private void OnHealthChanged(int currentHealth)
         {
             UpdateHearts(currentHealth);
         }

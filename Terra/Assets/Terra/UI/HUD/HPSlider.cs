@@ -40,7 +40,7 @@ namespace Terra.UI.HUD
             _slider.SetValueWithoutNotify(value);
         }
 
-        private void UpdateCurrentHealth(float value)
+        private void UpdateCurrentHealth(int value)
         {
             _currentHealth = value;
             _currentHealthText.SetText(_currentHealth.ToString());

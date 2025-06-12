@@ -62,7 +62,7 @@ namespace Terra.Environment
             StatusContainer.UpdateEffects();
         }
 
-        public void TakeDamage(float amount, bool isPercentage = false)
+        public void TakeDamage(int amount, bool isPercentage = false)
         {
             if (!CanBeDamaged) return;
             _healthController.TakeDamage(amount, isPercentage);
@@ -71,7 +71,7 @@ namespace Terra.Environment
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
         }
 
-        protected virtual void OnDamaged(float value)
+        protected virtual void OnDamaged(int value)
         {
             
             _propAnimator.SetTrigger(AnimationHashes.OnDamaged);

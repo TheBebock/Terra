@@ -23,7 +23,7 @@ namespace Terra.Managers
         }
 
         public void PerformAttack(Entity source, IDamageable target, EffectsContainer effectsContainer = null,
-            float baseDamage = 0, bool isPercentage = false)
+            int baseDamage = 0, bool isPercentage = false)
         {
             _targetsList.Add(target);
             PerformAttack(source, _targetsList, effectsContainer, baseDamage, isPercentage);
@@ -31,7 +31,7 @@ namespace Terra.Managers
         }
 
         public void PerformAttack(Entity source, List<IDamageable> targets, EffectsContainer effectsContainer = null,
-            float baseDamage = 0, bool isPercentage = false)
+            int baseDamage = 0, bool isPercentage = false)
         {
             if (source == null) return;
 
@@ -47,13 +47,13 @@ namespace Terra.Managers
         }
 
         private void PlayerPerformedAttack(Entity source, List<IDamageable> hitTargets,
-            EffectsContainer effectsContainer = null, float baseWeaponDamage = 0, bool isPercentage = false)
+            EffectsContainer effectsContainer = null, int baseWeaponDamage = 0, bool isPercentage = false)
         {
             if (!PlayerStatsManager.Instance) return;
             // Get damage modifier from player stats
-            float playerStrengthValue = PlayerStatsManager.Instance.PlayerStats.Strength;
+            int playerStrengthValue = PlayerStatsManager.Instance.PlayerStats.Strength;
             // Compute final damage value
-            float finalDamage = baseWeaponDamage + playerStrengthValue;
+            int finalDamage = baseWeaponDamage + playerStrengthValue;
 
             // Loop through targets and apply damage
             for (int i = 0; i < hitTargets.Count; i++)
@@ -67,7 +67,7 @@ namespace Terra.Managers
             }
         }
 
-        private void EnemyPerformedAttack(Entity source, List<IDamageable> hitTargets, float damage,
+        private void EnemyPerformedAttack(Entity source, List<IDamageable> hitTargets, int damage,
             EffectsContainer effectsContainer = null, bool isPercentage = false)
         {
             // Loop through targets and apply damage

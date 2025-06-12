@@ -17,7 +17,7 @@ namespace Terra.RewardSystem
 
         private int maxFlatModifier = 5;
         //private float maxPercentAddModifier = 0.5f;
-        private float maxPercentMultModifier = 0.5f;
+        private int maxPercentMultModifier = 50;
 
         public string RewardName => rewardName;
         public string RewardDescription => rewardDescription;
@@ -57,7 +57,7 @@ namespace Terra.RewardSystem
 
         public ValueModifier AddRandomModifier()
         {
-            float modifierMaxValue = 0;
+            int modifierMaxValue = 0;
             StatModType statModType = default;
             ValueModifier valueModifier = default;
 

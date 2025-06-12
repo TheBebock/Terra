@@ -15,7 +15,7 @@ namespace Terra.Combat
     {
 
         [SerializeField] private ModifiableValue _maxHealth;
-        [SerializeField] private float _currentHealth;
+        [SerializeField] private int _currentHealth;
 
         [SerializeField] private bool _canBeHealed;
         [SerializeField] private bool _isInvincible;
@@ -25,19 +25,19 @@ namespace Terra.Combat
         private static float _invincibilityTimeAfterHit = 0.2f;
         public bool CanBeHealed => _canBeHealed;
         public bool IsInvincible => _isInvincible;
-        public float MaxHealth => _maxHealth.Value;
-        public float CurrentHealth => _currentHealth;
+        public int MaxHealth => _maxHealth.Value;
+        public int CurrentHealth => _currentHealth;
         public bool IsImmuneAfterHit => _immuneAfterHit;
-        public float NormalizedCurrentHealth => _currentHealth / _maxHealth.Value;
+        public float NormalizedCurrentHealth => (float)_currentHealth / _maxHealth.Value;
 
         public bool IsDead => _currentHealth <= 0;
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
         public event Action<bool> OnCanBeHealedChanged;
         public event Action<float> OnHealthChangedNormalized;
-        public event Action<float> OnHealthChanged;
-        public event Action<float> OnDamaged;
-        public event Action<float> OnHealed;
+        public event Action<int> OnHealthChanged;
+        public event Action<int> OnDamaged;
+        public event Action<int> OnHealed;
         
         CancellationToken _cancellationToken;
         public HealthController(ModifiableValue modifiableValue, CancellationToken cancellationToken, bool canBeHealed = false)
@@ -47,7 +47,7 @@ namespace Terra.Combat
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
         }
-        public HealthController(float maxHealthValue, CancellationToken cancellationToken, bool canBeHealed = false)
+        public HealthController(int maxHealthValue, CancellationToken cancellationToken, bool canBeHealed = false)
         {
             _maxHealth = new ModifiableValue(maxHealthValue);
             _currentHealth = _maxHealth.Value;
@@ -61,18 +61,18 @@ namespace Terra.Combat
         /// <param name="amount">Amount of damage</param>
         /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as a percentage</param>
         /// <param name="isSilent">If marked as true, <see cref="OnDamaged"/> won't be called</param>
-        public void TakeDamage(float amount, bool isPercentage = false, bool isSilent = false)
+        public void TakeDamage(int amount, bool isPercentage = false, bool isSilent = false)
         {
 
             if (IsDead || IsImmuneAfterHit) return;
 
-            float calculatedValue = CalculateValue(amount, isPercentage);
+            int calculatedValue = CalculateValue(amount, isPercentage);
 
             // Change health amount
             _currentHealth -= calculatedValue;
 
             // Clamp value, if invincible then set health to 1
-            _currentHealth = Mathf.Max(_currentHealth, IsInvincible ? 1f : 0f);
+            _currentHealth = Mathf.Max(_currentHealth, IsInvincible ? 1 : 0);
 
 
             OnHealthChanged?.Invoke(_currentHealth);
@@ -98,9 +98,9 @@ namespace Terra.Combat
         /// </summary>
         /// <param name="amount">Heal amount</param>
         /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as a percentage</param>
-        public void Heal(float amount, bool isPercentage = false)
+        public void Heal(int amount, bool isPercentage = false)
         {
-            float calculatedValue = CalculateValue(amount, isPercentage);
+            int calculatedValue = CalculateValue(amount, isPercentage);
             
             // Increase current health
             _currentHealth += calculatedValue;
@@ -117,7 +117,7 @@ namespace Terra.Combat
         /// <summary>
         ///     Returns calculated value, either flat of percentage of max health
         /// </summary>
-        private float CalculateValue(float amount, bool isPercentage)
+        private int CalculateValue(int amount, bool isPercentage)
         {
             amount = Mathf.Abs(amount);
             
@@ -127,7 +127,7 @@ namespace Terra.Combat
                 return amount;
             }
             // Percentage value of max health
-            return MaxHealth * amount.ToFactor();
+            return Mathf.RoundToInt(MaxHealth * amount.ToFactor());
         }
         /// <summary>
         ///     Change invincibility state

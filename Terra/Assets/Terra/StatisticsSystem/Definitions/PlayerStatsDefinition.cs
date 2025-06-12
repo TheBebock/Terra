@@ -5,7 +5,7 @@ namespace Terra.StatisticsSystem.Definitions
     [CreateAssetMenu(fileName = "PlayerStats_", menuName = "TheBebocks/Statistics/PlayerStats")]
     public class PlayerStatsDefinition : CharacterStatsDefinition
     {
-        public float baseLuck;
+        public int baseLuck;
     }
 }
 

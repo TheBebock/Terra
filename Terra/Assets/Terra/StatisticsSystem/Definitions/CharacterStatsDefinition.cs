@@ -5,9 +5,9 @@ namespace Terra.StatisticsSystem.Definitions
     public abstract class CharacterStatsDefinition : ScriptableObject
     {
         [Header("Character Stats")]
-        public float baseStrength;
-        public float baseMaxHealth;
-        public float baseSpeed;
+        public int baseStrength;
+        public int baseMaxHealth;
+        public int baseSpeed;
     }
 }
 

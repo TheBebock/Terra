@@ -8,6 +8,6 @@ namespace Terra.Combat
         /// <summary>
         /// Heal entity by given amount
         /// </summary>
-        public void Heal(float amount, bool isPercentage = false);
+        public void Heal(int amount, bool isPercentage = false);
     }
 }

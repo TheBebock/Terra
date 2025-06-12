@@ -9,19 +9,18 @@ namespace Terra.Core.ModifiableValue
     public enum StatModType: int
     {
         Flat = 100,
-        PercentAdd = 200,
         PercentMult = 300,
     }
 
     [Serializable]
     public class ValueModifier 
     {
-        public float Value;
+        public int Value;
         public StatModType Type;
         [HideInInspector, ReadOnly] public int SourceID;
         [HideInInspector, ReadOnly] public readonly int Order;
 
-        public ValueModifier(float value, StatModType type, int sourceID = Constants.DEFAULT_ID)
+        public ValueModifier(int value, StatModType type, int sourceID = Constants.DEFAULT_ID)
         {
             Value = value;
             Type = type;
@@ -29,7 +28,7 @@ namespace Terra.Core.ModifiableValue
             SourceID = sourceID;
         }
         
-        public ValueModifier(float value, StatModType type, object source) : this(value, type)
+        public ValueModifier(int value, StatModType type, object source) : this(value, type)
         {
             // Check for null
             if (source == null) return;
