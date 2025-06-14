@@ -53,7 +53,8 @@ namespace Terra.AI.Enemy
 
             Quaternion rot = Quaternion.LookRotation(dir);
 
-   
+            UpdateFacingDirection(dir);
+            
             Projectile p = ProjectileFactory.CreateProjectile(
                 Data.bulletData,
                 firePoint.position,

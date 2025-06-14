@@ -13,8 +13,6 @@ namespace Terra.Combat.Projectiles
         
         public EffectsContainer bulletEffects;
         
-        public Sprite bulletSprite;
-        
         [Tooltip("Amount of additional targets before destroying")]
         [Min(0)]public int penetrationPower;
         

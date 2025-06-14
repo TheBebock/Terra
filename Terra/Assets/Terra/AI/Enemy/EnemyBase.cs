@@ -114,21 +114,33 @@ namespace Terra.AI.Enemy
             stateMachine.Update();
             attackTimer.Tick(Time.deltaTime);
 
-            UpdateFacingDirection(playerDetector.transform);
+            UpdateFacingDirection();
 
         }
 
         /// <summary>
         /// Updates facing direction based on agent velocity.
         /// </summary>
-        public void UpdateFacingDirection(Transform player)
+        public void UpdateFacingDirection()
         {
             float vx = agent.velocity.x;
-            float directionChangeThreshold = 0.05f;
+            float directionChangeThreshold = 0.02f;
+            
+            FacingDirection newDirection = vx > directionChangeThreshold ? FacingDirection.Right : FacingDirection.Left;
 
-            // Use Mathf.Sign to simplify direction change logic
-            FacingDirection newDirection = vx > directionChangeThreshold ? FacingDirection.Right :
-                                          vx < -directionChangeThreshold ? FacingDirection.Left : CurrentDirection;
+            if (newDirection != CurrentDirection)
+            {
+                CurrentDirection = newDirection;
+                animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
+            }
+        }
+        
+        /// <summary>
+        /// Updates facing direction based on looking direction.
+        /// </summary>
+        public void UpdateFacingDirection(Vector3 direction)
+        {
+            FacingDirection newDirection = direction.x > 0? FacingDirection.Right : FacingDirection.Left;
 
             if (newDirection != CurrentDirection)
             {

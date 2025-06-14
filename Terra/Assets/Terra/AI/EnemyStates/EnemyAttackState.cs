@@ -6,9 +6,6 @@ using UnityEngine.AI;
 
 namespace Terra.AI.EnemyStates {
     public class EnemyAttackState : EnemyBaseAttackState {
-        
-        private const float AttackCooldown = 1f;
-        private float _lastAttackTime;
         public EnemyAttackState(EnemyBase enemy, NavMeshAgent agent, Animator animator, PlayerEntity player) : base(enemy, agent, animator, player)
         {
         }
@@ -17,21 +14,13 @@ namespace Terra.AI.EnemyStates {
         {
             base.OnEnter();
             
-            string animationName = enemy.CurrentDirection == FacingDirection.Left ? "AttackLeft" : "AttackRight";
+            int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);
         }
-        
+
         protected override void OnAttack()
         {
             return;
-            if (Time.time - _lastAttackTime >= AttackCooldown)
-            {
-                if (Vector3.Distance(enemy.transform.position, Player.transform.position) <= enemy.AttackRange)
-                {
-                    enemy.AttemptAttack();
-                }
-                _lastAttackTime = Time.time;
-            }
         }
     }
 }

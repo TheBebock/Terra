@@ -260,8 +260,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 80.17, y: 101.41, z: 100}
-  m_LocalScale: {x: 1, y: 1.0105, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5157499, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1527108251388257540}
   - {fileID: 8826857320582580891}
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxController: {fileID: 0}
+  _vfxController: {fileID: 8164218734187088338}
   _id: -1
   enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
   agent: {fileID: 6404629157487420004}

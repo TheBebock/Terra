@@ -36,13 +36,14 @@ namespace Terra.AI.Enemy
 
         public override void AttemptAttack()
         {
-            //if (!attackTimer.IsFinished) return;
-
+            Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;
+            
+            UpdateFacingDirection(dir);
+            
             var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
                 transform.position, Data.attackRadius, ComponentProvider.EnemyTargetsMask);
 
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: enemyStats.baseStrength);
-            //attackTimer.Reset();
         }
 
         private void OnDrawGizmos()

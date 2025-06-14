@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5922325539392790742}
   - component: {fileID: 7648631588216878980}
   - component: {fileID: 7754915034031940339}
+  - component: {fileID: 1368070334944388938}
   m_Layer: 12
   m_Name: P_ItemContainer
   m_TagString: Untagged
@@ -70,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55616dd75eb969f4eb672c15612d559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxController: {fileID: 1368070334944388938}
   _id: -1
   _isInitialized: 0
   _itemRenderer: {fileID: 8213990560137699798}
@@ -91,6 +93,23 @@ MonoBehaviour:
   lockX: 0
   lockY: 1
   lockZ: 1
+--- !u!114 &1368070334944388938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881810919208388100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: 7648631588216878980}
+  _entityModel: {fileID: 8213990560137699798}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &4166640865539908907
 GameObject:
   m_ObjectHideFlags: 0

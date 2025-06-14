@@ -15,15 +15,17 @@ namespace Terra.AI.EnemyStates {
         {
             _lastAttackTime = Time.time;  // Initialize last attack time to current time
         }
-
-        // Called when entering the attack state
+        
         public override void OnEnter() {
             base.OnEnter();
             
-            enemy.transform.LookAt(Player.transform);
+
+            Vector3 dir = (PlayerManager.Instance.transform.position - enemy.transform.position).normalized;
+            enemy.UpdateFacingDirection(dir);
+
             // Set the animation based on the direction the enemy is facing
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
-            animator.CrossFade(animationName, CrossFadeDuration);  // Cross-fade to the attack animation
+            animator.CrossFade(animationName, CrossFadeDuration);
         }
 
         // The attack logic, called during each update
@@ -37,7 +39,7 @@ namespace Terra.AI.EnemyStates {
             if (!IsPlayerInRange()) {
                 return;  // Exit if the player is out of range
             }
-
+            
             // Check if the path to the player is clear (no obstacles)
             if (Time.time - _lastAttackTime >= AttackCooldownTime && IsPathClearToPlayer()) {
                 // If there's no obstacle, perform the attack
@@ -62,7 +64,7 @@ namespace Terra.AI.EnemyStates {
             
             
             // Perform a raycast to check if anything blocks the path
-            if (Physics.Raycast(enemy.transform.position, directionToPlayer, out RaycastHit hit, Mathf.Infinity)) {
+            if (Physics.Raycast(enemy.transform.position, directionToPlayer, out RaycastHit hit, 100f)) {
                 // If the ray hits something that isn't the player, return false (path is blocked)
                 if (hit.transform != Player.transform) {
                     return false;

@@ -80,7 +80,7 @@ namespace Terra.ID
             if (usedIds.Contains(uniqueIdHolder.Identity))
             {
                 usedIds.Remove(uniqueIdHolder.Identity);
-                Debug.Log($"Returning ID {uniqueIdHolder.Identity}");
+                Debug.LogWarning($"Returning ID {uniqueIdHolder.Identity}");
                 uniqueIdHolder.SetID(Utils.Constants.DEFAULT_ID);
                 return;
             }

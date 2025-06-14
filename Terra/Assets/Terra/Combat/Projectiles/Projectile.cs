@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using Terra.AI.EnemyStates;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
 using Terra.Managers;
@@ -14,6 +15,7 @@ namespace Terra.Combat.Projectiles
     {
         [Foldout("References")][SerializeField] private SpriteRenderer _spriteRenderer;
         [Foldout("References")][SerializeField] private Rigidbody _rigidbody;
+        [Foldout("References")][SerializeField] private Animator _animator;
         
         [Foldout("Debug"), ReadOnly][SerializeField] private int _penetrationTargets;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _damage;
@@ -21,16 +23,19 @@ namespace Terra.Combat.Projectiles
         [Foldout("Debug"), ReadOnly][SerializeField] private LayerMask _originLayer;
         [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effects;
         
-        /// <summary>
-        /// Initializes the projectile with configuration data and sets its velocity.
-        /// </summary>
+        private LayerMask _playerLayer;
+
         private void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            _playerLayer = LayerMask.NameToLayer("Player");
         }
+        
+        /// <summary>
+        ///     Initializes the projectile with configuration data and sets its velocity.
+        /// </summary>
         public void Initialize(BulletData data, Vector3 direction, Entity origin)
         {
-            if(data.bulletSprite) _spriteRenderer.sprite = data.bulletSprite;
+            
             _penetrationTargets = data.penetrationPower;
             _damage = data.bulletDamage;
             _effects = data.bulletEffects;
@@ -38,7 +43,17 @@ namespace Terra.Combat.Projectiles
             _originLayer = origin.gameObject.layer;
             _rigidbody.velocity = direction.normalized * data.bulletSpeed;
             transform.forward  = direction.normalized;
-            
+            if (origin.gameObject.layer != _playerLayer)
+            {
+                if (direction.x < 0)
+                {
+                    _animator.CrossFade(AnimationHashes.AttackLeft, 0.1f);
+                }
+                else
+                {
+                    _animator.CrossFade(AnimationHashes.AttackRight, 0.1f);
+                }
+            }
             Destroy(gameObject, 10f);
         }
 
@@ -58,7 +73,9 @@ namespace Terra.Combat.Projectiles
 
         private void OnValidate()
         {
-            if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
+            if(!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
+            if(!_spriteRenderer) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if(!_animator) _animator = GetComponentInChildren<Animator>();
         }
     }
 }

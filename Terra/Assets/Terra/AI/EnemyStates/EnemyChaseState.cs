@@ -12,11 +12,9 @@ namespace Terra.AI.EnemyStates {
             _player = player;
         }
 
-        public override void OnEnter() {
+        public override void OnEnter()
+        {
             Debug.Log("Chase");
-
-            enemy.UpdateFacingDirection(_player);
-            
 
             animator.CrossFade(AnimationHashes.WalkLeft, CrossFadeDuration);
         }
@@ -30,9 +28,6 @@ namespace Terra.AI.EnemyStates {
 
             // Set the destination to the player's current position
             navMeshAgent.SetDestination(_player.position);
-
-            // Update the facing direction using the player's transform
-            enemy.UpdateFacingDirection(_player);
         }
     }
 }
