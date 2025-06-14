@@ -24,7 +24,6 @@ namespace Terra.Environment
         [SerializeField] private float _deathFadeDuration = 2.5f;
         [SerializeField] private AnimationCurve _deathFadeCurve;
         
-        [Foldout("References")][SerializeField] private SpriteRenderer _propModel;
         [Foldout("References")][SerializeField] private Animator _propAnimator;
         [Foldout("References")][SerializeField] private SpriteRenderer _propShadow;
         
@@ -76,11 +75,8 @@ namespace Terra.Environment
             
             _propAnimator.SetTrigger(AnimationHashes.OnDamaged);
 
-            if (_doSequence == null)
-            {
-                _doSequence.Append(_propModel.material.DOColor(_onDamagedColor, 0.25f)
-                    .SetLoops(2, LoopType.Yoyo));
-            }
+            VFXController.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
+            VFXController.PlayParticleOnEntity(VFXController.onHitParticle);
         }
 
         public void Kill(bool isSilent = false) => _healthController.Kill(isSilent);
@@ -96,8 +92,9 @@ namespace Terra.Environment
 
             AudioManager.Instance.PlaySFXAtSource(destroySfx, _audioSource);
             _propAnimator.SetTrigger(AnimationHashes.Death);
-            _propModel.material.DOFade(0f, _deathFadeDuration).SetEase(_deathFadeCurve);
-           
+            VFXController.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);
+            VFXController.PlayParticleOnEntity(VFXController.onDeathParticle);
+
             Destroy(gameObject, _deathFadeDuration + 0.5f);
         }
         

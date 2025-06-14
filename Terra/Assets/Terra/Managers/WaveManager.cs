@@ -160,6 +160,14 @@ namespace Terra.Managers
             _currentActiveEnemies++;
             enemy.HealthController.OnDeath += () => { _currentActiveEnemies--; };
         }
+        
+        public void SpawnEnemy(EnemyBase enemyPrefab, Vector3 position)
+        {
+            EnemyBase enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+
+            _currentActiveEnemies++;
+            enemy.HealthController.OnDeath += () => { _currentActiveEnemies--; };
+        }
 
         private void OnLevelEnd()
         {

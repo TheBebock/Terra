@@ -21,7 +21,7 @@ namespace Terra.AI.EnemyStates {
         
         public override void Update() {
 
-            if (!IsPlayerAlive) {
+            if (!IsPlayerAlive || enemy.HealthController.IsDead) {
 
                 return; // Do not chase further if the player is not alive
             }

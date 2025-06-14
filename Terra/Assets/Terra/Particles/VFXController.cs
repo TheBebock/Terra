@@ -13,6 +13,10 @@ namespace Terra.Particles
     [RequireComponent(typeof(Entity))]
     public class VFXController : MonoBehaviour
     {
+        [Foldout("Particles")]  public ParticleComponent onSpawnParticle;
+        [Foldout("Particles")]  public ParticleComponent onHealParticle;
+        [Foldout("Particles")]  public ParticleComponent onHitParticle;
+        [Foldout("Particles")]  public ParticleComponent onDeathParticle;
         [Foldout("References")][SerializeField] private Entity _entity;
         [Foldout("References")][SerializeField] private SpriteRenderer _entityModel;
        
@@ -44,10 +48,15 @@ namespace Terra.Particles
             color.a = value;
             _modelMaterial.color = color;
         }
-        public void DoFadeModel(float endValue, float duration)
+        public void DoFadeModel(float endValue, float duration, AnimationCurve curve = null)
         {
+            if (curve == null)
+            {
+                curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+            }
+            
             endValue = Mathf.Clamp(endValue, 0, 1);
-            _modelMaterial.DOFade(endValue, duration);
+            _modelMaterial.DOFade(endValue, duration).SetEase(curve);
         }
 
         public void BlinkModelsColor(Color color, float fadeInDuration, float pauseDuration,
@@ -66,10 +75,19 @@ namespace Terra.Particles
             await _modelMaterial.DOColor(_defaultColor, fadeOutDuration).WithCancellation(cancellationToken:token);
         }
 
+        public void PlayParticleOnEntity(ParticleComponent particle) => 
+            SpawnAndAttachParticleToEntity(_entity, particle); 
+        
         public static void SpawnAndAttachParticleToEntity(Entity entity, ParticleComponent particleSystem, 
             Vector3 positionOffset = default, Quaternion rotation = default,
             float scaleModifier = 1.0f, float destroyDuration = 0f)
         {
+            if (!particleSystem)
+            {
+                Debug.LogError($"Tried to spawn particle system on ${entity.gameObject.name}, " +
+                               $"but particle system is null");
+                return;
+            }
             
             if (entity.VFXController._activeParticles.TryFind(p=> p == particleSystem,
                     out ParticleComponent foundParticle))
@@ -90,6 +108,11 @@ namespace Terra.Particles
         public static void SpawnParticleInWorld(ParticleComponent particleSystem, Vector3 position, Quaternion rotation, 
             float scaleModifier = 1.0f, float destroyDuration = 0f)
         {
+            if (!particleSystem)
+            {
+                Debug.LogError($"Tried to spawn particle system on coordinates {position}, but it's null");
+                return;
+            }
             ParticleComponent particle = Instantiate(particleSystem, position, rotation);
             particle.transform.localScale *= scaleModifier;
             

@@ -24,6 +24,9 @@ namespace Terra.AI.Enemy
         where TEnemyData : EnemyData
     {
         protected abstract TEnemyData Data { get; }
+
+        public sealed override float AttackRange => Data.attackRange;
+
         public virtual void SetUp()
         {
             playerDetector.Init(Data);
@@ -89,6 +92,7 @@ namespace Terra.AI.Enemy
 
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth), CancellationToken);
+
             attackTimer = new CountdownTimer(GetAttackCooldown());
 
             AttachListeners();
@@ -177,9 +181,9 @@ namespace Terra.AI.Enemy
 
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
-
-            // Flash red when damaged for feedback
-            enemyModel.material.DOColor(Color.red, 0.25f).SetLoops(2, LoopType.Yoyo);
+            
+            VFXController.PlayParticleOnEntity(VFXController.onHitParticle);
+            VFXController.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
         }
 
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
@@ -192,7 +196,7 @@ namespace Terra.AI.Enemy
         /// <summary>
         /// Handles death behavior and schedules cleanup.
         /// </summary>
-        private void OnDeath()
+        protected virtual void OnDeath()
         {
             if (isDead) return;
             
@@ -202,10 +206,18 @@ namespace Terra.AI.Enemy
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             agent.enabled = false;
+            VFXController.PlayParticleOnEntity(VFXController.onDeathParticle);
 
-            LootManager.Instance.SpawnCrystalPickup(ItemsSpawnPosition);
-            
+            SpawnLootOnDeath();
             Destroy(gameObject, 5f); 
+        }
+
+        /// <summary>
+        ///     Spawn crystal pickup on death, override to not perform other actions
+        /// </summary>
+        protected virtual void SpawnLootOnDeath()
+        {
+            LootManager.Instance.SpawnCrystalPickup(ItemsSpawnPosition);
         }
 
         public virtual void AttachListeners()
@@ -242,14 +254,14 @@ namespace Terra.AI.Enemy
 
             if (animator == null)
             {
-                animator = GetComponent<Animator>();
+                animator = GetComponentInChildren<Animator>();
                 if (animator == null)
                     Debug.LogError($"[{name}] Missing Animator component.", this);
             }
 
             if (enemyCollider == null)
             {
-                enemyCollider = GetComponent<Collider>();
+                enemyCollider = GetComponentInChildren<Collider>();
                 if (enemyCollider == null)
                     Debug.LogError($"[{name}] Missing Collider component.", this);
             }

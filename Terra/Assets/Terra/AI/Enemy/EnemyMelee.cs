@@ -18,7 +18,6 @@ namespace Terra.AI.Enemy
 
         protected override float GetAttackCooldown() => Data.attackCooldown;
         
-        public override float AttackRange => Data.attackRange;
 
         protected override void SetupStates()
         {

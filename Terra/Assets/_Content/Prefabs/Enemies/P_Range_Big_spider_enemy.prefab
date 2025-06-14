@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 1624681826800207199}
   - component: {fileID: 507655667590181319}
   m_Layer: 7
-  m_Name: Range_Big_spider_enemy
+  m_Name: P_Range_Big_spider_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   hurtSFX: {fileID: 0}
   deathSFX: {fileID: 0}
   _data: {fileID: 11400000, guid: 5c6a7a1e331a80e4da45b7dc3e3d2189, type: 2}
-  firePoint: {fileID: 866614074123166130}
+  _firePoint: {fileID: 866614074123166130}
 --- !u!114 &507655667590181319
 MonoBehaviour:
   m_ObjectHideFlags: 0

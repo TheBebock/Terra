@@ -7,7 +7,10 @@ namespace Terra.Components
 {
     [RequireComponent(typeof(ParticleSystem))]
     public class ParticleComponent : MonoBehaviour
-    {
+    { 
+        
+        [Tooltip("If the particle is played often, this shouldn't be marked, for example: 'OnHit' is played often")]
+        [SerializeField] private bool _isDestroyable;
         [SerializeField] private float _duration;
         [Foldout("Debug")] [SerializeField] private ParticleSystem _particles;
         private CountdownTimer _timer;
@@ -15,6 +18,9 @@ namespace Terra.Components
         public static event Action<ParticleComponent> OnParticleDestroyed;
         public void Initialize(float newDuration = 0f)
         {
+            _particles.Play();
+            if(!_isDestroyable) return;
+            
             if(newDuration > 0f) _duration = newDuration;
             if (_particles.main.loop)
             {
@@ -28,9 +34,18 @@ namespace Terra.Components
             if(!Mathf.Approximately(_duration, -1f)) _timer.Start();
             _timer.OnTimerStop += () => Destroy(gameObject);
         }
-        
-        public void ResetTimer() => _timer.Reset();
-        public void ResetTimer(float newDuration) => _timer.Reset(newDuration);
+
+        public void ResetTimer()
+        {
+            if(!_isDestroyable) _particles.Play();
+            _timer?.Reset();
+        }
+
+        public void ResetTimer(float newDuration)
+        {
+            if(!_isDestroyable) _particles.Play();
+            _timer?.Reset(newDuration);
+        } 
 
         private void Update()
         {

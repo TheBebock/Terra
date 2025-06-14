@@ -14,12 +14,10 @@ namespace Terra.AI.Enemy
         protected override RangedEnemyData Data => _data;
         
         [Header("References")]
-        [SerializeField] private Transform firePoint;
+        [SerializeField] private Transform _firePoint;
         
 
         protected override float GetAttackCooldown() => Data.attackCooldown;
-
-        public override float AttackRange => Data.attackRange;
 
         protected override void SetupStates()
         {
@@ -46,10 +44,10 @@ namespace Terra.AI.Enemy
         public override void AttemptAttack()
         {
             if (!attackTimer.IsFinished) return;
-            if (firePoint == null) { Debug.LogError("firePoint missing"); return; }
+            if (_firePoint == null) { Debug.LogError("firePoint missing"); return; }
 
 
-            Vector3 dir = (PlayerManager.Instance.transform.position - firePoint.position).normalized;
+            Vector3 dir = (PlayerManager.Instance.transform.position - _firePoint.position).normalized;
 
             Quaternion rot = Quaternion.LookRotation(dir);
 
@@ -57,7 +55,7 @@ namespace Terra.AI.Enemy
             
             Projectile p = ProjectileFactory.CreateProjectile(
                 Data.bulletData,
-                firePoint.position,
+                _firePoint.position,
                 dir,
                 this
             );

@@ -23,6 +23,7 @@ namespace Terra.Combat
         [SerializeField] private bool _immuneAfterHit;
         
         private static float _invincibilityTimeAfterHit = 0.2f;
+        private static float _invincibilityTimeAfterSpawn = 0.5f;
         public bool CanBeHealed => _canBeHealed;
         public bool IsInvincible => _isInvincible;
         public int MaxHealth => _maxHealth.Value;
@@ -46,6 +47,7 @@ namespace Terra.Combat
             _currentHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
+            _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
         }
         public HealthController(int maxHealthValue, CancellationToken cancellationToken, bool canBeHealed = false)
         {
@@ -53,6 +55,8 @@ namespace Terra.Combat
             _currentHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
+            
+            _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
         }
 
         /// <summary>
@@ -89,7 +93,7 @@ namespace Terra.Combat
                 OnDamaged?.Invoke(calculatedValue);
             }
 
-            _ = ImmunityTimer().AttachExternalCancellation(_cancellationToken);
+            _ = ImmunityTimer(_invincibilityTimeAfterHit).AttachExternalCancellation(_cancellationToken);
         }
 
 
@@ -177,10 +181,10 @@ namespace Terra.Combat
             TakeDamage(MaxHealth, isSilent: isSilent);
         }
 
-        private async UniTask ImmunityTimer()
+        private async UniTask ImmunityTimer(float time)
         {
             _immuneAfterHit = true;
-            await UniTask.WaitForSeconds(_invincibilityTimeAfterHit, cancellationToken: _cancellationToken);
+            await UniTask.WaitForSeconds(time, cancellationToken: _cancellationToken);
             _immuneAfterHit = false;
         }
 
