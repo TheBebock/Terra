@@ -1,5 +1,3 @@
-using Terra.Core.Generics;
-using Terra.Interfaces;
 using Terra.Player;
 using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;

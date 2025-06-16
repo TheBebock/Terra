@@ -9,7 +9,6 @@ using Terra.Extensions;
 using Terra.GameStates;
 using Terra.Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
@@ -39,6 +38,7 @@ namespace Terra.Managers
         [SerializeField] private float _spawnTimeInterval = 0.2f;
         
         [Header("Spawn Area")]
+        [SerializeField] private LayerMask _raycastLayerMask;
         [SerializeField] private Vector2 _spawnMin;
         [SerializeField] private Vector2 _spawnMax;
 
@@ -51,7 +51,12 @@ namespace Terra.Managers
 
         private CancellationTokenSource _waveCancellationTokenSource;
         private CancellationTokenSource _linkedCts;
+        private LayerMask _groundLayer;
         
+        protected override void Awake()
+        {
+            _groundLayer = LayerMask.NameToLayer("Ground");
+        }
 
         public void StartWaves()
         {
@@ -176,10 +181,28 @@ namespace Terra.Managers
 
         private Vector3 GetRandomSpawnPosition()
         {
+            int atempts = 8;
             float x = Random.Range(_spawnMin.x, _spawnMax.x);
             float z = Random.Range(_spawnMin.y, _spawnMax.y);
-            float y = 100f;
-            return new Vector3(x, y, z);
+            
+            while (atempts > 0)
+            {
+                Vector3 rayOrigin = new Vector3(x, 120f, z);
+
+                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, _raycastLayerMask))
+                {
+                    if (hit.transform.gameObject.layer == _groundLayer)
+                    {
+                        return hit.point;
+                    }
+                }
+                atempts--;
+                                
+                x = Random.Range(_spawnMin.x, _spawnMax.x);
+                z = Random.Range(_spawnMin.y, _spawnMax.y);
+            }
+            
+            return new Vector3(x, 100, z);
         }
         
         protected override void CleanUp()

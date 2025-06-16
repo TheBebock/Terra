@@ -249,7 +249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5511451956620070862
 Transform:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3723416919822668793}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -371,6 +371,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
   _entity: {fileID: 1986148890957680752}
   _entityModel: {fileID: 8352202127488331846}
   _modelMaterial: {fileID: 0}

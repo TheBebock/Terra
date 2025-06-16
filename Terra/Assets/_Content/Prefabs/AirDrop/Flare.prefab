@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8232403450878813543}
   - component: {fileID: 4203982484337168083}
   - component: {fileID: 3795571119780345853}
-  m_Layer: 0
-  m_Name: Square
+  m_Layer: 9
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 8666933444630377222}
   - component: {fileID: 3082271572817360101}
   - component: {fileID: 8504528141744330700}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FlareLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 4393068689361345038}
   - component: {fileID: 4939017922933646390}
   - component: {fileID: 417662908128963310}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5084,7 +5084,7 @@ GameObject:
   - component: {fileID: 8071504688529136924}
   - component: {fileID: 6602071480513227518}
   - component: {fileID: 3421784659982580509}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flare
   m_TagString: Flare
   m_Icon: {fileID: 0}
@@ -5155,8 +5155,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.97637177, y: 0.7333716, z: 0.3938675}
-  m_Center: {x: -0.22802353, y: 0.25108916, z: 0.038146973}
+  m_Size: {x: 0.97637177, y: 0.33348453, z: 0.3938675}
+  m_Center: {x: -0.22802353, y: 0.051145613, z: 0.038146973}
 --- !u!114 &3421784659982580509
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,10 +25,9 @@ namespace Terra.LootSystem.AirDrop
         
         void OnTriggerEnter(Collider other)
         {
-            IDamageable otherDamageable = other.GetComponent<IDamageable>();
-            if (otherDamageable != null)
+            if (other.TryGetComponent(out IDamageable damageable))
             {
-                otherDamageable.TakeDamage(_collisionDamage);
+                damageable.TakeDamage(_collisionDamage);
             }
             
             _crateLanding.ObjectHitSomething();

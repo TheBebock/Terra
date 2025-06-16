@@ -72,7 +72,6 @@ namespace Terra.Environment
 
         protected virtual void OnDamaged(int value)
         {
-            
             _propAnimator.SetTrigger(AnimationHashes.OnDamaged);
 
             VFXController.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);

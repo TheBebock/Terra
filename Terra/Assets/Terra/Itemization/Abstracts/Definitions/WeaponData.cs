@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using Terra.EffectsSystem.Abstract;
 using UnityEngine;
 

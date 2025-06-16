@@ -54,7 +54,7 @@ namespace Terra.Combat.Projectiles
                     _animator.CrossFade(AnimationHashes.AttackRight, 0.1f);
                 }
             }
-            Destroy(gameObject, 10f);
+            Destroy(gameObject, 20f);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -66,6 +66,7 @@ namespace Terra.Combat.Projectiles
                 CombatManager.Instance.PerformAttack(_origin, target, _effects,  _damage);
             }
 
+            Debug.Log($"{gameObject.name}: collided with {other.gameObject.name}");
             _penetrationTargets--;
             
             if(_penetrationTargets <0) Destroy(gameObject);

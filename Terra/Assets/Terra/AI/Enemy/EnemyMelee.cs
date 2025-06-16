@@ -1,4 +1,3 @@
-using System;
 using NaughtyAttributes;
 using Terra.AI.Data.Definitions;
 using Terra.AI.EnemyStates;
@@ -26,10 +25,12 @@ namespace Terra.AI.Enemy
             var attack = new EnemyAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
             
 
-            stateMachine.AddTransition(chase, attack, new FuncPredicate(() => playerDetector.CanAttackPlayer() && Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange));
-            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer()));
+            stateMachine.AddTransition(chase, attack,
+                new FuncPredicate(() => playerDetector.CanAttackPlayer() 
+                                        && !isDead));
+            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer() && !isDead));
      
-            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead));
+            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !isDead));
             stateMachine.SetState(chase);
         }
 

@@ -84,7 +84,7 @@ namespace Terra.Particles
         {
             if (!particleSystem)
             {
-                Debug.LogError($"Tried to spawn particle system on ${entity.gameObject.name}, " +
+                Debug.LogError($"Tried to spawn particle system on {entity.gameObject.name}, " +
                                $"but particle system is null");
                 return;
             }

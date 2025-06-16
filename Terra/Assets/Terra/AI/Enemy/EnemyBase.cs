@@ -1,4 +1,3 @@
-using DG.Tweening;
 using NaughtyAttributes;
 using Terra.AI.Data.Definitions;
 using Terra.AI.EnemyStates;
@@ -125,7 +124,7 @@ namespace Terra.AI.Enemy
         /// <summary>
         /// Updates facing direction based on agent velocity.
         /// </summary>
-        public void UpdateFacingDirection()
+        private void UpdateFacingDirection()
         {
             float vx = agent.velocity.x;
             float directionChangeThreshold = 0.02f;
@@ -206,6 +205,7 @@ namespace Terra.AI.Enemy
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             agent.enabled = false;
+            VFXController.DoFadeModel(0, 4f);
             VFXController.PlayParticleOnEntity(VFXController.onDeathParticle);
 
             SpawnLootOnDeath();
@@ -213,7 +213,7 @@ namespace Terra.AI.Enemy
         }
 
         /// <summary>
-        ///     Spawn crystal pickup on death, override to not perform other actions
+        ///     Spawn crystal pickup on death, override to perform other actions
         /// </summary>
         protected virtual void SpawnLootOnDeath()
         {

@@ -10,21 +10,17 @@ namespace Terra.AI.Enemy
     public class PlayerDetector : InGameMonobehaviour
     {
         [SerializeField, ReadOnly] private EnemyData _enemyData;
-        
-        private PlayerManager _playerManager;
+        [SerializeField, ReadOnly] private float _attackRange =-1;
         
         private CountdownTimer _detectionTimer;
         
         private IDetectionStrategy _detectionStrategy;
-
-
-        //TODO: Delete detecting player, enemy can always detect player
+        
         public void Init(EnemyData enemyData) => _enemyData = enemyData;
 
         public bool CanAttackPlayer() {
-            var directionToPlayer = PlayerManager.Instance.transform.position - transform.position;
             Debug.DrawLine(transform.position, PlayerManager.Instance.transform.position, Color.blue);
-            return directionToPlayer.magnitude <= _enemyData.attackRange;
+            return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= _enemyData.attackRange;
         }
         
         public void SetDetectionStrategy(IDetectionStrategy detectionStrategy) => this._detectionStrategy = detectionStrategy;
@@ -41,5 +37,7 @@ namespace Terra.AI.Enemy
                 Gizmos.DrawLine(transform.position, transform.position + backwardConeDirection);
             }
         }
+
+
     }
 }

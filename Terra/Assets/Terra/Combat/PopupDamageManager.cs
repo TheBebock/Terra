@@ -22,14 +22,11 @@ namespace Terra.Combat
 
         private void Start()
         {
-            //TextMesh popupTemp;
             PopupDamageCanvas popupCanvas;
-            TMP_Text popupTemp;
 
             for(int i = 0; i < amountToPool; i++)
             {
-                popupCanvas = Instantiate(popupCanvasPrefab);
-                popupCanvas.transform.parent = gameObject.transform;
+                popupCanvas = Instantiate(popupCanvasPrefab, gameObject.transform, true);
                 popupCanvas.gameObject.SetActive(false);
                 pooledPopups.Add(popupCanvas);
             }

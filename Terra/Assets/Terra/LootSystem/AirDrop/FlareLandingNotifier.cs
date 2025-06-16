@@ -15,11 +15,8 @@ namespace Terra.LootSystem.AirDrop
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log($"Flare collided with: {collision.gameObject.name}, layer: {collision.gameObject.layer}");
-
             if (!_hasLanded && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                Debug.Log("Flare landed on ground.");
                 _hasLanded = true;
                 _rigidbody.velocity = Vector3.zero;
                 _rigidbody.isKinematic = true;

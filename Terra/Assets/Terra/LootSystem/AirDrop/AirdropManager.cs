@@ -14,20 +14,16 @@ namespace Terra.LootSystem.AirDrop
         [SerializeField] private FlareLandingNotifier flarePrefab;
         [SerializeField] private GameObject cratePrefab;
         [SerializeField] private Transform dropContainer;
-
-        [SerializeField] private float _distanceToEdge = 0.5f;
+        
         [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
         [SerializeField] private float _crateDelay = 5f;
         [SerializeField] private float _crateHeightSpawnOffset = 10f;
-        
+        [SerializeField] private LayerMask _raycastLayerMask;
         [Header("Spawn Area")]
         [SerializeField] private Vector2 _spawnMin;
         [SerializeField] private Vector2 _spawnMax;
         
-
-        
         private LayerMask _groundLayer;
-        
 
         protected override void Awake()
         {
@@ -39,8 +35,6 @@ namespace Terra.LootSystem.AirDrop
             _ = AirdropLoop();
         }
         
-       
-
         private async UniTaskVoid AirdropLoop()
         {
             Debug.Log("Airdrop loop started.");
@@ -60,17 +54,28 @@ namespace Terra.LootSystem.AirDrop
 
         private Vector3 GetRandomPosition()
         {
-            float x = Random.Range(_spawnMin.x , _spawnMax.x);
-            float z = Random.Range(_spawnMin.y , _spawnMax.y);
-
-            Vector3 rayOrigin = new Vector3(x, 120f, z);
-            if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, _groundLayer))
+            int atempts = 8;
+            float x = Random.Range(_spawnMin.x, _spawnMax.x);
+            float z = Random.Range(_spawnMin.y, _spawnMax.y);
+            
+            while (atempts > 0)
             {
-                Debug.Log($"Found ground at: {hit.point}");
-                return hit.point;
-            }
+                Vector3 rayOrigin = new Vector3(x, 120f, z);
 
-            Debug.LogError("Raycast failed! Returning fallback spawn position.");
+                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, _raycastLayerMask))
+                {
+                    if (hit.transform.gameObject.layer == _groundLayer)
+                    {
+                        Debug.Log($"Found ground at: {hit.point}");
+                        return hit.point;
+                    }
+                }
+                atempts--;
+                                
+                x = Random.Range(_spawnMin.x, _spawnMax.x);
+                z = Random.Range(_spawnMin.y, _spawnMax.y);
+            }
+            
             return new Vector3(x, 100, z);
         }
 

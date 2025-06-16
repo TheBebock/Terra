@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 7695155615016309967}
   - component: {fileID: 898945593000998187}
   - component: {fileID: 808408188259601979}
-  - component: {fileID: 4086236222636937668}
   - component: {fileID: 1707316075407107676}
   - component: {fileID: 5765074683810301652}
   - component: {fileID: 4891421299865651559}
@@ -209,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 0}
+  _attackRange: -1
 --- !u!114 &808408188259601979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,46 +240,13 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
-  hurtSFX: {fileID: 0}
-  deathSFX: {fileID: 0}
+  hurtSFX: {fileID: 8300000, guid: 5f9ac63128bb68c41b7727e03c65f618, type: 3}
+  deathSFX: {fileID: 8300000, guid: d6e2c85d12a350e448fed0b8a69a884a, type: 3}
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
   _enemyToSpawn: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
     type: 3}
   _amountToSpawn: 2
---- !u!114 &4086236222636937668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3697213520634170837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vfxController: {fileID: 1707316075407107676}
-  _id: -1
-  enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
-  agent: {fileID: 7695155615016309967}
-  playerDetector: {fileID: 898945593000998187}
-  animator: {fileID: 1319120290799917922}
-  enemyCollider: {fileID: 2692785549797332523}
-  enemyModel: {fileID: 5902760152611172917}
-  _healthController:
-    _maxHealth:
-      baseValue: 0
-      StatModifiers: []
-    _currentHealth: 0
-    _canBeHealed: 0
-    _isInvincible: 0
-    _immuneAfterHit: 0
-  _statusContainer:
-    _entity: {fileID: 0}
-    _statuses: []
-  hurtSFX: {fileID: 8300000, guid: 5f9ac63128bb68c41b7727e03c65f618, type: 3}
-  deathSFX: {fileID: 8300000, guid: d6e2c85d12a350e448fed0b8a69a884a, type: 3}
-  _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
+  _spawnDelay: 0.5
 --- !u!114 &1707316075407107676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entity: {fileID: 4086236222636937668}
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _entity: {fileID: 808408188259601979}
   _entityModel: {fileID: 5902760152611172917}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
@@ -332,7 +303,7 @@ MonoBehaviour:
     OnAnimationEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4086236222636937668}
+        - m_Target: {fileID: 808408188259601979}
           m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyMelee, Terra
           m_MethodName: AttemptAttack
           m_Mode: 1
@@ -402,7 +373,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

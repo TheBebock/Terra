@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 31574584213284941}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.64993, y: 9.054878, z: 28.88}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -60,7 +60,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &167767852919785825
 MonoBehaviour:
@@ -76,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 1380208981087161323}
   _rigidbody: {fileID: 1945754477671924366}
+  _animator: {fileID: 876622528808538028}
   _penetrationTargets: 0
   _damage: 0
   _origin: {fileID: 0}
@@ -98,7 +99,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 33024
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

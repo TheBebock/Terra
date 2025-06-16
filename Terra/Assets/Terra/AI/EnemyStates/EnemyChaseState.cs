@@ -27,7 +27,7 @@ namespace Terra.AI.EnemyStates {
             }
 
             // Set the destination to the player's current position
-            navMeshAgent.SetDestination(_player.position);
+            if(navMeshAgent.enabled && !navMeshAgent.isStopped) navMeshAgent.SetDestination(_player.position);
         }
     }
 }

@@ -34,7 +34,6 @@ MonoBehaviour:
     bulletEffects:
       statuses: []
       actions: []
-    bulletSprite: {fileID: 0}
     penetrationPower: 0
-    bulletSpeed: 10
+    bulletSpeed: 20
     bulletDamage: 5
