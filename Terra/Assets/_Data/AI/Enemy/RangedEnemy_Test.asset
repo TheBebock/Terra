@@ -15,14 +15,14 @@ MonoBehaviour:
   attackCooldown: 1
   attackRange: 20
   bulletData:
-    bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,
+    bulletPrefab: {fileID: 167767852919785825, guid: 87d6558933bc08a499f1bbddcb8cbda1,
       type: 3}
     bulletEffects:
       statuses: []
       actions: []
+    penetrationPower: 0
     bulletSpeed: 10
     bulletDamage: 10
-    bulletLifetime: 20
   detectionAngle: 60
   detectionRadius: 7
   innerDetectionRadius: 5

@@ -1034,6 +1034,9 @@ MonoBehaviour:
   _enemiesToSpawnPerWave: 1
   _enemiesPerWaveGain: 0.4
   _spawnTimeInterval: 1.5
+  _raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   _spawnMin: {x: 81, y: 90}
   _spawnMax: {x: 119, y: 108}
   _isPaused: 0
