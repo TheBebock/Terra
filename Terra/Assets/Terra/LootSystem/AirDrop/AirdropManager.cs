@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Interfaces;
+using Terra.StatisticsSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,14 +12,15 @@ namespace Terra.LootSystem.AirDrop
         [SerializeField] private FlareLandingNotifier flarePrefab;
         [SerializeField] private GameObject cratePrefab;
         [SerializeField] private Transform dropContainer;
+        [SerializeField] private PlayerStats playerStats;
         
-        [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
-        [SerializeField] private float _crateDelay = 5f;
-        [SerializeField] private float _crateHeightSpawnOffset = 10f;
-        [SerializeField] private LayerMask _raycastLayerMask;
+        [SerializeField] private Vector2 dropIntervalRange = new(60f, 90f);
+        [SerializeField] private float crateDelay = 5f;
+        [SerializeField] private float crateHeightSpawnOffset = 10f;
+        [SerializeField] private LayerMask raycastLayerMask;
         [Header("Spawn Area")]
-        [SerializeField] private Vector2 _spawnMin;
-        [SerializeField] private Vector2 _spawnMax;
+        [SerializeField] private Vector2 spawnMin;
+        [SerializeField] private Vector2 spawnMax;
         
         private LayerMask _groundLayer;
 
@@ -34,13 +33,39 @@ namespace Terra.LootSystem.AirDrop
         {
             _ = AirdropLoop();
         }
-        
+        private float GetModifiedSpawnDelay()
+        {
+            // Base interval values (in seconds) for airdrop spawn frequency
+            float baseMin = dropIntervalRange.x;
+            float baseMax = dropIntervalRange.y;
+
+            // Get the player's current Luck value, clamped between 0 and 100 to avoid extreme cases
+            int luck = (int)Mathf.Clamp(playerStats.Luck, 0, 100); 
+
+            // Compute a luck factor that scales the interval:
+            // When luck = 0   → factor = 1.0 (no change)
+            // When luck = 100 → factor = 0.5 (interval reduced by half)
+            //
+            // This means the higher the luck, the shorter the time between airdrops.
+            // We're dividing by 200 to map 0–100 luck → 1.0–0.5 factor range.
+            float luckFactor = 1f - (luck / 200f); 
+
+            // Scale the original time interval using the computed factor.
+            // This results in a shorter interval for higher luck values.
+            float modifiedMin = baseMin * luckFactor;
+            float modifiedMax = baseMax * luckFactor;
+
+            // Return a random value between the modified min and max delay
+            return Random.Range(modifiedMin, modifiedMax);
+        }
+
+
         private async UniTaskVoid AirdropLoop()
         {
             Debug.Log("Airdrop loop started.");
             while (true)
             {
-                float spawnDelay = Random.Range(_dropIntervalRange.x, _dropIntervalRange.y); ;
+                float spawnDelay = GetModifiedSpawnDelay();
                 await UniTask.WaitForSeconds(spawnDelay, cancellationToken:CancellationToken);
 
                 Debug.Log("Dropping flare...");
@@ -55,14 +80,14 @@ namespace Terra.LootSystem.AirDrop
         private Vector3 GetRandomPosition()
         {
             int atempts = 8;
-            float x = Random.Range(_spawnMin.x, _spawnMax.x);
-            float z = Random.Range(_spawnMin.y, _spawnMax.y);
+            float x = Random.Range(spawnMin.x, spawnMax.x);
+            float z = Random.Range(spawnMin.y, spawnMax.y);
             
             while (atempts > 0)
             {
                 Vector3 rayOrigin = new Vector3(x, 120f, z);
 
-                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, _raycastLayerMask))
+                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, raycastLayerMask))
                 {
                     if (hit.transform.gameObject.layer == _groundLayer)
                     {
@@ -72,8 +97,8 @@ namespace Terra.LootSystem.AirDrop
                 }
                 atempts--;
                                 
-                x = Random.Range(_spawnMin.x, _spawnMax.x);
-                z = Random.Range(_spawnMin.y, _spawnMax.y);
+                x = Random.Range(spawnMin.x, spawnMax.x);
+                z = Random.Range(spawnMin.y, spawnMax.y);
             }
             
             return new Vector3(x, 100, z);
@@ -100,9 +125,9 @@ namespace Terra.LootSystem.AirDrop
             await UniTask.WaitUntil( ()=> landed, cancellationToken:CancellationToken);
             
 
-            await UniTask.WaitForSeconds(_crateDelay, cancellationToken:CancellationToken);
+            await UniTask.WaitForSeconds(crateDelay, cancellationToken:CancellationToken);
 
-            groundPosition.y += _crateHeightSpawnOffset;
+            groundPosition.y += crateHeightSpawnOffset;
             
             Debug.Log($"Instantiating crate at: {groundPosition}");
             
