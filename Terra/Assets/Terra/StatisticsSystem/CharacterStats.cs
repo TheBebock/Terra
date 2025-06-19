@@ -16,17 +16,20 @@ namespace Terra.StatisticsSystem
         [Foldout("Debug")][SerializeField] private ModifiableValue strength;
         [Foldout("Debug")][SerializeField] private ModifiableValue maxHealth;
         [Foldout("Debug")][SerializeField] private ModifiableValue dexterity;
+        [Foldout("Debug")][SerializeField] private ModifiableValue luck;
         
-        public CharacterStats(int baseStrength, int baseMaxHealth, int baseSpeed)
+        public CharacterStats(int baseStrength, int baseMaxHealth, int baseSpeed, int baseLuck)
         {
             strength = new ModifiableValue(baseStrength);
             maxHealth = new ModifiableValue(baseMaxHealth);
             dexterity = new ModifiableValue(baseSpeed);
+            luck = new ModifiableValue(baseLuck);
         }
 
         public int Strength => strength.Value;
         public int MaxHealth => maxHealth.Value;
         public int Dexterity => dexterity.Value;
+        public float Luck => luck.Value;
 
         public ModifiableValue ModifiableMaxHealth => maxHealth;
         
@@ -57,6 +60,15 @@ namespace Terra.StatisticsSystem
         public bool RemoveDexterityModifier(ValueModifier modifier)
         {
             return dexterity.RemoveStatModifier(modifier);
+        }
+        public void AddLuckModifier(ValueModifier modifier)
+        {
+            luck.AddStatModifier(modifier);
+        }
+
+        public bool RemoveLuckModifier(ValueModifier modifier)
+        {
+            return luck.RemoveStatModifier(modifier);
         }
     }
 }
