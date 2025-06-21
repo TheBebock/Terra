@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace Terra.Itemization.Abstracts.Definitions

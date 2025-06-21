@@ -121,7 +121,11 @@ namespace Terra.Particles
 
         private void OnValidate()
         {
-            if (_entity != null)
+            if (!_entity)
+            {
+                _entity = GetComponent<Entity>();
+            }
+            if (!_entity)
             {
                 if(!_entityModel) _entityModel = _entity.GetComponentInChildren<SpriteRenderer>();
             }

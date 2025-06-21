@@ -4,7 +4,6 @@ using Terra.Interactions;
 using Terra.Player;
 using Terra.Itemization.Abstracts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Terra.Itemization.Items
 {
@@ -14,11 +13,7 @@ namespace Terra.Itemization.Items
     /// </summary>
     public sealed class ItemContainer : InteractableBase
     {
-        public override bool CanBeInteractedWith
-        {
-            get => _isInitialized && PlayerInventoryManager.Instance.CanEquipItem(_item);
-            protected set { }
-        }
+        public override bool CanBeInteractedWith => _isInitialized && PlayerInventoryManager.Instance.CanEquipItem(_item);
 
         [SerializeField, ReadOnly] private bool _isInitialized = false;
 

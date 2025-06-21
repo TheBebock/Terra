@@ -1,5 +1,3 @@
-using System.Threading;
-using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Terra.InputSystem;
 using Terra.Managers;

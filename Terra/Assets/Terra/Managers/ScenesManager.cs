@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {

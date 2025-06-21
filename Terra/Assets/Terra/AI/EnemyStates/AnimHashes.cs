@@ -6,6 +6,7 @@ namespace Terra.AI.EnemyStates {
     /// </summary>
     public static class AnimationHashes {
         
+        public static readonly int Default = Animator.StringToHash("Default");
         public static readonly int Idle = Animator.StringToHash("Idle");
         public static readonly int OnDamaged = Animator.StringToHash("OnDamaged");
 

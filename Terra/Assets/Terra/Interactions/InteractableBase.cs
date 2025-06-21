@@ -1,5 +1,6 @@
 using Terra.Core.Generics;
 using Terra.Interfaces;
+using UnityEngine;
 
 namespace Terra.Interactions
 {
@@ -8,17 +9,13 @@ namespace Terra.Interactions
     /// </summary>
     public abstract class InteractableBase : Entity, IInteractable
     {
-        public abstract bool CanBeInteractedWith { get; protected set; }
+        [SerializeField] private bool _canBeInteractedWith = false;
+        public virtual bool CanBeInteractedWith => _canBeInteractedWith;
         public virtual bool CanShowVisualisation { get; set; }
 
 
+        
         public abstract void OnInteraction();
-    
-        public virtual string GetInteractionPrompt()
-        {
-            return "Press E to interact";  // Default text
-        }
-    
     
         public void Interact()
         {
@@ -30,7 +27,16 @@ namespace Terra.Interactions
             // Play sound
             OnInteraction();
         }
-    
+
+        public void ChangeInteractibility(bool canBeInteractedWith)
+        {
+            _canBeInteractedWith = canBeInteractedWith;
+            OnInteractableStateChanged(canBeInteractedWith);
+        }
+        protected virtual void OnInteractableStateChanged(bool interactableState)
+        {
+            
+        }
         public void ShowVisualisation()
         {
             if(!CanShowVisualisation) return;

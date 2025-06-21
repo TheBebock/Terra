@@ -1,7 +1,6 @@
 using Terra.Enums;
 using Terra.FSM;
 using UnityEngine;
-using static Terra.Player.PlayerAttackController;
 
 namespace Terra.Player.PlayerStates
 {

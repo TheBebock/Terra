@@ -13,6 +13,7 @@ using Terra.StatisticsSystem.Definitions;
 using Terra.Utils;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Terra.AI.Enemy
 {
@@ -28,7 +29,7 @@ namespace Terra.AI.Enemy
 
         public virtual void SetUp()
         {
-            playerDetector.Init(Data);
+            _playerDetector.Init(Data);
         }
         public virtual void TearDown()
         {
@@ -42,27 +43,28 @@ namespace Terra.AI.Enemy
     [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
     public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
+        [FormerlySerializedAs("enemyStats")]
         [Header("Stats")] 
-        [SerializeField, Expandable] protected EnemyStatsDefinition enemyStats;
+        [SerializeField, Expandable] protected EnemyStatsDefinition _enemyStats;
 
-        [Foldout("References")][SerializeField] protected NavMeshAgent agent;
-        [Foldout("References")][SerializeField] protected PlayerDetector playerDetector;
-        [Foldout("References")][SerializeField] protected Animator animator;
-        [Foldout("References")][SerializeField] protected Collider enemyCollider;
-        [Foldout("References")][SerializeField] protected SpriteRenderer enemyModel;
+        [FormerlySerializedAs("agent")] [Foldout("References")][SerializeField] protected NavMeshAgent _agent;
+        [FormerlySerializedAs("playerDetector")] [Foldout("References")][SerializeField] protected PlayerDetector _playerDetector;
+        [FormerlySerializedAs("animator")] [Foldout("References")][SerializeField] protected Animator _animator;
+        [FormerlySerializedAs("enemyCollider")] [Foldout("References")][SerializeField] protected Collider _enemyCollider;
+        [FormerlySerializedAs("enemyModel")] [Foldout("References")][SerializeField] protected SpriteRenderer _enemyModel;
 
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
-        [Foldout("SFX")] [SerializeField] protected AudioClip hurtSFX;
-        [Foldout("SFX")] [SerializeField] protected AudioClip deathSFX;
+        [FormerlySerializedAs("hurtSFX")] [Foldout("SFX")] [SerializeField] protected AudioClip _hurtSFX;
+        [FormerlySerializedAs("deathSFX")] [Foldout("SFX")] [SerializeField] protected AudioClip _deathSFX;
         
-        protected StateMachine stateMachine;
-        protected EnemyDeathState enemyDeathState;
-        protected CountdownTimer attackTimer;
+        protected StateMachine StateMachine;
+        protected EnemyDeathState EnemyDeathState;
+        protected CountdownTimer AttackTimer;
         private bool _stateMachineLocked;
-        protected bool isDead;
-        private bool CanUpdateState => !isDead || !_stateMachineLocked;
+        protected bool IsDead;
+        private bool CanUpdateState => !IsDead || !_stateMachineLocked;
 
         public HealthController HealthController => _healthController;
         public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
@@ -70,7 +72,7 @@ namespace Terra.AI.Enemy
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float AttackRange { get; }
-        protected AudioSource audioSource;
+        protected AudioSource AudioSource;
 
         protected Vector3 ItemsSpawnPosition => new(
             transform.position.x, 
@@ -82,24 +84,24 @@ namespace Terra.AI.Enemy
         /// </summary>
         protected virtual void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
-            if (enemyStats == null)
+            AudioSource = GetComponent<AudioSource>();
+            if (_enemyStats == null)
             {
                 Debug.LogError($"[{nameof(EnemyBase)}] Missing EnemyStatsDefinition on {name}. Please assign it in the inspector.");
                 return;
             }
 
             _statusContainer = new StatusContainer(this);
-            _healthController = new HealthController(new ModifiableValue(enemyStats.baseMaxHealth), CancellationToken);
+            _healthController = new HealthController(new ModifiableValue(_enemyStats.baseMaxHealth), CancellationToken);
 
-            attackTimer = new CountdownTimer(GetAttackCooldown());
+            AttackTimer = new CountdownTimer(GetAttackCooldown());
 
             AttachListeners();
 
-            stateMachine = new StateMachine();
+            StateMachine = new StateMachine();
             
-            enemyDeathState = new EnemyDeathState(this, agent, animator);
-            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
+            EnemyDeathState = new EnemyDeathState(this, _agent, _animator);
+            StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
             
             SetupStates();
         }
@@ -114,8 +116,8 @@ namespace Terra.AI.Enemy
             if (!CanUpdateState) return;
 
             StatusContainer.UpdateEffects();
-            stateMachine.Update();
-            attackTimer.Tick(Time.deltaTime);
+            StateMachine.Update();
+            AttackTimer.Tick(Time.deltaTime);
 
             UpdateFacingDirection();
 
@@ -126,7 +128,7 @@ namespace Terra.AI.Enemy
         /// </summary>
         private void UpdateFacingDirection()
         {
-            float vx = agent.velocity.x;
+            float vx = _agent.velocity.x;
             float directionChangeThreshold = 0.02f;
             
             FacingDirection newDirection = vx > directionChangeThreshold ? FacingDirection.Right : FacingDirection.Left;
@@ -134,7 +136,7 @@ namespace Terra.AI.Enemy
             if (newDirection != CurrentDirection)
             {
                 CurrentDirection = newDirection;
-                animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
+                _animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
             }
         }
         
@@ -148,7 +150,7 @@ namespace Terra.AI.Enemy
             if (newDirection != CurrentDirection)
             {
                 CurrentDirection = newDirection;
-                animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
+                _animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
             }
         }
 
@@ -173,7 +175,7 @@ namespace Terra.AI.Enemy
                 return;
             }
             
-            AudioManager.Instance.PlaySFXAtSource(hurtSFX, audioSource);
+            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, AudioSource);
             
             // Prevent negative damage values
             if (amount < 0) amount = 0;
@@ -195,18 +197,18 @@ namespace Terra.AI.Enemy
         /// <summary>
         /// Handles death behavior and schedules cleanup.
         /// </summary>
-        protected virtual void OnDeath()
+        private void OnDeath()
         {
-            if (isDead) return;
+            if (IsDead) return;
             
-            AudioManager.Instance.PlaySFXAtSource(deathSFX, audioSource);
-            isDead = true;
-            enemyCollider.enabled = false;
-            agent.isStopped = true;
-            agent.velocity = Vector3.zero;
-            agent.enabled = false;
-            VFXController.DoFadeModel(0, 4f);
-            VFXController.PlayParticleOnEntity(VFXController.onDeathParticle);
+            AudioManager.Instance.PlaySFXAtSource(_deathSFX, AudioSource);
+            IsDead = true;
+            _enemyCollider.enabled = false;
+            _agent.isStopped = true;
+            _agent.velocity = Vector3.zero;
+            _agent.enabled = false;
+            VFXController?.DoFadeModel(0, 4f);
+            VFXController?.PlayParticleOnEntity(VFXController.onDeathParticle);
 
             SpawnLootOnDeath();
             Destroy(gameObject, 5f); 
@@ -238,38 +240,38 @@ namespace Terra.AI.Enemy
         protected override void OnValidate()
         {
             base.OnValidate();
-            if (agent == null)
+            if (_agent == null)
             {
-                agent = GetComponent<NavMeshAgent>();
-                if (agent == null)
+                _agent = GetComponent<NavMeshAgent>();
+                if (_agent == null)
                     Debug.LogError($"[{name}] Missing NavMeshAgent component.", this);
             }
 
-            if (playerDetector == null)
+            if (_playerDetector == null)
             {
-                playerDetector = GetComponent<PlayerDetector>();
-                if (playerDetector == null)
+                _playerDetector = GetComponent<PlayerDetector>();
+                if (_playerDetector == null)
                     Debug.LogError($"[{name}] Missing PlayerDetector component.", this);
             }
 
-            if (animator == null)
+            if (_animator == null)
             {
-                animator = GetComponentInChildren<Animator>();
-                if (animator == null)
+                _animator = GetComponentInChildren<Animator>();
+                if (_animator == null)
                     Debug.LogError($"[{name}] Missing Animator component.", this);
             }
 
-            if (enemyCollider == null)
+            if (_enemyCollider == null)
             {
-                enemyCollider = GetComponentInChildren<Collider>();
-                if (enemyCollider == null)
+                _enemyCollider = GetComponentInChildren<Collider>();
+                if (_enemyCollider == null)
                     Debug.LogError($"[{name}] Missing Collider component.", this);
             }
 
-            if (enemyModel == null)
+            if (_enemyModel == null)
             {
-                enemyModel = GetComponentInChildren<SpriteRenderer>();
-                if (enemyModel == null)
+                _enemyModel = GetComponentInChildren<SpriteRenderer>();
+                if (_enemyModel == null)
                     Debug.LogError($"[{name}] Missing SpriteRenderer (enemyModel) in children.", this);
             }
         }
