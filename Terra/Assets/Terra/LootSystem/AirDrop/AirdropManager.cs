@@ -50,7 +50,7 @@ namespace Terra.LootSystem.AirDrop
             //
             // This means the higher the luck, the shorter the time between airdrops.
             // We're dividing by 200 to map 0–100 luck → 1.0–0.5 factor range.
-            float luckFactor = 1f - (luck / 200f); 
+            float luckFactor = Mathf.Lerp(1.0f, 0.25f, luck / 100f);
 
             // Scale the original time interval using the computed factor.
             // This results in a shorter interval for higher luck values.
