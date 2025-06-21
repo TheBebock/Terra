@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using Terra.Interfaces;
+using Terra.Player;
 using Terra.StatisticsSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,7 +14,6 @@ namespace Terra.LootSystem.AirDrop
         [FormerlySerializedAs("flarePrefab")] [SerializeField] private FlareLandingNotifier _flarePrefab;
         [FormerlySerializedAs("cratePrefab")] [SerializeField] private GameObject _cratePrefab;
         [FormerlySerializedAs("dropContainer")] [SerializeField] private Transform _dropContainer;
-        [FormerlySerializedAs("playerStats")] [SerializeField] private PlayerStats _playerStats;
         
         [FormerlySerializedAs("dropIntervalRange")] [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
         [FormerlySerializedAs("crateDelay")] [SerializeField] private float _crateDelay = 5f;
@@ -42,7 +42,7 @@ namespace Terra.LootSystem.AirDrop
             float baseMax = _dropIntervalRange.y;
 
             // Get the player's current Luck value, clamped between 0 and 100 to avoid extreme cases
-            int luck = Mathf.Clamp(_playerStats.Luck, 0, 100); 
+            int luck = Mathf.Clamp(PlayerStatsManager.Instance.PlayerStats.Luck, 0, 100); 
 
             // Compute a luck factor that scales the interval:
             // When luck = 0   → factor = 1.0 (no change)

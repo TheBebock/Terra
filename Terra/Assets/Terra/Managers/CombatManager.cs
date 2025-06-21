@@ -38,7 +38,7 @@ namespace Terra.Managers
             LayerMask sourceMask = source.gameObject.layer;
             if (sourceMask == _playerLayer)
             {
-                PlayerPerformedAttack(source, targets, effectsContainer, baseDamage, isPercentage);
+                PlayerPerformedAttack(source, targets, effectsContainer, baseDamage, isPercentage,isCrit);
             }
             else
             {

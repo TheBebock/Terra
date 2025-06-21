@@ -13,7 +13,7 @@ namespace Terra.StatisticsSystem
         [FormerlySerializedAs("luck")] [SerializeField] private ModifiableValue _luck;
         public int Luck => _luck.Value;
         
-        public PlayerStats(int baseStrength, int baseMaxHealth, int baseSpeed, int baseLuck) : base(baseStrength,baseMaxHealth,baseSpeed,baseLuck)
+        public PlayerStats(int baseStrength, int baseMaxHealth, int baseSpeed, int baseLuck) : base(baseStrength,baseMaxHealth,baseSpeed)
         {
             _luck = new ModifiableValue(baseLuck);
         }
