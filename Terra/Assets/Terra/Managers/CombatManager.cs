@@ -23,15 +23,15 @@ namespace Terra.Managers
         }
 
         public void PerformAttack(Entity source, IDamageable target, EffectsContainer effectsContainer = null,
-            int baseDamage = 0, bool isPercentage = false)
+            int baseDamage = 0, bool isPercentage = false ,bool isCrit = false)
         {
             _targetsList.Add(target);
-            PerformAttack(source, _targetsList, effectsContainer, baseDamage, isPercentage);
+            PerformAttack(source, _targetsList, effectsContainer, baseDamage, isPercentage, isCrit);
             _targetsList.Clear();
         }
 
         public void PerformAttack(Entity source, List<IDamageable> targets, EffectsContainer effectsContainer = null,
-            int baseDamage = 0, bool isPercentage = false)
+            int baseDamage = 0, bool isPercentage = false, bool isCrit = false)
         {
             if (source == null) return;
 
@@ -47,18 +47,21 @@ namespace Terra.Managers
         }
 
         private void PlayerPerformedAttack(Entity source, List<IDamageable> hitTargets,
-            EffectsContainer effectsContainer = null, int baseWeaponDamage = 0, bool isPercentage = false)
+            EffectsContainer effectsContainer = null, int baseWeaponDamage = 0, bool isPercentage = false, bool isCrit = false)
         {
             if (!PlayerStatsManager.Instance) return;
-            // Get damage modifier from player stats
             int playerStrengthValue = PlayerStatsManager.Instance.PlayerStats.Strength;
-            // Compute final damage value
-            int finalDamage = baseWeaponDamage + playerStrengthValue;
 
-            // Loop through targets and apply damage
             for (int i = 0; i < hitTargets.Count; i++)
             {
-                // This will display Immune in case the target is not damageable
+                int finalDamage = baseWeaponDamage + playerStrengthValue;
+
+                if (isCrit)
+                {
+                    finalDamage = Mathf.RoundToInt(finalDamage * 2f); // multiplier można potem dać do statystyk
+                    Debug.Log($"CRIT! Final damage: {finalDamage}");
+                }
+
                 hitTargets[i].TakeDamage(finalDamage, isPercentage);
 
                 if (!hitTargets[i].CanBeDamaged) continue;
@@ -66,6 +69,7 @@ namespace Terra.Managers
                 effectsContainer?.ApplyStatuses(hitTargets[i]);
             }
         }
+
 
         private void EnemyPerformedAttack(Entity source, List<IDamageable> hitTargets, int damage,
             EffectsContainer effectsContainer = null, bool isPercentage = false)

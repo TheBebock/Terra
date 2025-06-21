@@ -1,6 +1,7 @@
 using Terra.Core.Generics;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Managers;
+using Terra.Player;
 using UnityEngine;
 
 namespace Terra.Combat
@@ -15,11 +16,18 @@ namespace Terra.Combat
             _entity = entity;
             _weaponData = weaponData;
         }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                CombatManager.Instance.PerformAttack(_entity, damageable, _weaponData.effects, _weaponData.damage);
+                // Losowanie CRIT-a na podstawie Luck gracza
+                float luck = PlayerStatsManager.Instance.PlayerStats.Luck;
+                bool isCrit = Random.Range(0f, 100f) < luck;
+
+                Debug.Log(isCrit ? "CRITICAL ATTACK!" : "Normal attack");
+
+                CombatManager.Instance.PerformAttack(_entity, damageable, _weaponData.effects, _weaponData.damage, false, isCrit);
             }
         }
     }
