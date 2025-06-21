@@ -3,24 +3,26 @@ using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.StatisticsSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Terra.LootSystem.AirDrop
 {
     public class AirdropManager : MonoBehaviourSingleton<AirdropManager>, IWithSetUp
     {
-        [SerializeField] private FlareLandingNotifier flarePrefab;
-        [SerializeField] private GameObject cratePrefab;
-        [SerializeField] private Transform dropContainer;
-        [SerializeField] private PlayerStats playerStats;
+        [FormerlySerializedAs("flarePrefab")] [SerializeField] private FlareLandingNotifier _flarePrefab;
+        [FormerlySerializedAs("cratePrefab")] [SerializeField] private GameObject _cratePrefab;
+        [FormerlySerializedAs("dropContainer")] [SerializeField] private Transform _dropContainer;
+        [FormerlySerializedAs("playerStats")] [SerializeField] private PlayerStats _playerStats;
         
-        [SerializeField] private Vector2 dropIntervalRange = new(60f, 90f);
-        [SerializeField] private float crateDelay = 5f;
-        [SerializeField] private float crateHeightSpawnOffset = 10f;
-        [SerializeField] private LayerMask raycastLayerMask;
+        [FormerlySerializedAs("dropIntervalRange")] [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
+        [FormerlySerializedAs("crateDelay")] [SerializeField] private float _crateDelay = 5f;
+        [FormerlySerializedAs("crateHeightSpawnOffset")] [SerializeField] private float _crateHeightSpawnOffset = 10f;
+        [FormerlySerializedAs("raycastLayerMask")] [SerializeField] private LayerMask _raycastLayerMask;
+        [FormerlySerializedAs("spawnMin")]
         [Header("Spawn Area")]
-        [SerializeField] private Vector2 spawnMin;
-        [SerializeField] private Vector2 spawnMax;
+        [SerializeField] private Vector2 _spawnMin;
+        [FormerlySerializedAs("spawnMax")] [SerializeField] private Vector2 _spawnMax;
         
         private LayerMask _groundLayer;
 
@@ -36,11 +38,11 @@ namespace Terra.LootSystem.AirDrop
         private float GetModifiedSpawnDelay()
         {
             // Base interval values (in seconds) for airdrop spawn frequency
-            float baseMin = dropIntervalRange.x;
-            float baseMax = dropIntervalRange.y;
+            float baseMin = _dropIntervalRange.x;
+            float baseMax = _dropIntervalRange.y;
 
             // Get the player's current Luck value, clamped between 0 and 100 to avoid extreme cases
-            int luck = (int)Mathf.Clamp(playerStats.Luck, 0, 100); 
+            int luck = Mathf.Clamp(_playerStats.Luck, 0, 100); 
 
             // Compute a luck factor that scales the interval:
             // When luck = 0   → factor = 1.0 (no change)
@@ -80,14 +82,14 @@ namespace Terra.LootSystem.AirDrop
         private Vector3 GetRandomPosition()
         {
             int atempts = 8;
-            float x = Random.Range(spawnMin.x, spawnMax.x);
-            float z = Random.Range(spawnMin.y, spawnMax.y);
+            float x = Random.Range(_spawnMin.x, _spawnMax.x);
+            float z = Random.Range(_spawnMin.y, _spawnMax.y);
             
             while (atempts > 0)
             {
                 Vector3 rayOrigin = new Vector3(x, 120f, z);
 
-                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, raycastLayerMask))
+                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f, _raycastLayerMask))
                 {
                     if (hit.transform.gameObject.layer == _groundLayer)
                     {
@@ -97,8 +99,8 @@ namespace Terra.LootSystem.AirDrop
                 }
                 atempts--;
                                 
-                x = Random.Range(spawnMin.x, spawnMax.x);
-                z = Random.Range(spawnMin.y, spawnMax.y);
+                x = Random.Range(_spawnMin.x, _spawnMax.x);
+                z = Random.Range(_spawnMin.y, _spawnMax.y);
             }
             
             return new Vector3(x, 100, z);
@@ -109,7 +111,7 @@ namespace Terra.LootSystem.AirDrop
             Vector3 airPosition = groundPosition + Vector3.up * 100f;
             Debug.Log($"Instantiating flare at: {airPosition}");
 
-            FlareLandingNotifier flare = Instantiate(flarePrefab, airPosition, Quaternion.identity, dropContainer);
+            FlareLandingNotifier flare = Instantiate(_flarePrefab, airPosition, Quaternion.identity, _dropContainer);
             
             bool landed = flare.HasLanded;
             if (!landed)
@@ -125,13 +127,13 @@ namespace Terra.LootSystem.AirDrop
             await UniTask.WaitUntil( ()=> landed, cancellationToken:CancellationToken);
             
 
-            await UniTask.WaitForSeconds(crateDelay, cancellationToken:CancellationToken);
+            await UniTask.WaitForSeconds(_crateDelay, cancellationToken:CancellationToken);
 
-            groundPosition.y += crateHeightSpawnOffset;
+            groundPosition.y += _crateHeightSpawnOffset;
             
             Debug.Log($"Instantiating crate at: {groundPosition}");
             
-            Instantiate(cratePrefab, groundPosition, Quaternion.identity, dropContainer);
+            Instantiate(_cratePrefab, groundPosition, Quaternion.identity, _dropContainer);
         }
         
         

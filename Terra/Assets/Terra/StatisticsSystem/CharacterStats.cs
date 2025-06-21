@@ -2,6 +2,7 @@ using System;
 using NaughtyAttributes;
 using Terra.Core.ModifiableValue;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.StatisticsSystem 
 {
@@ -13,62 +14,51 @@ namespace Terra.StatisticsSystem
     public class CharacterStats
     {
         
-        [Foldout("Debug")][SerializeField] private ModifiableValue strength;
-        [Foldout("Debug")][SerializeField] private ModifiableValue maxHealth;
-        [Foldout("Debug")][SerializeField] private ModifiableValue dexterity;
-        [Foldout("Debug")][SerializeField] private ModifiableValue luck;
+        [FormerlySerializedAs("strength")] [Foldout("Debug")][SerializeField] private ModifiableValue _strength;
+        [FormerlySerializedAs("maxHealth")] [Foldout("Debug")][SerializeField] private ModifiableValue _maxHealth;
+        [FormerlySerializedAs("dexterity")] [Foldout("Debug")][SerializeField] private ModifiableValue _dexterity;
         
-        public CharacterStats(int baseStrength, int baseMaxHealth, int baseSpeed, int baseLuck)
+        public CharacterStats(int i, int baseStrength, int baseMaxHealth, int baseSpeed)
         {
-            strength = new ModifiableValue(baseStrength);
-            maxHealth = new ModifiableValue(baseMaxHealth);
-            dexterity = new ModifiableValue(baseSpeed);
-            luck = new ModifiableValue(baseLuck);
+            _strength = new ModifiableValue(baseStrength);
+            _maxHealth = new ModifiableValue(baseMaxHealth);
+            _dexterity = new ModifiableValue(baseSpeed);
         }
 
-        public int Strength => strength.Value;
-        public int MaxHealth => maxHealth.Value;
-        public int Dexterity => dexterity.Value;
-        public float Luck => luck.Value;
+        public int Strength => _strength.Value;
+        public int MaxHealth => _maxHealth.Value;
+        public int Dexterity => _dexterity.Value;
 
-        public ModifiableValue ModifiableMaxHealth => maxHealth;
+        public ModifiableValue ModifiableMaxHealth => _maxHealth;
         
         public void AddStrengthModifier(ValueModifier modifier)
         {
-            strength.AddStatModifier(modifier);
+            _strength.AddStatModifier(modifier);
         }
 
         public void AddMaxHealthModifier(ValueModifier modifier)
         {
-            maxHealth.AddStatModifier(modifier);
+            _maxHealth.AddStatModifier(modifier);
         }
 
         public void AddDexterityModifier(ValueModifier modifier)
         {
-            dexterity.AddStatModifier(modifier);
+            _dexterity.AddStatModifier(modifier);
         }
         public bool RemoveStrengthModifier(ValueModifier modifier)
         {
-            return strength.RemoveStatModifier(modifier);
+            return _strength.RemoveStatModifier(modifier);
         }
 
         public bool RemoveMaxHealthModifier(ValueModifier modifier)
         {
-            return maxHealth.RemoveStatModifier(modifier);
+            return _maxHealth.RemoveStatModifier(modifier);
         }
 
         public bool RemoveDexterityModifier(ValueModifier modifier)
         {
-            return dexterity.RemoveStatModifier(modifier);
+            return _dexterity.RemoveStatModifier(modifier);
         }
-        public void AddLuckModifier(ValueModifier modifier)
-        {
-            luck.AddStatModifier(modifier);
-        }
-
-        public bool RemoveLuckModifier(ValueModifier modifier)
-        {
-            return luck.RemoveStatModifier(modifier);
-        }
+        
     }
 }
