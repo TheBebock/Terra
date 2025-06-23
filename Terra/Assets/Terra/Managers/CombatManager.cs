@@ -89,7 +89,7 @@ namespace Terra.Managers
             float luckBonus = luck * 0.01f; // np. 1% za punkt szczęścia
 
             float totalCritChance = baseCritChance + luckBonus;
-            float roll = Random.value;
+            float roll = Random.Range(0, 100);
 
             return roll < totalCritChance;
         }
