@@ -18,7 +18,7 @@ namespace Terra.EventsSystem
         public static void RemoveEmptyHandler<TCallbackHandler>(TCallbackHandler handler)
             where TCallbackHandler : IEventHandler
         {
-            Handlers.RemoveWhere(h => h.GetType() == typeof(TCallbackHandler));
+            Handlers.Remove(handler);
         }
         
         public static void Register<TEventType>(CallbackDelegate<TEventType> callback)
