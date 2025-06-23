@@ -1,4 +1,4 @@
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using System;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract.Definitions;
@@ -34,6 +34,8 @@ namespace Terra.UI
         private ActiveItem activeItemReward = default;
         private PassiveItem passiveItemReward = default;
 
+        private WeaponDataComparison weaponDataComparison;
+        private ItemDataComparison itemDataComparison;
 
         [SerializeField, ReadOnly] private RewardType rewardType;
 
@@ -71,16 +73,41 @@ namespace Terra.UI
             }
         }
 
+        private void SetNewRewardType()
+        {
+            RewardType = (Enums.RewardType)UnityEngine.Random.Range(1, 5);
+            SetUp();
+        }
+
         private void GetRandomItem(RewardType rewardType)
         {
             if(rewardType == RewardType.ActiveItem)
             {
                 activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem();
+                if(activeItemReward == null)
+                {
+                    SetNewRewardType();
+                    return;
+                }
+
+                if (PlayerInventoryManager.Instance.ActiveItem.Data == null)
+                    itemDataComparison = ItemsComparator.Instance.GetAllBetterComparisonItem();
+                else
+                    itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.ActiveItem.Data, activeItemReward.Data);
                 LoadItemData(activeItemReward.Data);
             }
             else if(rewardType == RewardType.PassiveItem)
             {
                 passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem();
+                if (passiveItemReward == null)
+                {
+                    SetNewRewardType();
+                    return;
+                }
+                if (PlayerInventoryManager.Instance.GetPassiveItems.Count < 1)
+                    itemDataComparison = ItemsComparator.Instance.GetAllBetterComparisonItem();
+                else
+                    itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.GetPassiveItems[0].Data, passiveItemReward.Data);
                 LoadItemData(passiveItemReward.Data);
             }
         }
@@ -97,6 +124,8 @@ namespace Terra.UI
 
         private void LoadModifiersUIText(ItemData data)
         {
+            ItemDataComparison currentItemDataComparison = weaponDataComparison.damage != default ? weaponDataComparison.itemDataComparison : itemDataComparison;
+
             if (data.maxHealthModifiers.Count > 0)
             {
                 float totalValue = 0;
@@ -105,7 +134,7 @@ namespace Terra.UI
                 {
                     totalValue += modifier.Value;
                 }
-                rewardDescription.text += $"\nMax Health: {totalValue}";
+                rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"\nMax Health: {totalValue}");
             }
 
             if (data.luckModifiers.Count > 0)
@@ -116,7 +145,7 @@ namespace Terra.UI
                 {
                     totalValue += modifier.Value;
                 }
-                rewardDescription.text += $"\nLuck: {totalValue}";
+                rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"\nLuck: {totalValue}");
             }
 
             if (data.strengthModifiers.Count > 0)
@@ -127,7 +156,7 @@ namespace Terra.UI
                 {
                     totalValue += modifier.Value;
                 }
-                rewardDescription.text += $"\nStrength: {totalValue}";
+                rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"\nStrength: {totalValue}");
             }
 
             if (data.speedModifiers.Count > 0)
@@ -138,7 +167,7 @@ namespace Terra.UI
                 {
                     totalValue += modifier.Value;
                 }
-                rewardDescription.text += $"\nSpeed: {totalValue}";
+                rewardDescription.text += MarkStatisticText(currentItemDataComparison.speed, $"\nSpeed: {totalValue}");
             }
         }
 
@@ -178,12 +207,14 @@ namespace Terra.UI
             if (rand == 0)
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon();
+                weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 weaponReward.MeleeWeapon = randomWeapon;
             }
             else
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon();
+                weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 weaponReward.RangedWeapon = randomWeapon;
             }
@@ -194,7 +225,7 @@ namespace Terra.UI
             rewardName.text = data.itemName;
             rewardDescription.text = data.itemDescription;
             rewardDescription.text += "\n";
-            rewardDescription.text += $"\nDamage: {data.damage}";
+            rewardDescription.text += MarkStatisticText(weaponDataComparison.damage, $"\nDamage: {data.damage}");
             LoadModifiersUIText(data);
             rewardDescription.text += "\n";
 
@@ -229,6 +260,21 @@ namespace Terra.UI
             rewardName.text = effectData.effectName;
             rewardDescription.text = effectData.effectDescription;
             rewardIcon.sprite = effectData.effectIcon;  
+        }
+
+        private string MarkStatisticText(Comparison comparedStatistic, string textToMark)
+        {
+            string newTextWithMark = "";
+            switch (comparedStatistic)
+            {
+                case Comparison.Worse: newTextWithMark += $"<color={ItemsComparator.Instance.worseItemColor}>"; break;
+                case Comparison.Equal: break;
+                case Comparison.Better: newTextWithMark += $"<color={ItemsComparator.Instance.betterItemColor}>"; break;
+            }
+            newTextWithMark += $"{textToMark}";
+            newTextWithMark += "</color>";
+
+            return newTextWithMark;
         }
 
         public void ApplyReward()
