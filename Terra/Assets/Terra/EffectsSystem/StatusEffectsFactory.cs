@@ -6,7 +6,7 @@ using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Extensions;
 using UnityEngine;
 
-namespace Terra.EffectsSystem.Utils
+namespace Terra.EffectsSystem
 {
     /// <summary>
     ///     Factory for creating <see cref="StatusEffectBase"/>

@@ -4,22 +4,24 @@ using Terra.Extensions;
 using Terra.Interfaces;
 using Terra.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Components
 {
 
     public class LookAtCameraComponent : InGameMonobehaviour, IWithSetUp
     {
-        [SerializeField] private LookAtType lookAtType = LookAtType.CameraForward;
-        [SerializeField] private List<Transform> targetTransforms = new ();
+        [FormerlySerializedAs("lookAtType")] [SerializeField] private LookAtType _lookAtType = LookAtType.CameraForward;
+        [FormerlySerializedAs("targetTransforms")] [SerializeField] private List<Transform> _targetTransforms = new ();
         
+        [FormerlySerializedAs("lockX")]
         [Header("Lock Rotation")]
-        [SerializeField] private bool lockX;
-        [SerializeField] private bool lockY = true;
-        [SerializeField] private bool lockZ = true;
+        [SerializeField] private bool _lockX;
+        [FormerlySerializedAs("lockY")] [SerializeField] private bool _lockY = true;
+        [FormerlySerializedAs("lockZ")] [SerializeField] private bool _lockZ = true;
 
-        private List<Vector3> originalRotations = new ();
-        private Transform lookAtCamera;
+        private List<Vector3> _originalRotations = new ();
+        private Transform _lookAtCamera;
 
         enum LookAtType
         {
@@ -30,22 +32,22 @@ namespace Terra.Components
         private void Awake()
         {
             // If there are no targets set, set singular target - this.transform
-            if (targetTransforms.IsNullOrEmpty())
+            if (_targetTransforms.IsNullOrEmpty())
             {
-                targetTransforms.Add(transform);
+                _targetTransforms.Add(transform);
             }
             
             // Get original rotation of all targets
-            for (int i = 0; i < targetTransforms.Count; i++)
+            for (int i = 0; i < _targetTransforms.Count; i++)
             {
-                originalRotations.Add(targetTransforms[i].rotation.eulerAngles);
+                _originalRotations.Add(_targetTransforms[i].rotation.eulerAngles);
             }
         }
 
         public void SetUp()
         {
             // Get refenrece to camera
-            if(CameraManager.Instance) lookAtCamera = CameraManager.Instance?.transform;
+            if(CameraManager.Instance) _lookAtCamera = CameraManager.Instance?.transform;
             else
             {
                 Debug.LogError($"No camera manager found. {this} is turning off");   
@@ -56,9 +58,9 @@ namespace Terra.Components
         
         void LateUpdate()
         {
-            for (int i = 0; i < targetTransforms.Count; i++)
+            for (int i = 0; i < _targetTransforms.Count; i++)
             {
-                UpdateTransformRotation(targetTransforms[i], originalRotations[i]);
+                UpdateTransformRotation(_targetTransforms[i], _originalRotations[i]);
             }
         }
 
@@ -70,23 +72,23 @@ namespace Terra.Components
         {
 
             // Set rotation based on method
-            switch (lookAtType)
+            switch (_lookAtType)
             {
                 case LookAtType.LookAtCamera:
-                    targetTransform.LookAt(lookAtCamera.transform.position, Vector3.up);
+                    targetTransform.LookAt(_lookAtCamera.transform.position, Vector3.up);
                     break;
                 case LookAtType.CameraForward:
-                    targetTransform.forward = lookAtCamera.transform.forward;
+                    targetTransform.forward = _lookAtCamera.transform.forward;
                     break;
             }
 
             // Lock respective rotation
             Vector3 rotation = targetTransform.rotation.eulerAngles;
-            if (lockX) rotation.x = originalRotation.x;
+            if (_lockX) rotation.x = originalRotation.x;
             
-            if (lockY) rotation.y = originalRotation.y;
+            if (_lockY) rotation.y = originalRotation.y;
             
-            if (lockZ) rotation.z = originalRotation.z;
+            if (_lockZ) rotation.z = originalRotation.z;
             
             // Set rotation accounting for locked rotations
             targetTransform.rotation = Quaternion.Euler(rotation);

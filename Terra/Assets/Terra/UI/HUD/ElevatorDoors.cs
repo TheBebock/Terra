@@ -14,7 +14,7 @@ namespace Terra.UI.HUD
         [SerializeField] private Image _leftDoor;
         [SerializeField] private Image _rightDoor;
         [SerializeField] private AudioClip _doorsSound;
-        [SerializeField] private float _doorsOffset = 960;
+        [SerializeField] private float _doorsOffset = 480;
         [SerializeField] private float _animationDuration = 2f;
         [SerializeField] private AnimationCurve _openAnimationCurve;
         [FormerlySerializedAs("_animationCurve")][SerializeField] private AnimationCurve _closeAnimationCurve;
@@ -26,8 +26,8 @@ namespace Terra.UI.HUD
             openPercentage = Mathf.Clamp(openPercentage, 0f, 100f);
             float newOffset = openPercentage.ToFactor() * _doorsOffset;
             
-            _leftDoor.rectTransform.DOMoveX(-newOffset , 0.1f);
-            _rightDoor.rectTransform.DOMoveX(newOffset + _doorsOffset*2, 0.1f);
+            _leftDoor.rectTransform.DOMoveX(-newOffset + _doorsOffset , 0.1f);
+            _rightDoor.rectTransform.DOMoveX(newOffset + _doorsOffset*3, 0.1f);
         }
         
         public async UniTask OpenDoors() 
@@ -45,7 +45,7 @@ namespace Terra.UI.HUD
             );
                 
             _doorSequence.Join(_rightDoor.rectTransform
-                .DOMoveX(_doorsOffset*3, _animationDuration)
+                .DOMoveX(_doorsOffset*5, _animationDuration)
                 .SetEase(_openAnimationCurve)
             );
             
@@ -63,12 +63,12 @@ namespace Terra.UI.HUD
             _doorSequence = DOTween.Sequence();
             
             _doorSequence.Append(_leftDoor.rectTransform
-                .DOMoveX(0, _animationDuration)
+                .DOMoveX(_doorsOffset, _animationDuration)
                 .SetEase(_closeAnimationCurve)
             );
             
             _doorSequence.Join(_rightDoor.rectTransform
-                    .DOMoveX(_doorsOffset*2, _animationDuration)
+                    .DOMoveX(_doorsOffset*3, _animationDuration)
                     .SetEase(_closeAnimationCurve)
             );
 

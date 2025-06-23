@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using NaughtyAttributes;
 using Terra.AI.EnemyStates;
@@ -9,6 +8,7 @@ using Terra.Interactions;
 using Terra.Interfaces;
 using Terra.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Environment
 {
@@ -32,17 +32,14 @@ namespace Terra.Environment
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
-        [Foldout("SFX")] [SerializeField] public AudioClip destroySfx;
-        
+        [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] public AudioClip _destroySfx;
         
         private Sequence _doSequence;
-        
-        
+
         
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
-        public override bool CanBeInteractedWith { get; protected set; }
-        
+
         public HealthController HealthController => _healthController;
         public StatusContainer StatusContainer => _statusContainer;
         protected Vector3 SpawnLootOffset => new(
@@ -89,7 +86,7 @@ namespace Terra.Environment
             _collider.enabled = false;
             _propShadow.enabled = false;
 
-            AudioManager.Instance.PlaySFXAtSource(destroySfx, _audioSource);
+            AudioManager.Instance.PlaySFXAtSource(_destroySfx, _audioSource);
             _propAnimator.SetTrigger(AnimationHashes.Death);
             VFXController.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);
             VFXController.PlayParticleOnEntity(VFXController.onDeathParticle);

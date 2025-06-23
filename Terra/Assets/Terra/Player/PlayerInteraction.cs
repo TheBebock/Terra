@@ -1,54 +1,45 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.Extensions;
 using Terra.InputSystem;
+using Terra.Interactions;
 using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Terra.Player
 {
-    [RequireComponent(typeof(PlayerMovement))]
     public class PlayerInteraction : InGameMonobehaviour, IAttachListeners
     {
-        [Header("Interaction Settings")] 
-        [SerializeField] private float interactionDistance = 3f;
-        [SerializeField] private LayerMask interactionLayer;
+        [Foldout("Debug"), ReadOnly][SerializeField] private InteractableBase _currentInteractable;
+        [Foldout("Debug"), ReadOnly][SerializeField] private List<InteractableBase> _nearbyInteractables = new();
     
+        public void AttachListeners()
+        {
+            InputManager.Instance.PlayerControls.Interaction.performed += OnInteract;
+        }
 
-        private IInteractable _currentInteractable;
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log($"OnTriggerEnter: {other.name}");
+            if (other.TryGetComponent(out IInteractable interactable))
+            {
+                _nearbyInteractables.AddUnique(interactable as InteractableBase);
+            }
+        }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent(out IInteractable interactable))
+            {
+                _nearbyInteractables.RemoveElement(interactable as InteractableBase);
+            }
+        }
 
-        private List<IInteractable> _nearbyInteractables = new List<IInteractable>();
-    
-    
         private void Update()
         {
             UpdateNearestInteractable();
-        }
-
-        private void AddInteractable(IInteractable interactable)
-        {
-            if (interactable != null && !_nearbyInteractables.Contains(interactable))
-            {
-                _nearbyInteractables.Add(interactable);
-                UpdateNearestInteractable();
-            }
-        }
-
-        private void RemoveInteractable(IInteractable interactable)
-        {
-            if (interactable != null && _nearbyInteractables.Contains(interactable))
-            {
-                _nearbyInteractables.Remove(interactable);
-
-                // If deleted object was the one chosesn
-                if (_currentInteractable == interactable)
-                {
-                    _currentInteractable = null;
-                }
-
-                UpdateNearestInteractable();
-            }
         }
 
         private void UpdateNearestInteractable()
@@ -61,40 +52,37 @@ namespace Terra.Player
 
             // Find the nearest object 
             float closestDistance = float.MaxValue;
-            IInteractable closestInteractable = null;
+            InteractableBase closestInteractable = null;
 
             foreach (var interactable in _nearbyInteractables)
             {
                 if (!interactable.CanBeInteractedWith) continue;
 
-                // Get the GameObject of the interactable
-                GameObject interactableObj = (interactable as MonoBehaviour)?.gameObject;
-                if (interactableObj == null) continue;
-
-                float distance = Vector3.Distance(transform.position, interactableObj.transform.position);
-
-                // Check if object is within interaction distance
-                if (distance <= interactionDistance && distance < closestDistance)
+                float distance = Vector3.Distance(transform.position, interactable.transform.position);
+                
+                if (distance < closestDistance)
                 {
                     closestDistance = distance;
                     closestInteractable = interactable;
                 }
             }
 
-            // when new object is found
-            if (closestInteractable != null && closestInteractable != _currentInteractable)
+            if (closestInteractable != _currentInteractable)
             {
-                _currentInteractable = closestInteractable;
+                ChangeCurrentInteractable(closestInteractable);
             }
-            else if (closestInteractable == null)
-            {
-                _currentInteractable = null;
-            }
+        }
+
+        private void ChangeCurrentInteractable(InteractableBase newInteractable)
+        {
+            _currentInteractable?.StopVisualization();
+            _currentInteractable = newInteractable;
+            _currentInteractable?.ShowVisualisation();
         }
 
         private void OnInteract(InputAction.CallbackContext context)
         {
-            if(context.performed) Interact();
+            Interact();
         }
 
         private void Interact()
@@ -103,34 +91,18 @@ namespace Terra.Player
             {
                 Debug.Log("Interakcja z: " + _currentInteractable);
                 _currentInteractable.Interact();
-
-                GameObject interactableObject = (_currentInteractable as MonoBehaviour)?.gameObject;
-
-                if (interactableObject != null)
-                {
-                    IPickupable pickupable = interactableObject.GetComponent<IPickupable>();
-                    if (pickupable != null && pickupable.CanBePickedUp)
-                    {
-                        pickupable.PickUp();
-                        RemoveInteractable(_currentInteractable);
-                    }
-                }
             }
             else
             {
                 Debug.Log("Nie znaleziono prawidłowego obiektu interaktywnego.");
             }
         }
-
-        public void AttachListeners()
-        {
-            InputManager.Instance.PlayerControls.Interaction.performed += OnInteract;
-        }
+        
 
         public void DetachListeners()
         {
             if(InputManager.Instance)
-                InputManager.Instance.PlayerControls.Interaction.performed += OnInteract;
+                InputManager.Instance.PlayerControls.Interaction.started += OnInteract;
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Terra.Core.Generics;
 using UnityEngine;
 using UnityEngine.Rendering;

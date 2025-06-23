@@ -5,8 +5,9 @@ using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.AI.Enemy;
 using Terra.Core.Generics;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Extensions;
-using Terra.GameStates;
 using Terra.Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -176,7 +177,10 @@ namespace Terra.Managers
 
         private void OnLevelEnd()
         {
-            GameManager.Instance.SwitchToGameState<EndOfFloorState>();
+            EventsAPI.Invoke<WaveEndedEvent>();
+            Debug.Log($"{gameObject.name}: OnWaveEnded event raised");
+
+            //GameManager.Instance.SwitchToGameState<EndOfFloorState>();
         }
 
         private Vector3 GetRandomSpawnPosition()

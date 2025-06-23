@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using NaughtyAttributes;
 using Terra.Utils;
 using UnityEngine;

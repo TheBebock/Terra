@@ -1,9 +1,5 @@
-using System;
-using NaughtyAttributes;
 using Terra.Combat;
-using Terra.Core.Generics;
 using Terra.Environment;
-using Terra.Extensions;
 using UnityEngine;
 
 namespace Terra.LootSystem.AirDrop

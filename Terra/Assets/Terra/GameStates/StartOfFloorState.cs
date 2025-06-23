@@ -1,6 +1,7 @@
-using System.Threading;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
@@ -11,10 +12,10 @@ namespace Terra.GameStates
     {
         public override void OnEnter() 
         {
-            base.OnEnter();
+            base.OnEnter(); 
             TimeManager.Instance.ResumeTime();
             InputManager.Instance.SetPlayerControlsState(false);
-            InputManager.Instance.SetPlayerControlsState(false);
+            InputManager.Instance.SetAllTimeControlsState(false);
             CameraManager.Instance.SpriteMask.SetActive(false);
             CameraManager.Instance.SetCameraBlendStyle(CinemachineBlendDefinition.Style.Cut);
             HUDManager.Instance.ForceSetDarkScreenAlpha(1f);
@@ -35,7 +36,7 @@ namespace Terra.GameStates
             CameraManager.Instance.ChangeToFollowPlayerCamera();
             await HUDManager.Instance.ElevatorDoors.OpenDoors();
             
-            
+            EventsAPI.Invoke<ElevatorGeneratorStoppedEvent>();
             CameraManager.Instance?.SpriteMask.SetActive(true);
             GameManager.Instance?.SwitchToGameState<GameplayState>();
         }

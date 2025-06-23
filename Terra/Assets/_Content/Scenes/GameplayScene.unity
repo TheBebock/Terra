@@ -1489,10 +1489,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1750200350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1920, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 480, y: 0}
+  m_SizeDelta: {x: 960, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &220400711
 MonoBehaviour:
@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b78ee38bbea445446b1c7f18d527ef74, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dc6aa40b07e80d7429c34671e9af958f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1680,11 +1680,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!4 &241020439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8603174597279937021, guid: a61b888d5c85f324d942d323fa71ed10,
@@ -1790,11 +1790,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!1 &273091145
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,11 +2210,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!1 &400027224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,6 +2403,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Big_spider_enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3723416919822668793, guid: 1afdc10da17970346ac71ef0d8e601c3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5511451956620070862, guid: 1afdc10da17970346ac71ef0d8e601c3,
         type: 3}
@@ -2636,11 +2641,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!1 &522910548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,10 +2711,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1750200350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1920, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: -480, y: 0}
+  m_SizeDelta: {x: 960, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &542957758
 MonoBehaviour:
@@ -2731,7 +2736,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b78ee38bbea445446b1c7f18d527ef74, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f4af5daf2702ec24eb1e7af289f81c65, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3395,6 +3400,7 @@ GameObject:
   - component: {fileID: 617759524}
   - component: {fileID: 617759522}
   - component: {fileID: 617759525}
+  - component: {fileID: 617759526}
   m_Layer: 13
   m_Name: Ramp_Right_1
   m_TagString: Untagged
@@ -3428,7 +3434,7 @@ Animator:
   m_GameObject: {fileID: 617759520}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b2e4dde43e1e2d2499f1ac42dea8bcb9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e8295bb26f06134bb1885c3b080d0bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3506,11 +3512,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
+--- !u!114 &617759526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617759520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75617d3881228944eb3f893b5374676e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 617759522}
+  - {fileID: 707396090}
 --- !u!1 &624466474
 GameObject:
   m_ObjectHideFlags: 0
@@ -3799,7 +3820,7 @@ Animator:
   m_GameObject: {fileID: 707396088}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b2e4dde43e1e2d2499f1ac42dea8bcb9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e8295bb26f06134bb1885c3b080d0bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5612,11 +5633,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!1 &1096738998
 GameObject:
   m_ObjectHideFlags: 0
@@ -6059,19 +6080,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  flarePrefab: {fileID: 3421784659982580509, guid: 37a5edc52f1503344857ccd293adfcb0,
+  _flarePrefab: {fileID: 3421784659982580509, guid: 37a5edc52f1503344857ccd293adfcb0,
     type: 3}
-  cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
+  _cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
     type: 3}
-  dropContainer: {fileID: 1553924743}
-  _dropIntervalRange: {x: 2, y: 3}
+  _dropContainer: {fileID: 1553924743}
+  _playerStats:
+    _strength:
+      baseValue: 0
+      StatModifiers: []
+    _maxHealth:
+      baseValue: 0
+      StatModifiers: []
+    _dexterity:
+      baseValue: 0
+      StatModifiers: []
+    _luck:
+      baseValue: 0
+      StatModifiers: []
+  _dropIntervalRange: {x: 60, y: 90}
   _crateDelay: 5
   _crateHeightSpawnOffset: 10
   _raycastLayerMask:
     serializedVersion: 2
-    m_Bits: 1792
-  _spawnMin: {x: 84, y: 93}
-  _spawnMax: {x: 115, y: 105}
+    m_Bits: 0
+  _spawnMin: {x: 82, y: 92}
+  _spawnMax: {x: 117, y: 106}
 --- !u!1 &1282051260
 GameObject:
   m_ObjectHideFlags: 0
@@ -6391,7 +6425,7 @@ Animator:
   m_GameObject: {fileID: 1391980744}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b2e4dde43e1e2d2499f1ac42dea8bcb9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e8295bb26f06134bb1885c3b080d0bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6993,7 +7027,7 @@ PrefabInstance:
     - target: {fileID: 1308285974110481464, guid: 3b693d8a2271b204aab13d130d84df61,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80.17
+      value: 117.17
       objectReference: {fileID: 0}
     - target: {fileID: 1308285974110481464, guid: 3b693d8a2271b204aab13d130d84df61,
         type: 3}
@@ -7003,7 +7037,7 @@ PrefabInstance:
     - target: {fileID: 1308285974110481464, guid: 3b693d8a2271b204aab13d130d84df61,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 100
+      value: 106.2
       objectReference: {fileID: 0}
     - target: {fileID: 1308285974110481464, guid: 3b693d8a2271b204aab13d130d84df61,
         type: 3}
@@ -7044,6 +7078,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_Splitter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697213520634170837, guid: 3b693d8a2271b204aab13d130d84df61,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7179,6 +7218,7 @@ GameObject:
   - component: {fileID: 1546736666}
   - component: {fileID: 1546736664}
   - component: {fileID: 1546736667}
+  - component: {fileID: 1546736668}
   m_Layer: 13
   m_Name: Ramp_Left_1
   m_TagString: Untagged
@@ -7212,7 +7252,7 @@ Animator:
   m_GameObject: {fileID: 1546736662}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b2e4dde43e1e2d2499f1ac42dea8bcb9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e8295bb26f06134bb1885c3b080d0bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7290,11 +7330,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
+--- !u!114 &1546736668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546736662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75617d3881228944eb3f893b5374676e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 1546736664}
+  - {fileID: 1391980746}
 --- !u!1 &1552052966
 GameObject:
   m_ObjectHideFlags: 0
@@ -7598,11 +7653,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!4 &1631471707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7393927881689678203, guid: bd656418cd1d6c54a960521e078bdda0,
@@ -8178,7 +8233,7 @@ MonoBehaviour:
   _leftDoor: {fileID: 542957758}
   _rightDoor: {fileID: 220400711}
   _doorsSound: {fileID: 0}
-  _doorsOffset: 960
+  _doorsOffset: 480
   _animationDuration: 2.5
   _openAnimationCurve:
     serializedVersion: 2

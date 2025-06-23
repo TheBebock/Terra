@@ -2,7 +2,6 @@ namespace Terra.Interfaces
 {
     public interface IInteractable
     {
-        string GetInteractionPrompt();
         /// <summary>
         /// Checks if available for interaction
         /// </summary>

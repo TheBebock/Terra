@@ -20,18 +20,18 @@ namespace Terra.AI.Enemy
 
         protected override void SetupStates()
         {
-            var wander = new EnemyWanderState(this, agent, animator, Data.attackRange);
-            var chase = new EnemyChaseState(this, agent, animator, PlayerManager.Instance.transform);
-            var attack = new EnemyAttackState(this, agent, animator, PlayerManager.Instance.PlayerEntity);
+            var wander = new EnemyWanderState(this, _agent, _animator, Data.attackRange);
+            var chase = new EnemyChaseState(this, _agent, _animator, PlayerManager.Instance.transform);
+            var attack = new EnemyAttackState(this, _agent, _animator, PlayerManager.Instance.PlayerEntity);
             
 
-            stateMachine.AddTransition(chase, attack,
-                new FuncPredicate(() => playerDetector.CanAttackPlayer() 
-                                        && !isDead));
-            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !playerDetector.CanAttackPlayer() && !isDead));
+            StateMachine.AddTransition(chase, attack,
+                new FuncPredicate(() => _playerDetector.CanAttackPlayer() 
+                                        && !IsDead));
+            StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !_playerDetector.CanAttackPlayer() && !IsDead));
      
-            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !isDead));
-            stateMachine.SetState(chase);
+            StateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !IsDead));
+            StateMachine.SetState(chase);
         }
 
         public override void AttemptAttack()
@@ -43,7 +43,7 @@ namespace Terra.AI.Enemy
             var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
                 transform.position, Data.attackRadius, ComponentProvider.EnemyTargetsMask);
 
-            CombatManager.Instance.PerformAttack(this, targets, baseDamage: enemyStats.baseStrength);
+            CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
         }
 
         private void OnDrawGizmos()

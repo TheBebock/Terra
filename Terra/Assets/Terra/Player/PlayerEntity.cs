@@ -1,4 +1,3 @@
-using DG.Tweening;
 using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Core.Generics;

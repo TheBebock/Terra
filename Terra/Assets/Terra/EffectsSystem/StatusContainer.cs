@@ -4,7 +4,6 @@ using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Abstract.Definitions;
-using Terra.EffectsSystem.Utils;
 using Terra.Extensions;
 using UnityEngine;
 
