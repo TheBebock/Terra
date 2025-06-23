@@ -213,7 +213,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7403067640542484798}
   - component: {fileID: 7885330211013172373}
-  - component: {fileID: 8463207628364549446}
   - component: {fileID: 7127596057716230693}
   m_Layer: 11
   m_Name: Ramp
@@ -231,11 +230,11 @@ Transform:
   m_GameObject: {fileID: 3431772664107855000}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1399994, y: 5.330002, z: 1.0200043}
+  m_LocalPosition: {x: 0, y: 5.330002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2605355459606903748}
+  m_Father: {fileID: 7078551907261481299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7885330211013172373
 SpriteRenderer:
@@ -291,23 +290,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8463207628364549446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3431772664107855000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lookAtType: 1
-  _targetTransforms: []
-  _lockX: 0
-  _lockY: 1
-  _lockZ: 1
 --- !u!95 &7127596057716230693
 Animator:
   serializedVersion: 7
@@ -482,7 +464,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1213217770806628007}
-  - {fileID: 7403067640542484798}
+  - {fileID: 7078551907261481299}
   - {fileID: 5256280061716612755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -836,6 +818,57 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &6801407494682625275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7078551907261481299}
+  - component: {fileID: 930598411275742840}
+  m_Layer: 11
+  m_Name: RampPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7078551907261481299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6801407494682625275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.26, y: 0, z: 0.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7403067640542484798}
+  m_Father: {fileID: 2605355459606903748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &930598411275742840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6801407494682625275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lookAtType: 1
+  _targetTransforms:
+  - {fileID: 7078551907261481299}
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!1 &7618473524864041645
 GameObject:
   m_ObjectHideFlags: 0
