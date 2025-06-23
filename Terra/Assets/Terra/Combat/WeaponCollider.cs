@@ -21,13 +21,7 @@ namespace Terra.Combat
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                // Losowanie CRIT-a na podstawie Luck gracza
-                float luck = PlayerStatsManager.Instance.PlayerStats.Luck;
-                bool isCrit = Random.Range(0f, 100f) < luck;
-
-                Debug.Log(isCrit ? "CRITICAL ATTACK!" : "Normal attack");
-
-                CombatManager.Instance.PerformAttack(_entity, damageable, _weaponData.effects, _weaponData.damage, false, isCrit);
+                CombatManager.Instance.PerformAttack(_entity, damageable, _weaponData.effects, _weaponData.damage);
             }
         }
     }

@@ -10,11 +10,8 @@ namespace Terra.Managers
 
     public class CombatManager : MonoBehaviourSingleton<CombatManager>
     {
-
         private LayerMask _playerLayer;
-
-        // Lists exists to avoid multiple instances of new lists when there is only single target being passed
-        private static List<IDamageable> _targetsList = new ();
+        private static List<IDamageable> _targetsList = new();
 
         protected override void Awake()
         {
@@ -23,22 +20,21 @@ namespace Terra.Managers
         }
 
         public void PerformAttack(Entity source, IDamageable target, EffectsContainer effectsContainer = null,
-            int baseDamage = 0, bool isPercentage = false ,bool isCrit = false)
+            int baseDamage = 0, bool isPercentage = false)
         {
             _targetsList.Add(target);
-            PerformAttack(source, _targetsList, effectsContainer, baseDamage, isPercentage, isCrit);
+            PerformAttack(source, _targetsList, effectsContainer, baseDamage, isPercentage);
             _targetsList.Clear();
         }
 
         public void PerformAttack(Entity source, List<IDamageable> targets, EffectsContainer effectsContainer = null,
-            int baseDamage = 0, bool isPercentage = false, bool isCrit = false)
+            int baseDamage = 0, bool isPercentage = false)
         {
             if (source == null) return;
 
-            LayerMask sourceMask = source.gameObject.layer;
-            if (sourceMask == _playerLayer)
+            if (source.gameObject.layer == _playerLayer)
             {
-                PlayerPerformedAttack(source, targets, effectsContainer, baseDamage, isPercentage,isCrit);
+                PlayerPerformedAttack(source, targets, effectsContainer, baseDamage, isPercentage);
             }
             else
             {
@@ -47,10 +43,12 @@ namespace Terra.Managers
         }
 
         private void PlayerPerformedAttack(Entity source, List<IDamageable> hitTargets,
-            EffectsContainer effectsContainer = null, int baseWeaponDamage = 0, bool isPercentage = false, bool isCrit = false)
+            EffectsContainer effectsContainer = null, int baseWeaponDamage = 0, bool isPercentage = false)
         {
             if (!PlayerStatsManager.Instance) return;
+
             int playerStrengthValue = PlayerStatsManager.Instance.PlayerStats.Strength;
+            bool isCrit = CheckForPlayerCrit();
 
             for (int i = 0; i < hitTargets.Count; i++)
             {
@@ -58,7 +56,7 @@ namespace Terra.Managers
 
                 if (isCrit)
                 {
-                    finalDamage = Mathf.RoundToInt(finalDamage * 2f); // multiplier można potem dać do statystyk
+                    finalDamage = Mathf.RoundToInt(finalDamage * 2f); // Można przenieść mnożnik do statystyk
                     Debug.Log($"CRIT! Final damage: {finalDamage}");
                 }
 
@@ -70,20 +68,30 @@ namespace Terra.Managers
             }
         }
 
-
         private void EnemyPerformedAttack(Entity source, List<IDamageable> hitTargets, int damage,
             EffectsContainer effectsContainer = null, bool isPercentage = false)
         {
-            // Loop through targets and apply damage
             for (int i = 0; i < hitTargets.Count; i++)
             {
-                // This will display Immune in case the target is not damageable
                 hitTargets[i].TakeDamage(damage, isPercentage);
 
                 if (!hitTargets[i].CanBeDamaged) continue;
                 effectsContainer?.ExecuteActions(source, hitTargets[i] as Entity);
                 effectsContainer?.ApplyStatuses(hitTargets[i]);
             }
+        }
+
+        private bool CheckForPlayerCrit()
+        {
+            // Prosty przykład, np. 10% szansy + bonus z broni (później można to rozbudować)
+            int luck = PlayerStatsManager.Instance.PlayerStats.Luck;
+            float baseCritChance = 0.1f; // 10%
+            float luckBonus = luck * 0.01f; // np. 1% za punkt szczęścia
+
+            float totalCritChance = baseCritChance + luckBonus;
+            float roll = Random.value;
+
+            return roll < totalCritChance;
         }
     }
 }
