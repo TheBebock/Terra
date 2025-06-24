@@ -8,8 +8,15 @@ namespace Terra.AI.Data.Definitions
     public class RangedEnemyData : EnemyData
     {
         public BulletData bulletData;
-        public float detectionAngle = 60f;
-        public float detectionRadius = 10f;
-        public float innerDetectionRadius = 5f;
+        public float keepDistanceFromPlayer = 6f;
+
+        private void OnValidate()
+        {
+            if (keepDistanceFromPlayer > attackRange)
+            {
+                Debug.LogError($"{nameof(keepDistanceFromPlayer)} needs to be lower than {nameof(attackRange)}");
+                keepDistanceFromPlayer = attackRange / 2;
+            }
+        }
     }
 }

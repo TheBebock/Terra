@@ -20,18 +20,17 @@ namespace Terra.AI.Enemy
 
         protected override void SetupStates()
         {
-            var wander = new EnemyWanderState(this, _agent, _animator, Data.attackRange);
+            var wander = new EnemyWanderState(this, _agent, _animator);
             var chase = new EnemyChaseState(this, _agent, _animator, PlayerManager.Instance.transform);
             var attack = new EnemyAttackState(this, _agent, _animator, PlayerManager.Instance.PlayerEntity);
             
 
-            StateMachine.AddTransition(chase, attack,
-                new FuncPredicate(() => _playerDetector.CanAttackPlayer() 
-                                        && !IsDead));
-            StateMachine.AddTransition(attack, chase, new FuncPredicate(() => !_playerDetector.CanAttackPlayer() && !IsDead));
+            stateMachine.AddTransition(chase, attack,
+                new FuncPredicate(() => CanAttackPlayer() && !isDead));
+            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => CanAttackPlayer() && !isDead));
      
-            StateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !IsDead));
-            StateMachine.SetState(chase);
+            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !isDead));
+            stateMachine.SetState(chase);
         }
 
         public override void AttemptAttack()

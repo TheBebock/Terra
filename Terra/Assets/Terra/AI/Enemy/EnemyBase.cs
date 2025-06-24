@@ -9,6 +9,7 @@ using Terra.Enums;
 using Terra.FSM;
 using Terra.Interfaces;
 using Terra.Managers;
+using Terra.Player;
 using Terra.StatisticsSystem.Definitions;
 using Terra.Utils;
 using UnityEngine;
@@ -20,27 +21,18 @@ namespace Terra.AI.Enemy
     /// <summary>
     ///     Represents enemy that has data attached to it
     /// </summary>
-    public abstract class Enemy<TEnemyData> : EnemyBase, IWithSetUp
+    public abstract class Enemy<TEnemyData> : EnemyBase
         where TEnemyData : EnemyData
     {
         protected abstract TEnemyData Data { get; }
 
         public sealed override float AttackRange => Data.attackRange;
-
-        public virtual void SetUp()
-        {
-            _playerDetector.Init(Data);
-        }
-        public virtual void TearDown()
-        {
-            
-        }
+        
     }
 
     /// <summary>
     ///     Represents base class for all enemies, handling health, state machine, and animations.
     /// </summary>
-    [RequireComponent(typeof(NavMeshAgent), typeof(PlayerDetector))]
     public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
         [FormerlySerializedAs("enemyStats")]
@@ -48,7 +40,6 @@ namespace Terra.AI.Enemy
         [SerializeField, Expandable] protected EnemyStatsDefinition _enemyStats;
 
         [FormerlySerializedAs("agent")] [Foldout("References")][SerializeField] protected NavMeshAgent _agent;
-        [FormerlySerializedAs("playerDetector")] [Foldout("References")][SerializeField] protected PlayerDetector _playerDetector;
         [FormerlySerializedAs("animator")] [Foldout("References")][SerializeField] protected Animator _animator;
         [FormerlySerializedAs("enemyCollider")] [Foldout("References")][SerializeField] protected Collider _enemyCollider;
         [FormerlySerializedAs("enemyModel")] [Foldout("References")][SerializeField] protected SpriteRenderer _enemyModel;
@@ -59,12 +50,12 @@ namespace Terra.AI.Enemy
         [FormerlySerializedAs("hurtSFX")] [Foldout("SFX")] [SerializeField] protected AudioClip _hurtSFX;
         [FormerlySerializedAs("deathSFX")] [Foldout("SFX")] [SerializeField] protected AudioClip _deathSFX;
         
-        protected StateMachine StateMachine;
-        protected EnemyDeathState EnemyDeathState;
-        protected CountdownTimer AttackTimer;
+        protected StateMachine stateMachine;
+        protected EnemyDeathState enemyDeathState;
+        protected CountdownTimer attackTimer;
         private bool _stateMachineLocked;
-        protected bool IsDead;
-        private bool CanUpdateState => !IsDead || !_stateMachineLocked;
+        protected bool isDead;
+        private bool CanUpdateState => !isDead || !_stateMachineLocked;
 
         public HealthController HealthController => _healthController;
         public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
@@ -72,7 +63,7 @@ namespace Terra.AI.Enemy
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float AttackRange { get; }
-        protected AudioSource AudioSource;
+        protected AudioSource audioSource;
 
         protected Vector3 ItemsSpawnPosition => new(
             transform.position.x, 
@@ -84,7 +75,7 @@ namespace Terra.AI.Enemy
         /// </summary>
         protected virtual void Awake()
         {
-            AudioSource = GetComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>();
             if (_enemyStats == null)
             {
                 Debug.LogError($"[{nameof(EnemyBase)}] Missing EnemyStatsDefinition on {name}. Please assign it in the inspector.");
@@ -94,14 +85,14 @@ namespace Terra.AI.Enemy
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(_enemyStats.baseMaxHealth), CancellationToken);
 
-            AttackTimer = new CountdownTimer(GetAttackCooldown());
+            attackTimer = new CountdownTimer(GetAttackCooldown());
 
             AttachListeners();
 
-            StateMachine = new StateMachine();
+            stateMachine = new StateMachine();
             
-            EnemyDeathState = new EnemyDeathState(this, _agent, _animator);
-            StateMachine.AddAnyTransition(EnemyDeathState, new FuncPredicate(() => IsDead));
+            enemyDeathState = new EnemyDeathState(this, _agent, _animator);
+            stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
             
             SetupStates();
         }
@@ -115,9 +106,11 @@ namespace Terra.AI.Enemy
         {
             if (!CanUpdateState) return;
 
+            transform.rotation = Quaternion.identity;
+            
             StatusContainer.UpdateEffects();
-            StateMachine.Update();
-            AttackTimer.Tick(Time.deltaTime);
+            stateMachine.Update();
+            attackTimer.Tick(Time.deltaTime);
 
             UpdateFacingDirection();
 
@@ -164,6 +157,10 @@ namespace Terra.AI.Enemy
         /// </summary>
         protected abstract float GetAttackCooldown();
 
+        protected virtual bool CanAttackPlayer() {
+            return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange;
+        }
+        
         /// <summary>
         /// Applies damage, triggers visual feedback and damage popup.
         /// </summary>
@@ -175,7 +172,7 @@ namespace Terra.AI.Enemy
                 return;
             }
             
-            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, AudioSource);
+            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, audioSource);
             
             // Prevent negative damage values
             if (amount < 0) amount = 0;
@@ -191,18 +188,18 @@ namespace Terra.AI.Enemy
 
         void IDamageable.OnDeath()
         {
-            OnDeath();
+            InternalOnDeath();
         }
 
         /// <summary>
         /// Handles death behavior and schedules cleanup.
         /// </summary>
-        private void OnDeath()
+        private void InternalOnDeath()
         {
-            if (IsDead) return;
+            if (isDead) return;
             
-            AudioManager.Instance.PlaySFXAtSource(_deathSFX, AudioSource);
-            IsDead = true;
+            AudioManager.Instance.PlaySFXAtSource(_deathSFX, audioSource);
+            isDead = true;
             _enemyCollider.enabled = false;
             _agent.isStopped = true;
             _agent.velocity = Vector3.zero;
@@ -211,8 +208,12 @@ namespace Terra.AI.Enemy
             VFXController?.PlayParticleOnEntity(VFXController.onDeathParticle);
 
             SpawnLootOnDeath();
+            OnDeath();
+            
             Destroy(gameObject, 5f); 
         }
+        
+        protected virtual void OnDeath(){}
 
         /// <summary>
         ///     Spawn crystal pickup on death, override to perform other actions
@@ -245,13 +246,6 @@ namespace Terra.AI.Enemy
                 _agent = GetComponent<NavMeshAgent>();
                 if (_agent == null)
                     Debug.LogError($"[{name}] Missing NavMeshAgent component.", this);
-            }
-
-            if (_playerDetector == null)
-            {
-                _playerDetector = GetComponent<PlayerDetector>();
-                if (_playerDetector == null)
-                    Debug.LogError($"[{name}] Missing PlayerDetector component.", this);
             }
 
             if (_animator == null)

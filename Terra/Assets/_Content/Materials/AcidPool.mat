@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AcidBullet
+  m_Name: AcidPool
   m_Shader: {fileID: -6465566751694194690, guid: 58c90f1ddb979b0478fb0cce9caac6ed,
     type: 3}
   m_Parent: {fileID: 0}
@@ -119,13 +119,13 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmisiveIntensity: 0
-    - _EmissiveIntensity: 0.1
-    - _EmmisiveIntensity: 0
+    - _EmissiveIntensity: 0.35
+    - _EmmisiveIntensity: 0.35
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Intensity: 0
+    - _Intensity: 0.35
     - _Metallic: 0
     - _NormalIntensity: 0
     - _OcclusionStrength: 1
@@ -141,7 +141,7 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _alphaClipping: 0.5
+    - _alphaClipping: 0.001
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

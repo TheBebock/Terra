@@ -12,6 +12,18 @@ namespace Terra.RewardSystem
     {
         public readonly string betterItemColor = "green";
         public readonly string worseItemColor = "red";
+        private ItemDataComparison _betterComparison; 
+        protected override void Awake()
+        {
+            base.Awake();
+            _betterComparison = new ItemDataComparison
+            {
+                strength = Comparison.Better,
+                maxHealth = Comparison.Better,
+                speed = Comparison.Better,
+                luck = Comparison.Better
+            };
+        }
 
         public ItemDataComparison CompareItems(ItemData currentItem, ItemData toCompareItem)
         {
@@ -27,14 +39,7 @@ namespace Terra.RewardSystem
 
         public ItemDataComparison GetAllBetterComparisonItem()
         {
-            ItemDataComparison comparison = new ItemDataComparison
-            {
-                strength = Comparison.Better,
-                maxHealth = Comparison.Better,
-                speed = Comparison.Better,
-                luck = Comparison.Better
-            };
-            return comparison;
+            return _betterComparison;
         }
 
         public WeaponDataComparison CompareWeapons(WeaponData currentWeapon, WeaponData toCompareWeapon)

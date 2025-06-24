@@ -13,6 +13,7 @@ namespace Terra.Particles
     [RequireComponent(typeof(Entity))]
     public class VFXController : MonoBehaviour
     {
+        private static readonly int EmissiveIntensity = Shader.PropertyToID("_EmissiveIntensity");
         [Foldout("Particles")]  public ParticleComponent onSpawnParticle;
         [Foldout("Particles")]  public ParticleComponent onHealParticle;
         [Foldout("Particles")]  public ParticleComponent onHitParticle;
@@ -54,8 +55,17 @@ namespace Terra.Particles
             {
                 curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
             }
-            
             endValue = Mathf.Clamp(endValue, 0, 1);
+            
+            float emissiveIntensityClamped = Mathf.Clamp(endValue, 0, _modelMaterial.GetFloat(EmissiveIntensity));
+            
+            Tween t = DOTween.To(
+                () => _modelMaterial.GetFloat(EmissiveIntensity),
+                x => _modelMaterial.SetFloat(EmissiveIntensity, x),
+                emissiveIntensityClamped,
+                duration/2
+            ).SetEase(curve);
+            
             _modelMaterial.DOFade(endValue, duration).SetEase(curve);
         }
 

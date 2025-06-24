@@ -19,11 +19,11 @@ namespace Terra.AI.EnemyStates {
         private static readonly int WalkRightHash = Animator.StringToHash("WalkRight");
 
         // Constructor to initialize the enemy wander state
-        public EnemyWanderState(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator, float wanderRadius) : base(enemy, navMeshAgent, animator)
+        public EnemyWanderState(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator) : base(enemy, navMeshAgent, animator)
         {
             // Set the start point and wander radius based on the enemy's current position and the given radius
             this._startPoint = enemy.transform.position;
-            this._wanderRadius = wanderRadius;
+            this._wanderRadius = 15f;
         }
 
         // Called when the enemy enters the wander state

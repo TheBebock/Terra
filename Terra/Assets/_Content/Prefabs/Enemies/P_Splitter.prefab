@@ -120,7 +120,6 @@ GameObject:
   - component: {fileID: 1308285974110481464}
   - component: {fileID: 2692785549797332523}
   - component: {fileID: 7695155615016309967}
-  - component: {fileID: 898945593000998187}
   - component: {fileID: 808408188259601979}
   - component: {fileID: 1707316075407107676}
   - component: {fileID: 5765074683810301652}
@@ -195,20 +194,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &898945593000998187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3697213520634170837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9224ad33bd70f24449858106421f8f95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemyData: {fileID: 0}
-  _attackRange: -1
 --- !u!114 &808408188259601979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,12 +208,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 1707316075407107676}
   _id: -1
-  enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
-  agent: {fileID: 7695155615016309967}
-  playerDetector: {fileID: 898945593000998187}
-  animator: {fileID: 1319120290799917922}
-  enemyCollider: {fileID: 2692785549797332523}
-  enemyModel: {fileID: 5902760152611172917}
+  _enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
+  _agent: {fileID: 7695155615016309967}
+  _animator: {fileID: 1319120290799917922}
+  _enemyCollider: {fileID: 2692785549797332523}
+  _enemyModel: {fileID: 5902760152611172917}
   _healthController:
     _maxHealth:
       baseValue: 0
@@ -240,8 +224,8 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
-  hurtSFX: {fileID: 8300000, guid: 5f9ac63128bb68c41b7727e03c65f618, type: 3}
-  deathSFX: {fileID: 8300000, guid: d6e2c85d12a350e448fed0b8a69a884a, type: 3}
+  _hurtSFX: {fileID: 8300000, guid: 5f9ac63128bb68c41b7727e03c65f618, type: 3}
+  _deathSFX: {fileID: 8300000, guid: d6e2c85d12a350e448fed0b8a69a884a, type: 3}
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
   _enemyToSpawn: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
     type: 3}
@@ -280,12 +264,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms:
+  _lookAtType: 1
+  _targetTransforms:
   - {fileID: 677287159264096158}
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!114 &4891421299865651559
 MonoBehaviour:
   m_ObjectHideFlags: 0

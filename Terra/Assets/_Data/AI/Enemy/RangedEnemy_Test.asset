@@ -23,6 +23,4 @@ MonoBehaviour:
     penetrationPower: 0
     bulletSpeed: 10
     bulletDamage: 10
-  detectionAngle: 60
-  detectionRadius: 7
-  innerDetectionRadius: 5
+  keepDistanceFromPlayer: 5

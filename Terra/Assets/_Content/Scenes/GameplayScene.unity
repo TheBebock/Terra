@@ -1019,12 +1019,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: -1
   _enemies:
-  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
-    spawnValue: 10
   - enemy: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b, type: 3}
-    spawnValue: 5
-  - enemy: {fileID: 1624681826800207199, guid: 50758ea60ae192a4b976d8b1db0553e1, type: 3}
+    spawnValue: 1
+  - enemy: {fileID: 808408188259601979, guid: 3b693d8a2271b204aab13d130d84df61, type: 3}
+    spawnValue: 10
+  - enemy: {fileID: 1649519561073000870, guid: 50758ea60ae192a4b976d8b1db0553e1, type: 3}
     spawnValue: 15
+  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
+    spawnValue: 5
   _delayBeforeFirstWave: 5
   _timeBetweenWaves: 10
   _startingWavesToSpawn: 2
@@ -1036,7 +1038,7 @@ MonoBehaviour:
   _spawnTimeInterval: 1.5
   _raycastLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 101888
   _spawnMin: {x: 81, y: 90}
   _spawnMax: {x: 119, y: 108}
   _isPaused: 0
@@ -2262,9 +2264,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: -1
   _currentGamma: 0
-  _currentBloom: 2
+  _currentBloom: 0.5
   _gammaRange: {x: 0.1, y: 5}
-  _bloomRange: {x: 0, y: 5}
+  _bloomRange: {x: 0, y: 2}
   _globalVolume: {fileID: 223233487}
   _bloom: {fileID: 1641740166786297975, guid: 3b5b3509cb5a216439eec4a9a904953f, type: 2}
   _gamma: {fileID: 7434142548217873340, guid: 3b5b3509cb5a216439eec4a9a904953f, type: 2}
@@ -3089,11 +3091,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 208860923}
     m_Modifications:
-    - target: {fileID: 3619127994620976700, guid: f20278945b8f17b42aa7a0bcfb67e639,
-        type: 3}
-      propertyPath: m_Convex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3759649500440494578, guid: f20278945b8f17b42aa7a0bcfb67e639,
         type: 3}
       propertyPath: m_Name
@@ -7116,7 +7113,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 898945593000998187, guid: 3b693d8a2271b204aab13d130d84df61, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

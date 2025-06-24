@@ -96,7 +96,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 2
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 188c560dd35009c4393d8c2b91103ae7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -119,11 +119,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4785396284601668278}
   - component: {fileID: 3986618462275367722}
-  - component: {fileID: 1849009443266694251}
   - component: {fileID: 7006866673334926771}
   - component: {fileID: 6763376662478990009}
   - component: {fileID: 1417974242927953132}
   - component: {fileID: 1550657901811631310}
+  - component: {fileID: 7390265877183279271}
   m_Layer: 7
   m_Name: Test_Enemy
   m_TagString: Untagged
@@ -169,19 +169,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 3
---- !u!114 &1849009443266694251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4581209018012838946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9224ad33bd70f24449858106421f8f95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
 --- !u!114 &7006866673334926771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,12 +181,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms:
+  _lookAtType: 1
+  _targetTransforms:
   - {fileID: 5403364549740061195}
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!114 &6763376662478990009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,23 +199,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxController: {fileID: 7390265877183279271}
   _id: -1
-  enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
-  agent: {fileID: 3986618462275367722}
-  playerDetector: {fileID: 1849009443266694251}
-  animator: {fileID: 3259441000915841612}
-  enemyCollider: {fileID: 1550657901811631310}
-  enemyModel: {fileID: 2262910327476383913}
-  healthController:
-    maxHealth:
+  _enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
+  _agent: {fileID: 3986618462275367722}
+  _animator: {fileID: 3259441000915841612}
+  _enemyCollider: {fileID: 1550657901811631310}
+  _enemyModel: {fileID: 2262910327476383913}
+  _healthController:
+    _maxHealth:
       baseValue: 0
       StatModifiers: []
-    currentHealth: 0
-    canBeHealed: 0
-    isInvincible: 0
-  statusContainer:
+    _currentHealth: 0
+    _canBeHealed: 0
+    _isInvincible: 0
+    _immuneAfterHit: 0
+  _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
+  _hurtSFX: {fileID: 0}
+  _deathSFX: {fileID: 0}
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
 --- !u!114 &1417974242927953132
 MonoBehaviour:
@@ -282,3 +272,24 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7390265877183279271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4581209018012838946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _entity: {fileID: 6763376662478990009}
+  _entityModel: {fileID: 0}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}

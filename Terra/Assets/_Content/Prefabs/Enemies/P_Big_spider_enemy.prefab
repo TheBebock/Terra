@@ -237,7 +237,6 @@ GameObject:
   - component: {fileID: 5511451956620070862}
   - component: {fileID: 6078002889707953221}
   - component: {fileID: 6404629157487420004}
-  - component: {fileID: 421302395010930049}
   - component: {fileID: 1986148890957680752}
   - component: {fileID: 8164218734187088338}
   - component: {fileID: 8009901754265250444}
@@ -312,20 +311,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &421302395010930049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3723416919822668793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9224ad33bd70f24449858106421f8f95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemyData: {fileID: 0}
-  _attackRange: -1
 --- !u!114 &1986148890957680752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +327,6 @@ MonoBehaviour:
   _id: -1
   _enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
   _agent: {fileID: 6404629157487420004}
-  _playerDetector: {fileID: 421302395010930049}
   _animator: {fileID: 6565553046577328471}
   _enemyCollider: {fileID: 6078002889707953221}
   _enemyModel: {fileID: 8352202127488331846}
@@ -393,12 +377,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms:
+  _lookAtType: 1
+  _targetTransforms:
   - {fileID: 1527108251388257540}
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!114 &3799263795066511319
 MonoBehaviour:
   m_ObjectHideFlags: 0
