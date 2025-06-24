@@ -27,6 +27,8 @@ namespace Terra.UI
         [SerializeField] private Toggle rewardToggle;
         [SerializeField] private RewardData rewardData;
 
+        public Toggle Toggle => rewardToggle;
+        
         private WeaponReward weaponReward = new();
         private StatsReward statsReward = new();
         private EffectData effectReward = default;
@@ -44,10 +46,6 @@ namespace Terra.UI
         public void SetUp()
         {
             ChooseRewardData();
-        }
-        public bool GetToggleStatus()
-        {
-            return rewardToggle.isOn;
         }
 
         private void ChooseRewardData()
@@ -91,7 +89,7 @@ namespace Terra.UI
                 }
 
                 if (PlayerInventoryManager.Instance.ActiveItem.Data == null)
-                    itemDataComparison = ItemsComparator.Instance.GetAllBetterComparisonItem();
+                    itemDataComparison = ItemsComparator.Instance.CompareItems(activeItemReward.Data);
                 else
                     itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.ActiveItem.Data, activeItemReward.Data);
                 LoadItemData(activeItemReward.Data);
@@ -104,8 +102,9 @@ namespace Terra.UI
                     SetNewRewardType();
                     return;
                 }
+
                 if (PlayerInventoryManager.Instance.GetPassiveItems.Count < 1)
-                    itemDataComparison = ItemsComparator.Instance.GetAllBetterComparisonItem();
+                    itemDataComparison = ItemsComparator.Instance.CompareItems(passiveItemReward.Data);
                 else
                     itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.GetPassiveItems[0].Data, passiveItemReward.Data);
                 LoadItemData(passiveItemReward.Data);

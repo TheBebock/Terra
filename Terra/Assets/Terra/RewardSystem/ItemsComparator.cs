@@ -12,19 +12,20 @@ namespace Terra.RewardSystem
     {
         public readonly string betterItemColor = "green";
         public readonly string worseItemColor = "red";
-        private ItemDataComparison _betterComparison; 
-        protected override void Awake()
-        {
-            base.Awake();
-            _betterComparison = new ItemDataComparison
-            {
-                strength = Comparison.Better,
-                maxHealth = Comparison.Better,
-                speed = Comparison.Better,
-                luck = Comparison.Better
-            };
-        }
 
+
+        public ItemDataComparison CompareItems(ItemData currentItem)
+        {
+            ItemDataComparison comparison = new ItemDataComparison
+            {
+                strength = CompareModifiers(currentItem.strengthModifiers, 0),
+                maxHealth = CompareModifiers(currentItem.maxHealthModifiers, 0),
+                speed = CompareModifiers(currentItem.speedModifiers, 0),
+                luck = CompareModifiers(currentItem.luckModifiers, 0)
+            };
+            return comparison;
+        }
+        
         public ItemDataComparison CompareItems(ItemData currentItem, ItemData toCompareItem)
         {
             ItemDataComparison comparison = new ItemDataComparison
@@ -36,12 +37,7 @@ namespace Terra.RewardSystem
             };
             return comparison;
         }
-
-        public ItemDataComparison GetAllBetterComparisonItem()
-        {
-            return _betterComparison;
-        }
-
+        
         public WeaponDataComparison CompareWeapons(WeaponData currentWeapon, WeaponData toCompareWeapon)
         {
             WeaponDataComparison comparison = new WeaponDataComparison
@@ -62,14 +58,17 @@ namespace Terra.RewardSystem
 
         private Comparison CompareValue(float firstValue, float secondValue)
         {
-            switch(secondValue - firstValue)
-            {
-                case <0: return Comparison.Worse;
-                case 0: return Comparison.Equal;
-                case >0: return Comparison.Better;
+            if(firstValue > secondValue) return Comparison.Worse;
+            if(firstValue < secondValue) return Comparison.Better;
+            
+            return Comparison.Equal;
+        }
+        
+        private Comparison CompareModifiers(List<ValueModifier> firstModifiersList, int value)
+        {
+            var modifiersValue = CalculateModifierValue(firstModifiersList);
 
-                default: return 0;
-            }
+            return CompareValue(0, modifiersValue);
         }
 
         private Comparison CompareModifiers(List<ValueModifier> firstModifiersList, List<ValueModifier> secornModifiersList)

@@ -20,16 +20,31 @@ namespace Terra.UI
         {
             base.SetUp();
 
+            for (int i = 0; i < rewardToggles.Count; i++)
+            {
+                rewardToggles[i].Toggle.onValueChanged.AddListener(NotifyRewardSelected);
+            }
             LoadRewardsData();
 
             acceptButton.onClick.AddListener(ApplyReward);
         }
 
+        private void NotifyRewardSelected(bool value)
+        {
+            if (value)
+            {
+                acceptButton.interactable = true;
+            }
+            else
+            {
+                if(IsAnyToggleOn()) return;
+                acceptButton.interactable = false;
+            }
+        }
+        
         private void ApplyReward()
         {
             if (!IsAnyToggleOn()) return;
-
-            
             
             // TODO: Apply reward for player
             currentlyActiveToogle.ApplyReward();
@@ -55,9 +70,8 @@ namespace Terra.UI
         {
             foreach (var toggle in rewardToggles)
             {
-                if (toggle.GetToggleStatus())
+                if (toggle.Toggle.isOn)
                 {
-                    currentlyActiveToogle = toggle;
                     return true;
                 }
             }

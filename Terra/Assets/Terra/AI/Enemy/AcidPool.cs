@@ -35,10 +35,9 @@ namespace Terra.AI.Enemy
          
             _collider.enabled = false;
             VFXController.DoFadeModel(0, 2);
-            
             await UniTask.WaitForSeconds(2.5f, cancellationToken: CancellationToken);
             
-            
+            Destroy(gameObject);
         }
         private void OnTriggerStay(Collider other)
         {
