@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3740106023029474068}
   - component: {fileID: 7519315527293647657}
   - component: {fileID: 1206317967071570289}
-  - component: {fileID: 5660387509140845944}
   - component: {fileID: 2601609666699704477}
   - component: {fileID: 1771873644551736814}
   - component: {fileID: 5781299182056900915}
@@ -37,7 +36,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2431934513187846427}
-  - {fileID: 3344058561838327288}
   - {fileID: 9115157658190438703}
   - {fileID: 5820431890849608900}
   - {fileID: 7260715239503517495}
@@ -100,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b566a5dfdc25f24d94bfd531e605f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxController: {fileID: 5660387509140845944}
+  _vfxController: {fileID: 9160366533650034702}
   _id: -1
   _deathFadeDuration: 2
   _deathFadeCurve:
@@ -151,27 +149,6 @@ MonoBehaviour:
     type: 3}
   _statueSpawnPointLeft: {fileID: 5820431890849608900}
   _statueSpawnPointRight: {fileID: 7260715239503517495}
---- !u!114 &5660387509140845944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251934167059348343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 0}
-  onHealParticle: {fileID: 0}
-  onHitParticle: {fileID: 0}
-  onDeathParticle: {fileID: 0}
-  _container: {fileID: 4643372447952132618}
-  _model: {fileID: 3217267435475957119}
-  _modelMaterial: {fileID: 0}
-  _activeParticles: []
-  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2601609666699704477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +164,8 @@ MonoBehaviour:
   _lookAtType: 1
   _targetTransforms:
   - {fileID: 2431934513187846427}
-  _targetVFXControllers: []
+  _targetVFXControllers:
+  - {fileID: 9160366533650034702}
   _lockX: 0
   _lockY: 1
   _lockZ: 1
@@ -348,6 +326,7 @@ GameObject:
   - component: {fileID: 2431934513187846427}
   - component: {fileID: 3217267435475957119}
   - component: {fileID: 1199198475853365639}
+  - component: {fileID: 9160366533650034702}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -367,7 +346,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.226, z: 0.015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3344058561838327288}
   m_Father: {fileID: 4643372447952132618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3217267435475957119
@@ -392,7 +372,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
+  - {fileID: 2100000, guid: ecab255151c8a1e498714d0e1264921f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -413,7 +393,7 @@ SpriteRenderer:
   m_SortingLayerID: 1484355073
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2e5afc04247d3514184b4e396336be34, type: 3}
+  m_Sprite: {fileID: 21300000, guid: abee60c54d0450d4ca71c4ddd8337491, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -446,6 +426,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9160366533650034702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825744723712223902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _container: {fileID: 4643372447952132618}
+  _model: {fileID: 3217267435475957119}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2033009269706591037
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,11 +505,11 @@ Transform:
   m_GameObject: {fileID: 2047419682964285861}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.552, z: -0.763}
+  m_LocalPosition: {x: 0.15, y: 0.6159994, z: -0.33100036}
   m_LocalScale: {x: 1, y: 0.9896092, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4643372447952132618}
+  m_Father: {fileID: 2431934513187846427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1002711005342842817
 Light:
@@ -521,8 +522,8 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.9946624, g: 0.7971698, b: 1, a: 1}
-  m_Intensity: 0.4
-  m_Range: 1
+  m_Intensity: 1
+  m_Range: 2
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

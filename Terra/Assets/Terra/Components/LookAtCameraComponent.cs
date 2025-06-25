@@ -22,10 +22,11 @@ namespace Terra.Components
         [SerializeField] private bool _lockX;
         [FormerlySerializedAs("lockY")] [SerializeField] private bool _lockY = true;
         [FormerlySerializedAs("lockZ")] [SerializeField] private bool _lockZ = true;
-        
-        [SerializeField] private float _fadeValue = 0.1f;
-        [SerializeField] private float _fadeDuration = 0.25f;
-        [SerializeField] private float _maxDistanceFromCamera = 5f;
+
+        [SerializeField] private bool _fadeIfCloseToCamera = false;
+        [ShowIf(nameof(_fadeIfCloseToCamera))] [SerializeField] private float _fadeValue = 0.1f;
+        [ShowIf(nameof(_fadeIfCloseToCamera))] [SerializeField] private float _fadeDuration = 0.25f;
+        [ShowIf(nameof(_fadeIfCloseToCamera))] [SerializeField] private float _maxDistanceFromCamera = 5f;
 
         private List<Vector3> _originalRotations = new ();
         private Transform _lookAtCamera;
@@ -76,7 +77,9 @@ namespace Terra.Components
             {
                 UpdateTransformRotation(_targetTransforms[i], _originalRotations[i]);
             }
-
+            
+            if(!_fadeIfCloseToCamera) return;
+            
             for (int i = 0; i < _targetVFXControllers.Count; i++)
             {
                 TryFadingDueToCamera(_targetVFXControllers[i]);
