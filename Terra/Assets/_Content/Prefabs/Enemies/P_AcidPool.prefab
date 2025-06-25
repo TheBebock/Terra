@@ -225,10 +225,10 @@ MonoBehaviour:
   _defaultIntensity: 0.1
   _defaultColor: {r: 0.93333334, g: 1, b: 0, a: 1}
   _isPulsating: 1
-  _pulseToAnotherColor: 1
-  _pulseColor: {r: 1, g: 1, b: 1, a: 1}
-  _minIntensity: 1
-  _maxIntensity: 2
+  _pulseToAnotherColor: 0
+  _pulseColor: {r: 0.97264934, g: 1, b: 0, a: 1}
+  _minIntensity: 0.5
+  _maxIntensity: 1
   _pulseSpeed: 0.1
 --- !u!1 &3071608806139672641
 GameObject:
@@ -365,9 +365,9 @@ MonoBehaviour:
   _defaultColor: {r: 0.93333334, g: 1, b: 0, a: 1}
   _isPulsating: 1
   _pulseToAnotherColor: 0
-  _pulseColor: {r: 1, g: 1, b: 1, a: 1}
-  _minIntensity: 1
-  _maxIntensity: 2
+  _pulseColor: {r: 0.97264934, g: 1, b: 0, a: 1}
+  _minIntensity: 0.5
+  _maxIntensity: 1
   _pulseSpeed: 0.1
 --- !u!1 &4034032000471032285
 GameObject:
@@ -503,10 +503,10 @@ MonoBehaviour:
   _defaultIntensity: 0.1
   _defaultColor: {r: 0.93333334, g: 1, b: 0, a: 1}
   _isPulsating: 1
-  _pulseToAnotherColor: 1
-  _pulseColor: {r: 1, g: 1, b: 1, a: 1}
-  _minIntensity: 1
-  _maxIntensity: 2
+  _pulseToAnotherColor: 0
+  _pulseColor: {r: 0.97264934, g: 1, b: 0, a: 1}
+  _minIntensity: 0.5
+  _maxIntensity: 1
   _pulseSpeed: 0.1
 --- !u!1 &4076838584101533367
 GameObject:
@@ -643,9 +643,9 @@ MonoBehaviour:
   _defaultColor: {r: 0.93333334, g: 1, b: 0, a: 1}
   _isPulsating: 1
   _pulseToAnotherColor: 0
-  _pulseColor: {r: 1, g: 1, b: 1, a: 1}
-  _minIntensity: 1
-  _maxIntensity: 2
+  _pulseColor: {r: 0.97264934, g: 1, b: 0, a: 1}
+  _minIntensity: 0.5
+  _maxIntensity: 1
   _pulseSpeed: 0.1
 --- !u!1 &6532889652508567386
 GameObject:
@@ -781,10 +781,10 @@ MonoBehaviour:
   _defaultIntensity: 0.1
   _defaultColor: {r: 0.93333334, g: 1, b: 0, a: 1}
   _isPulsating: 1
-  _pulseToAnotherColor: 1
-  _pulseColor: {r: 1, g: 1, b: 1, a: 1}
-  _minIntensity: 1
-  _maxIntensity: 2
+  _pulseToAnotherColor: 0
+  _pulseColor: {r: 0.97264934, g: 1, b: 0, a: 1}
+  _minIntensity: 0.5
+  _maxIntensity: 1
   _pulseSpeed: 0.1
 --- !u!1 &7128087188816572140
 GameObject:
@@ -843,6 +843,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.25
   _maxDistanceFromCamera: 5

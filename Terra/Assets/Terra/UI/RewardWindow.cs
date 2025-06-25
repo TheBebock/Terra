@@ -72,6 +72,7 @@ namespace Terra.UI
             {
                 if (toggle.Toggle.isOn)
                 {
+                    currentlyActiveToogle = toggle;
                     return true;
                 }
             }

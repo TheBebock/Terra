@@ -50,7 +50,9 @@ MonoBehaviour:
   _id: -1
   MinDB: -80
   MaxDB: 0
-  musicSounds: []
+  musicSounds:
+  - name: track_1
+    clip: {fileID: 8300000, guid: 8e5df2542aa6bab4cb02b987e9f0c40e, type: 3}
   sfxSounds:
   - name: test
     clip: {fileID: 8300000, guid: 2aa0d403f462fee48a3ccd292b8369f6, type: 3}
@@ -106,7 +108,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -236,7 +238,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -366,7 +368,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

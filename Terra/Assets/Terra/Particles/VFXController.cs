@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using DG.Tweening.Core;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.Components;
 using Terra.Core.Generics;
@@ -60,6 +59,7 @@ namespace Terra.Particles
             _modelMaterial.color = color;
         }
 
+        [UsedImplicitly]
         public void SetMaterialEmissiveMap(Texture map)
         {
             _modelMaterial.SetTexture(EmissiveMask, map);

@@ -55,6 +55,6 @@ MonoBehaviour:
   _crateHeightSpawnOffset: 10
   _raycastLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 36608
   _spawnMin: {x: 82, y: 92}
   _spawnMax: {x: 117, y: 106}
