@@ -27,7 +27,7 @@ namespace Terra.Interactions
         {
             Debug.Log("Generator OnInteraction");
             StartAnimations();
-            _greenLight.StopPulsating();
+            _greenLight.StopLightMode();
             EventsAPI.Invoke<ElevatorGeneratorStartedEvent>();
             GameManager.Instance.SwitchToGameState<EndOfFloorState>();
         }
@@ -65,7 +65,7 @@ namespace Terra.Interactions
         private void OnWaveEnded(ref WaveEndedEvent @event)
         {
             ChangeInteractibility(true);
-            _greenLight.StartPulsating();
+            _greenLight.StartLightMode();
         }
         
         private void OnGeneratorStopped(ref ElevatorGeneratorStoppedEvent @event)

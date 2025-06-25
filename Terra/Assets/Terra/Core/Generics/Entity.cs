@@ -10,7 +10,6 @@ namespace Terra.Core.Generics
     /// Class that represents object inside the game world
     /// </summary>
     [RequireComponent(typeof(LookAtCameraComponent))]
-    [RequireComponent(typeof(VFXController))]
     public abstract class Entity : InGameMonobehaviour, IUniqueable
     {
 
@@ -47,7 +46,7 @@ namespace Terra.Core.Generics
         {
             if (!_vfxController)
             {
-                _vfxController = GetComponent<VFXController>();
+                _vfxController = GetComponentInChildren<VFXController>();
             }
         }
     }

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using DG.Tweening.Core;
 using NaughtyAttributes;
 using Terra.Components;
 using Terra.Core.Generics;
@@ -13,6 +15,7 @@ namespace Terra.Particles
     public class VFXController : MonoBehaviour
     {
         private static readonly int EmissiveIntensity = Shader.PropertyToID("_EmissiveIntensity");
+        private static readonly int EmissiveMask = Shader.PropertyToID("_EmissiveMask");
         [Foldout("Particles")]  public ParticleComponent onSpawnParticle;
         [Foldout("Particles")]  public ParticleComponent onHealParticle;
         [Foldout("Particles")]  public ParticleComponent onHitParticle;
@@ -55,6 +58,11 @@ namespace Terra.Particles
             Color color = _modelMaterial.color;
             color.a = value;
             _modelMaterial.color = color;
+        }
+
+        public void SetMaterialEmissiveMap(Texture map)
+        {
+            _modelMaterial.SetTexture(EmissiveMask, map);
         }
         public void DoFadeModel(float endValue, float duration, AnimationCurve curve = null)
         {
@@ -136,7 +144,7 @@ namespace Terra.Particles
             
             particle.Initialize(destroyDuration);
         }
-
+        
         private void OnValidate()
         {
             if (!_container)

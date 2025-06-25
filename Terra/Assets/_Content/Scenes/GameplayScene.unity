@@ -989,7 +989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &167168436
 Transform:
   m_ObjectHideFlags: 0
@@ -1756,6 +1756,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -1870,6 +1871,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -2177,6 +2179,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -2612,6 +2615,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -3482,6 +3486,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -3757,6 +3762,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_WalkerStatue
+      objectReference: {fileID: 0}
+    - target: {fileID: 982465700934888733, guid: 2c0b3e0a916b04e4c8a2a68de81a4303,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889322403991344603, guid: 2c0b3e0a916b04e4c8a2a68de81a4303,
         type: 3}
@@ -5155,8 +5165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  popupPrefab: {fileID: 5776195157155703914, guid: 9decedc3a164ce74faecc88e19c08724,
-    type: 3}
   popupTMPPrefab: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
     type: 3}
   popupCanvasPrefab: {fileID: 44556668393241724, guid: 349417750e94b0045a26e83d65fd58b8,
@@ -5432,6 +5440,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -6980,6 +6989,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -7307,6 +7317,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.5
   _maxDistanceFromCamera: 0.5
@@ -9316,18 +9327,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 87.49406
       objectReference: {fileID: 0}
     - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 99.96
+      value: 102.78
       objectReference: {fileID: 0}
     - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 93.44644
+      value: 96.61
       objectReference: {fileID: 0}
     - target: {fileID: 4643372447952132618, guid: 7942ad101bcb95f49b0a3bfd84106a35,
         type: 3}
