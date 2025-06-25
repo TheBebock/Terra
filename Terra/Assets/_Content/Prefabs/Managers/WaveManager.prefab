@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7979982011955827882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 721456654101743595}
+  - component: {fileID: 4507523037526553645}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &721456654101743595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979982011955827882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4507523037526553645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979982011955827882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc189fa0c5421af48bcb753c100d2ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: -1
+  _enemies:
+  - enemy: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b, type: 3}
+    spawnValue: 1
+  - enemy: {fileID: 808408188259601979, guid: 3b693d8a2271b204aab13d130d84df61, type: 3}
+    spawnValue: 10
+  - enemy: {fileID: 1649519561073000870, guid: 50758ea60ae192a4b976d8b1db0553e1, type: 3}
+    spawnValue: 15
+  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
+    spawnValue: 5
+  - enemy: {fileID: 1206317967071570289, guid: 7942ad101bcb95f49b0a3bfd84106a35, type: 3}
+    spawnValue: 15
+  _delayBeforeFirstWave: 5
+  _timeBetweenWaves: 10
+  _startingWavesToSpawn: 2
+  _wavesGainPerLevel: 0.5
+  _startingSpawnPoints: 100
+  _spawnPointsGain: 50
+  _enemiesToSpawnPerWave: 1
+  _enemiesPerWaveGain: 0.4
+  _spawnTimeInterval: 1.5
+  _raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 101888
+  _spawnMin: {x: 81, y: 90}
+  _spawnMax: {x: 119, y: 108}
+  _isPaused: 0
+  _currentSpawnPoints: 0
+  _currentWaveIndex: 0
+  _wavesToSpawn: 3
+  _currentLevel: -1
+  _currentActiveEnemies: 0

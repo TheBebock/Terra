@@ -54,12 +54,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms:
+  _lookAtType: 1
+  _targetTransforms:
   - {fileID: 4072435663937450997}
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
 --- !u!114 &-7630435035549966089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,11 +74,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 9117060413447175260}
   _id: -1
+  _canBeInteractedWith: 0
   _maxHealth:
     baseValue: 5
     StatModifiers: []
-  _spawnItemOffset: 1
-  _onDamagedColor: {r: 1, g: 0, b: 0, a: 1}
+  _spawnItemOffset: -0.5
   _deathFadeDuration: 2.5
   _deathFadeCurve:
     serializedVersion: 2
@@ -113,7 +113,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _propModel: {fileID: 3758829928549677497}
   _propAnimator: {fileID: 8092785805909940341}
   _propShadow: {fileID: 5605479906839440486}
   _audioSource: {fileID: 3738220313931052250}
@@ -129,7 +128,7 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
-  destroySfx: {fileID: 8300000, guid: 7dc44a9198e5c7c4b9960cf1b1022bbe, type: 3}
+  _destroySfx: {fileID: 8300000, guid: 7dc44a9198e5c7c4b9960cf1b1022bbe, type: 3}
 --- !u!114 &7518012061475541776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
   _entity: {fileID: -7630435035549966089}
   _entityModel: {fileID: 3758829928549677497}
   _modelMaterial: {fileID: 0}

@@ -17,7 +17,8 @@ namespace Terra.Core.Generics
         [Foldout("References")] [SerializeField] VFXController _vfxController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private int _id = -1;
         public virtual int Identity => _id;
-        public VFXController VFXController => _vfxController;
+        // ReSharper disable once InconsistentNaming
+        public VFXController VFXcontroller => _vfxController;
 
         /// <summary>
         /// Handles registering object with unique ID

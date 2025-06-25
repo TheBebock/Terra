@@ -135,25 +135,7 @@ namespace Terra.Player
             IsDashing = false;
             _dashCooldownTimer = _dashCooldown;
         }
-
-        private void OnInteractionInput(InputAction.CallbackContext context)
-        {
-            if (!PlayerManager.Instance.IsPlayerDead)
-            {
-                Debug.LogWarning("Player is dead. Ignoring interaction.");
-                return;
-            }
-            // TODO Space to write Interaction section
-
-            //NOTE: I believe it would be better if player could interact with objects without facing them ~JM
-            Debug.Log("Interacting with an object.");
-            Ray ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 3f))
-            {
-                Debug.Log("Interacted with: " + hit.collider.name);
-
-            }
-        }
+        
 
         private void ChangeMoveDirection()
         {
@@ -184,12 +166,6 @@ namespace Terra.Player
 
             // Dash
             inputActions.Dash.performed += OnDashInput;
-
-            // Extra Actions
-            //inputActions.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
-            //inputActions.PlayerControls.DistanceAttack.performed += OnDistanceAttackInput;
-            //inputActions.PlayerControls.UseItem.performed += OnUseItemInput;
-            inputActions.Interaction.performed += OnInteractionInput;
         }
 
         public void DetachListeners()
@@ -201,7 +177,6 @@ namespace Terra.Player
             inputActions.Movement.canceled -= OnMovementInput;
             inputActions.Movement.canceled -= OnMovementInputCanceled;
             inputActions.Dash.performed -= OnDashInput;
-            inputActions.Interaction.performed -= OnInteractionInput;
         }
 
         private void OnValidate()

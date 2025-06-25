@@ -3,6 +3,7 @@ using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem;
 using Terra.Interfaces;
+using Terra.Particles;
 using Terra.UI.HUD;
 using UnityEngine;
 
@@ -60,7 +61,7 @@ namespace Terra.Player
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
             
-            VFXController.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
+            VFXcontroller.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
         }
 
         public void Heal(int amount, bool isPercentage = false)
@@ -71,8 +72,8 @@ namespace Terra.Player
 
         private void OnHealed(int amount)
         {
-            VFXController.BlinkModelsColor(Color.green, 0.15f, 0.1f, 0.15f);
-            VFXController.PlayParticleOnEntity(VFXController.onHealParticle);
+            VFXcontroller.BlinkModelsColor(Color.green, 0.15f, 0.1f, 0.15f);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHealParticle);
         }
         
         void IDamageable.OnDeath()

@@ -7,8 +7,6 @@ namespace Terra.AI.EnemyStates
 {
     public class EnemyDeathState : EnemyBaseState
     {
-        
-        private bool _hasPlayedDeathAnimation;
         public EnemyDeathState(EnemyBase enemy, NavMeshAgent agent, Animator animator) : base(enemy, agent, animator)
         {
         }
@@ -18,7 +16,6 @@ namespace Terra.AI.EnemyStates
             base.OnEnter();
 
             Debug.Log($"{enemy.name} Death state");
-            animator.SetTrigger(AnimationHashes.Death);
             
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.DeathLeft : AnimationHashes.DeathRight;
             animator.CrossFade(animationName, CrossFadeDuration);

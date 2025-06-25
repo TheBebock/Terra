@@ -25,10 +25,9 @@ namespace Terra.AI.Enemy
             var attack = new EnemyAttackState(this, _agent, _animator, PlayerManager.Instance.PlayerEntity);
             
 
-            stateMachine.AddTransition(chase, attack,
-                new FuncPredicate(() => CanAttackPlayer() && !isDead));
-            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => CanAttackPlayer() && !isDead));
-     
+            stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !CanAttackPlayer()));
+            stateMachine.AddTransition(chase, attack, new FuncPredicate(CanAttackPlayer));
+
             stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !isDead));
             stateMachine.SetState(chase);
         }

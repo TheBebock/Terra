@@ -13,7 +13,8 @@ namespace Terra.AI.EnemyStates {
         public override void OnEnter()
         {
             base.OnEnter();
-            
+
+            navMeshAgent.velocity *= 1.5f;
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);
         }

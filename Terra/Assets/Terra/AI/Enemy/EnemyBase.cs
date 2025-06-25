@@ -1,3 +1,4 @@
+using DG.Tweening;
 using NaughtyAttributes;
 using Terra.AI.Data.Definitions;
 using Terra.AI.EnemyStates;
@@ -9,6 +10,7 @@ using Terra.Enums;
 using Terra.FSM;
 using Terra.Interfaces;
 using Terra.Managers;
+using Terra.Particles;
 using Terra.Player;
 using Terra.StatisticsSystem.Definitions;
 using Terra.Utils;
@@ -35,10 +37,13 @@ namespace Terra.AI.Enemy
     /// </summary>
     public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
+        [SerializeField] private float _deathFadeDuration = 4;
+        [SerializeField] private AnimationCurve _deathFadeCurve;
         [FormerlySerializedAs("enemyStats")]
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition _enemyStats;
 
+        [Foldout("References")][SerializeField] protected SpriteRenderer _shadow;
         [FormerlySerializedAs("agent")] [Foldout("References")][SerializeField] protected NavMeshAgent _agent;
         [FormerlySerializedAs("animator")] [Foldout("References")][SerializeField] protected Animator _animator;
         [FormerlySerializedAs("enemyCollider")] [Foldout("References")][SerializeField] protected Collider _enemyCollider;
@@ -56,7 +61,7 @@ namespace Terra.AI.Enemy
         private bool _stateMachineLocked;
         protected bool isDead;
         private bool CanUpdateState => !isDead || !_stateMachineLocked;
-
+        
         public HealthController HealthController => _healthController;
         public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
         public StatusContainer StatusContainer => _statusContainer;
@@ -82,6 +87,7 @@ namespace Terra.AI.Enemy
                 return;
             }
 
+            _agent.speed = _enemyStats.baseSpeed;
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(_enemyStats.baseMaxHealth), CancellationToken);
 
@@ -107,12 +113,12 @@ namespace Terra.AI.Enemy
             if (!CanUpdateState) return;
 
             transform.rotation = Quaternion.identity;
-            
+
             StatusContainer.UpdateEffects();
             stateMachine.Update();
             attackTimer.Tick(Time.deltaTime);
-
             UpdateFacingDirection();
+
 
         }
 
@@ -121,10 +127,15 @@ namespace Terra.AI.Enemy
         /// </summary>
         private void UpdateFacingDirection()
         {
-            float vx = _agent.velocity.x;
-            float directionChangeThreshold = 0.02f;
+            if(isDead) return;
             
-            FacingDirection newDirection = vx > directionChangeThreshold ? FacingDirection.Right : FacingDirection.Left;
+            float vx = _agent.velocity.x;
+            float vxAbs = Mathf.Abs(vx);
+            float directionChangeThreshold = 0.03f;
+            
+            if(vxAbs < directionChangeThreshold) return;
+            
+            FacingDirection newDirection = vx > 0 ? FacingDirection.Right : FacingDirection.Left;
 
             if (newDirection != CurrentDirection)
             {
@@ -180,8 +191,8 @@ namespace Terra.AI.Enemy
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
             
-            VFXController.PlayParticleOnEntity(VFXController.onHitParticle);
-            VFXController.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
+            VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
         }
 
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
@@ -204,13 +215,14 @@ namespace Terra.AI.Enemy
             _agent.isStopped = true;
             _agent.velocity = Vector3.zero;
             _agent.enabled = false;
-            VFXController?.DoFadeModel(0, 4f);
-            VFXController?.PlayParticleOnEntity(VFXController.onDeathParticle);
+            if(_shadow) _shadow.DOFade(0, _deathFadeDuration);
+            VFXcontroller.DoFadeModel(0, _deathFadeDuration, _deathFadeCurve);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onDeathParticle);
 
             SpawnLootOnDeath();
             OnDeath();
             
-            Destroy(gameObject, 5f); 
+            Destroy(gameObject, _deathFadeDuration + 0.2f); 
         }
         
         protected virtual void OnDeath(){}

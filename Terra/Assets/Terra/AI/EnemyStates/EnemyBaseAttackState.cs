@@ -35,6 +35,7 @@ namespace Terra.AI.EnemyStates
         public override void OnEnter()
         {
             base.OnEnter();
+            Debug.Log($"{enemy.name} Attack");
             navMeshAgent.isStopped = true;
             navMeshAgent.velocity = Vector3.zero;
         }

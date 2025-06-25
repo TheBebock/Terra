@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2821981408182063527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8944081814689934612}
+  - component: {fileID: 2654306062946660249}
+  m_Layer: 0
+  m_Name: AirDropManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8944081814689934612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2821981408182063527}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2654306062946660249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2821981408182063527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eda4b0759b0f0249b13c27e229cf42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: -1
+  _flarePrefab: {fileID: 3421784659982580509, guid: 37a5edc52f1503344857ccd293adfcb0,
+    type: 3}
+  _cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
+    type: 3}
+  _dropContainer: {fileID: 0}
+  _dropIntervalRange: {x: 60, y: 90}
+  _crateDelay: 5
+  _crateHeightSpawnOffset: 10
+  _raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _spawnMin: {x: 82, y: 92}
+  _spawnMax: {x: 117, y: 106}

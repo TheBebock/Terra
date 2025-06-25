@@ -7,6 +7,7 @@ using Terra.EffectsSystem;
 using Terra.Interactions;
 using Terra.Interfaces;
 using Terra.Managers;
+using Terra.Particles;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,16 +20,14 @@ namespace Terra.Environment
     public class DamageableObject : InteractableBase, IDamageable, IAttachListeners
     {
         [SerializeField] private ModifiableValue _maxHealth;
-        [SerializeField, Min(0.1f)] private float _spawnItemOffset = 1f;
-        [SerializeField] private Color _onDamagedColor = Color.red;
         [SerializeField] private float _deathFadeDuration = 2.5f;
         [SerializeField] private AnimationCurve _deathFadeCurve;
         
         [Foldout("References")][SerializeField] private Animator _propAnimator;
         [Foldout("References")][SerializeField] private SpriteRenderer _propShadow;
+        [Foldout("References")] [SerializeField] private AudioSource _audioSource;
+        [Foldout("References")] [SerializeField] private Collider _collider;
         
-        [Foldout("Debug"), ReadOnly] [SerializeField] private AudioSource _audioSource;
-        [Foldout("Debug"), ReadOnly] [SerializeField] private Collider _collider;
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
@@ -42,10 +41,6 @@ namespace Terra.Environment
 
         public HealthController HealthController => _healthController;
         public StatusContainer StatusContainer => _statusContainer;
-        protected Vector3 SpawnLootOffset => new(
-            transform.position.x, 
-            transform.position.y, 
-            transform.position.z - _spawnItemOffset);
 
         protected virtual void Awake()
         {
@@ -62,17 +57,17 @@ namespace Terra.Environment
         {
             if (!CanBeDamaged) return;
             _healthController.TakeDamage(amount, isPercentage);
-            
-            // Show VFX
-            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
         }
 
         protected virtual void OnDamaged(int value)
         {
-            _propAnimator.SetTrigger(AnimationHashes.OnDamaged);
+            _propAnimator?.SetTrigger(AnimationHashes.OnDamaged);
 
-            VFXController.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
-            VFXController.PlayParticleOnEntity(VFXController.onHitParticle);
+            VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
+              
+            // Show VFX
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, value);
         }
 
         public void Kill(bool isSilent = false) => _healthController.Kill(isSilent);
@@ -81,15 +76,16 @@ namespace Terra.Environment
         {
             OnDeath();
         }
-        protected virtual void OnDeath()
+        protected virtual void OnDeath() 
         {
-            _collider.enabled = false;
-            _propShadow.enabled = false;
+            if(_collider) _collider.enabled = false;
+            if(_propAnimator) _propAnimator.SetTrigger(AnimationHashes.Death);
 
+            
             AudioManager.Instance.PlaySFXAtSource(_destroySfx, _audioSource);
-            _propAnimator.SetTrigger(AnimationHashes.Death);
-            VFXController.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);
-            VFXController.PlayParticleOnEntity(VFXController.onDeathParticle);
+            _propShadow?.DOFade(0, _deathFadeDuration).SetEase(_deathFadeCurve);
+            VFXcontroller.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onDeathParticle);
 
             Destroy(gameObject, _deathFadeDuration + 0.5f);
         }

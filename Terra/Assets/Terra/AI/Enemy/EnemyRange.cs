@@ -56,14 +56,12 @@ namespace Terra.AI.Enemy
             
             if (Physics.Raycast(leftRayOrigin, direction, out hit, distance, _obstructionLayerMask))
             {
-                Debug.LogWarning($"[Left] {hit.transform.name} is obstructing");
                 return true;
             }
 
             // Right ray
             if (Physics.Raycast(rightRayOrigin, direction, out hit, distance, _obstructionLayerMask))
             {
-                Debug.LogWarning($"[Right] {hit.transform.name} is obstructing");
                 return true;
             }
             

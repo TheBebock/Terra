@@ -1,24 +1,31 @@
+using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Extensions;
 using Terra.Interfaces;
 using Terra.Managers;
+using Terra.Particles;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Terra.Components
 {
-
     public class LookAtCameraComponent : InGameMonobehaviour, IWithSetUp
     {
         [FormerlySerializedAs("lookAtType")] [SerializeField] private LookAtType _lookAtType = LookAtType.CameraForward;
         [FormerlySerializedAs("targetTransforms")] [SerializeField] private List<Transform> _targetTransforms = new ();
+        [SerializeField, ReadOnly] private List<VFXController> _targetVFXControllers = new ();
         
         [FormerlySerializedAs("lockX")]
         [Header("Lock Rotation")]
         [SerializeField] private bool _lockX;
         [FormerlySerializedAs("lockY")] [SerializeField] private bool _lockY = true;
         [FormerlySerializedAs("lockZ")] [SerializeField] private bool _lockZ = true;
+        
+        [SerializeField] private float _fadeValue = 0.1f;
+        [SerializeField] private float _fadeDuration = 0.25f;
+        [SerializeField] private float _maxDistanceFromCamera = 5f;
 
         private List<Vector3> _originalRotations = new ();
         private Transform _lookAtCamera;
@@ -36,17 +43,24 @@ namespace Terra.Components
             {
                 _targetTransforms.Add(transform);
             }
-            
+
             // Get original rotation of all targets
             for (int i = 0; i < _targetTransforms.Count; i++)
             {
                 _originalRotations.Add(_targetTransforms[i].rotation.eulerAngles);
             }
+            
+            // Get VFXControllers
+            if (_targetVFXControllers.IsNullOrEmpty())
+            {
+                if(!_targetTransforms[0].TryGetComponent(out VFXController vfxController)) return;
+                _targetVFXControllers.Add(vfxController);
+            }
         }
 
         public void SetUp()
         {
-            // Get refenrece to camera
+            // Get reference to camera
             if(CameraManager.Instance) _lookAtCamera = CameraManager.Instance?.transform;
             else
             {
@@ -62,8 +76,29 @@ namespace Terra.Components
             {
                 UpdateTransformRotation(_targetTransforms[i], _originalRotations[i]);
             }
+
+            for (int i = 0; i < _targetVFXControllers.Count; i++)
+            {
+                TryFadingDueToCamera(_targetVFXControllers[i]);
+            }
         }
 
+        private void TryFadingDueToCamera(VFXController controller)
+        {
+            if (!IsTargetTooCloseToCamera(controller.transform))
+            {
+                controller.DoFadeModel(1, _fadeDuration);
+                return;
+            }
+            
+            controller.DoFadeModel(_fadeValue, _fadeDuration);
+
+        }
+        
+        private bool IsTargetTooCloseToCamera(Transform targetTransform)
+        { 
+            return Vector3.Distance(transform.position, _lookAtCamera.position) < _maxDistanceFromCamera;
+        }
         
         /// <summary>
         /// Handles rotation update of given target 
@@ -95,6 +130,19 @@ namespace Terra.Components
         }
 
 
+        private void OnValidate()
+        {
+            _targetVFXControllers.Clear();
+
+            for (int i = 0; i < _targetTransforms.Count; i++)
+            {
+                if (_targetTransforms[i] != null)
+                {
+                    if(!_targetTransforms[i].TryGetComponent(out VFXController vc)) return;
+                    _targetVFXControllers.Add(vc);
+                }
+            }
+        }
 
         public void TearDown()
         {

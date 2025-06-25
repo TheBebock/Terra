@@ -5,6 +5,7 @@ using Terra.Core.Generics;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
+using Terra.Particles;
 using UnityEngine;
 
 namespace Terra.AI.Enemy
@@ -20,7 +21,7 @@ namespace Terra.AI.Enemy
         {
             _damage = damage;
             _lifeDuration = lifeDuration;
-            VFXController.PlayParticleOnEntity(VFXController.onSpawnParticle);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onSpawnParticle);
             _ = StartDeathAnim();
         }
         
@@ -34,7 +35,7 @@ namespace Terra.AI.Enemy
             await UniTask.WaitForSeconds(_lifeDuration, cancellationToken: CancellationToken);
          
             _collider.enabled = false;
-            VFXController.DoFadeModel(0, 2);
+            VFXcontroller.DoFadeModel(0, 2);
             await UniTask.WaitForSeconds(2.5f, cancellationToken: CancellationToken);
             
             Destroy(gameObject);

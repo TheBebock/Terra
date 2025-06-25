@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3453723450430148718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195484036114032576}
+  - component: {fileID: 3233041273873232957}
+  m_Layer: 0
+  m_Name: LootManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &195484036114032576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453723450430148718}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3233041273873232957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453723450430148718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8795bc99abd836c43b95d6e9813e43d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: -1
+  P_pickupContainer: {fileID: 4868003405091978973, guid: 163dc9b08a4ca50418a242db325a1893,
+    type: 3}
+  P_itemContainer: {fileID: 7648631588216878980, guid: b6f1c063963492c458a6932bf9a95f09,
+    type: 3}
+  lootTable:
+    _activeItems: []
+    _passiveItems: []
+    _meleeWeapons: []
+    _rangedWeapons: []
+    _healthPickups:
+    - _data: {fileID: 11400000, guid: 672cc341075a1e1438d070544313a65d, type: 2}
+    - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
+    - _data: {fileID: 11400000, guid: a98211e2e93a0ae44811fe752af5b6eb, type: 2}
+    - _data: {fileID: 11400000, guid: 9b83f9dd8907b8b4a9ab9f458c7bb533, type: 2}
+    _ammoPickups:
+    - _data: {fileID: 11400000, guid: c60dbaa7027d62d4599de820c83be0bc, type: 2}
+    _crystalPickups:
+    - _data: {fileID: 11400000, guid: 319f7f17e969c6a47ad6dcfb5357b419, type: 2}

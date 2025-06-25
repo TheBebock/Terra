@@ -105,13 +105,14 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EmissiveIntensity: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Intensity: 3.47
     - _Metallic: 0
-    - _NormalIntensity: 2
+    - _NormalIntensity: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0

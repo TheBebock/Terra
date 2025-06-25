@@ -6,33 +6,43 @@ namespace Terra.AnimationEvent
     {
         public string eventName;
         [Range(0f, 1f)] public float triggerTime;
-        bool hasTriggered;
-        private AnimationEventReceiver receiver;
-
+        [SerializeField]
+        private bool _resetOnLoop = true;
+        private bool _hasTriggered;
+        private AnimationEventReceiver _receiver;
+        private int _lastLoopCount = -1;
+        
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            hasTriggered = false;
-            receiver = animator.GetComponentInParent<AnimationEventReceiver>();
+            _lastLoopCount = -1;
+            _hasTriggered = false;
+            _receiver = animator.GetComponentInParent<AnimationEventReceiver>();
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             
-            float currentTime=stateInfo.normalizedTime % 1f;
-            if(currentTime <= 0.1f) hasTriggered = false;
+            float currentTime = stateInfo.normalizedTime % 1f;
+            int currentLoop = Mathf.FloorToInt(stateInfo.normalizedTime);
             
-            if (!hasTriggered && currentTime >= triggerTime)
+            if (_resetOnLoop && stateInfo.loop && currentLoop != _lastLoopCount)
             {
+                _lastLoopCount = currentLoop;
+                _hasTriggered = false;
+            }
+
+            if (!_hasTriggered && currentTime >= triggerTime)
+            {
+                _hasTriggered = true;
                 NotifyReceiver(animator);
-                hasTriggered = true;
             }
         }
 
         void NotifyReceiver(Animator animator)
         {
-            if (receiver != null)
+            if (_receiver != null)
             {
-                receiver.OnAnimationEventTriggered(eventName);
+                _receiver.OnAnimationEventTriggered(eventName);
             }
             else
             {

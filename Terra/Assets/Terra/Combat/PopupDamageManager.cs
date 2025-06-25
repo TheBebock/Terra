@@ -10,7 +10,6 @@ namespace Terra.Combat
 {
     public class PopupDamageManager : MonoBehaviourSingleton<PopupDamageManager>
     {
-        [SerializeField] private TextMesh popupPrefab = default;
         [SerializeField] private TMP_Text popupTMPPrefab = default;
         [SerializeField] private PopupDamageCanvas popupCanvasPrefab = default;
         [SerializeField] private float destroyTime = default;

@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace Terra.Particles
 {
-    [RequireComponent(typeof(Entity))]
     public class VFXController : MonoBehaviour
     {
         private static readonly int EmissiveIntensity = Shader.PropertyToID("_EmissiveIntensity");
@@ -18,21 +17,20 @@ namespace Terra.Particles
         [Foldout("Particles")]  public ParticleComponent onHealParticle;
         [Foldout("Particles")]  public ParticleComponent onHitParticle;
         [Foldout("Particles")]  public ParticleComponent onDeathParticle;
-        [Foldout("References")][SerializeField] private Entity _entity;
-        [Foldout("References")][SerializeField] private SpriteRenderer _entityModel;
+        [Foldout("References")][SerializeField] private Transform _container;
+        [Foldout("References")][SerializeField] private SpriteRenderer _model;
        
         [Foldout("Debug")][SerializeField] private Material _modelMaterial;
         [Foldout("Debug")][SerializeField] private List<ParticleComponent> _activeParticles;
         [Foldout("Debug")][SerializeField] private Color _defaultColor;
         
-        public SpriteRenderer EntityModel => _entityModel;
-        private Vector3 Position => _entity.transform.position;
-        private Quaternion Rotation => _entityModel.transform.rotation;
+        public SpriteRenderer Model => _model;
         
         private CancellationTokenSource _blinkCts;
+        private CancellationTokenSource _fadeCts;
         private void Start()
         {
-            _modelMaterial = _entityModel.material;
+            _modelMaterial = _model.material;
             _defaultColor = _modelMaterial.color;
             ParticleComponent.OnParticleDestroyed += OnParticleDestroyed;
         }
@@ -41,7 +39,16 @@ namespace Terra.Particles
         {
             _activeParticles.RemoveElement(particle);
         }
-        
+
+        public void SetModelSprite(Sprite sprite)
+        {
+            _model.sprite = sprite;
+        }
+
+        public void SetModelMaterial(Material material)
+        {
+            _modelMaterial = material;
+        }
         public void SetModelTransparency(float value)
         {
             value = Mathf.Clamp(value, 0, 1);
@@ -51,20 +58,24 @@ namespace Terra.Particles
         }
         public void DoFadeModel(float endValue, float duration, AnimationCurve curve = null)
         {
-            if (curve == null)
+            if (curve == null || curve.keys.Length == 0)
             {
                 curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
             }
             endValue = Mathf.Clamp(endValue, 0, 1);
-            
+            _fadeCts?.Cancel();
+            _fadeCts?.Dispose();
+            _fadeCts = new CancellationTokenSource();
+
             float emissiveIntensityClamped = Mathf.Clamp(endValue, 0, _modelMaterial.GetFloat(EmissiveIntensity));
             
-            Tween t = DOTween.To(
+            DOTween.To(
                 () => _modelMaterial.GetFloat(EmissiveIntensity),
                 x => _modelMaterial.SetFloat(EmissiveIntensity, x),
                 emissiveIntensityClamped,
                 duration/2
-            ).SetEase(curve);
+            ).SetEase(curve)
+            .WithCancellation(_fadeCts.Token);
             
             _modelMaterial.DOFade(endValue, duration).SetEase(curve);
         }
@@ -84,9 +95,6 @@ namespace Terra.Particles
             await UniTask.WaitForSeconds(pauseDuration, cancellationToken:token);
             await _modelMaterial.DOColor(_defaultColor, fadeOutDuration).WithCancellation(cancellationToken:token);
         }
-
-        public void PlayParticleOnEntity(ParticleComponent particle) => 
-            SpawnAndAttachParticleToEntity(_entity, particle); 
         
         public static void SpawnAndAttachParticleToEntity(Entity entity, ParticleComponent particleSystem, 
             Vector3 positionOffset = default, Quaternion rotation = default,
@@ -94,12 +102,12 @@ namespace Terra.Particles
         {
             if (!particleSystem)
             {
-                Debug.LogError($"Tried to spawn particle system on {entity.gameObject.name}, " +
+                Debug.LogWarning($"Tried to spawn particle system on {entity.gameObject.name}, " +
                                $"but particle system is null");
                 return;
             }
             
-            if (entity.VFXController._activeParticles.TryFind(p=> p == particleSystem,
+            if (entity.VFXcontroller._activeParticles.TryFind(p=> p == particleSystem,
                     out ParticleComponent foundParticle))
             {
                  if(destroyDuration > 0f) foundParticle.ResetTimer(destroyDuration);
@@ -113,14 +121,14 @@ namespace Terra.Particles
             particle.transform.localScale *= scaleModifier;
             
             particle.Initialize(destroyDuration);
-            entity.VFXController._activeParticles.Add(particle);
+            entity.VFXcontroller._activeParticles.Add(particle);
         }
         public static void SpawnParticleInWorld(ParticleComponent particleSystem, Vector3 position, Quaternion rotation, 
             float scaleModifier = 1.0f, float destroyDuration = 0f)
         {
             if (!particleSystem)
             {
-                Debug.LogError($"Tried to spawn particle system on coordinates {position}, but it's null");
+                Debug.LogWarning($"Tried to spawn particle system on coordinates {position}, but it's null");
                 return;
             }
             ParticleComponent particle = Instantiate(particleSystem, position, rotation);
@@ -131,13 +139,13 @@ namespace Terra.Particles
 
         private void OnValidate()
         {
-            if (!_entity)
+            if (!_container)
             {
-                _entity = GetComponent<Entity>();
+                _container = GetComponent<Transform>();
             }
-            if (!_entity)
+            if (_container)
             {
-                if(!_entityModel) _entityModel = _entity.GetComponentInChildren<SpriteRenderer>();
+                 _model = _container.GetComponentInChildren<SpriteRenderer>();
             }
         }
     }
