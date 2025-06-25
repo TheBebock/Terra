@@ -49,6 +49,9 @@ TagManager:
   - name: EnviroObjects
     uniqueID: 884532341
     locked: 0
+  - name: Void
+    uniqueID: 737698115
+    locked: 0
   - name: Fog
     uniqueID: 2441787055
     locked: 0
@@ -66,4 +69,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1376602561
+    locked: 0
+  - name: FogForeground
+    uniqueID: 466259383
     locked: 0

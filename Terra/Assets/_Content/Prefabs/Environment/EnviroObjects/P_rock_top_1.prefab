@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 185982123098328107}
   - component: {fileID: 6293063632972539813}
   - component: {fileID: 2241719326665310213}
+  - component: {fileID: 3983343517438545985}
   m_Layer: 14
   m_Name: P_rock_top_1
   m_TagString: Untagged
@@ -217,8 +218,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _targetVFXControllers: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
+--- !u!114 &3983343517438545985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219209190113725093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _container: {fileID: 185982123098328107}
+  _model: {fileID: 6293063632972539813}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
