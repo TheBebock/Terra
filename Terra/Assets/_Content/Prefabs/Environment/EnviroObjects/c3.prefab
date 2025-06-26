@@ -175,7 +175,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
+  - {fileID: 2100000, guid: 22cc97cada5f1aa47bd1cd2408a2e91d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,9 +221,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lookAtType: 1
   _targetTransforms: []
+  _targetVFXControllers: []
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!1 &4807112920480427960
 GameObject:
   m_ObjectHideFlags: 0
