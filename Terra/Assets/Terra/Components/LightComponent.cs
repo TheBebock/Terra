@@ -2,11 +2,12 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using NaughtyAttributes;
+using Terra.Core.Generics;
 
 namespace Terra.Components
 {
     [RequireComponent(typeof(Light))]
-    public abstract class LightComponent : MonoBehaviour
+    public abstract class LightComponent : InGameMonobehaviour
     {
         [SerializeField, ReadOnly] protected Light _light;
         [SerializeField, ReadOnly] protected float _defaultIntensity;
@@ -41,8 +42,14 @@ namespace Terra.Components
                 x => _light.intensity = x,
                 endValue,
                 duration
-            ).WithCancellation(destroyCancellationToken);
+            ).WithCancellation(CancellationToken);
         }
+
+        public void DoFadeColor(Color endValue, float duration)
+        {
+            _light.DOColor(endValue, duration).WithCancellation(CancellationToken);
+        }
+        
         protected virtual void OnValidate()
         {
             if (_light == null) _light = GetComponent<Light>();

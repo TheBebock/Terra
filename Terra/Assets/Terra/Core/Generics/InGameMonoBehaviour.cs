@@ -48,9 +48,5 @@ namespace Terra.Core.Generics
             if(this is IUniqueable uniqueable)
                 uniqueable.ReturnID();
         }
-
-
-
-
     }
 }
