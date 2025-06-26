@@ -38,8 +38,9 @@ namespace Terra.Particles
             _modelMaterial = _model.material;
 
             _materialPropertyBlock = new MaterialPropertyBlock();
+            
             _model.GetPropertyBlock(_materialPropertyBlock);
-            _defaultColor = _materialPropertyBlock.GetColor(ColorID);
+            _defaultColor = _modelMaterial.color;
             ParticleComponent.OnParticleDestroyed += OnParticleDestroyed;
         }
 
@@ -60,11 +61,13 @@ namespace Terra.Particles
         }
         public void SetModelTransparency(float value)
         {
-            value = Mathf.Clamp(value, 0, 1);
-            _model.GetPropertyBlock(_materialPropertyBlock);
+            value = Mathf.Clamp01(value);
             
-            Color color = _materialPropertyBlock.GetColor(ColorID);
+            Color color = _modelMaterial.GetColor(ColorID);
+
             color.a = value;
+
+            _model.GetPropertyBlock(_materialPropertyBlock);
             _materialPropertyBlock.SetColor(ColorID, color);
             _model.SetPropertyBlock(_materialPropertyBlock);
         }
