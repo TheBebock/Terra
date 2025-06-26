@@ -7,8 +7,8 @@ namespace Terra.Environment
 {
     public class DamageableStatue : DamageableObject
     {
-        [SerializeField] private Material _leftMaterial;
-        [SerializeField] private Material _rightMaterial;
+        [SerializeField] private Texture _leftEmissiveTexture;
+        [SerializeField] private Texture _rightEmissiveTexture;
         [SerializeField] private Sprite _leftSprite;
         [SerializeField] private Sprite _rightSprite;
         [SerializeField] private int _amountOfCrystalsToSpawn = 4;
@@ -21,11 +21,11 @@ namespace Terra.Environment
             switch (facingDirection)
             {
                 case FacingDirection.Left:
-                    VFXcontroller.SetModelMaterial(_leftMaterial);
+                    VFXcontroller.SetMaterialEmissiveMap(_leftEmissiveTexture);
                     VFXcontroller.SetModelSprite(_leftSprite);
                     break;
                 case FacingDirection.Right:
-                    VFXcontroller.SetModelMaterial(_rightMaterial);
+                    VFXcontroller.SetMaterialEmissiveMap(_rightEmissiveTexture);
                     VFXcontroller.SetModelSprite(_rightSprite);
                     break;
             }

@@ -15,6 +15,8 @@ namespace Terra.Particles
     {
         private static readonly int EmissiveIntensity = Shader.PropertyToID("_EmissiveIntensity");
         private static readonly int EmissiveMask = Shader.PropertyToID("_EmissiveMask");
+        private static readonly int ColorID = Shader.PropertyToID("_Color");
+        
         [Foldout("Particles")]  public ParticleComponent onSpawnParticle;
         [Foldout("Particles")]  public ParticleComponent onHealParticle;
         [Foldout("Particles")]  public ParticleComponent onHitParticle;
@@ -26,6 +28,7 @@ namespace Terra.Particles
         [Foldout("Debug")][SerializeField] private List<ParticleComponent> _activeParticles;
         [Foldout("Debug")][SerializeField] private Color _defaultColor;
         
+        private MaterialPropertyBlock _materialPropertyBlock;
         public SpriteRenderer Model => _model;
         
         private CancellationTokenSource _blinkCts;
@@ -33,7 +36,10 @@ namespace Terra.Particles
         private void Start()
         {
             _modelMaterial = _model.material;
-            _defaultColor = _modelMaterial.color;
+
+            _materialPropertyBlock = new MaterialPropertyBlock();
+            _model.GetPropertyBlock(_materialPropertyBlock);
+            _defaultColor = _materialPropertyBlock.GetColor(ColorID);
             ParticleComponent.OnParticleDestroyed += OnParticleDestroyed;
         }
 
@@ -50,20 +56,27 @@ namespace Terra.Particles
         public void SetModelMaterial(Material material)
         {
             _modelMaterial = material;
+            _model.material = material;
         }
         public void SetModelTransparency(float value)
         {
             value = Mathf.Clamp(value, 0, 1);
-            Color color = _modelMaterial.color;
+            _model.GetPropertyBlock(_materialPropertyBlock);
+            
+            Color color = _materialPropertyBlock.GetColor(ColorID);
             color.a = value;
-            _modelMaterial.color = color;
+            _materialPropertyBlock.SetColor(ColorID, color);
+            _model.SetPropertyBlock(_materialPropertyBlock);
         }
 
         [UsedImplicitly]
         public void SetMaterialEmissiveMap(Texture map)
         {
-            _modelMaterial.SetTexture(EmissiveMask, map);
+            _model.GetPropertyBlock(_materialPropertyBlock);
+            _materialPropertyBlock.SetTexture(EmissiveMask, map);
+            _model.SetPropertyBlock(_materialPropertyBlock);
         }
+        
         public void DoFadeModel(float endValue, float duration, AnimationCurve curve = null)
         {
             if (curve == null || curve.keys.Length == 0)
