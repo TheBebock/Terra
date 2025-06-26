@@ -1,4 +1,5 @@
 using Terra.AI.Enemy;
+using Terra.Enums;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,7 +17,8 @@ namespace Terra.AI.EnemyStates {
         {
             Debug.Log("Chase");
 
-            animator.CrossFade(AnimationHashes.WalkLeft, CrossFadeDuration);
+            int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.WalkLeft : AnimationHashes.WalkRight;
+            animator.CrossFade(animationName, CrossFadeDuration);
         }
         
         public override void Update() {

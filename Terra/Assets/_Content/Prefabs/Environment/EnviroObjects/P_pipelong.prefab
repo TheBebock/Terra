@@ -87,7 +87,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!114 &5360040429193561581
 MonoBehaviour:
@@ -103,9 +103,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lookAtType: 1
   _targetTransforms: []
+  _targetVFXControllers: []
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!1 &6952172498625712133
 GameObject:
   m_ObjectHideFlags: 0

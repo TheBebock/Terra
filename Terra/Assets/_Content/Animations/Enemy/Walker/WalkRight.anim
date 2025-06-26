@@ -79,7 +79,7 @@ AnimationClip:
   - time: 0
     functionName: SetMaterialEmissiveMap
     data: 
-    objectReferenceParameter: {fileID: 2800000, guid: b9d2e4a666e639c4e892a44a8078806e,
+    objectReferenceParameter: {fileID: 2800000, guid: da7dfd9e17a771240a7e6914a3e9f607,
       type: 3}
     floatParameter: 0
     intParameter: 0
@@ -87,7 +87,7 @@ AnimationClip:
   - time: 0.016666668
     functionName: SetMaterialEmissiveMap
     data: 
-    objectReferenceParameter: {fileID: 2800000, guid: 062c62ab1ccf6844796c70f6f5ad7dfd,
+    objectReferenceParameter: {fileID: 2800000, guid: 1eadb2d0337fa4e469357c9aa4cfc3d8,
       type: 3}
     floatParameter: 0
     intParameter: 0
@@ -95,7 +95,7 @@ AnimationClip:
   - time: 0.033333335
     functionName: SetMaterialEmissiveMap
     data: 
-    objectReferenceParameter: {fileID: 2800000, guid: ae2a7b431a4dff344b348c77b5335af3,
+    objectReferenceParameter: {fileID: 2800000, guid: a3f5e9c7b497c8d4494e7057d46f48df,
       type: 3}
     floatParameter: 0
     intParameter: 0

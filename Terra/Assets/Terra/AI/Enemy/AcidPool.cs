@@ -18,7 +18,8 @@ namespace Terra.AI.Enemy
     {
         
         [SerializeField] private int _damage = 1;
-        [SerializeField] private float _fadeDuration =2f;
+        [SerializeField] private float _fadeDuration = 2f;
+        [SerializeField] private float _lightsFadeDuration = 1f;
         [SerializeField, ReadOnly] private Collider _collider;
         [SerializeField] private List<LightComponent> _lights = new();
         private float _lifeDuration; 
@@ -44,7 +45,7 @@ namespace Terra.AI.Enemy
             VFXcontroller.DoFadeModel(0, _fadeDuration);
             for (int i = 0; i < _lights.Count; i++)
             {
-                _lights[i].DoFadeIntensity(0,_fadeDuration);   
+                _lights[i].DoFadeIntensity(0,_lightsFadeDuration);   
             }
             await UniTask.WaitForSeconds(_fadeDuration + 0.2f, cancellationToken: CancellationToken);
             

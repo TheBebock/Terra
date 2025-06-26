@@ -57,6 +57,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.25
   _maxDistanceFromCamera: 5
@@ -140,8 +141,8 @@ MonoBehaviour:
     _entity: {fileID: 0}
     _statuses: []
   _destroySfx: {fileID: 0}
-  _leftMaterial: {fileID: 2100000, guid: 1a64c068e48f2494fb607b9f102a5514, type: 2}
-  _rightMaterial: {fileID: 2100000, guid: c8600a4b61056e948b1eda3f8043cb3a, type: 2}
+  _leftEmissiveTexture: {fileID: 0}
+  _rightEmissiveTexture: {fileID: 0}
   _leftSprite: {fileID: 21300000, guid: 2c8a1ce57b84c7041875e3eae865489a, type: 3}
   _rightSprite: {fileID: 21300000, guid: 1c36516aefb54d441bd6643829f97a05, type: 3}
   _amountOfCrystalsToSpawn: 4
@@ -576,7 +577,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -166815195
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3d1836506a5ea944cb64a0a27e7744f1, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -763,7 +764,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1a64c068e48f2494fb607b9f102a5514, type: 2}
+  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -782,7 +783,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2c8a1ce57b84c7041875e3eae865489a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

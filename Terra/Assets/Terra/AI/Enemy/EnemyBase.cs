@@ -131,7 +131,7 @@ namespace Terra.AI.Enemy
             
             float vx = _agent.velocity.x;
             float vxAbs = Mathf.Abs(vx);
-            float directionChangeThreshold = 0.03f;
+            float directionChangeThreshold = 0.02f;
             
             if(vxAbs < directionChangeThreshold) return;
             

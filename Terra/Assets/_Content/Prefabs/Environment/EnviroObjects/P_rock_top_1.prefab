@@ -204,7 +204,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!114 &2241719326665310213
 MonoBehaviour:
@@ -224,6 +224,7 @@ MonoBehaviour:
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
   _fadeValue: 0.1
   _fadeDuration: 0.25
   _maxDistanceFromCamera: 5
