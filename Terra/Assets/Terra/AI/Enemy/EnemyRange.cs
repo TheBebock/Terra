@@ -1,4 +1,3 @@
-using System;
 using NaughtyAttributes;
 using Terra.AI.Data.Definitions;
 using Terra.AI.EnemyStates;
@@ -52,15 +51,14 @@ namespace Terra.AI.Enemy
             
             Vector3 leftRayOrigin = new(_firePoint.position.x - _bulletRaycastOffset, _firePoint.position.y, _firePoint.position.z);
             Vector3 rightRayOrigin = new(_firePoint.position.x + _bulletRaycastOffset, _firePoint.position.y, _firePoint.position.z);
-            RaycastHit hit;
-            
-            if (Physics.Raycast(leftRayOrigin, direction, out hit, distance, _obstructionLayerMask))
+
+            if (Physics.Raycast(leftRayOrigin, direction, out _, distance, _obstructionLayerMask))
             {
                 return true;
             }
 
             // Right ray
-            if (Physics.Raycast(rightRayOrigin, direction, out hit, distance, _obstructionLayerMask))
+            if (Physics.Raycast(rightRayOrigin, direction, out _, distance, _obstructionLayerMask))
             {
                 return true;
             }

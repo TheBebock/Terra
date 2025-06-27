@@ -4,17 +4,18 @@ using Terra.Core.Generics;
 using Terra.GameStates;
 using Terra.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {
     public class GameManager : PersistentMonoSingleton<GameManager>, IWithSetUp
     {
     
-        [SerializeField] private GameState currentGameState;
-        [SerializeField] private GameState previousGameState;
+        [FormerlySerializedAs("currentGameState")] [SerializeField] private GameState _currentGameState;
+        [FormerlySerializedAs("previousGameState")] [SerializeField] private GameState _previousGameState;
     
     
-        private readonly Dictionary<Type, GameState> allGameStates = new();
+        private readonly Dictionary<Type, GameState> _allGameStates = new();
 
 
         protected override void Awake()
@@ -22,14 +23,14 @@ namespace Terra.Managers
             base.Awake();
             if(!Instance == this) return;
         
-            allGameStates.Clear();
-            allGameStates.Add(typeof(GameplayState), new GameplayState());
-            allGameStates.Add(typeof(UpgradeGameState), new UpgradeGameState());
-            allGameStates.Add(typeof(LoadGameState), new LoadGameState());
-            allGameStates.Add(typeof(DefaultGameState), new DefaultGameState());
-            allGameStates.Add(typeof(EndOfFloorState), new EndOfFloorState());
-            allGameStates.Add(typeof(StartOfFloorState), new StartOfFloorState());
-            allGameStates.Add(typeof(PlayerDeadState), new PlayerDeadState());
+            _allGameStates.Clear();
+            _allGameStates.Add(typeof(GameplayState), new GameplayState());
+            _allGameStates.Add(typeof(UpgradeGameState), new UpgradeGameState());
+            _allGameStates.Add(typeof(LoadGameState), new LoadGameState());
+            _allGameStates.Add(typeof(DefaultGameState), new DefaultGameState());
+            _allGameStates.Add(typeof(EndOfFloorState), new EndOfFloorState());
+            _allGameStates.Add(typeof(StartOfFloorState), new StartOfFloorState());
+            _allGameStates.Add(typeof(PlayerDeadState), new PlayerDeadState());
         }
 
         public void SetUp()
@@ -41,18 +42,18 @@ namespace Terra.Managers
         public void SwitchToGameState<T>() where T : GameState
         {
             // Check if the game state exists in the dictionary
-            if (!allGameStates.ContainsKey(typeof(T)))
+            if (!_allGameStates.ContainsKey(typeof(T)))
             {
                 Debug.LogError($"{this}: Couldn't switch to new game state, game state {typeof(T)} doesn't exist in the dictionary.");
             }
         
-            GameState newGameState = allGameStates[typeof(T)];
+            GameState newGameState = _allGameStates[typeof(T)];
             SwitchToNewGameState(newGameState);
         }
 
         public void SwitchToPreviousGameState()
         {
-            GameState newGameState = previousGameState;
+            GameState newGameState = _previousGameState;
             if (newGameState == null)
                 Debug.LogWarning($"[{this}] Couldn't switch to previous games state, game state is empty");
             else
@@ -62,21 +63,21 @@ namespace Terra.Managers
         /// <summary>
         /// Checks if the current game state is of desired type.
         /// </summary>
-        public bool IsCurrentState<T>() where T : GameState => currentGameState is T;
+        public bool IsCurrentState<T>() where T : GameState => _currentGameState is T;
 
         private void SwitchToNewGameState(GameState newGameState)
         {
-            previousGameState = currentGameState;
-            previousGameState?.OnExit();
-            currentGameState = newGameState;
-            currentGameState.OnEnter();
+            _previousGameState = _currentGameState;
+            _previousGameState?.OnExit();
+            _currentGameState = newGameState;
+            _currentGameState.OnEnter();
         }
 
 
 
         public void TearDown()
         {
-            allGameStates.Clear();
+            _allGameStates.Clear();
         }
     }
 }

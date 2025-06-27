@@ -8,16 +8,14 @@ namespace Terra.RewardSystem
 {
     public class StatsReward: RewardData
     {
-        public StatsReward() { }
+        private List<ValueModifier> _modifiersMaxHealth = new();
+        private List<ValueModifier> _modifiersDexterity = new();
+        private List<ValueModifier> _modifiersStrength = new();
+        private List<ValueModifier> _modifiersLuck = new();
 
-        private List<ValueModifier> modifiersMaxHealth = new();
-        private List<ValueModifier> modifiersDexterity = new();
-        private List<ValueModifier> modifiersStrength = new();
-        private List<ValueModifier> modifiersLuck = new();
-
-        private int maxFlatModifier = 5;
+        private int _maxFlatModifier = 5;
         //private float maxPercentAddModifier = 0.5f;
-        private int maxPercentMultModifier = 20;
+        private int _maxPercentMultModifier = 20;
 
         public string RewardName => rewardName;
         public string RewardDescription => rewardDescription;
@@ -25,10 +23,10 @@ namespace Terra.RewardSystem
 
         public override void ApplyReward()
         {
-            if (modifiersMaxHealth.Count > 0) PlayerStatsManager.Instance.AddMaxHealth(modifiersMaxHealth);
-            if (modifiersDexterity.Count > 0) PlayerStatsManager.Instance.AddDexterity(modifiersDexterity);
-            if (modifiersStrength.Count > 0) PlayerStatsManager.Instance.AddStrength(modifiersStrength);
-            if (modifiersLuck.Count > 0) PlayerStatsManager.Instance.AddLuck(modifiersLuck);
+            if (_modifiersMaxHealth.Count > 0) PlayerStatsManager.Instance.AddMaxHealth(_modifiersMaxHealth);
+            if (_modifiersDexterity.Count > 0) PlayerStatsManager.Instance.AddDexterity(_modifiersDexterity);
+            if (_modifiersStrength.Count > 0) PlayerStatsManager.Instance.AddStrength(_modifiersStrength);
+            if (_modifiersLuck.Count > 0) PlayerStatsManager.Instance.AddLuck(_modifiersLuck);
         }
 
         public void AddRandomStat()
@@ -36,44 +34,42 @@ namespace Terra.RewardSystem
             switch(Random.Range(0, 4))
             {
                 case 0: 
-                    modifiersMaxHealth.Add(AddRandomModifier());
+                    _modifiersMaxHealth.Add(AddRandomModifier());
                     rewardName = "Max Health";
                     break;
                 case 1:
-                    modifiersDexterity.Add(AddRandomModifier());
+                    _modifiersDexterity.Add(AddRandomModifier());
                     rewardName = "Dexterity";
                     break;
                 case 2: 
-                    modifiersStrength.Add(AddRandomModifier());
+                    _modifiersStrength.Add(AddRandomModifier());
                     rewardName = "Strength";
                     break;
                 case 3: 
-                    modifiersLuck.Add(AddRandomModifier());
+                    _modifiersLuck.Add(AddRandomModifier());
                     rewardName = "Luck";
                     break;
-                default: break;
             }
         }
 
         public ValueModifier AddRandomModifier()
         {
-            int modifierMaxValue = 0;
-            StatModType statModType = default;
+            int modifierMaxValue;
+            StatModType statModType;
             ValueModifier valueModifier = default;
 
             switch (Random.Range(0, 2))
             {
                 case 0: 
-                    modifierMaxValue = maxFlatModifier;
+                    modifierMaxValue = _maxFlatModifier;
                     statModType = StatModType.Flat;
-                    valueModifier = new ValueModifier(value: Random.Range(1, (int)modifierMaxValue), type: statModType);
+                    valueModifier = new ValueModifier(value: Random.Range(1, modifierMaxValue), type: statModType);
                     break;
                 case 1:
-                    modifierMaxValue = maxPercentMultModifier;
+                    modifierMaxValue = _maxPercentMultModifier;
                     statModType = StatModType.PercentMult;
                     valueModifier = new ValueModifier(value: Random.Range(1, modifierMaxValue), type: statModType);
                     break;
-                default: break;
             }
 
             
@@ -84,8 +80,8 @@ namespace Terra.RewardSystem
 
         private void SetUIDescription(ValueModifier valueModifier)
         {
-            char rewardSign = valueModifier.Type == StatModType.Flat ? '+' : 'x';
-            float rewardValue = valueModifier.Type == StatModType.Flat ? (int)valueModifier.Value : 1 + valueModifier.Value;
+            char rewardSign = valueModifier.type == StatModType.Flat ? '+' : 'x';
+            float rewardValue = valueModifier.type == StatModType.Flat ? valueModifier.value : 1 + valueModifier.value;
 
             rewardDescription = $"{rewardSign}{rewardValue:0.00}";
         }

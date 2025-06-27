@@ -372,7 +372,7 @@ MonoBehaviour:
     _statuses: []
   _hurtSFX: {fileID: 8300000, guid: 5f9ac63128bb68c41b7727e03c65f618, type: 3}
   _deathSFX: {fileID: 8300000, guid: d6e2c85d12a350e448fed0b8a69a884a, type: 3}
-  _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
+  _data: {fileID: 11400000, guid: b5f5b52cd641f814fb37063f03f2a574, type: 2}
 --- !u!114 &8009901754265250444
 MonoBehaviour:
   m_ObjectHideFlags: 0

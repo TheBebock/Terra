@@ -47,16 +47,30 @@ namespace Terra.Managers
         [Foldout("Debug"), ReadOnly][SerializeField] private int _currentSpawnPoints;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _currentWaveIndex;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _wavesToSpawn;
-        [Foldout("Debug"), ReadOnly][SerializeField] private int _currentLevel = -1;
+        [Foldout("Debug"), ReadOnly][SerializeField] private int _currentLevel;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _currentActiveEnemies;
 
         private CancellationTokenSource _waveCancellationTokenSource;
         private CancellationTokenSource _linkedCts;
         private LayerMask _groundLayer;
         
+        public int CurrentLevel => _currentLevel;
+        
         protected override void Awake()
         {
+            base.Awake();
             _groundLayer = LayerMask.NameToLayer("Ground");
+        }
+
+        
+        public void AttachListeners()
+        {
+            EventsAPI.Register<EndOfFloorEvent>(OnEndOfFloor);
+
+            if (!TimeManager.Instance) return;
+
+            TimeManager.Instance.OnGamePaused += PauseWaves;
+            TimeManager.Instance.OnGameResumed += ResumeWaves;
         }
 
         public void StartWaves()
@@ -80,7 +94,12 @@ namespace Terra.Managers
             
             _linkedCts?.Dispose();
             _waveCancellationTokenSource?.Dispose();
-        } 
+        }
+
+        private void OnEndOfFloor(ref EndOfFloorEvent dummy)
+        {
+            _currentLevel++;
+        }
 
         public void PauseWaves() => _isPaused = true;
         
@@ -91,7 +110,6 @@ namespace Terra.Managers
 
             await UniTask.WaitForSeconds(_delayBeforeFirstWave, cancellationToken: token);
             
-            _currentLevel++;
             _wavesToSpawn = _startingWavesToSpawn + Mathf.RoundToInt(_currentLevel * _wavesGainPerLevel);
             _currentWaveIndex = 0;
 
@@ -216,20 +234,15 @@ namespace Terra.Managers
             _waveCancellationTokenSource?.Dispose();
         }
 
-        public void AttachListeners()
-        {
-            if (!TimeManager.Instance) return;
-
-            TimeManager.Instance.OnGamePaused += PauseWaves;
-            TimeManager.Instance.OnGameResumed += ResumeWaves;
-        }
-
         public void DetachListeners()
         {
+            EventsAPI.Unregister<EndOfFloorEvent>(OnEndOfFloor);
+
             if (!TimeManager.Instance) return;
             
             TimeManager.Instance.OnGamePaused -= PauseWaves;
             TimeManager.Instance.OnGameResumed -= ResumeWaves;
+
         }
     }
 }

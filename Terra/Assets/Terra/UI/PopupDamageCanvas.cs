@@ -7,8 +7,8 @@ namespace Terra.UI
 {
     public class PopupDamageCanvas : InGameMonobehaviour, IWithSetUp
     {
-        public TMP_Text popupDamage = default;
-        public Transform target = default;
+        public TMP_Text popupDamage;
+        public Transform target;
         public Vector3 offset = Vector3.zero;
 
         private Quaternion _quaternionZero = Quaternion.Euler(0, 0, 0);

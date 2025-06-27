@@ -1,7 +1,6 @@
 using Terra.Core.Generics;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Managers;
-using Terra.Player;
 using UnityEngine;
 
 namespace Terra.Combat

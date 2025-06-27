@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
-    public class HPSlider : UIObject
+    public class HpSlider : UIObject
     {
         [SerializeField] private Slider _slider;
         [SerializeField] private TMP_Text _currentHealthText;

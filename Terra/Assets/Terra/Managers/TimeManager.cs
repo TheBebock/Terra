@@ -19,13 +19,13 @@ namespace Terra.Managers
     public class TimeManager : PersistentMonoSingleton<TimeManager>, IAttachListeners
     {
 
-        [Foldout("Debug"), ReadOnly] [SerializeField]private bool _isGamePaused = false;
+        [Foldout("Debug"), ReadOnly] [SerializeField]private bool _isGamePaused;
     
         public bool IsGamePaused => _isGamePaused;
     
-        private List<object> pauseLocks = new ();
+        private List<object> _pauseLocks = new ();
     
-        public bool CanBePaused => !IsGamePaused && pauseLocks.Count <= 0;
+        public bool CanBePaused => !IsGamePaused && _pauseLocks.Count <= 0;
         public event Action OnGamePaused;
         public event Action OnGameResumed;
         
@@ -78,9 +78,9 @@ namespace Terra.Managers
         }
         
         
-        public void AddPauseLock(object lockObject) => pauseLocks.Add(lockObject);
+        public void AddPauseLock(object lockObject) => _pauseLocks.Add(lockObject);
 
-        public void RemovePauseLock(object lockObject) => pauseLocks.RemoveElement(lockObject);
+        public void RemovePauseLock(object lockObject) => _pauseLocks.RemoveElement(lockObject);
         
         public void PauseTime() => ChangeTimeScale(0f);
         public void ResumeTime() => ChangeTimeScale(1f);

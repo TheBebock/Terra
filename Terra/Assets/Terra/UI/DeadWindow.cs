@@ -3,6 +3,7 @@ using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine.UI;
 using UnityEngine;
 using Terra.Managers;
+using UnityEngine.Serialization;
 
 namespace Terra.UI
 {
@@ -10,23 +11,23 @@ namespace Terra.UI
     {
         public override bool AllowMultiple { get; } = false;
 
-        [SerializeField] private GameObject darkScreen;
-        [SerializeField] private Button playAgainButton = default;
-        [SerializeField] private Button quitButton = default;
+        [FormerlySerializedAs("darkScreen")] [SerializeField] private GameObject _darkScreen;
+        [FormerlySerializedAs("playAgainButton")] [SerializeField] private Button _playAgainButton;
+        [FormerlySerializedAs("quitButton")] [SerializeField] private Button _quitButton;
 
         public override void SetUp()
         {
             base.SetUp();
 
-            playAgainButton?.onClick.AddListener(Restart);
-            quitButton?.onClick.AddListener(ExitGame);
+            _playAgainButton?.onClick.AddListener(Restart);
+            _quitButton?.onClick.AddListener(ExitGame);
 
             //TODO: add other functionalities
         }
 
         private async void Restart()
         {
-            darkScreen.SetActive(true);
+            _darkScreen.SetActive(true);
             TimeManager.Instance.ResumeTime();
             await ScenesManager.Instance.LoadSceneAsync(SceneNames.Gameplay, activationDelay:1f);
             GameManager.Instance?.SwitchToGameState<StartOfFloorState>();

@@ -5,7 +5,7 @@ namespace Terra.Player.PlayerStates
 {
     public class LocomotionState : PlayerBaseState
     {
-        private FacingDirection oldPlayerMoveDirection;
+        private FacingDirection _oldPlayerMoveDirection;
         public LocomotionState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
@@ -19,9 +19,9 @@ namespace Terra.Player.PlayerStates
         {
             player.PlayerMovement.HandleMovement();
 
-            if(oldPlayerMoveDirection != player.PlayerMovement.CurrentPlayerMoveDirection)
+            if(_oldPlayerMoveDirection != player.PlayerMovement.CurrentPlayerMoveDirection)
             {
-                oldPlayerMoveDirection = player.PlayerMovement.CurrentPlayerMoveDirection;
+                _oldPlayerMoveDirection = player.PlayerMovement.CurrentPlayerMoveDirection;
 
                 ChangeDirectionOfAnimation();
             }
@@ -29,12 +29,12 @@ namespace Terra.Player.PlayerStates
 
         private void ChangeDirectionOfAnimation()
         {
-            switch (oldPlayerMoveDirection)
+            switch (_oldPlayerMoveDirection)
             {
-                case FacingDirection.Up: animator.CrossFade(LocomotionUpHash, CrossFadeDuration); break;
-                case FacingDirection.Down: animator.CrossFade(LocomotionDownHash, CrossFadeDuration); break;
-                case FacingDirection.Left: animator.CrossFade(LocomotionLeftHash, CrossFadeDuration); break;
-                case FacingDirection.Right: animator.CrossFade(LocomotionRightHash, CrossFadeDuration); break;
+                case FacingDirection.Up: animator.CrossFade(LocomotionUpHash, crossFadeDuration); break;
+                case FacingDirection.Down: animator.CrossFade(LocomotionDownHash, crossFadeDuration); break;
+                case FacingDirection.Left: animator.CrossFade(LocomotionLeftHash, crossFadeDuration); break;
+                case FacingDirection.Right: animator.CrossFade(LocomotionRightHash, crossFadeDuration); break;
             }
         }
     }

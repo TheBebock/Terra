@@ -30,10 +30,10 @@ namespace Terra.Player.PlayerStates
         {
             switch (playerAttackDirection)
             {
-                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, CrossFadeDuration); _actualStateHash = RangedAttackUpHash; break;
-                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, CrossFadeDuration); _actualStateHash = RangedAttackDownHash; break;
-                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, CrossFadeDuration); _actualStateHash = RangedAttackLeftHash; break;
-                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, CrossFadeDuration); _actualStateHash = RangedAttackRightHash; break;
+                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, crossFadeDuration); _actualStateHash = RangedAttackUpHash; break;
+                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, crossFadeDuration); _actualStateHash = RangedAttackDownHash; break;
+                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, crossFadeDuration); _actualStateHash = RangedAttackLeftHash; break;
+                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, crossFadeDuration); _actualStateHash = RangedAttackRightHash; break;
             }
         }
     }

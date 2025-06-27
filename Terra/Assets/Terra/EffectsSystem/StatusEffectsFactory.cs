@@ -13,7 +13,7 @@ namespace Terra.EffectsSystem
     /// </summary>
     public static class StatusEffectsFactory
     {
-        private static readonly Dictionary<Type, Type> _dataToStatusMap = new Dictionary<Type, Type>();
+        private static readonly Dictionary<Type, Type> DataToStatusMap = new Dictionary<Type, Type>();
 
         static StatusEffectsFactory()
         {
@@ -22,7 +22,7 @@ namespace Terra.EffectsSystem
 
         private static void InitializeFactory()
         {
-            if (!_dataToStatusMap.IsNullOrEmpty()) return;
+            if (!DataToStatusMap.IsNullOrEmpty()) return;
 
             var mappingAsset = Resources.Load<StatusEffectMapping>(nameof(StatusEffectMapping));
             if (mappingAsset == null)
@@ -43,17 +43,17 @@ namespace Terra.EffectsSystem
                     continue;
                 }
 
-                _dataToStatusMap[dataType] = effectType;
+                DataToStatusMap[dataType] = effectType;
             }
 
-            Debug.Log($"{nameof(StatusEffectsFactory)} initialized with {_dataToStatusMap.Count} effects.");
+            Debug.Log($"{nameof(StatusEffectsFactory)} initialized with {DataToStatusMap.Count} effects.");
         }
 
         public static StatusEffectBase CreateStatusEffect(Entity target, StatusEffectData data)
         {
             var dataType = data.GetType();
 
-            if (!_dataToStatusMap.TryGetValue(dataType, out var statusType) || statusType == null)
+            if (!DataToStatusMap.TryGetValue(dataType, out var statusType) || statusType == null)
             {
                 Debug.LogError($"No StatusEffect mapped for data type {dataType.Name}");
                 return null;

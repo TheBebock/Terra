@@ -2,60 +2,61 @@ using System;
 using System.Collections.Generic;
 using Terra.Extensions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Core.ModifiableValue
 {
    [Serializable]
    public class ModifiableValue
    {
-      [SerializeField] private int baseValue;
-      [SerializeField] protected List<ValueModifier> StatModifiers = new();
+      [FormerlySerializedAs("baseValue")] [SerializeField] private int _baseValue;
+      [FormerlySerializedAs("StatModifiers")] [SerializeField] protected List<ValueModifier> _statModifiers = new();
 
 
-      protected bool IsDirty = true;
-      protected int _value = 0;
-      protected int LastBaseValue = int.MinValue;
+      protected bool isDirty = true;
+      protected int value;
+      protected int lastBaseValue = int.MinValue;
       public int Value
       {
          get
          {
-            if (IsDirty || baseValue != LastBaseValue)
+            if (isDirty || _baseValue != lastBaseValue)
             {
-               LastBaseValue = baseValue;
-               _value = CalculateFinalValue();
-               IsDirty = false;
+               lastBaseValue = _baseValue;
+               value = CalculateFinalValue();
+               isDirty = false;
             }
 
-            return _value;
+            return value;
          }
       }
 
       public ModifiableValue(int baseValue)
       {
-         this.baseValue = baseValue;
+         this._baseValue = baseValue;
       }
 
       public virtual void AddStatModifier(ValueModifier mod)
       {
-         IsDirty = true;
-         StatModifiers.Add(mod);
-         StatModifiers.Sort(CompareModifierOrder);
+         isDirty = true;
+         _statModifiers.Add(mod);
+         _statModifiers.Sort(CompareModifierOrder);
       }
 
       protected virtual int CompareModifierOrder(ValueModifier a, ValueModifier b)
       {
-         if (a.Order < b.Order)
+         if (a.order < b.order)
             return -1;
-         else if (a.Order > b.Order)
+         else if (a.order > b.order)
             return 1;
          return 0;
       }
 
       public virtual bool RemoveStatModifier(ValueModifier mod)
       {
-         if (StatModifiers.Remove(mod))
+         if (_statModifiers.Remove(mod))
          {
-            IsDirty = true;
+            isDirty = true;
             return true;
          }
 
@@ -65,13 +66,13 @@ namespace Terra.Core.ModifiableValue
       public virtual bool RemoveAllModifiersFromSource(int sourceID)
       {
          bool didRemove = false;
-         for (int i = StatModifiers.Count - 1; i >= 0; i++)
+         for (int i = _statModifiers.Count - 1; i >= 0; i++)
          {
-            if (StatModifiers[i].SourceID == sourceID)
+            if (_statModifiers[i].sourceID == sourceID)
             {
-               IsDirty = true;
+               isDirty = true;
                didRemove = true;
-               StatModifiers.RemoveAt(i);
+               _statModifiers.RemoveAt(i);
             }
          }
 
@@ -80,20 +81,20 @@ namespace Terra.Core.ModifiableValue
 
       protected virtual int CalculateFinalValue()
       {
-         float finalValue = baseValue;
+         float finalValue = _baseValue;
          float sumPercentAdd = 0;
-         for (int i = 0; i < StatModifiers.Count; i++)
+         for (int i = 0; i < _statModifiers.Count; i++)
          {
-            ValueModifier mod = StatModifiers[i];
-            switch (mod.Type)
+            ValueModifier mod = _statModifiers[i];
+            switch (mod.type)
             {
                case StatModType.Flat:
-                  finalValue += mod.Value;
+                  finalValue += mod.value;
                   break;
 
                case StatModType.PercentMult:
-                  sumPercentAdd += mod.Value;
-                  if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentMult)
+                  sumPercentAdd += mod.value;
+                  if (i + 1 >= _statModifiers.Count || _statModifiers[i + 1].type != StatModType.PercentMult)
                   {
                      finalValue *= (1 + sumPercentAdd.ToFactor());
                      sumPercentAdd = 0;

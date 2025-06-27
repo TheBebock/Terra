@@ -74,5 +74,5 @@ MonoBehaviour:
   _currentSpawnPoints: 0
   _currentWaveIndex: 0
   _wavesToSpawn: 3
-  _currentLevel: -1
+  _currentLevel: 0
   _currentActiveEnemies: 0

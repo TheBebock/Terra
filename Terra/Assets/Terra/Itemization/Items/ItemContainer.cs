@@ -15,7 +15,7 @@ namespace Terra.Itemization.Items
     {
         public override bool CanBeInteractedWith => _isInitialized && PlayerInventoryManager.Instance.CanEquipItem(_item);
 
-        [SerializeField, ReadOnly] private bool _isInitialized = false;
+        [SerializeField, ReadOnly] private bool _isInitialized;
 
         [SerializeField, ReadOnly] private ItemBase _item;
         

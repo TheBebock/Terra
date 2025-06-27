@@ -13,7 +13,7 @@ namespace Terra.Itemization.Pickups
     /// </summary>
     public sealed class PickupContainer : InGameMonobehaviour, IPickupable
     {
-        public bool CanBePickedUp { get; private set; } = false;
+        public bool CanBePickedUp { get; private set; }
 
         [SerializeField, ReadOnly] private PickupBase _pickup;
         [SerializeField] private SpriteRenderer _pickupRenderer;

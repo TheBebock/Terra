@@ -30,7 +30,7 @@ namespace Terra.AI.EnemyStates {
 
         // The attack logic, called during each update
         protected override void OnAttack() {
-            if (Player == null) {
+            if (player == null) {
                 Debug.LogError($"{this}: Player is null");  // Check if the player exists
                 return;
             }
@@ -52,7 +52,7 @@ namespace Terra.AI.EnemyStates {
 
         // Check if the player is within the attack range
         private bool IsPlayerInRange() {
-            float distanceToPlayer = Vector3.Distance(enemy.transform.position, Player.transform.position);
+            float distanceToPlayer = Vector3.Distance(enemy.transform.position, player.transform.position);
             
             return distanceToPlayer <= enemy.AttackRange;  // Return true if the player is within range
         }
@@ -60,13 +60,13 @@ namespace Terra.AI.EnemyStates {
         // Check if there is an unobstructed path to the player
         private bool IsPathClearToPlayer() {
             // Calculate direction towards the player
-            Vector3 directionToPlayer = (Player.transform.position - enemy.transform.position).normalized;
+            Vector3 directionToPlayer = (player.transform.position - enemy.transform.position).normalized;
             
             
             // Perform a raycast to check if anything blocks the path
             if (Physics.Raycast(enemy.transform.position, directionToPlayer, out RaycastHit hit, 100f)) {
                 // If the ray hits something that isn't the player, return false (path is blocked)
-                if (hit.transform != Player.transform) {
+                if (hit.transform != player.transform) {
                     return false;
                 }
             }

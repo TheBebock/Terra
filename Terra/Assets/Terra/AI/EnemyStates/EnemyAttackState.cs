@@ -13,15 +13,16 @@ namespace Terra.AI.EnemyStates {
         public override void OnEnter()
         {
             base.OnEnter();
-
-            navMeshAgent.velocity *= 1.5f;
+            
+            navMeshAgent.velocity *= enemy.AttackDashModifier;
+            Vector3 dir = (PlayerManager.Instance.transform.position - enemy.transform.position).normalized;
+            enemy.UpdateFacingDirection(dir);
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);
         }
 
         protected override void OnAttack()
         {
-            return;
         }
     }
 }

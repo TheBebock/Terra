@@ -29,6 +29,7 @@ namespace Terra.AI.Enemy
         protected abstract TEnemyData Data { get; }
 
         public sealed override float AttackRange => Data.attackRange;
+        public sealed override float AttackDashModifier => Data.dashModifier;
         
     }
 
@@ -68,6 +69,7 @@ namespace Terra.AI.Enemy
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float AttackRange { get; }
+        public abstract float AttackDashModifier { get; }
         protected AudioSource audioSource;
 
         protected Vector3 ItemsSpawnPosition => new(
@@ -137,11 +139,9 @@ namespace Terra.AI.Enemy
             
             FacingDirection newDirection = vx > 0 ? FacingDirection.Right : FacingDirection.Left;
 
-            if (newDirection != CurrentDirection)
-            {
-                CurrentDirection = newDirection;
-                _animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
-            }
+            
+            CurrentDirection = newDirection;
+            _animator.SetInteger(AnimationHashes.Direction, (int)CurrentDirection);
         }
         
         /// <summary>

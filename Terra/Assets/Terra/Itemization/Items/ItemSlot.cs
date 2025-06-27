@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Interfaces;
@@ -18,7 +19,9 @@ namespace Terra.Itemization.Items
     public class ItemSlot<TItem> : ItemSlotBase<TItem>
     where TItem : ItemBase
     {
+        [UsedImplicitly]
         [SerializeField, ReadOnly] private string _itemName;
+        [UsedImplicitly]
         [SerializeField, ReadOnly] private bool _canBeRemoved;
         public TItem EquippedItem { get; private set; }
         public override bool IsSlotTaken { get; set; }

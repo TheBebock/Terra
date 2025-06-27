@@ -4,6 +4,7 @@ using Terra.Itemization.Items;
 using Terra.Itemization.Pickups;
 using Terra.LootSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {
@@ -11,46 +12,46 @@ namespace Terra.Managers
     public class LootManager : MonoBehaviourSingleton<LootManager>
     {
 
-        [SerializeField] private PickupContainer P_pickupContainer;
-        [SerializeField] private ItemContainer P_itemContainer;
-        [SerializeField] private LootTable lootTable = new();
+        [FormerlySerializedAs("P_pickupContainer")] [SerializeField] private PickupContainer _pPickupContainer;
+        [FormerlySerializedAs("P_itemContainer")] [SerializeField] private ItemContainer _pItemContainer;
+        [FormerlySerializedAs("lootTable")] [SerializeField] private LootTable _lootTable = new();
 
-        public LootTable LootTable => lootTable;
+        public LootTable LootTable => _lootTable;
 
 
         protected override void Awake()
         {
             base.Awake();
-            lootTable.Initialize();
+            _lootTable.Initialize();
         }
         
         public void SpawnRandomItem(Vector3 position)
         {
-            ItemBase item = lootTable.GetRandomItem();
+            ItemBase item = _lootTable.GetRandomItem();
             SpawnItemContainer(item, position);
         }
         
         public void SpawnRandomItem(Transform itemTransform)
         {
-            ItemBase item = lootTable.GetRandomItem();
+            ItemBase item = _lootTable.GetRandomItem();
             SpawnItemContainer(item, itemTransform);
         }
 
         public void SpawnItemContainer(ItemBase item, Transform itemTransform)
         {
-            ItemContainer itemContainer = Instantiate(P_itemContainer, itemTransform);
+            ItemContainer itemContainer = Instantiate(_pItemContainer, itemTransform);
             itemContainer.Initialize(item);
         }
         
         public void SpawnItemContainer(ItemBase item, Vector3 position)
         {
-            ItemContainer itemContainer = Instantiate(P_itemContainer, position, Quaternion.identity);
+            ItemContainer itemContainer = Instantiate(_pItemContainer, position, Quaternion.identity);
             itemContainer.Initialize(item);
         }
 
         public void SpawnRandomPickup(Transform pickupTransform)
         {
-            PickupBase pickup = lootTable.GetRandomPickup();
+            PickupBase pickup = _lootTable.GetRandomPickup();
             if (pickup == null)
             {
                 Debug.LogError($"{this}: Pickup could not be found");
@@ -61,7 +62,7 @@ namespace Terra.Managers
         
         public void SpawnRandomPickup(Vector3 pickupPosition)
         {
-            PickupBase pickup = lootTable.GetRandomPickup();
+            PickupBase pickup = _lootTable.GetRandomPickup();
             if (pickup == null)
             {
                 Debug.LogError($"{this}: Pickup could not be found");
@@ -72,7 +73,7 @@ namespace Terra.Managers
 
         public void SpawnHealthPickup(Vector3 pickupPosition)
         {
-            PickupBase pickup = lootTable.GetRandomHealthPickup();
+            PickupBase pickup = _lootTable.GetRandomHealthPickup();
             if (pickup == null)
             {
                 Debug.LogError($"{this}: Pickup could not be found");
@@ -83,7 +84,7 @@ namespace Terra.Managers
         
         public void SpawnAmmoPickup(Vector3 pickupPosition)
         {
-            PickupBase pickup = lootTable.GetRandomAmmoPickup();
+            PickupBase pickup = _lootTable.GetRandomAmmoPickup();
             if (pickup == null)
             {
                 Debug.LogError($"{this}: Pickup could not be found");
@@ -94,7 +95,7 @@ namespace Terra.Managers
 
         public void SpawnCrystalPickup(Vector3 pickupPosition)
         {
-            PickupBase pickup = lootTable.GetRandomCrystalPickup();
+            PickupBase pickup = _lootTable.GetRandomCrystalPickup();
             if (pickup == null)
             {
                 Debug.LogError($"{this}: Pickup could not be found");
@@ -105,13 +106,13 @@ namespace Terra.Managers
 
         private void SpawnPickupContainer(PickupBase pickup, Vector3 pickupPosition)
         {
-            PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupPosition, Quaternion.identity);
+            PickupContainer pickupContainer = Instantiate(_pPickupContainer, pickupPosition, Quaternion.identity);
             pickupContainer.Initialize(pickup);
         }
         
         private void SpawnPickupContainer(PickupBase pickup, Transform pickupTransform)
         {
-            PickupContainer pickupContainer = Instantiate(P_pickupContainer, pickupTransform);
+            PickupContainer pickupContainer = Instantiate(_pPickupContainer, pickupTransform);
             pickupContainer.Initialize(pickup);
         }
     }

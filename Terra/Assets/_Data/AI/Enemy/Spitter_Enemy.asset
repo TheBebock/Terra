@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e3b53379c7509844a2bde2d8e07f421, type: 3}
-  m_Name: RangedEnemy_Test
+  m_Name: Spitter_Enemy
   m_EditorClassIdentifier: 
   attackCooldown: 1
   attackRange: 20

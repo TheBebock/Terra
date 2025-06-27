@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a66813826cfb141950c61f3d9fa0c0, type: 3}
   m_Name: MeleeEnemy_Test
   m_EditorClassIdentifier: 
-  detectionCooldown: 0.2
-  detectionRadius: 2
-  attackRange: 1
-  attackRadius: 1.5
   attackCooldown: 1
-  detectionRadius: 5
-  attackRange: 2
+  attackRange: 1.5
+  attackRadius: 1.5

@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract.Definitions;
@@ -14,6 +15,7 @@ namespace Terra.EffectsSystem.Abstract
     [Serializable]
     public class StatusEffectBase : EffectBase
     {
+        [UsedImplicitly]
         [SerializeField, ReadOnly] private string _name;
         protected StatusEffectBase(){}
         public void Apply()

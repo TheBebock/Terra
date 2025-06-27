@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Abstracts.Definitions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Itemization.Items
 {
@@ -13,12 +14,12 @@ namespace Terra.Itemization.Items
     public class ActiveItem : Item<ActiveItemData>
     {
         
-        [SerializeField, ReadOnly] private float currentCD = 0;
+        [FormerlySerializedAs("currentCD")] [SerializeField, ReadOnly] private float _currentCd;
         
         public override ItemType ItemType => ItemType.Active;
-        public bool CanBeActivated => currentCD <= 0;
-        public float CurrentCD => currentCD;
-        private float MaxCD => Data.itemCooldown;
+        public bool CanBeActivated => _currentCd <= 0;
+        public float CurrentCd => _currentCd;
+        private float MaxCd => Data.itemCooldown;
         
         public static event Action<ActiveItem, bool> OnStatusChanged;
 
@@ -27,7 +28,7 @@ namespace Terra.Itemization.Items
             // Set Data
             Data = itemData;
             // Reset cooldown on creation
-            currentCD = 0;
+            _currentCd = 0;
         }
 
         /// <summary>
@@ -36,9 +37,9 @@ namespace Terra.Itemization.Items
         public void DecreaseCooldown()
         {
             // Decrease cooldown
-            currentCD--;
+            _currentCd--;
             // Clamp value
-            currentCD = Mathf.Max(currentCD, 0);
+            _currentCd = Mathf.Max(_currentCd, 0);
             
             // Invoke event if the item can be activated
             if(CanBeActivated)
@@ -57,7 +58,7 @@ namespace Terra.Itemization.Items
             Data.ActivateItem();
 
             // Update cooldown
-            currentCD = MaxCD;
+            _currentCd = MaxCd;
             
             // Invoke status change
             OnStatusChanged?.Invoke(this, false);

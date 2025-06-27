@@ -2,12 +2,12 @@ using System;
 
 namespace Terra.FSM {
     public class FuncPredicate : IPredicate {
-        readonly Func<bool> func;
+        readonly Func<bool> _func;
         
         public FuncPredicate(Func<bool> func) {
-            this.func = func;
+            this._func = func;
         }
         
-        public bool Evaluate() => func.Invoke();
+        public bool Evaluate() => _func.Invoke();
     }
 }

@@ -13,35 +13,36 @@ using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
 using UIExtensionPackage.UISystem.Core.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI
 {
     public class RewardToggle: UIObject, IWithSetup
     {
-        [SerializeField] private TMP_Text rewardName;
-        [SerializeField] private TMP_Text rewardDescription;
+        [FormerlySerializedAs("rewardName")] [SerializeField] private TMP_Text _rewardName;
+        [FormerlySerializedAs("rewardDescription")] [SerializeField] private TMP_Text _rewardDescription;
 
-        [SerializeField] private Image rewardIcon;
+        [FormerlySerializedAs("rewardIcon")] [SerializeField] private Image _rewardIcon;
 
-        [SerializeField] private Toggle rewardToggle;
-        [SerializeField] private RewardData rewardData;
+        [FormerlySerializedAs("rewardToggle")] [SerializeField] private Toggle _rewardToggle;
+        [SerializeField] private RewardData _rewardData;
 
-        public Toggle Toggle => rewardToggle;
+        public Toggle Toggle => _rewardToggle;
         
-        private WeaponReward weaponReward = new();
-        private StatsReward statsReward = new();
-        private EffectData effectReward = default;
-        private Type effectType;
-        private ActiveItem activeItemReward = default;
-        private PassiveItem passiveItemReward = default;
+        private WeaponReward _weaponReward = new();
+        private StatsReward _statsReward = new();
+        private EffectData _effectReward;
+        private Type _effectType;
+        private ActiveItem _activeItemReward;
+        private PassiveItem _passiveItemReward;
 
-        private WeaponDataComparison weaponDataComparison;
-        private ItemDataComparison itemDataComparison;
+        private WeaponDataComparison _weaponDataComparison;
+        private ItemDataComparison _itemDataComparison;
 
-        [SerializeField, ReadOnly] private RewardType rewardType;
+        [FormerlySerializedAs("rewardType")] [SerializeField, ReadOnly] private RewardType _rewardType;
 
-        public RewardType RewardType { get { return rewardType; } set { rewardType = value; } }
+        public RewardType RewardType { get { return _rewardType; } set { _rewardType = value; } }
 
         public void SetUp()
         {
@@ -50,10 +51,10 @@ namespace Terra.UI
 
         private void ChooseRewardData()
         {
-            switch(rewardType)
+            switch(_rewardType)
             {
                 case RewardType.Stats: 
-                    statsReward.AddRandomStat();
+                    _statsReward.AddRandomStat();
                     LoadStatsData();
                     break;
                 case RewardType.Weapon: 
@@ -63,17 +64,17 @@ namespace Terra.UI
                     GetRandomEffect();
                     break;
                 case RewardType.ActiveItem:
-                    GetRandomItem(rewardType);
+                    GetRandomItem(_rewardType);
                     break;
                 case RewardType.PassiveItem:
-                    GetRandomItem(rewardType);
+                    GetRandomItem(_rewardType);
                     break;
             }
         }
 
         private void SetNewRewardType()
         {
-            RewardType = (Enums.RewardType)UnityEngine.Random.Range(1, 5);
+            RewardType = (RewardType)UnityEngine.Random.Range(1, 5);
             SetUp();
         }
 
@@ -81,49 +82,49 @@ namespace Terra.UI
         {
             if(rewardType == RewardType.ActiveItem)
             {
-                activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem();
-                if(activeItemReward == null)
+                _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem();
+                if(_activeItemReward == null)
                 {
                     SetNewRewardType();
                     return;
                 }
 
                 if (PlayerInventoryManager.Instance.ActiveItem.Data == null)
-                    itemDataComparison = ItemsComparator.Instance.CompareItems(activeItemReward.Data);
+                    _itemDataComparison = ItemsComparator.Instance.CompareItems(_activeItemReward.Data);
                 else
-                    itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.ActiveItem.Data, activeItemReward.Data);
-                LoadItemData(activeItemReward.Data);
+                    _itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.ActiveItem.Data, _activeItemReward.Data);
+                LoadItemData(_activeItemReward.Data);
             }
             else if(rewardType == RewardType.PassiveItem)
             {
-                passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem();
-                if (passiveItemReward == null)
+                _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem();
+                if (_passiveItemReward == null)
                 {
                     SetNewRewardType();
                     return;
                 }
 
                 if (PlayerInventoryManager.Instance.GetPassiveItems.Count < 1)
-                    itemDataComparison = ItemsComparator.Instance.CompareItems(passiveItemReward.Data);
+                    _itemDataComparison = ItemsComparator.Instance.CompareItems(_passiveItemReward.Data);
                 else
-                    itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.GetPassiveItems[0].Data, passiveItemReward.Data);
-                LoadItemData(passiveItemReward.Data);
+                    _itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.GetPassiveItems[0].Data, _passiveItemReward.Data);
+                LoadItemData(_passiveItemReward.Data);
             }
         }
 
         private void LoadItemData(ItemData data)
         {
-            rewardName.text = data.itemName;
-            rewardDescription.text = data.itemDescription;
+            _rewardName.text = data.itemName;
+            _rewardDescription.text = data.itemDescription;
 
             LoadModifiersUIText(data);
 
-            rewardIcon.sprite = data.itemSprite;
+            _rewardIcon.sprite = data.itemSprite;
         }
 
         private void LoadModifiersUIText(ItemData data)
         {
-            ItemDataComparison currentItemDataComparison = weaponDataComparison.damage != default ? weaponDataComparison.itemDataComparison : itemDataComparison;
+            ItemDataComparison currentItemDataComparison = _weaponDataComparison.damage != default ? _weaponDataComparison.itemDataComparison : _itemDataComparison;
 
             if (data.maxHealthModifiers.Count > 0)
             {
@@ -131,9 +132,9 @@ namespace Terra.UI
 
                 foreach (var modifier in data.maxHealthModifiers)
                 {
-                    totalValue += modifier.Value;
+                    totalValue += modifier.value;
                 }
-                rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"\nMax Health: {totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"\nMax Health: {totalValue}");
             }
 
             if (data.luckModifiers.Count > 0)
@@ -142,9 +143,9 @@ namespace Terra.UI
 
                 foreach (var modifier in data.luckModifiers)
                 {
-                    totalValue += modifier.Value;
+                    totalValue += modifier.value;
                 }
-                rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"\nLuck: {totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"\nLuck: {totalValue}");
             }
 
             if (data.strengthModifiers.Count > 0)
@@ -153,9 +154,9 @@ namespace Terra.UI
 
                 foreach (var modifier in data.strengthModifiers)
                 {
-                    totalValue += modifier.Value;
+                    totalValue += modifier.value;
                 }
-                rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"\nStrength: {totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"\nStrength: {totalValue}");
             }
 
             if (data.speedModifiers.Count > 0)
@@ -164,9 +165,9 @@ namespace Terra.UI
 
                 foreach (var modifier in data.speedModifiers)
                 {
-                    totalValue += modifier.Value;
+                    totalValue += modifier.value;
                 }
-                rewardDescription.text += MarkStatisticText(currentItemDataComparison.speed, $"\nSpeed: {totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.speed, $"\nSpeed: {totalValue}");
             }
         }
 
@@ -175,22 +176,22 @@ namespace Terra.UI
             switch (UnityEngine.Random.Range(0, 2))
             {
                 case 0: 
-                    effectReward = TemporaryEffectsContainer.Instance.actionEffectDatas?.GetRandomElement<ActionEffectData>();
-                    if (effectReward != null)
-                        effectType = typeof(ActionEffectData);
+                    _effectReward = TemporaryEffectsContainer.Instance.actionEffectDatas?.GetRandomElement<ActionEffectData>();
+                    if (_effectReward != null)
+                        _effectType = typeof(ActionEffectData);
                     else
                         TurnOffToogle();
                     break;
                 case 1:
-                    effectReward = TemporaryEffectsContainer.Instance.statusEffectDatas?.GetRandomElement<StatusEffectData>();
-                    if(effectReward != null)
-                    effectType = typeof(StatusEffectData);
+                    _effectReward = TemporaryEffectsContainer.Instance.statusEffectDatas?.GetRandomElement<StatusEffectData>();
+                    if(_effectReward != null)
+                        _effectType = typeof(StatusEffectData);
                     else
                         TurnOffToogle();
                     break;
             }
 
-            LoadEffectData(effectReward);
+            LoadEffectData(_effectReward);
              
         }
 
@@ -206,59 +207,59 @@ namespace Terra.UI
             if (rand == 0)
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon();
-                weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
+                _weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
-                weaponReward.MeleeWeapon = randomWeapon;
+                _weaponReward.MeleeWeapon = randomWeapon;
             }
             else
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon();
-                weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
+                _weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
-                weaponReward.RangedWeapon = randomWeapon;
+                _weaponReward.RangedWeapon = randomWeapon;
             }
         }
 
         private void LoadWeaponData<TData>(TData data) where TData: WeaponData
         {
-            rewardName.text = data.itemName;
-            rewardDescription.text = data.itemDescription;
-            rewardDescription.text += "\n";
-            rewardDescription.text += MarkStatisticText(weaponDataComparison.damage, $"\nDamage: {data.damage}");
+            _rewardName.text = data.itemName;
+            _rewardDescription.text = data.itemDescription;
+            _rewardDescription.text += "\n";
+            _rewardDescription.text += MarkStatisticText(_weaponDataComparison.damage, $"\nDamage: {data.damage}");
             LoadModifiersUIText(data);
-            rewardDescription.text += "\n";
+            _rewardDescription.text += "\n";
 
             if (data.effects.actions.Count > 0 || data.effects.statuses.Count > 0)
             {
-                rewardDescription.text += $"\nEffects: \n";
+                _rewardDescription.text += $"\nEffects: \n";
 
                 for (int i = 0; i < data.effects.actions.Count; i++)
                 {
-                    rewardDescription.text += $"{data.effects.actions[i].effectName}";
-                    if (i < data.effects.actions.Count - 1 || data.effects.statuses.Count > 0) rewardDescription.text += ", ";
+                    _rewardDescription.text += $"{data.effects.actions[i].effectName}";
+                    if (i < data.effects.actions.Count - 1 || data.effects.statuses.Count > 0) _rewardDescription.text += ", ";
                 }
 
                 for (int i = 0; i < data.effects.statuses.Count; i++)
                 {
-                    rewardDescription.text += $"{data.effects.statuses[i].effectName}";
-                    if (i < data.effects.statuses.Count - 1) rewardDescription.text += ", ";
+                    _rewardDescription.text += $"{data.effects.statuses[i].effectName}";
+                    if (i < data.effects.statuses.Count - 1) _rewardDescription.text += ", ";
                 }
             }
 
-            rewardIcon.sprite = data.itemSprite;
+            _rewardIcon.sprite = data.itemSprite;
         }
 
         private void LoadStatsData()
         {
-            rewardName.text = statsReward.RewardName;
-            rewardDescription.text = statsReward.RewardDescription;
+            _rewardName.text = _statsReward.RewardName;
+            _rewardDescription.text = _statsReward.RewardDescription;
         }
 
         private void LoadEffectData(EffectData effectData)
         {
-            rewardName.text = effectData.effectName;
-            rewardDescription.text = effectData.effectDescription;
-            rewardIcon.sprite = effectData.effectIcon;  
+            _rewardName.text = effectData.effectName;
+            _rewardDescription.text = effectData.effectDescription;
+            _rewardIcon.sprite = effectData.effectIcon;  
         }
 
         private string MarkStatisticText(Comparison comparedStatistic, string textToMark)
@@ -278,25 +279,25 @@ namespace Terra.UI
 
         public void ApplyReward()
         {
-            switch (rewardType)
+            switch (_rewardType)
             {
                 case RewardType.Stats: 
-                    statsReward.ApplyReward(); 
+                    _statsReward.ApplyReward(); 
                     break;
                 case RewardType.Weapon:
-                    weaponReward.ApplyReward();
+                    _weaponReward.ApplyReward();
                     break;
                 case RewardType.Effect:
-                    if (effectType.Equals(typeof(ActionEffectData)))
-                        PlayerInventoryManager.Instance.MeleeWeapon.Data.effects.actions.Add(effectReward as ActionEffectData);
+                    if (_effectType.Equals(typeof(ActionEffectData)))
+                        PlayerInventoryManager.Instance.MeleeWeapon.Data.effects.actions.Add(_effectReward as ActionEffectData);
                     else
-                        PlayerInventoryManager.Instance.MeleeWeapon.Data.effects.statuses.Add(effectReward as StatusEffectData);
+                        PlayerInventoryManager.Instance.MeleeWeapon.Data.effects.statuses.Add(_effectReward as StatusEffectData);
                     break;
                 case RewardType.ActiveItem:
-                    PlayerInventoryManager.Instance.TryToEquipItem(activeItemReward);
+                    PlayerInventoryManager.Instance.TryToEquipItem(_activeItemReward);
                     break;
                 case RewardType.PassiveItem:
-                    PlayerInventoryManager.Instance.TryToEquipItem(passiveItemReward);
+                    PlayerInventoryManager.Instance.TryToEquipItem(_passiveItemReward);
                     break;
             }
         }

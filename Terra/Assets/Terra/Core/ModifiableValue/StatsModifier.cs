@@ -3,10 +3,11 @@ using NaughtyAttributes;
 using Terra.ID;
 using Terra.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Core.ModifiableValue
 {
-    public enum StatModType: int
+    public enum StatModType
     {
         Flat = 100,
         PercentMult = 300,
@@ -15,17 +16,17 @@ namespace Terra.Core.ModifiableValue
     [Serializable]
     public class ValueModifier 
     {
-        public int Value;
-        public StatModType Type;
-        [HideInInspector, ReadOnly] public int SourceID;
-        [HideInInspector, ReadOnly] public readonly int Order;
+        [FormerlySerializedAs("Value")] public int value;
+        [FormerlySerializedAs("Type")] public StatModType type;
+        [FormerlySerializedAs("SourceID")] [HideInInspector, ReadOnly] public int sourceID;
+        public readonly int order;
 
-        public ValueModifier(int value, StatModType type, int sourceID = Constants.DEFAULT_ID)
+        public ValueModifier(int value, StatModType type, int sourceID = Constants.DefaultID)
         {
-            Value = value;
-            Type = type;
-            Order = (int)type;
-            SourceID = sourceID;
+            this.value = value;
+            this.type = type;
+            order = (int)type;
+            this.sourceID = sourceID;
         }
         
         public ValueModifier(int value, StatModType type, object source) : this(value, type)
@@ -35,7 +36,7 @@ namespace Terra.Core.ModifiableValue
             // Check is object an IUniquable
             if (source is not IUniqueable unique) return;
 
-             SourceID = unique.Identity;
+             sourceID = unique.Identity;
         }
         
     }

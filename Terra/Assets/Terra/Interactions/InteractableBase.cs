@@ -9,7 +9,7 @@ namespace Terra.Interactions
     /// </summary>
     public abstract class InteractableBase : Entity, IInteractable
     {
-        [SerializeField] private bool _canBeInteractedWith = false;
+        [SerializeField] private bool _canBeInteractedWith;
         public virtual bool CanBeInteractedWith => _canBeInteractedWith;
         public virtual bool CanShowVisualisation { get; set; }
 

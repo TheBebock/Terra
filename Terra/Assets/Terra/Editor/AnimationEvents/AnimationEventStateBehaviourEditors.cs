@@ -15,12 +15,12 @@ using UnityEngine.Playables;
 /// </summary>
 [CustomEditor(typeof(AnimationEventStateBehaviour))]
 public class AnimationEventStateBehaviourEditor : Editor {
-    Motion previewClip;
-    float previewTime;
-    bool isPreviewing;
+    Motion _previewClip;
+    float _previewTime;
+    bool _isPreviewing;
 
-    PlayableGraph playableGraph;
-    AnimationMixerPlayable mixer;
+    PlayableGraph _playableGraph;
+    AnimationMixerPlayable _mixer;
 
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
@@ -30,21 +30,21 @@ public class AnimationEventStateBehaviourEditor : Editor {
         if (Validate(stateBehaviour, out string errorMessage)) {
             GUILayout.Space(10);
 
-            if (isPreviewing) {
+            if (_isPreviewing) {
                 if (GUILayout.Button("Stop Preview")) {
                     EnforceTPose();
-                    isPreviewing = false;
+                    _isPreviewing = false;
                     AnimationMode.StopAnimationMode();
-                    playableGraph.Destroy();
+                    _playableGraph.Destroy();
                 } else {
                     PreviewAnimationClip(stateBehaviour);
                 }
             } else if (GUILayout.Button("Preview")) {
-                isPreviewing = true;
+                _isPreviewing = true;
                 AnimationMode.StartAnimationMode();
             }
 
-            GUILayout.Label($"Previewing at {previewTime:F2}s", EditorStyles.helpBox);
+            GUILayout.Label($"Previewing at {_previewTime:F2}s", EditorStyles.helpBox);
         } else {
             EditorGUILayout.HelpBox(errorMessage, MessageType.Info);
         }
@@ -70,23 +70,23 @@ public class AnimationEventStateBehaviourEditor : Editor {
 
         // If it's a simple AnimationClip, sample it directly
         if (motion is AnimationClip clip) {
-            previewTime = stateBehaviour.triggerTime * clip.length;
-            AnimationMode.SampleAnimationClip(Selection.activeGameObject, clip, previewTime);
+            _previewTime = stateBehaviour.triggerTime * clip.length;
+            AnimationMode.SampleAnimationClip(Selection.activeGameObject, clip, _previewTime);
         }
     }
 
     void SampleBlendTreeAnimation(AnimationEventStateBehaviour stateBehaviour, float normalizedTime) {
         Animator animator = Selection.activeGameObject.GetComponent<Animator>();
 
-        if (playableGraph.IsValid()) {
-            playableGraph.Destroy();
+        if (_playableGraph.IsValid()) {
+            _playableGraph.Destroy();
         }
 
-        playableGraph = PlayableGraph.Create("BlendTreePreviewGraph");
-        mixer = AnimationMixerPlayable.Create(playableGraph, 1, true);
+        _playableGraph = PlayableGraph.Create("BlendTreePreviewGraph");
+        _mixer = AnimationMixerPlayable.Create(_playableGraph, 1, true);
 
-        var output = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
-        output.SetSourcePlayable(mixer);
+        var output = AnimationPlayableOutput.Create(_playableGraph, "Animation", animator);
+        output.SetSourcePlayable(_mixer);
 
         AnimatorController animatorController = GetValidAnimatorController(out string errorMessage);
         if (animatorController == null) return;
@@ -115,7 +115,7 @@ public class AnimationEventStateBehaviourEditor : Editor {
             totalWeight += weight;
 
             AnimationClip clip = GetAnimationClipFromMotion(child.motion);
-            clipPlayables[i] = AnimationClipPlayable.Create(playableGraph, clip);
+            clipPlayables[i] = AnimationClipPlayable.Create(_playableGraph, clip);
         }
 
         // Normalize weights so they sum to 1
@@ -123,13 +123,13 @@ public class AnimationEventStateBehaviourEditor : Editor {
             weights[i] /= totalWeight;
         }
 
-        mixer.SetInputCount(clipPlayables.Length);
+        _mixer.SetInputCount(clipPlayables.Length);
         for (int i = 0; i < clipPlayables.Length; i++) {
-            mixer.ConnectInput(i, clipPlayables[i], 0);
-            mixer.SetInputWeight(i, weights[i]);
+            _mixer.ConnectInput(i, clipPlayables[i], 0);
+            _mixer.SetInputWeight(i, weights[i]);
         }
 
-        AnimationMode.SamplePlayableGraph(playableGraph, 0, normalizedTime);
+        AnimationMode.SamplePlayableGraph(_playableGraph, 0, normalizedTime);
     }
 
     
@@ -209,8 +209,8 @@ public class AnimationEventStateBehaviourEditor : Editor {
             .Select(layer => FindMatchingState(layer.stateMachine, stateBehaviour))
             .FirstOrDefault(state => state.state != null);
 
-        previewClip = GetAnimationClipFromMotion(matchingState.state?.motion);
-        if (previewClip == null) {
+        _previewClip = GetAnimationClipFromMotion(matchingState.state?.motion);
+        if (_previewClip == null) {
             errorMessage = "No valid AnimationClip found for the current state.";
             return false;
         }

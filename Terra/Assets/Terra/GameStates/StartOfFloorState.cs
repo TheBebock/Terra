@@ -23,6 +23,7 @@ namespace Terra.GameStates
             HUDManager.Instance.HideGameplayHUD();
             CameraManager.Instance.ChangeToElevatorCamera();
             AudioManager.Instance.PlayMusic("track_1");
+            EventsAPI.Invoke<StartOfNewFloorEvent>();
             _ = StartAnimation();
         }
 

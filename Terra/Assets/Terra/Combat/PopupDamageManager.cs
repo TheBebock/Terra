@@ -1,41 +1,43 @@
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Terra.Core.Generics;
 using Terra.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Combat
 {
     public class PopupDamageManager : MonoBehaviourSingleton<PopupDamageManager>
     {
-        [SerializeField] private TMP_Text popupTMPPrefab = default;
-        [SerializeField] private PopupDamageCanvas popupCanvasPrefab = default;
-        [SerializeField] private float destroyTime = default;
-        [SerializeField] private Vector3 popupOffset = default;
-        [SerializeField] private Vector3 randomizerdPosition = default;
+        [FormerlySerializedAs("popupTMPPrefab")] [SerializeField] private TMP_Text _popupTMPPrefab;
+        [FormerlySerializedAs("popupCanvasPrefab")] [SerializeField] private PopupDamageCanvas _popupCanvasPrefab;
+        [FormerlySerializedAs("destroyTime")] [SerializeField] private float _destroyTime;
+        [FormerlySerializedAs("popupOffset")] [SerializeField] private Vector3 _popupOffset;
+        [FormerlySerializedAs("randomizerdPosition")] [SerializeField] private Vector3 _randomizerdPosition;
 
-        [Foldout("Debug")][SerializeField, ReadOnly] private List<PopupDamageCanvas> pooledPopups = new();
-        [SerializeField] private int amountToPool = default;
+        [FormerlySerializedAs("pooledPopups")] [Foldout("Debug")][SerializeField, ReadOnly] private List<PopupDamageCanvas> _pooledPopups = new();
+        [FormerlySerializedAs("amountToPool")] [SerializeField] private int _amountToPool;
 
         private void Start()
         {
             PopupDamageCanvas popupCanvas;
 
-            for(int i = 0; i < amountToPool; i++)
+            for(int i = 0; i < _amountToPool; i++)
             {
-                popupCanvas = Instantiate(popupCanvasPrefab, gameObject.transform, true);
+                popupCanvas = Instantiate(_popupCanvasPrefab, gameObject.transform, true);
                 popupCanvas.gameObject.SetActive(false);
-                pooledPopups.Add(popupCanvas);
+                _pooledPopups.Add(popupCanvas);
             }
         }
 
         private PopupDamageCanvas GetPooledPopup()
         {
-            for(int i = 0; i < amountToPool; i++)
+            for(int i = 0; i < _amountToPool; i++)
             {
-                if (!pooledPopups[i].gameObject.activeInHierarchy) return pooledPopups[i];
+                if (!_pooledPopups[i].gameObject.activeInHierarchy) return _pooledPopups[i];
             }
             return null;
         }
@@ -49,7 +51,7 @@ namespace Terra.Combat
                 popupCanvas.target = position;
                 SetupAdditionalPositionPopup(popupCanvas);
 
-                popup.text = System.Math.Round(value,2).ToString();
+                popup.text = System.Math.Round(value,2).ToString(CultureInfo.InvariantCulture);
                 popupCanvas.gameObject.SetActive(true);
 
                 StartCoroutine(ReturnToPoolCoroutine(popupCanvas));
@@ -60,11 +62,11 @@ namespace Terra.Combat
         {
             Vector3 addictionalPosition = Vector3.zero;
 
-            addictionalPosition += popupOffset;
+            addictionalPosition += _popupOffset;
             addictionalPosition += new Vector3(
-                Random.Range(-randomizerdPosition.x, randomizerdPosition.x), 
-                Random.Range(-randomizerdPosition.y, randomizerdPosition.y), 
-                Random.Range(-randomizerdPosition.z, randomizerdPosition.z)
+                Random.Range(-_randomizerdPosition.x, _randomizerdPosition.x), 
+                Random.Range(-_randomizerdPosition.y, _randomizerdPosition.y), 
+                Random.Range(-_randomizerdPosition.z, _randomizerdPosition.z)
                 );
 
             popup.offset = addictionalPosition;
@@ -73,14 +75,14 @@ namespace Terra.Combat
 
         private IEnumerator ReturnToPoolCoroutine(PopupDamageCanvas popup)
         {
-            yield return new WaitForSeconds(destroyTime);
+            yield return new WaitForSeconds(_destroyTime);
             ReturnToPool(popup);
             
         }
 
         public void ReturnToPool(PopupDamageCanvas popup)
         {
-            popup.target = default;
+            popup.target = null;
             popup.gameObject.SetActive(false);
         }
     }

@@ -12,21 +12,21 @@ namespace Terra.EffectsSystem.Statuses
     public abstract class TimedStatus<TStatusData> : StatusEffect<TStatusData>
         where TStatusData : TimedStatusData
     {
-        protected override bool CanBeRemoved => !durationTimer.IsRunning && !IsInfinite;
+        protected override bool CanBeRemoved => !_durationTimer.IsRunning && !IsInfinite;
 
-        private StopwatchTimer durationTimer;
-        private CountdownTimer tickTimer;
+        private StopwatchTimer _durationTimer;
+        private CountdownTimer _tickTimer;
 
-        private bool IsInfinite => Mathf.Approximately(durationTimer.GetTime(), Constants.STATUS_INFINITE_DURATION);
+        private bool IsInfinite => Mathf.Approximately(_durationTimer.GetTime(), Constants.StatusInfiniteDuration);
 
-        public float CurrentTime => durationTimer.GetTime();
-        public float Progress => durationTimer.Progress;
+        public float CurrentTime => _durationTimer.GetTime();
+        public float Progress => _durationTimer.Progress;
 
         private float GetTimePerTick()
         {
             float duration = Data.statusDuration;
             // Status is infinite
-            if (Mathf.Approximately(duration, Constants.STATUS_INFINITE_DURATION))
+            if (Mathf.Approximately(duration, Constants.StatusInfiniteDuration))
             {
                 return (float)100 / Data.amountOfTicksPerSecond;
             }
@@ -37,52 +37,52 @@ namespace Terra.EffectsSystem.Statuses
         
         protected override void OnApply()
         {
-            durationTimer = new StopwatchTimer();
-            tickTimer = new CountdownTimer(GetTimePerTick());
+            _durationTimer = new StopwatchTimer();
+            _tickTimer = new CountdownTimer(GetTimePerTick());
             
-            tickTimer.Start();
-            tickTimer.OnTimerStop += OnStatusTick;
+            _tickTimer.Start();
+            _tickTimer.OnTimerStop += OnStatusTick;
             
             // If status is infinite, do not start the timer and force set timer time
-            if (Mathf.Approximately(Data.statusDuration, Constants.STATUS_INFINITE_DURATION))
+            if (Mathf.Approximately(Data.statusDuration, Constants.StatusInfiniteDuration))
             {
-                durationTimer.ForceSetTime(Constants.STATUS_INFINITE_DURATION);
+                _durationTimer.ForceSetTime(Constants.StatusInfiniteDuration);
                 return;
             }
             
-            durationTimer.Start();
+            _durationTimer.Start();
         }
 
         protected override void OnUpdate()
         {
             if(IsInfinite) return;
             
-            tickTimer.Tick(Time.deltaTime);
-            durationTimer.Tick(Time.deltaTime);
+            _tickTimer.Tick(Time.deltaTime);
+            _durationTimer.Tick(Time.deltaTime);
 
             // Check for end of status duration
-            if (durationTimer.GetTime() >= Data.statusDuration)
+            if (_durationTimer.GetTime() >= Data.statusDuration)
             {
-                durationTimer.Stop();
+                _durationTimer.Stop();
                 return;
             }
 
-            if (!tickTimer.IsFinished) return;
+            if (!_tickTimer.IsFinished) return;
 
             // Restart timer for another status tick
-            tickTimer.Restart();
+            _tickTimer.Restart();
         }
 
         protected override void OnReset()
         {
-            durationTimer.Reset();
+            _durationTimer.Reset();
         }
 
         protected abstract void OnStatusTick();
 
         protected override void OnRemove()
         {
-            tickTimer.OnTimerStop -= OnStatusTick;
+            _tickTimer.OnTimerStop -= OnStatusTick;
         }
     }
 }

@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Player;
-using Terra.StatisticsSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -77,6 +76,7 @@ namespace Terra.LootSystem.AirDrop
 
                 _ = HandleDrop(dropPos);
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private Vector3 GetRandomPosition()
@@ -116,7 +116,7 @@ namespace Terra.LootSystem.AirDrop
             bool landed = flare.HasLanded;
             if (!landed)
             {
-                flare.OnLanded += () =>
+                flare.onLanded += () =>
                 {
                     Debug.Log("Flare landed event triggered.");
                     landed = true;

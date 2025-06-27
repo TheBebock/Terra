@@ -1,34 +1,40 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
+using Terra.Interfaces;
+using Terra.Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
-    public class HUDManager : MonoBehaviourSingleton<HUDManager>
+    public class HUDManager : MonoBehaviourSingleton<HUDManager>, IAttachListeners
     {
         [SerializeField] private CanvasGroup _gameplayHUDCanvasGroup;
-        [SerializeField] private HPSlider _hpSlider;
+        [SerializeField] private HpSlider _hpSlider;
         [SerializeField] private ElevatorDoors _elevatorDoors;
         [SerializeField] private Image _darkScreen;
-    
-        public HPSlider HPSlider => _hpSlider;
+        
+        [BoxGroup("FloorEndText")][SerializeField] private TMP_Text _floorEndText;
+        [BoxGroup("FloorEndText")][SerializeField] private float _floorEndFadeDuration = 1f;
+        
+        [BoxGroup("FloorCounter")][SerializeField] private TMP_Text _floorCounter;
+        [BoxGroup("FloorCounter")][SerializeField] private string _floorCounterText = "Floor";
+
+        public HpSlider HpSlider => _hpSlider;
         public ElevatorDoors ElevatorDoors => _elevatorDoors;
         public Image DarkScreen => _darkScreen;
         
         private Sequence _darkSequence;
-
-        private void Update()
+        
+        public void AttachListeners()
         {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                _ = ElevatorDoors.OpenDoors();
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                _ = ElevatorDoors.CloseDoors();
-            }
+            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfFloor);
+            EventsAPI.Register<WaveEndedEvent>(OnWaveEnded);
         }
 
         public void ForceSetDarkScreenAlpha(float alpha)
@@ -40,12 +46,10 @@ namespace Terra.UI.HUD
             _darkSequence?.Kill();
             _darkSequence = DOTween.Sequence();
             
-            _darkSequence.Append(
+           await _darkSequence.Append(
                 _darkScreen.DOFade(1, duration)
                 .SetEase(Ease.InCubic)
-                );
-            
-            await _darkSequence.AwaitForComplete(cancellationToken: CancellationToken);
+                ).WithCancellation(CancellationToken);
         }
         
         public async UniTask FadeOutDarkScreen(float duration)
@@ -53,14 +57,25 @@ namespace Terra.UI.HUD
             _darkSequence?.Kill();
             _darkSequence = DOTween.Sequence();
             
-            _darkSequence.Append(
+            await _darkSequence.Append(
                 _darkScreen.DOFade(0, duration)
                     .SetEase(Ease.InCubic)
-            );
-
-            await _darkSequence.AwaitForComplete(cancellationToken: CancellationToken);
+            ).WithCancellation(CancellationToken);
         }
 
+        private void OnStartOfFloor(ref StartOfNewFloorEvent dummy)
+        {
+            int floor = WaveManager.Instance.CurrentLevel + 1;
+            _floorCounter?.SetText($"{_floorCounterText} {floor}");
+        }
+        private void OnWaveEnded(ref WaveEndedEvent dummy)
+        {
+            _floorEndText?.DOFade(1, _floorEndFadeDuration/2)
+                .SetEase(Ease.OutCubic)
+                .SetLoops(2, LoopType.Yoyo)
+                .WithCancellation(CancellationToken);
+        }
+        
         public void ShowGameplayHUD()
         {
             _gameplayHUDCanvasGroup.alpha = 1;
@@ -73,6 +88,12 @@ namespace Terra.UI.HUD
             _gameplayHUDCanvasGroup.alpha = 0;
             _gameplayHUDCanvasGroup.interactable = false;
             _gameplayHUDCanvasGroup.blocksRaycasts = false;
+        }
+        
+        public void DetachListeners()
+        {
+            EventsAPI.Unregister<StartOfNewFloorEvent>(OnStartOfFloor);
+            EventsAPI.Unregister<WaveEndedEvent>(OnWaveEnded);
         }
     }
 }

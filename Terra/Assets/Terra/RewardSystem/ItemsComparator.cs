@@ -68,7 +68,7 @@ namespace Terra.RewardSystem
         {
             var modifiersValue = CalculateModifierValue(firstModifiersList);
 
-            return CompareValue(0, modifiersValue);
+            return CompareValue(value, modifiersValue);
         }
 
         private Comparison CompareModifiers(List<ValueModifier> firstModifiersList, List<ValueModifier> secornModifiersList)
@@ -87,14 +87,14 @@ namespace Terra.RewardSystem
             for (int i = 0; i < modifiers.Count; i++)
             {
                 ValueModifier mod = modifiers[i];
-                switch (mod.Type)
+                switch (mod.type)
                 {
                     case StatModType.Flat:
-                        finalValue += mod.Value;
+                        finalValue += mod.value;
                         break;
 
                     case StatModType.PercentMult:
-                        sumPercentAdd += mod.Value;
+                        sumPercentAdd += mod.value;
                         break;
                 }
             }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Terra.AnimationEvent
 {
@@ -7,6 +8,6 @@ namespace Terra.AnimationEvent
     public class AnimationEvent
     {
         public string eventName;
-        public UnityEvent OnAnimationEvent;
+        [FormerlySerializedAs("OnAnimationEvent")] public UnityEvent onAnimationEvent;
     }
 }

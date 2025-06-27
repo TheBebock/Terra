@@ -1,28 +1,27 @@
 using Terra.Extensions;
 using Terra.Itemization;
 using Terra.Itemization.Abstracts.Definitions;
-using Terra.Itemization.Items.Definitions;
 using UnityEditor;
 using UnityEngine;
 
-namespace Terra.Editor
+namespace Terra.Editor.Items
 {
 
     [CustomEditor(typeof(ItemsDatabase))]
     public class ItemsDatabaseEditor : UnityEditor.Editor
     {
-        private ItemsDatabase itemsDatabase;
+        private ItemsDatabase _itemsDatabase;
 
         // This variable will hold the input value for the new item name
-        private string itemName = "";
+        private string _itemName = "";
 
-        private ItemType selectedItemType = ItemType.None;
+        private ItemType _selectedItemType = ItemType.None;
 
         // OnEnable is called when the editor is loaded
         private void OnEnable()
         {
             // Get the target object, which is an instance of ItemsDatabase
-            itemsDatabase = (ItemsDatabase)target;
+            _itemsDatabase = (ItemsDatabase)target;
         }
 
         // This is called when the inspector is drawn
@@ -32,24 +31,24 @@ namespace Terra.Editor
 
             // Input field for the item name
             GUILayout.Label("Enter Item Name");
-            itemName = EditorGUILayout.TextField(itemName, GUILayout.Width(300));
+            _itemName = EditorGUILayout.TextField(_itemName, GUILayout.Width(300));
 
-            itemName = itemName.RemoveWhiteSpace();
+            _itemName = _itemName.RemoveWhiteSpace();
 
-            selectedItemType = (ItemType)EditorGUILayout.EnumPopup(selectedItemType, GUILayout.Width(150));
+            _selectedItemType = (ItemType)EditorGUILayout.EnumPopup(_selectedItemType, GUILayout.Width(150));
             GUILayout.BeginHorizontal();
 
             // Add item button
             if (GUILayout.Button("Add Item", GUILayout.Width(100), GUILayout.Height(50)))
             {
 
-                if (!string.IsNullOrEmpty(itemName))
+                if (!string.IsNullOrEmpty(_itemName))
                 {
-                    itemsDatabase.AddItem(itemName, selectedItemType);
-                    itemName = "";
+                    _itemsDatabase.AddItem(_itemName, _selectedItemType);
+                    _itemName = "";
 
                     // Mark the object as dirty to ensure the changes are saved and visible
-                    EditorUtility.SetDirty(itemsDatabase);
+                    EditorUtility.SetDirty(_itemsDatabase);
                 }
                 else
                 {
@@ -63,13 +62,13 @@ namespace Terra.Editor
             // Remove item button
             if (GUILayout.Button("Remove Item", GUILayout.Width(100), GUILayout.Height(50)))
             {
-                if (!string.IsNullOrEmpty(itemName))
+                if (!string.IsNullOrEmpty(_itemName))
                 {
-                    itemsDatabase.RemoveItem(itemName);
-                    itemName = "";
+                    _itemsDatabase.RemoveItem(_itemName);
+                    _itemName = "";
 
                     // Mark the object as dirty to ensure the changes are saved and visible
-                    EditorUtility.SetDirty(itemsDatabase);
+                    EditorUtility.SetDirty(_itemsDatabase);
                 }
                 else
                 {

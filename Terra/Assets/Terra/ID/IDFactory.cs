@@ -7,7 +7,7 @@ namespace Terra.ID
 {
     public static class IDFactory
     {
-        private static readonly HashSet<int> usedIds = new();
+        private static readonly HashSet<int> UsedIds = new();
 
 #if UNITY_EDITOR
         static IDFactory()
@@ -24,7 +24,7 @@ namespace Terra.ID
                 Debug.Log($"Loaded {database.ItemDefinitions.Count} items");
                 for (int i = 0; i < database.ItemDefinitions.Count; i++)
                 {
-                    usedIds.Add(database.ItemDefinitions[i].Identity);
+                    UsedIds.Add(database.ItemDefinitions[i].Identity);
                 }
             }
             else
@@ -33,9 +33,9 @@ namespace Terra.ID
             }
         }
 
-        public static void ClearUsedIDS()
+        public static void ClearUsedIds()
         {
-            usedIds.Clear();
+            UsedIds.Clear();
         }
 
 #endif
@@ -46,7 +46,7 @@ namespace Terra.ID
         /// <param name="uniqueIdHolder">Object with unique ID</param>
         public static void RegisterID(IUniqueable uniqueIdHolder)
         {
-            if (uniqueIdHolder.Identity == Utils.Constants.DEFAULT_ID || uniqueIdHolder.Identity == 0)
+            if (uniqueIdHolder.Identity == Utils.Constants.DefaultID || uniqueIdHolder.Identity == 0)
             {
                 int newID = GetNewUniqueId();
                 uniqueIdHolder.SetID(newID);
@@ -59,7 +59,7 @@ namespace Terra.ID
                 return;
             }
                  
-            usedIds.Add(uniqueIdHolder.Identity);
+            UsedIds.Add(uniqueIdHolder.Identity);
 
             Debug.Log($"Registering ID {uniqueIdHolder.Identity}");
 
@@ -71,17 +71,17 @@ namespace Terra.ID
         /// <param name="uniqueIdHolder">Object with unique ID</param>
         public static void ReturnID(IUniqueable uniqueIdHolder)
         {
-            if (uniqueIdHolder.Identity == Utils.Constants.DEFAULT_ID)
+            if (uniqueIdHolder.Identity == Utils.Constants.DefaultID)
             {
-                Debug.LogWarning($"Trying to remove ID {Utils.Constants.DEFAULT_ID}, which is a default id");
+                Debug.LogWarning($"Trying to remove ID {Utils.Constants.DefaultID}, which is a default id");
                 return;
             }
             
-            if (usedIds.Contains(uniqueIdHolder.Identity))
+            if (UsedIds.Contains(uniqueIdHolder.Identity))
             {
-                usedIds.Remove(uniqueIdHolder.Identity);
+                UsedIds.Remove(uniqueIdHolder.Identity);
                 Debug.LogWarning($"Returning ID {uniqueIdHolder.Identity}");
-                uniqueIdHolder.SetID(Utils.Constants.DEFAULT_ID);
+                uniqueIdHolder.SetID(Utils.Constants.DefaultID);
                 return;
             }
 
@@ -96,13 +96,13 @@ namespace Terra.ID
                 uniqueID = Guid.NewGuid().GetHashCode();
             } while (CheckIsIDTaken(uniqueID));
 
-            usedIds.Add(uniqueID);
+            UsedIds.Add(uniqueID);
             return uniqueID;
         }
         
         private static bool CheckIsIDTaken(int id)
         {
-            if (usedIds.Contains(id))
+            if (UsedIds.Contains(id))
             {
                 return true;
             }

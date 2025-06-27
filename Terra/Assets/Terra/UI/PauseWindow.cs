@@ -1,6 +1,7 @@
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI
@@ -9,18 +10,18 @@ namespace Terra.UI
     {
         public override bool AllowMultiple { get; } = false;
         
-        [SerializeField] Button resumeButton;
-        [SerializeField] Button saveButton;
-        [SerializeField] Button loadButton;
-        [SerializeField] Button optionsButton;
-        [SerializeField] Button exitToMenuButton;
+        [FormerlySerializedAs("resumeButton")] [SerializeField] Button _resumeButton;
+        [FormerlySerializedAs("saveButton")] [SerializeField] Button _saveButton;
+        [FormerlySerializedAs("loadButton")] [SerializeField] Button _loadButton;
+        [FormerlySerializedAs("optionsButton")] [SerializeField] Button _optionsButton;
+        [FormerlySerializedAs("exitToMenuButton")] [SerializeField] Button _exitToMenuButton;
 
         public override void SetUp()
         {
             base.SetUp();
             
-            resumeButton?.onClick.AddListener(Resume);
-            exitToMenuButton?.onClick.AddListener(ExitGame);
+            _resumeButton?.onClick.AddListener(Resume);
+            _exitToMenuButton?.onClick.AddListener(ExitGame);
             
             //TODO: add other functionalities
         }

@@ -6,9 +6,9 @@ namespace Terra.LootSystem.AirDrop
 {
     public class FlareLandingNotifier : MonoBehaviour
     {
-        public Action OnLanded;
+        public Action onLanded;
 
-        private bool _hasLanded = false;
+        private bool _hasLanded;
         public bool HasLanded => _hasLanded;
         
         [SerializeField, ReadOnly] Rigidbody _rigidbody;
@@ -22,7 +22,7 @@ namespace Terra.LootSystem.AirDrop
                 _rigidbody.isKinematic = true;
                 _rigidbody.useGravity = false;
                 _rigidbody.constraints = RigidbodyConstraints.FreezePosition;
-                OnLanded?.Invoke();
+                onLanded?.Invoke();
             }
         }
 

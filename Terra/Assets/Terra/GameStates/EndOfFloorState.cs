@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Managers;
 using Terra.Player;
@@ -31,8 +33,9 @@ namespace Terra.GameStates
             CameraManager.Instance.ChangeToElevatorCamera();
             await CameraManager.Instance.StartElevatorAnimation();
             await HUDManager.Instance.FadeInDarkScreen(1.5f);
+            EventsAPI.Invoke<EndOfElevatorAnimationEvent>();
             GameManager.Instance.SwitchToGameState<UpgradeGameState>();
-
+            
         }
 
         public override void OnExit()

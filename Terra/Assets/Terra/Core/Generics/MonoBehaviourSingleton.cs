@@ -14,7 +14,7 @@ namespace Terra.Core.Generics
     {
         
         [Foldout("Debug"), ReadOnly] 
-        [SerializeField] private int _id = Utils.Constants.DEFAULT_ID;
+        [SerializeField] private int _id = Utils.Constants.DefaultID;
         public int Identity => _id;
         
         private static T _instance;

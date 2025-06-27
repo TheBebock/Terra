@@ -8,7 +8,7 @@ namespace Terra.EffectsSystem.Abstract.Definitions
     [Serializable]
     public class EffectData : ScriptableObject
     {
-        [ReadOnly] public int entityID = Constants.DEFAULT_ID;
+        [ReadOnly] public int entityID = Constants.DefaultID;
 
         public Sprite effectIcon;
         public string effectName;

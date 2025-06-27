@@ -3,6 +3,7 @@ using Terra.GameStates;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI
@@ -11,34 +12,34 @@ namespace Terra.UI
     {
         public override bool AllowMultiple { get; } = false;
 
-        [SerializeField] List<RewardToggle> rewardToggles = new();
-        [SerializeField] Button acceptButton;
+        [FormerlySerializedAs("rewardToggles")] [SerializeField] List<RewardToggle> _rewardToggles = new();
+        [FormerlySerializedAs("acceptButton")] [SerializeField] Button _acceptButton;
 
-        [SerializeField] RewardToggle currentlyActiveToogle;
+        [FormerlySerializedAs("currentlyActiveToogle")] [SerializeField] RewardToggle _currentlyActiveToogle;
 
         public override void SetUp()
         {
             base.SetUp();
 
-            for (int i = 0; i < rewardToggles.Count; i++)
+            for (int i = 0; i < _rewardToggles.Count; i++)
             {
-                rewardToggles[i].Toggle.onValueChanged.AddListener(NotifyRewardSelected);
+                _rewardToggles[i].Toggle.onValueChanged.AddListener(NotifyRewardSelected);
             }
             LoadRewardsData();
 
-            acceptButton.onClick.AddListener(ApplyReward);
+            _acceptButton.onClick.AddListener(ApplyReward);
         }
 
         private void NotifyRewardSelected(bool value)
         {
             if (value)
             {
-                acceptButton.interactable = true;
+                _acceptButton.interactable = true;
             }
             else
             {
                 if(IsAnyToggleOn()) return;
-                acceptButton.interactable = false;
+                _acceptButton.interactable = false;
             }
         }
         
@@ -47,7 +48,7 @@ namespace Terra.UI
             if (!IsAnyToggleOn()) return;
             
             // TODO: Apply reward for player
-            currentlyActiveToogle.ApplyReward();
+            _currentlyActiveToogle.ApplyReward();
 
             GameManager.Instance.SwitchToGameState<StartOfFloorState>();
             Close();
@@ -55,12 +56,12 @@ namespace Terra.UI
 
         private void LoadRewardsData()
         {
-            rewardToggles[0].RewardType = Enums.RewardType.Stats;
-            rewardToggles[1].RewardType = Enums.RewardType.Stats;
-            rewardToggles[2].RewardType = (Enums.RewardType)Random.Range(1, 5);
-            rewardToggles[3].RewardType = (Enums.RewardType)Random.Range(1, 5);
+            _rewardToggles[0].RewardType = Enums.RewardType.Stats;
+            _rewardToggles[1].RewardType = Enums.RewardType.Stats;
+            _rewardToggles[2].RewardType = (Enums.RewardType)Random.Range(1, 5);
+            _rewardToggles[3].RewardType = (Enums.RewardType)Random.Range(1, 5);
 
-            foreach (var toggle in rewardToggles)
+            foreach (var toggle in _rewardToggles)
             {
                 toggle?.SetUp();
             }
@@ -68,11 +69,11 @@ namespace Terra.UI
         
         private bool IsAnyToggleOn()
         {
-            foreach (var toggle in rewardToggles)
+            foreach (var toggle in _rewardToggles)
             {
                 if (toggle.Toggle.isOn)
                 {
-                    currentlyActiveToogle = toggle;
+                    _currentlyActiveToogle = toggle;
                     return true;
                 }
             }

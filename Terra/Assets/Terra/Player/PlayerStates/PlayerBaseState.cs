@@ -8,7 +8,7 @@ namespace Terra.Player.PlayerStates
         protected readonly PlayerManager player;
         protected readonly Animator animator;
         
-        protected float CrossFadeDuration = 0.1f;
+        protected float crossFadeDuration = 0.1f;
 
         protected static readonly int IdleUpHash = Animator.StringToHash("IdleUp");
         protected static readonly int IdleDownHash = Animator.StringToHash("IdleDown");
@@ -37,7 +37,7 @@ namespace Terra.Player.PlayerStates
         protected static readonly int RangedAttackRightHash = Animator.StringToHash("RangedAttackRight");
 
 
-        protected PlayerBaseState(PlayerManager player, Animator animator) : base()
+        protected PlayerBaseState(PlayerManager player, Animator animator)
         {
             this.player = player;
             this.animator = animator;

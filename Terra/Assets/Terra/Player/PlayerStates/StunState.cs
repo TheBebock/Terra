@@ -10,7 +10,7 @@ namespace Terra.Player.PlayerStates
 
         public override void OnEnter()
         {
-            animator.CrossFade(StunHash, CrossFadeDuration);
+            animator.CrossFade(StunHash, crossFadeDuration);
             //player.PlayerMovement.CanPlayerMove = false;
         }
 

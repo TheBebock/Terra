@@ -30,10 +30,10 @@ namespace Terra.EffectsSystem.Abstract
         {
             Action trigger = GetTriggerAction();
             if (trigger != null)
-                trigger += HandleTriggeredUsage;
+            {
+                trigger += HandleTriggeredUsage; 
+            }
         }
-
-
 
         private void HandleTriggeredUsage()
         {

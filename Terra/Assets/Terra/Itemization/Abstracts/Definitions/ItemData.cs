@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using Terra.Core.ModifiableValue;
 using Terra.ID;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Itemization.Abstracts.Definitions
 {
@@ -20,7 +21,7 @@ namespace Terra.Itemization.Abstracts.Definitions
     [Serializable]
     public abstract class ItemData : ScriptableObject, IUniqueable 
     {
-        [ReadOnly, SerializeField] private int id = -1;
+        [FormerlySerializedAs("id")] [ReadOnly, SerializeField] private int _id = -1;
         [ReadOnly] public string itemName;
         public string itemDescription;
         public Sprite itemSprite;
@@ -31,7 +32,7 @@ namespace Terra.Itemization.Abstracts.Definitions
         public List<ValueModifier> speedModifiers;
         public List<ValueModifier> luckModifiers;
         
-        public int Identity => id;
+        public int Identity => _id;
 
 
         public void Initialize(string itemName)
@@ -52,7 +53,7 @@ namespace Terra.Itemization.Abstracts.Definitions
 
         public void SetID(int newID)
         {
-            id = newID;
+            _id = newID;
         }
 
         private void OnValidate()
@@ -67,7 +68,7 @@ namespace Terra.Itemization.Abstracts.Definitions
             //int test = IDFactory.GetNewUniqueId();
             
             // Ensure the ID is set and persistent
-            if(Identity != Utils.Constants.DEFAULT_ID) return;
+            if(Identity != Utils.Constants.DefaultID) return;
             RegisterID();
             
         }
@@ -76,9 +77,9 @@ namespace Terra.Itemization.Abstracts.Definitions
         {
             for (int i = 0; i < modifiers.Count; i++)
             {
-                if(modifiers[i].SourceID == Utils.Constants.DEFAULT_ID) continue;
+                if(modifiers[i].sourceID == Utils.Constants.DefaultID) continue;
 
-                modifiers[i].SourceID = Identity;
+                modifiers[i].sourceID = Identity;
             }
         }
     }

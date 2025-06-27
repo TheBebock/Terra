@@ -4,6 +4,7 @@ using Terra.Core.Generics;
 using Terra.Interfaces;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {
@@ -17,23 +18,35 @@ namespace Terra.Managers
             public AudioClip clip;
         }
 
-        [Foldout("Config")] [SerializeField] private float MinDB;
-        [Foldout("Config")] [SerializeField] private float MaxDB;
+        [FormerlySerializedAs("MinDB")] [Foldout("Config")] [SerializeField] private float _minDB;
+        [FormerlySerializedAs("MaxDB")] [Foldout("Config")] [SerializeField] private float _maxDB;
 
-        [Foldout("References")] [SerializeField]
-        private Sound[] musicSounds, sfxSounds, ambientSounds;
+        [FormerlySerializedAs("musicSounds")] [Foldout("References")] [SerializeField]
+        private Sound[] _musicSounds;
 
-        [Foldout("References")] [SerializeField]
-        private AudioSource musicSource, sfxSource, ambientSource;
+        [FormerlySerializedAs("sfxSounds")] [Foldout("References")] [SerializeField]
+        private Sound[] _sfxSounds;
 
-        [Foldout("References")] [SerializeField]
-        private AudioMixer AudioMixer;
+        [FormerlySerializedAs("ambientSounds")] [Foldout("References")] [SerializeField]
+        private Sound[] _ambientSounds;
 
-        [Foldout("References")] [SerializeField]
-        private AudioLowPassFilter MusicAudioLowPassFilter;
+        [FormerlySerializedAs("musicSource")] [Foldout("References")] [SerializeField]
+        private AudioSource _musicSource;
 
-        [Foldout("References")] [SerializeField]
-        private AudioLowPassFilter AmbientAudioLowPassFilter;
+        [FormerlySerializedAs("sfxSource")] [Foldout("References")] [SerializeField]
+        private AudioSource _sfxSource;
+
+        [FormerlySerializedAs("ambientSource")] [Foldout("References")] [SerializeField]
+        private AudioSource _ambientSource;
+
+        [FormerlySerializedAs("AudioMixer")] [Foldout("References")] [SerializeField]
+        private AudioMixer _audioMixer;
+
+        [FormerlySerializedAs("MusicAudioLowPassFilter")] [Foldout("References")] [SerializeField]
+        private AudioLowPassFilter _musicAudioLowPassFilter;
+
+        [FormerlySerializedAs("AmbientAudioLowPassFilter")] [Foldout("References")] [SerializeField]
+        private AudioLowPassFilter _ambientAudioLowPassFilter;
         
         
         public void SetUp()
@@ -44,7 +57,7 @@ namespace Terra.Managers
         
         public void PlayMusic(string clip)
         {
-            Sound s = Array.Find(musicSounds, x => x.name == clip);
+            Sound s = Array.Find(_musicSounds, x => x.name == clip);
 
             if (s.name == default)
             {
@@ -52,19 +65,19 @@ namespace Terra.Managers
             }
             else
             {
-                musicSource.clip = s.clip;
-                musicSource.Play();
+                _musicSource.clip = s.clip;
+                _musicSource.Play();
             }
         }
 
         public void StopMusic()
         {
-            musicSource.Stop();
+            _musicSource.Stop();
         }
 
         public void PlayAmbient(string clip)
         {
-            Sound s = Array.Find(ambientSounds, x => x.name == clip);
+            Sound s = Array.Find(_ambientSounds, x => x.name == clip);
 
             if (s.name == default)
             {
@@ -72,19 +85,19 @@ namespace Terra.Managers
             }
             else
             {
-                ambientSource.clip = s.clip;
-                ambientSource.Play();
+                _ambientSource.clip = s.clip;
+                _ambientSource.Play();
             }
         }
 
         public void StopAmbient(string clip)
         {
-            ambientSource.Stop();
+            _ambientSource.Stop();
         }
 
         public void PlaySFX(string clip)
         {
-            Sound s = Array.Find(sfxSounds, x => x.name == clip);
+            Sound s = Array.Find(_sfxSounds, x => x.name == clip);
 
             if (s.name == default)
             {
@@ -98,7 +111,7 @@ namespace Terra.Managers
 
         public void PlaySFX(AudioClip clip)
         {
-            sfxSource.PlayOneShot(clip);
+            _sfxSource.PlayOneShot(clip);
         }
 
         public void PlaySFXAtSource(AudioClip clip, AudioSource source, float pitch = 1f)
@@ -110,7 +123,7 @@ namespace Terra.Managers
             }
             
             source.clip = clip;
-            source.volume = sfxSource.volume;
+            source.volume = _sfxSource.volume;
             source.pitch = pitch;
             source.PlayOneShot(clip);
         }
@@ -124,57 +137,57 @@ namespace Terra.Managers
             if (source.clip != clip)
             {
                 source.clip = clip;
-                source.volume = sfxSource.volume;
+                source.volume = _sfxSource.volume;
                 source.PlayOneShot(clip);
             }
             else if (source.clip == clip && source.isPlaying == false)
             {
-                source.volume = sfxSource.volume;
+                source.volume = _sfxSource.volume;
                 source.Play();
             }
         }
 
         public bool IsMusicPlayingClip(string clip)
         {
-            Sound s = Array.Find(musicSounds, x => x.name == clip);
+            Sound s = Array.Find(_musicSounds, x => x.name == clip);
             if (s.name == default)
             {
                 Debug.Log("Sound Not Found");
                 return false;
             }
 
-            return musicSource.isPlaying && musicSource.clip == s.clip;
+            return _musicSource.isPlaying && _musicSource.clip == s.clip;
         }
 
         private void LoadVolume()
         {
-            LoadVolumeSetting("MasterVolume", MinDB, MaxDB);
-            LoadVolumeSetting("SFXVolume", MinDB, MaxDB);
-            LoadVolumeSetting("MusicVolume", MinDB, MaxDB);
-            LoadVolumeSetting("AmbientVolume", MinDB, MaxDB);
+            LoadVolumeSetting("MasterVolume", _minDB, _maxDB);
+            LoadVolumeSetting("SFXVolume", _minDB, _maxDB);
+            LoadVolumeSetting("MusicVolume", _minDB, _maxDB);
+            LoadVolumeSetting("AmbientVolume", _minDB, _maxDB);
         }
 
         private void LoadVolumeSetting(string parameterName, float minDB, float maxDB)
         {
             float normalizedValue = PlayerPrefs.GetFloat(parameterName, -1f);
             float volume = normalizedValue <= 0 ? -80f : Mathf.Lerp(minDB, maxDB, normalizedValue / 10f);
-            AudioMixer.SetFloat(parameterName, volume);
+            _audioMixer.SetFloat(parameterName, volume);
         }
         
         public void EnableMusicLowPassFilter(bool enable)
         {
-            MusicAudioLowPassFilter.enabled = enable;
-            AmbientAudioLowPassFilter.enabled = enable;
+            _musicAudioLowPassFilter.enabled = enable;
+            _ambientAudioLowPassFilter.enabled = enable;
         }
 
         public void SetMusicPitch(float pitch)
         {
-            musicSource.pitch = pitch;
+            _musicSource.pitch = pitch;
         }
         private void SetVolume(string parameterName, float value)
         {
-            float volume = value == 0 ? -80 : Mathf.Lerp(MinDB, MaxDB, value / 10f);
-            AudioMixer.SetFloat(parameterName, volume);
+            float volume = value == 0 ? -80 : Mathf.Lerp(_minDB, _maxDB, value / 10f);
+            _audioMixer.SetFloat(parameterName, volume);
             PlayerPrefs.SetFloat(parameterName, value);
             PlayerPrefs.Save();
         }

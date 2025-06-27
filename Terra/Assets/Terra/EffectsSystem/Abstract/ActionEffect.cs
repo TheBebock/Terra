@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract.Definitions;
@@ -13,6 +14,7 @@ namespace Terra.EffectsSystem.Abstract
     //NOTE: Class should be abstract, but due to serialization it cannot
     public class ActionEffectBase : EffectBase
     {
+        [UsedImplicitly]
         [SerializeField, ReadOnly] private string _effectType;
         public ActionEffectBase()
         {

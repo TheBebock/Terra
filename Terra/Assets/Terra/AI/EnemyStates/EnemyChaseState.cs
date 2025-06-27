@@ -7,7 +7,7 @@ namespace Terra.AI.EnemyStates {
     public class EnemyChaseState : EnemyBaseState {
 
         readonly Transform _player;
-        
+        private int _animationName;
         public EnemyChaseState(EnemyBase enemy, NavMeshAgent agent, Animator animator, Transform player) : base(enemy, agent, animator)
         {
             _player = player;
@@ -17,8 +17,8 @@ namespace Terra.AI.EnemyStates {
         {
             Debug.Log("Chase");
 
-            int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.WalkLeft : AnimationHashes.WalkRight;
-            animator.CrossFade(animationName, CrossFadeDuration);
+            _animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.WalkLeft : AnimationHashes.WalkRight;
+            animator.CrossFade(_animationName, CrossFadeDuration);
         }
         
         public override void Update() {
@@ -30,6 +30,11 @@ namespace Terra.AI.EnemyStates {
 
             // Set the destination to the player's current position
             if(navMeshAgent.enabled && !navMeshAgent.isStopped) navMeshAgent.SetDestination(_player.position);
+            
+            int temp = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.WalkLeft : AnimationHashes.WalkRight;
+            if(temp == _animationName) return;
+            _animationName = temp;
+            animator.CrossFade(_animationName, CrossFadeDuration);
         }
     }
 }

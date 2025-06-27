@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
@@ -23,7 +22,7 @@ namespace Terra.Components
         [FormerlySerializedAs("lockY")] [SerializeField] private bool _lockY = true;
         [FormerlySerializedAs("lockZ")] [SerializeField] private bool _lockZ = true;
 
-        [SerializeField] private bool _fadeIfCloseToCamera = false;
+        [SerializeField] private bool _fadeIfCloseToCamera;
         [ShowIf(nameof(_fadeIfCloseToCamera))] [SerializeField] private float _fadeValue = 0.1f;
         [ShowIf(nameof(_fadeIfCloseToCamera))] [SerializeField] private float _fadeDuration = 0.25f;
         [ShowIf(nameof(_fadeIfCloseToCamera))] [SerializeField] private float _maxDistanceFromCamera = 5f;
@@ -67,7 +66,6 @@ namespace Terra.Components
             {
                 Debug.LogError($"No camera manager found. {this} is turning off");   
                 this.enabled = false;
-                return;
             }
         }
         
@@ -88,7 +86,7 @@ namespace Terra.Components
 
         private void TryFadingDueToCamera(VFXController controller)
         {
-            if (!IsTargetTooCloseToCamera(controller.transform))
+            if (!IsTargetTooCloseToCamera())
             {
                 controller.DoFadeModel(1, _fadeDuration);
                 return;
@@ -98,7 +96,7 @@ namespace Terra.Components
 
         }
         
-        private bool IsTargetTooCloseToCamera(Transform targetTransform)
+        private bool IsTargetTooCloseToCamera()
         { 
             return Vector3.Distance(transform.position, _lookAtCamera.position) < _maxDistanceFromCamera;
         }

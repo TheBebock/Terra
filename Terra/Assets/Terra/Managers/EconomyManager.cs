@@ -3,14 +3,15 @@ using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {
     public class EconomyManager : MonoBehaviourSingleton<EconomyManager>
     {
         
-        [Foldout("Config")] [SerializeField] private int maxGold = 200;
-        [Foldout("Config")] [SerializeField] private int initialGold = 0;
+        [FormerlySerializedAs("maxGold")] [Foldout("Config")] [SerializeField] private int _maxGold = 200;
+        [FormerlySerializedAs("initialGold")] [Foldout("Config")] [SerializeField] private int _initialGold;
         [Foldout("Debug")] [SerializeField, ReadOnly] private int _currentGold;
 
         public int CurrentGold => _currentGold;
@@ -23,7 +24,7 @@ namespace Terra.Managers
         protected override void Awake()
         {
             base.Awake();
-            _currentGold = initialGold;
+            _currentGold = _initialGold;
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Terra.Managers
         public void ModifyCurrentGoldAmount(int amount)
         {
             _currentGold += amount;
-            _currentGold = Mathf.Clamp(_currentGold, 0, maxGold);
+            _currentGold = Mathf.Clamp(_currentGold, 0, _maxGold);
             OnGoldChanged?.Invoke(_currentGold);
         }
 
@@ -52,24 +53,24 @@ namespace Terra.Managers
         public void SetCurrentGoldAmount(int amount, bool overload = false)
         {
             _currentGold = amount;
-            if (!overload) _currentGold = Mathf.Clamp(_currentGold, 0, maxGold);
-            else _currentGold = Mathf.Clamp(_currentGold, 0, Constants.MAXIMUM_GOLD_CAPACITY);
+            if (!overload) _currentGold = Mathf.Clamp(_currentGold, 0, _maxGold);
+            else _currentGold = Mathf.Clamp(_currentGold, 0, Constants.MaximumGoldCapacity);
             
         }
         /// <summary>
-        /// Sets maximum carrying gold amount, clamping max value to <see cref="Utils.MAXIMUM_GOLD_CAPACITY"/>
+        /// Sets maximum carrying gold amount, clamping max value to <see cref="Constants.MaximumGoldCapacity"/>
         /// </summary>
         public void SetMaxGoldAmount(int amount)
         {
-            maxGold = Mathf.Clamp(amount, 0, Constants.MAXIMUM_GOLD_CAPACITY);
+            _maxGold = Mathf.Clamp(amount, 0, Constants.MaximumGoldCapacity);
         }
 
         private void OnValidate()
         {
-            if (maxGold > Constants.MAXIMUM_GOLD_CAPACITY)
+            if (_maxGold > Constants.MaximumGoldCapacity)
             {
-                maxGold = Constants.MAXIMUM_GOLD_CAPACITY;
-                Debug.LogWarning($"Maximum carry amount of gold exceeded. Maximum capacity allowed is {Constants.MAXIMUM_GOLD_CAPACITY}");
+                _maxGold = Constants.MaximumGoldCapacity;
+                Debug.LogWarning($"Maximum carry amount of gold exceeded. Maximum capacity allowed is {Constants.MaximumGoldCapacity}");
             }
         }
     }

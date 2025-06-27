@@ -4,46 +4,47 @@ using Terra.Player;
 using UIExtensionPackage.UISystem.Core.Interfaces;
 using UIExtensionPackage.UISystem.UI.Elements;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
     public class HealthUI : UIElement, IWithSetup, IAttachListeners
     {
-        [SerializeField] private GameObject heartPrefab; 
-        [SerializeField] private Sprite heartSprite;    
+        [FormerlySerializedAs("heartPrefab")] [SerializeField] private GameObject _heartPrefab; 
+        [FormerlySerializedAs("heartSprite")] [SerializeField] private Sprite _heartSprite;    
 
-        private HealthController healthController;
-        private List<Image> hearts = new();  
+        private HealthController _healthController;
+        private List<Image> _hearts = new();  
     
         public void SetUp()
         {
-            healthController = PlayerManager.Instance?.HealthController;
+            _healthController = PlayerManager.Instance?.HealthController;
 
-            if (healthController == null)
+            if (_healthController == null)
             {
                 Debug.LogError(this + " PlayerManager health controller does not exist");
                 return;
             }
 
             CreateHearts();
-            UpdateHearts(healthController.CurrentHealth);
+            UpdateHearts(_healthController.CurrentHealth);
         }
 
         public void AttachListeners()
         {
-            healthController.OnHealthChanged += OnHealthChanged;
+            _healthController.OnHealthChanged += OnHealthChanged;
         }
 
         private void CreateHearts()
         {
-            int heartCount = Mathf.CeilToInt(healthController.MaxHealth); 
+            int heartCount = Mathf.CeilToInt(_healthController.MaxHealth); 
 
             for (int i = 0; i < heartCount; i++)
             {
-                GameObject heart = Instantiate(heartPrefab, transform);
+                GameObject heart = Instantiate(_heartPrefab, transform);
                 Image image = heart.GetComponent<Image>();
-                hearts.Add(image);
+                _hearts.Add(image);
             }
         }
 
@@ -56,22 +57,22 @@ namespace Terra.UI.HUD
         {
             int fullHearts = Mathf.FloorToInt(currentHealth);
 
-            for (int i = 0; i < hearts.Count; i++)
+            for (int i = 0; i < _hearts.Count; i++)
             {
-                hearts[i].gameObject.SetActive(i < fullHearts);
+                _hearts[i].gameObject.SetActive(i < fullHearts);
             }
         }
     
         public void DetachListeners()
         {
-            if (healthController != null)
-                healthController.OnHealthChanged -= OnHealthChanged;
+            if (_healthController != null)
+                _healthController.OnHealthChanged -= OnHealthChanged;
         }
 
 
         public void TearDown()
         {
-            healthController = null;
+            _healthController = null;
         }
     }
 }

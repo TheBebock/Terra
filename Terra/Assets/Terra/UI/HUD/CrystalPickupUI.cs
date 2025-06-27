@@ -2,23 +2,24 @@ using System.Collections;
 using Terra.Managers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.UI.HUD
 {
     public class CrystalPickupUI : MonoBehaviour
     {
-        [SerializeField] private Sprite crystalSprite; 
-        [SerializeField] private TextMeshProUGUI crystalPickupText;
-        [SerializeField] private CanvasGroup canvasGroup; 
+        [FormerlySerializedAs("crystalSprite")] [SerializeField] private Sprite _crystalSprite; 
+        [FormerlySerializedAs("crystalPickupText")] [SerializeField] private TextMeshProUGUI _crystalPickupText;
+        [FormerlySerializedAs("canvasGroup")] [SerializeField] private CanvasGroup _canvasGroup; 
         
-        [SerializeField] private float fadeDuration = 0.5f;
-        [SerializeField] private float displayDuration = 1.5f;
+        [FormerlySerializedAs("fadeDuration")] [SerializeField] private float _fadeDuration = 0.5f;
+        [FormerlySerializedAs("displayDuration")] [SerializeField] private float _displayDuration = 1.5f;
 
-        private Coroutine fadeRoutine;
+        private Coroutine _fadeRoutine;
 
         private void Start()
         {
-            canvasGroup.alpha = 0f;
+            _canvasGroup.alpha = 0f;
 
             if (EconomyManager.Instance != null)
             {
@@ -41,25 +42,25 @@ namespace Terra.UI.HUD
 
         public void ShowGoldPickup(float amount)
         {
-            if (fadeRoutine != null)
-                StopCoroutine(fadeRoutine);
+            if (_fadeRoutine != null)
+                StopCoroutine(_fadeRoutine);
 
-            crystalPickupText.text = $"{amount}";
-            fadeRoutine = StartCoroutine(FadeInOut());
+            _crystalPickupText.text = $"{amount}";
+            _fadeRoutine = StartCoroutine(FadeInOut());
         }
 
         private IEnumerator FadeInOut()
         {
             // Fade in
-            yield return Fade(0f, 1f, fadeDuration);
+            yield return Fade(0f, 1f, _fadeDuration);
 
             // Wait
-            yield return new WaitForSeconds(displayDuration);
+            yield return new WaitForSeconds(_displayDuration);
 
             // Fade out
-            yield return Fade(1f, 0f, fadeDuration);
+            yield return Fade(1f, 0f, _fadeDuration);
 
-            fadeRoutine = null;
+            _fadeRoutine = null;
         }
 
         private IEnumerator Fade(float from, float to, float duration)
@@ -69,11 +70,11 @@ namespace Terra.UI.HUD
             {
                 timer += Time.deltaTime;
                 float t = timer / duration;
-                canvasGroup.alpha = Mathf.Lerp(from, to, t);
+                _canvasGroup.alpha = Mathf.Lerp(from, to, t);
                 yield return null;
             }
 
-            canvasGroup.alpha = to;
+            _canvasGroup.alpha = to;
         }
     }
 }

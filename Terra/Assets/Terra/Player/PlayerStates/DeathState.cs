@@ -10,7 +10,7 @@ namespace Terra.Player.PlayerStates
 
         public override void OnEnter()
         {
-            animator.CrossFade(DeathHash, CrossFadeDuration);
+            animator.CrossFade(DeathHash, crossFadeDuration);
             Debug.Log($"{this}: death state");
         }
     }

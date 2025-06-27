@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 677287159264096158}
   - component: {fileID: 5902760152611172917}
   - component: {fileID: 1319120290799917922}
+  - component: {fileID: 4768523894255627857}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -55,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
+  - {fileID: 2100000, guid: 9893e3f5b7eee5c488bac46290bbb6a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 188c560dd35009c4393d8c2b91103ae7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -109,6 +110,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4768523894255627857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823057528080283853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _container: {fileID: 1308285974110481464}
+  _model: {fileID: 5902760152611172917}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3697213520634170837
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +143,6 @@ GameObject:
   - component: {fileID: 2692785549797332523}
   - component: {fileID: 7695155615016309967}
   - component: {fileID: 808408188259601979}
-  - component: {fileID: 1707316075407107676}
   - component: {fileID: 5765074683810301652}
   - component: {fileID: 4891421299865651559}
   - component: {fileID: 8961735609761573047}
@@ -206,9 +227,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b11c34496557444bb4056e0b57cd100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxController: {fileID: 1707316075407107676}
+  _vfxController: {fileID: 4768523894255627857}
   _id: -1
+  _deathFadeDuration: 4
+  _deathFadeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
+  _shadow: {fileID: 0}
   _agent: {fileID: 7695155615016309967}
   _animator: {fileID: 1319120290799917922}
   _enemyCollider: {fileID: 2692785549797332523}
@@ -231,27 +260,6 @@ MonoBehaviour:
     type: 3}
   _amountToSpawn: 2
   _spawnDelay: 0.5
---- !u!114 &1707316075407107676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3697213520634170837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 0}
-  onHealParticle: {fileID: 0}
-  onHitParticle: {fileID: 0}
-  onDeathParticle: {fileID: 0}
-  _entity: {fileID: 808408188259601979}
-  _entityModel: {fileID: 5902760152611172917}
-  _modelMaterial: {fileID: 0}
-  _activeParticles: []
-  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5765074683810301652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,9 +275,15 @@ MonoBehaviour:
   _lookAtType: 1
   _targetTransforms:
   - {fileID: 677287159264096158}
+  _targetVFXControllers:
+  - {fileID: 4768523894255627857}
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!114 &4891421299865651559
 MonoBehaviour:
   m_ObjectHideFlags: 0

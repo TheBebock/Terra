@@ -14,7 +14,7 @@ namespace Terra.AI.EnemyStates
         /// <summary>
         /// Reference to the player entity being attacked.
         /// </summary>
-        protected readonly PlayerEntity Player;
+        protected readonly PlayerEntity player;
 
         /// <summary>
         /// Constructs a new attack state with required references.
@@ -26,7 +26,7 @@ namespace Terra.AI.EnemyStates
         protected  EnemyBaseAttackState(EnemyBase enemy, NavMeshAgent agent, Animator animator, PlayerEntity player) : base(
             enemy, agent, animator)
         {
-            this.Player = player;
+            this.player = player;
         }
 
         /// <summary>

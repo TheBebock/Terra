@@ -10,8 +10,8 @@ namespace Terra.MainMenu
         public Slider sfxSlider;
         public Slider musicSlider;
         public Slider ambientSlider;
-        private float lastPlayTime = -1f;
-        private float sfxCooldown = 0.3f;
+        private float _lastPlayTime = -1f;
+        private float _sfxCooldown = 0.3f;
     
 
         public void Start()
@@ -40,10 +40,10 @@ namespace Terra.MainMenu
     
         private void PlayTestSFX()
         {
-            if (Time.time - lastPlayTime < sfxCooldown) return;
+            if (Time.time - _lastPlayTime < _sfxCooldown) return;
         
             AudioManager.Instance.PlaySFX("UI_Interaction");
-            lastPlayTime = Time.time;
+            _lastPlayTime = Time.time;
         }
     }
 }

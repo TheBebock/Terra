@@ -96,7 +96,7 @@ namespace Terra.Player
         public bool TryToEquipItem<TItem>(TItem newItem)
         where TItem : ItemBase
         {
-            if(newItem is not IEquipable equipable) return false;
+            if(newItem is not IEquipable) return false;
             if(!CanEquipItem(newItem)) return false;
             
             ItemType itemType = newItem.ItemType;

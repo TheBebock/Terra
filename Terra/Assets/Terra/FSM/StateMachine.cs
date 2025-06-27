@@ -4,51 +4,51 @@ using System.Collections.Generic;
 namespace Terra.FSM {
     [Serializable]
     public class StateMachine {
-        StateNode current;
-        IState previousState;
-        Dictionary<Type, StateNode> nodes = new();
-        HashSet<ITransition> anyTransitions = new();
+        StateNode _current;
+        IState _previousState;
+        Dictionary<Type, StateNode> _nodes = new();
+        HashSet<ITransition> _anyTransitions = new();
 
         public void Update() {
             var transition = GetTransition();
             if (transition != null) 
                 ChangeState(transition.To);
             
-            current.State?.Update();
+            _current.State?.Update();
         }
 
         public void FixedUpdate()
         {
-            current.State?.FixedUpdate();
+            _current.State?.FixedUpdate();
         }
 
         public void SetState(IState state) {
-            current = nodes[state.GetType()];
-            current.State?.OnEnter();
+            _current = _nodes[state.GetType()];
+            _current.State?.OnEnter();
         }
 
         public IState GetPreviousState()
         {
-            return previousState;
+            return _previousState;
         }
 
         void ChangeState(IState state) {
-            if (state == current.State) return;
+            if (state == _current.State) return;
             
-            previousState = current.State;
-            var nextState = nodes[state.GetType()].State;
+            _previousState = _current.State;
+            var nextState = _nodes[state.GetType()].State;
             
-            previousState?.OnExit();
+            _previousState?.OnExit();
             nextState?.OnEnter();
-            current = nodes[state.GetType()];
+            _current = _nodes[state.GetType()];
         }
 
         ITransition GetTransition() {
-            foreach (var transition in anyTransitions)
+            foreach (var transition in _anyTransitions)
                 if (transition.Condition.Evaluate())
                     return transition;
             
-            foreach (var transition in current.Transitions)
+            foreach (var transition in _current.Transitions)
                 if (transition.Condition.Evaluate())
                     return transition;
             
@@ -60,15 +60,15 @@ namespace Terra.FSM {
         }
         
         public void AddAnyTransition(IState to, IPredicate condition) {
-            anyTransitions.Add(new Transition(GetOrAddNode(to).State, condition));
+            _anyTransitions.Add(new Transition(GetOrAddNode(to).State, condition));
         }
 
         StateNode GetOrAddNode(IState state) {
-            var node = nodes.GetValueOrDefault(state.GetType());
+            var node = _nodes.GetValueOrDefault(state.GetType());
             
             if (node == null) {
                 node = new StateNode(state);
-                nodes.Add(state.GetType(), node);
+                _nodes.Add(state.GetType(), node);
             }
             
             return node;

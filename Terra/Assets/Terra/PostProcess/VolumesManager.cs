@@ -7,7 +7,7 @@ namespace Terra.PostProcess
 {
     public class VolumesManager : PersistentMonoSingleton<VolumesManager>
     {
-        [SerializeField] private float _currentGamma = 0;
+        [SerializeField] private float _currentGamma;
         [SerializeField] private float _currentBloom = 1;
 
         [SerializeField] private Vector2 _gammaRange = new(-1, 2);

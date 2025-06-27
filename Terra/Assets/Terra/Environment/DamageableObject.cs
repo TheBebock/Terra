@@ -31,7 +31,7 @@ namespace Terra.Environment
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
-        [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] public AudioClip _destroySfx;
+        [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _destroySfx;
         
         private Sequence _doSequence;
 

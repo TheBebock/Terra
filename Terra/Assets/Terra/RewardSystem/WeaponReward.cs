@@ -7,8 +7,6 @@ namespace Terra.RewardSystem
 {
     public class WeaponReward: RewardData
     {
-        public WeaponReward() { }
-
         public WeaponType WeaponType { get; set; }
         public MeleeWeapon MeleeWeapon { get; set; }
         public RangedWeapon RangedWeapon { get; set; }

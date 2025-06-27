@@ -3,6 +3,7 @@ using Terra.Player;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Terra.Itemization.Abstracts
 {
@@ -29,18 +30,18 @@ namespace Terra.Itemization.Abstracts
     public abstract class Item<TData> : ItemBase, IEquipable, IItem<TData>
     where TData: ItemData
     { 
-        [SerializeField] private TData data;
+        [FormerlySerializedAs("data")] [SerializeField] private TData _data;
         public TData Data 
         { 
-            get => data;
-            protected set => data = value;
+            get => _data;
+            protected set => _data = value;
         }
 
-        public sealed override string ItemName => data != null ? data.name : string.Empty;
+        public sealed override string ItemName => _data != null ? _data.name : string.Empty;
 
-        public sealed override Sprite ItemIcon => data != null ? data.itemSprite : null;
+        public sealed override Sprite ItemIcon => _data != null ? _data.itemSprite : null;
 
-        public sealed override bool CanBeRemoved => data == null || data.canBeRemoved;
+        public sealed override bool CanBeRemoved => _data == null || _data.canBeRemoved;
 
         public virtual void OnEquip()
         {
