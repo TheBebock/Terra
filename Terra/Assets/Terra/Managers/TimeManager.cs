@@ -29,8 +29,6 @@ namespace Terra.Managers
         public event Action OnGamePaused;
         public event Action OnGameResumed;
         
-        public event Action<bool> OnGamePauseStateChanged;
-        
         public void AttachListeners()
         {
             if(InputManager.Instance) InputManager.Instance.AllTimeControls.Pause.performed += OnPauseInput;
@@ -64,7 +62,6 @@ namespace Terra.Managers
             
             // Invoke events
             OnGamePaused?.Invoke();
-            OnGamePauseStateChanged?.Invoke(_isGamePaused);
         }
 
         public void ResumeGame()
@@ -78,7 +75,6 @@ namespace Terra.Managers
 
             // Invoke events
             OnGameResumed?.Invoke();
-            OnGamePauseStateChanged?.Invoke(_isGamePaused);
         }
         
         
