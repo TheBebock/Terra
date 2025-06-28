@@ -75,4 +75,28 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: SetMaterialEmissiveMap
+    data: 
+    objectReferenceParameter: {fileID: 2800000, guid: 3e79fd46bf946f941a37a3f41c6441bd,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: SetMaterialEmissiveMap
+    data: 
+    objectReferenceParameter: {fileID: 2800000, guid: 7f374d2b36449fb4ea609d2fe691e926,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.16666667
+    functionName: SetMaterialEmissiveMap
+    data: 
+    objectReferenceParameter: {fileID: 2800000, guid: 0060ce600cf51394db46b9f48924145e,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

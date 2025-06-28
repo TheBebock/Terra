@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5619882945703890573}
   - component: {fileID: 2388211542503742126}
   - component: {fileID: 2276162231350725899}
-  - component: {fileID: 5951821238539808230}
   - component: {fileID: 4048340942986829069}
   - component: {fileID: 496297180109255898}
   - component: {fileID: 7726756270914062923}
@@ -97,17 +96,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxController: {fileID: 5951821238539808230}
+  _vfxController: {fileID: 6499631907356174462}
   _id: -1
+  _deathFadeDuration: 4
+  _deathFadeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _enemyStats: {fileID: 11400000, guid: 2f7fd78398e681e4cb427fd792416aef, type: 2}
+  _shadow: {fileID: 0}
   _agent: {fileID: 2388211542503742126}
   _animator: {fileID: 73830323971223633}
   _enemyCollider: {fileID: 5619882945703890573}
   _enemyModel: {fileID: 8514623365129911429}
   _healthController:
     _maxHealth:
-      baseValue: 0
-      StatModifiers: []
+      _baseValue: 0
+      _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
     _isInvincible: 0
@@ -118,27 +125,6 @@ MonoBehaviour:
   _hurtSFX: {fileID: 8300000, guid: 107040207b4e2004ca277a6777d11e32, type: 3}
   _deathSFX: {fileID: 8300000, guid: e148e1a0cb8729f489e1191e18d92462, type: 3}
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
---- !u!114 &5951821238539808230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259231035723147046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 0}
-  onHealParticle: {fileID: 0}
-  onHitParticle: {fileID: 0}
-  onDeathParticle: {fileID: 0}
-  _entity: {fileID: 2276162231350725899}
-  _entityModel: {fileID: 8514623365129911429}
-  _modelMaterial: {fileID: 0}
-  _activeParticles: []
-  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &4048340942986829069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,9 +140,15 @@ MonoBehaviour:
   _lookAtType: 1
   _targetTransforms:
   - {fileID: 7628904998404875950}
+  _targetVFXControllers:
+  - {fileID: 6499631907356174462}
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!114 &496297180109255898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,9 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ce3437a73c46b08cb5d5dcf4630ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationEvents:
+  _animationEvents:
   - eventName: OnAttack
-    OnAnimationEvent:
+    onAnimationEvent:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2276162231350725899}
@@ -295,6 +287,7 @@ GameObject:
   - component: {fileID: 7628904998404875950}
   - component: {fileID: 8514623365129911429}
   - component: {fileID: 73830323971223633}
+  - component: {fileID: 6499631907356174462}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -339,7 +332,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
+  - {fileID: 2100000, guid: e5d5e1c103943214ba2f94add5245866, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -358,7 +351,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 90f5a9802cbf2024ea4df9a6774d79ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -393,6 +386,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6499631907356174462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6318773038464118577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _container: {fileID: 4903469478785577389}
+  _model: {fileID: 8514623365129911429}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &9177864408420737911
 GameObject:
   m_ObjectHideFlags: 0
