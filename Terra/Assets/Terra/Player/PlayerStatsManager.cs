@@ -50,6 +50,33 @@ namespace Terra.Player
             }
             return -1;
         }
+
+        public int GetTempStatValue(StatisticType type, List<ValueModifier> modifiers)
+        {
+            ModifiableValue tempValue = default;
+            switch (type)
+            {
+                case StatisticType.Strength:
+                   tempValue = new ModifiableValue(_playerStats.Strength);
+                   break;
+                case StatisticType.Dexterity:
+                    tempValue = new ModifiableValue(_playerStats.Dexterity);
+                    break;
+                case StatisticType.MaxHealth:
+                    tempValue = new ModifiableValue(_playerStats.MaxHealth);
+                    break;
+                case StatisticType.Luck:
+                    tempValue = new ModifiableValue(_playerStats.Luck);
+                    break;
+            }
+
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                tempValue.AddStatModifier(modifiers[i]);
+            }
+            
+            return tempValue.Value;
+        }
         public void AddStrength(List<ValueModifier> modifiers)
         {
             if(modifiers.IsNullOrEmpty()) return;

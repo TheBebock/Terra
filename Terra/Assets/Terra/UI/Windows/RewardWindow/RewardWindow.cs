@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Terra.GameStates;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
@@ -15,7 +16,7 @@ namespace Terra.UI.Windows.RewardWindow
         [FormerlySerializedAs("rewardToggles")] [SerializeField] List<RewardToggle> _rewardToggles = new();
         [FormerlySerializedAs("acceptButton")] [SerializeField] Button _acceptButton;
 
-        [FormerlySerializedAs("currentlyActiveToogle")] [SerializeField] RewardToggle _currentlyActiveToogle;
+        [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
         public override void SetUp()
         {
@@ -48,8 +49,8 @@ namespace Terra.UI.Windows.RewardWindow
             if (!IsAnyToggleOn()) return;
             
             // TODO: Apply reward for player
-            _currentlyActiveToogle.ApplyReward();
-
+            _currentlyActiveToggle.ApplyReward();
+            _currentlyActiveToggle.Toggle.isOn = false;
             GameManager.Instance.SwitchToGameState<StartOfFloorState>();
             Close();
         }
@@ -63,7 +64,7 @@ namespace Terra.UI.Windows.RewardWindow
 
             foreach (var toggle in _rewardToggles)
             {
-                toggle?.SetUp();
+                toggle?.Init();
             }
         }
         
@@ -73,7 +74,7 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 if (toggle.Toggle.isOn)
                 {
-                    _currentlyActiveToogle = toggle;
+                    _currentlyActiveToggle = toggle;
                     return true;
                 }
             }

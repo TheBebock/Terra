@@ -90,7 +90,7 @@ namespace Terra.Core.ModifiableValue
             {
                case StatModType.Flat:
                   finalValue += mod.value;
-                  break;
+                  break; 
 
                case StatModType.PercentMult:
                   sumPercentAdd += mod.value;
@@ -104,7 +104,7 @@ namespace Terra.Core.ModifiableValue
          }
 
 
-         return (int)Math.Round(finalValue, 4);
+         return (int)Math.Ceiling(finalValue);
       }
    }
 

@@ -28,9 +28,8 @@ namespace Terra.UI.HUD.StatDisplay
             _descriptionText.SetText(value.ToString());
         }
 
-        public void SetTextsColor(Color color)
+        public void SetDescriptionColor(Color color)
         {
-            _main.color = color;
             _descriptionText.color = color;
         }
 

@@ -3,6 +3,8 @@ using Terra.Core.ModifiableValue;
 
 using UnityEngine;
 using System.Collections.Generic;
+using Terra.Extensions;
+using Terra.StatisticsSystem;
 
 namespace Terra.RewardSystem
 {
@@ -12,14 +14,19 @@ namespace Terra.RewardSystem
         private List<ValueModifier> _modifiersDexterity = new();
         private List<ValueModifier> _modifiersStrength = new();
         private List<ValueModifier> _modifiersLuck = new();
+        
+        private List<ValueModifier> _modifiers = new();
 
+        
         private int _maxFlatModifier = 5;
-        //private float maxPercentAddModifier = 0.5f;
         private int _maxPercentMultModifier = 20;
 
         public string RewardName => rewardName;
         public string RewardDescription => rewardDescription;
-
+    
+        private StatsDataComparison _comparison;
+        
+        public ref StatsDataComparison Comparison => ref _comparison;
 
         public override void ApplyReward()
         {
@@ -36,20 +43,25 @@ namespace Terra.RewardSystem
                 case 0: 
                     _modifiersMaxHealth.Add(AddRandomModifier());
                     rewardName = "Max Health";
+                    _comparison = ItemsComparator.CompareStats(StatisticType.MaxHealth, _modifiersMaxHealth);
                     break;
                 case 1:
                     _modifiersDexterity.Add(AddRandomModifier());
                     rewardName = "Dexterity";
+                    _comparison = ItemsComparator.CompareStats(StatisticType.Dexterity, _modifiersDexterity);
                     break;
                 case 2: 
                     _modifiersStrength.Add(AddRandomModifier());
                     rewardName = "Strength";
+                    _comparison = ItemsComparator.CompareStats(StatisticType.Strength, _modifiersStrength);
                     break;
                 case 3: 
                     _modifiersLuck.Add(AddRandomModifier());
                     rewardName = "Luck";
+                    _comparison = ItemsComparator.CompareStats(StatisticType.Luck, _modifiersLuck);
                     break;
             }
+            
         }
 
         public ValueModifier AddRandomModifier()
@@ -83,7 +95,10 @@ namespace Terra.RewardSystem
             char rewardSign = valueModifier.type == StatModType.Flat ? '+' : 'x';
             float rewardValue = valueModifier.type == StatModType.Flat ? valueModifier.value : 1 + valueModifier.value;
 
-            rewardDescription = $"{rewardSign}{rewardValue:0.00}";
+            string text = valueModifier.type == StatModType.Flat ?  
+                $"{rewardSign}{rewardValue}" 
+                : $"{rewardSign}{rewardValue.ToFactor():0.00}";
+            rewardDescription = text;
         }
         
     }

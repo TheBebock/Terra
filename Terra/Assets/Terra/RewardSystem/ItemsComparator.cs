@@ -4,84 +4,147 @@ using Terra.Core.ModifiableValue;
 using Terra.Enums;
 using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
-using UIExtensionPackage.UISystem.Core.Generics;
+using Terra.Player;
+using Terra.StatisticsSystem;
 
 namespace Terra.RewardSystem
 {
-    public class ItemsComparator:PersistentSingleton<ItemsComparator>
+    
+    public static class ItemsComparator
     {
-        public readonly string betterItemColor = "green";
-        public readonly string worseItemColor = "red";
+        public static readonly string BetterItemColor = "green";
+        public static readonly string WorseItemColor = "red";
 
 
-        public ItemDataComparison CompareItems(ItemData currentItem)
+        public static StatsDataComparison CompareStats(StatisticType type, List<ValueModifier> modifiers)
         {
-            ItemDataComparison comparison = new ItemDataComparison
+            StatsDataComparison comparison = new StatsDataComparison
             {
-                strength = CompareModifiers(currentItem.strengthModifiers, 0),
-                maxHealth = CompareModifiers(currentItem.maxHealthModifiers, 0),
-                speed = CompareModifiers(currentItem.speedModifiers, 0),
-                luck = CompareModifiers(currentItem.luckModifiers, 0)
+                isInitialized = true,
+            };
+            switch (type)
+            {
+                case StatisticType.Strength:
+                    comparison.strength = CompareModifiers(0, modifiers);
+                    comparison.strengthValue =
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Strength, modifiers);
+                    break;
+                case StatisticType.MaxHealth:
+                    comparison.maxHealth = CompareModifiers(0, modifiers);
+                    comparison.maxHealthValue = 
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, modifiers);
+                    break;
+                case StatisticType.Dexterity:
+                    comparison.dexterity = CompareModifiers(0, modifiers);
+                    comparison.dexterityValue =
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Dexterity, modifiers);
+                    break;
+                case StatisticType.Luck:
+                    comparison.luck = CompareModifiers(0,modifiers);
+                    comparison.luckValue =
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, modifiers);
+                    break;
+            }
+            return comparison;
+        }
+        public static StatsDataComparison CompareItems(ItemData currentItem)
+        {
+            StatsDataComparison comparison = new StatsDataComparison
+            {
+                isInitialized = true,
+                
+                strength = CompareModifiers(0, currentItem.strengthModifiers),
+                strengthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Strength, currentItem.strengthModifiers),
+        
+                maxHealth = CompareModifiers(0, currentItem.maxHealthModifiers),
+                maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, currentItem.maxHealthModifiers),
+        
+                dexterity = CompareModifiers(0, currentItem.dexModifiers),
+                dexterityValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Dexterity, currentItem.dexModifiers),
+        
+                luck = CompareModifiers(0,currentItem.luckModifiers),
+                luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, currentItem.luckModifiers),
             };
             return comparison;
         }
         
-        public ItemDataComparison CompareItems(ItemData currentItem, ItemData toCompareItem)
+        public static StatsDataComparison CompareItems(ItemData currentItem, ItemData toCompareItem)
         {
-            ItemDataComparison comparison = new ItemDataComparison
+            StatsDataComparison comparison = new StatsDataComparison
             {
+                isInitialized = true,
+                
                 strength = CompareModifiers(currentItem.strengthModifiers, toCompareItem.strengthModifiers),
+                strengthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Strength, toCompareItem.strengthModifiers),
+        
                 maxHealth = CompareModifiers(currentItem.maxHealthModifiers, toCompareItem.maxHealthModifiers),
-                speed = CompareModifiers(currentItem.speedModifiers, toCompareItem.speedModifiers),
-                luck = CompareModifiers(currentItem.luckModifiers, toCompareItem.luckModifiers)
+                maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, toCompareItem.maxHealthModifiers),
+        
+                dexterity = CompareModifiers(currentItem.dexModifiers, toCompareItem.dexModifiers),
+                dexterityValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Dexterity, toCompareItem.dexModifiers),
+        
+                luck = CompareModifiers(currentItem.luckModifiers, toCompareItem.luckModifiers),
+                luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareItem.luckModifiers),
             };
             return comparison;
         }
+
         
-        public WeaponDataComparison CompareWeapons(WeaponData currentWeapon, WeaponData toCompareWeapon)
+        public static WeaponDataComparison CompareWeapons(WeaponData currentWeapon, WeaponData toCompareWeapon)
         {
             WeaponDataComparison comparison = new WeaponDataComparison
             {
                 damage = CompareValue(currentWeapon.damage, toCompareWeapon.damage),
                 attackCooldown = CompareValue(currentWeapon.attackCooldown, toCompareWeapon.attackCooldown),
-                itemDataComparison = new ItemDataComparison
+                itemDataComparison = new StatsDataComparison
                 {
+                    isInitialized = true,
+                    
                     strength = CompareModifiers(currentWeapon.strengthModifiers, toCompareWeapon.strengthModifiers),
+                    strengthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Strength, toCompareWeapon.strengthModifiers),
+                    
                     maxHealth = CompareModifiers(currentWeapon.maxHealthModifiers, toCompareWeapon.maxHealthModifiers),
-                    speed = CompareModifiers(currentWeapon.speedModifiers, toCompareWeapon.speedModifiers),
-                    luck = CompareModifiers(currentWeapon.luckModifiers, toCompareWeapon.luckModifiers)
+                    maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, toCompareWeapon.maxHealthModifiers),
+                    
+                    dexterity = CompareModifiers(currentWeapon.dexModifiers, toCompareWeapon.dexModifiers),
+                    dexterityValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Dexterity, toCompareWeapon.dexModifiers),
+                    
+                    luck = CompareModifiers(currentWeapon.luckModifiers, toCompareWeapon.luckModifiers),
+                    luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareWeapon.strengthModifiers),
+
                 }
             };
 
             return comparison;
         }
 
-        private Comparison CompareValue(float firstValue, float secondValue)
+
+        private static Comparison CompareModifiers(int valueToCompareTo, List<ValueModifier> compareModifiers)
+        {
+            var modifiersValue = CalculateModifierValue(compareModifiers);
+            
+            return CompareValue(valueToCompareTo, modifiersValue);
+        }
+
+        private static Comparison CompareModifiers(List<ValueModifier> modifiersToCompareTo, List<ValueModifier> compareModifiers)
+        {
+            var firstModifiersValue = CalculateModifierValue(modifiersToCompareTo);
+            var secondModifiersValue = CalculateModifierValue(compareModifiers);
+
+            return CompareValue(firstModifiersValue, secondModifiersValue);
+        }
+
+        private static Comparison CompareValue(float firstValue, float secondValue)
         {
             if(firstValue > secondValue) return Comparison.Worse;
             if(firstValue < secondValue) return Comparison.Better;
             
             return Comparison.Equal;
         }
-        
-        private Comparison CompareModifiers(List<ValueModifier> firstModifiersList, int value)
+
+        private static int CalculateModifierValue(List<ValueModifier> modifiers)
         {
-            var modifiersValue = CalculateModifierValue(firstModifiersList);
-
-            return CompareValue(value, modifiersValue);
-        }
-
-        private Comparison CompareModifiers(List<ValueModifier> firstModifiersList, List<ValueModifier> secornModifiersList)
-        {
-            var firstModifiersValue = CalculateModifierValue(firstModifiersList);
-            var secondModifiersValue = CalculateModifierValue(secornModifiersList);
-
-            return CompareValue(firstModifiersValue, secondModifiersValue);
-        }
-
-        private int CalculateModifierValue(List<ValueModifier> modifiers)
-        {
-            float finalValue = 1;
+            float finalValue = 0;
             float sumPercentAdd = 0;
 
             for (int i = 0; i < modifiers.Count; i++)
@@ -98,7 +161,15 @@ namespace Terra.RewardSystem
                         break;
                 }
             }
-            finalValue *= (1 + sumPercentAdd.ToFactor());
+
+            if (finalValue == 0)
+            {
+                finalValue = sumPercentAdd;
+            }
+            else
+            {
+                finalValue *= (1 + sumPercentAdd.ToFactor());
+            }
 
             return (int)Math.Round(finalValue, 4);
         }

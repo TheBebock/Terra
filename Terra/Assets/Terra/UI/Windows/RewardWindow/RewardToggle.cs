@@ -3,6 +3,8 @@ using NaughtyAttributes;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Enums;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
@@ -11,14 +13,13 @@ using Terra.Player;
 using Terra.RewardSystem;
 using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
-using UIExtensionPackage.UISystem.Core.Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI.Windows.RewardWindow
 {
-    public class RewardToggle: UIObject, IWithSetup
+    public class RewardToggle: UIObject
     {
         [FormerlySerializedAs("rewardName")] [SerializeField] private TMP_Text _rewardName;
         [FormerlySerializedAs("rewardDescription")] [SerializeField] private TMP_Text _rewardDescription;
@@ -26,7 +27,7 @@ namespace Terra.UI.Windows.RewardWindow
         [FormerlySerializedAs("rewardIcon")] [SerializeField] private Image _rewardIcon;
 
         [FormerlySerializedAs("rewardToggle")] [SerializeField] private Toggle _rewardToggle;
-        [SerializeField] private RewardData _rewardData;
+        private RewardData _rewardData;
 
         public Toggle Toggle => _rewardToggle;
         
@@ -37,18 +38,49 @@ namespace Terra.UI.Windows.RewardWindow
         private ActiveItem _activeItemReward;
         private PassiveItem _passiveItemReward;
 
+        [SerializeField, ReadOnly]
         private WeaponDataComparison _weaponDataComparison;
-        private ItemDataComparison _itemDataComparison;
-
-        [FormerlySerializedAs("rewardType")] [SerializeField, ReadOnly] private RewardType _rewardType;
+        [SerializeField, ReadOnly]
+        private StatsDataComparison _itemDataComparison;
+        [SerializeField, ReadOnly]
+        private StatsDataComparison _statsDataComparison;
+        private OnRewardSelected _onRewardSelected;
+        [SerializeField, ReadOnly] private RewardType _rewardType;
 
         public RewardType RewardType { get { return _rewardType; } set { _rewardType = value; } }
 
-        public void SetUp()
+        public void Init()
         {
             ChooseRewardData();
+            
+            _onRewardSelected = new OnRewardSelected();
+            if (_weaponDataComparison.itemDataComparison.isInitialized)
+            {
+                _onRewardSelected.comparison = _weaponDataComparison.itemDataComparison;
+            }
+            else if(_itemDataComparison.isInitialized )
+            {
+                _onRewardSelected.comparison = _itemDataComparison;
+            }
+            else
+            {
+                _onRewardSelected.comparison = _statsDataComparison;
+            }
+            
+            _rewardToggle.onValueChanged.AddListener(OnToggle);
         }
 
+        private void OnToggle(bool isOn)
+        {
+            if (isOn)
+            {
+                EventsAPI.Invoke(ref _onRewardSelected);
+            }
+            else
+            {
+                EventsAPI.Invoke<OnRewardUnselected>();
+            }
+        }
         private void ChooseRewardData()
         {
             switch(_rewardType)
@@ -75,7 +107,7 @@ namespace Terra.UI.Windows.RewardWindow
         private void SetNewRewardType()
         {
             RewardType = (RewardType)UnityEngine.Random.Range(1, 5);
-            SetUp();
+            Init();
         }
 
         private void GetRandomItem(RewardType rewardType)
@@ -90,9 +122,9 @@ namespace Terra.UI.Windows.RewardWindow
                 }
 
                 if (PlayerInventoryManager.Instance.ActiveItem.Data == null)
-                    _itemDataComparison = ItemsComparator.Instance.CompareItems(_activeItemReward.Data);
+                    _itemDataComparison = ItemsComparator.CompareItems(_activeItemReward.Data);
                 else
-                    _itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.ActiveItem.Data, _activeItemReward.Data);
+                    _itemDataComparison = ItemsComparator.CompareItems(PlayerInventoryManager.Instance.ActiveItem.Data, _activeItemReward.Data);
                 LoadItemData(_activeItemReward.Data);
             }
             else if(rewardType == RewardType.PassiveItem)
@@ -104,7 +136,7 @@ namespace Terra.UI.Windows.RewardWindow
                     return;
                 }
                 
-                _itemDataComparison = ItemsComparator.Instance.CompareItems(_passiveItemReward.Data);
+                _itemDataComparison = ItemsComparator.CompareItems(_passiveItemReward.Data);
                 
                 LoadItemData(_passiveItemReward.Data);
             }
@@ -122,7 +154,7 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void LoadModifiersUIText(ItemData data)
         {
-            ItemDataComparison currentItemDataComparison = _weaponDataComparison.damage != default ? _weaponDataComparison.itemDataComparison : _itemDataComparison;
+            StatsDataComparison currentItemDataComparison = _weaponDataComparison.damage != default ? _weaponDataComparison.itemDataComparison : _itemDataComparison;
 
             if (data.maxHealthModifiers.Count > 0)
             {
@@ -157,15 +189,15 @@ namespace Terra.UI.Windows.RewardWindow
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"\nStrength: {totalValue}");
             }
 
-            if (data.speedModifiers.Count > 0)
+            if (data.dexModifiers.Count > 0)
             {
                 float totalValue = 0;
 
-                foreach (var modifier in data.speedModifiers)
+                foreach (var modifier in data.dexModifiers)
                 {
                     totalValue += modifier.value;
                 }
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.speed, $"\nSpeed: {totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.dexterity, $"\nSpeed: {totalValue}");
             }
         }
 
@@ -205,14 +237,14 @@ namespace Terra.UI.Windows.RewardWindow
             if (rand == 0)
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon();
-                _weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
+                _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.MeleeWeapon = randomWeapon;
             }
             else
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon();
-                _weaponDataComparison = ItemsComparator.Instance.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
+                _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.RangedWeapon = randomWeapon;
             }
@@ -251,6 +283,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             _rewardName.text = _statsReward.RewardName;
             _rewardDescription.text = _statsReward.RewardDescription;
+            _statsDataComparison = _statsReward.Comparison;
         }
 
         private void LoadEffectData(EffectData effectData)
@@ -265,9 +298,9 @@ namespace Terra.UI.Windows.RewardWindow
             string newTextWithMark = "";
             switch (comparedStatistic)
             {
-                case Comparison.Worse: newTextWithMark += $"<color={ItemsComparator.Instance.worseItemColor}>"; break;
+                case Comparison.Worse: newTextWithMark += $"<color={ItemsComparator.WorseItemColor}>"; break;
                 case Comparison.Equal: break;
-                case Comparison.Better: newTextWithMark += $"<color={ItemsComparator.Instance.betterItemColor}>"; break;
+                case Comparison.Better: newTextWithMark += $"<color={ItemsComparator.BetterItemColor}>"; break;
             }
             newTextWithMark += $"{textToMark}";
             newTextWithMark += "</color>";
@@ -298,10 +331,6 @@ namespace Terra.UI.Windows.RewardWindow
                     PlayerInventoryManager.Instance.TryToEquipItem(_passiveItemReward);
                     break;
             }
-        }
-        public void TearDown()
-        {
-            
         }
     }
 }

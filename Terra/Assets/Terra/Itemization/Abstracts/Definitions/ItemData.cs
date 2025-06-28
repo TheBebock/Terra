@@ -29,7 +29,7 @@ namespace Terra.Itemization.Abstracts.Definitions
         
         public List<ValueModifier> strengthModifiers;
         public List<ValueModifier> maxHealthModifiers;
-        public List<ValueModifier> speedModifiers;
+        public List<ValueModifier> dexModifiers;
         public List<ValueModifier> luckModifiers;
         
         public int Identity => _id;
@@ -61,7 +61,7 @@ namespace Terra.Itemization.Abstracts.Definitions
             // Set modifier IDs
             UpdateModifierIDs(strengthModifiers);
             UpdateModifierIDs(maxHealthModifiers);
-            UpdateModifierIDs(speedModifiers);
+            UpdateModifierIDs(dexModifiers);
             UpdateModifierIDs(luckModifiers);
             
             // test 
