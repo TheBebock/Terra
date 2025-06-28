@@ -10,6 +10,7 @@ using Terra.Interfaces;
 using Terra.Managers;
 using Terra.Player.PlayerStates;
 using Terra.UI;
+using Terra.UI.Windows;
 using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.Player

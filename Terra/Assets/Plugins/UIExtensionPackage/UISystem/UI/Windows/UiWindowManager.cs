@@ -93,7 +93,7 @@ namespace UIExtensionPackage.UISystem.UI.Windows
                 return null;
             }
 
-            if (TryGetWindowFromStacks<TWindowType>(out UIWindow windowRef))
+            if (TryGetWindowFromStacks<TWindowType>(out TWindowType windowRef))
             {
                 // Close window if it is already opened and no repetitions are allowed
                 if (!windowRef.AllowMultiple)
@@ -179,7 +179,7 @@ namespace UIExtensionPackage.UISystem.UI.Windows
         /// </summary>
         /// <param name="window">Opened window</param>
         /// <typeparam name="TWindwoType">Type of searched window</typeparam>
-        public bool TryGetWindowFromStacks<TWindwoType>(out UIWindow window) 
+        public bool TryGetWindowFromStacks<TWindwoType>(out TWindwoType window) 
             where TWindwoType : UIWindow
         {
             window = null;

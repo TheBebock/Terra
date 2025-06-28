@@ -171,12 +171,11 @@ namespace Terra.Player
         public void DetachListeners()
         {
             if (!InputManager.Instance) return;
-
-            var inputActions = InputManager.Instance.PlayerControls;
-            inputActions.Movement.performed -= OnMovementInput;
-            inputActions.Movement.canceled -= OnMovementInput;
-            inputActions.Movement.canceled -= OnMovementInputCanceled;
-            inputActions.Dash.performed -= OnDashInput;
+            
+            InputManager.Instance.PlayerControls.Movement.performed -= OnMovementInput;
+            InputManager.Instance.PlayerControls.Movement.canceled -= OnMovementInput;
+            InputManager.Instance.PlayerControls.Movement.canceled -= OnMovementInputCanceled;
+            InputManager.Instance.PlayerControls.Dash.performed -= OnDashInput;
         }
 
         private void OnValidate()

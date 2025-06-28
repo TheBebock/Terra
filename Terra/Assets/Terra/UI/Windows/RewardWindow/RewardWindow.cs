@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Terra.UI
+namespace Terra.UI.Windows.RewardWindow
 {
     public class RewardWindow : UIWindow
     {

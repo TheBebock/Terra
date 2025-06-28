@@ -1,11 +1,11 @@
 using Terra.GameStates;
-using UIExtensionPackage.UISystem.UI.Windows;
-using UnityEngine.UI;
-using UnityEngine;
 using Terra.Managers;
+using UIExtensionPackage.UISystem.UI.Windows;
+using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-namespace Terra.UI
+namespace Terra.UI.Windows
 {
     public class DeadWindow: UIWindow
     {

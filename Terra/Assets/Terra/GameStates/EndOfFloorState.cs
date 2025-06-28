@@ -5,6 +5,7 @@ using Terra.InputSystem;
 using Terra.Managers;
 using Terra.Player;
 using Terra.UI.HUD;
+using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.GameStates
 {
@@ -20,7 +21,8 @@ namespace Terra.GameStates
             CameraManager.Instance.SpriteMask.SetActive(false);
             
             HUDManager.Instance.HideGameplayHUD();
-
+            HUDManager.Instance.StatsDisplay.Hide();
+            
             _ = StartAnimation();
         }
 

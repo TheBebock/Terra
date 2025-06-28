@@ -6,6 +6,14 @@ using UnityEngine.Serialization;
 
 namespace Terra.StatisticsSystem 
 {
+
+    public enum StatisticType
+    {
+        MaxHealth = 0,
+        Strength = 1,
+        Dexterity = 2,
+        Luck = 3
+    }
     
     /// <summary>
     /// Base class that contains statistics for characters

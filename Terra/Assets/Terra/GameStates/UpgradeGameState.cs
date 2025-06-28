@@ -1,5 +1,6 @@
 using Terra.Managers;
-using Terra.UI;
+using Terra.UI.HUD;
+using Terra.UI.Windows.RewardWindow;
 using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.GameStates
@@ -12,6 +13,7 @@ namespace Terra.GameStates
             TimeManager.Instance.AddPauseLock(this);
             TimeManager.Instance.PauseTime();
             UIWindowManager.Instance.OpenWindow<RewardWindow>();
+            HUDManager.Instance.StatsDisplay.Show();
         }
 
         public override void OnExit()
@@ -19,6 +21,8 @@ namespace Terra.GameStates
             base.OnExit();
             TimeManager.Instance.RemovePauseLock(this);
             TimeManager.Instance.ResumeTime();
+            
+            HUDManager.Instance.StatsDisplay.Hide();
         }
     }
 }

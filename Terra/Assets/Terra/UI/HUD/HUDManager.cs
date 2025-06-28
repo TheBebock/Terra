@@ -6,6 +6,7 @@ using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Managers;
+using Terra.UI.HUD.StatDisplay;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ namespace Terra.UI.HUD
         [SerializeField] private HpSlider _hpSlider;
         [SerializeField] private ElevatorDoors _elevatorDoors;
         [SerializeField] private Image _darkScreen;
-        
+        [SerializeField] private StatsDisplayGUI _statsDisplay;
         [BoxGroup("FloorEndText")][SerializeField] private TMP_Text _floorEndText;
         [BoxGroup("FloorEndText")][SerializeField] private float _floorEndFadeDuration = 1f;
         
@@ -28,6 +29,7 @@ namespace Terra.UI.HUD
         public HpSlider HpSlider => _hpSlider;
         public ElevatorDoors ElevatorDoors => _elevatorDoors;
         public Image DarkScreen => _darkScreen;
+        public StatsDisplayGUI StatsDisplay => _statsDisplay;
         
         private Sequence _darkSequence;
         

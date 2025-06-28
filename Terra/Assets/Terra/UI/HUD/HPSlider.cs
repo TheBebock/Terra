@@ -1,3 +1,4 @@
+using System.Globalization;
 using Terra.Player;
 using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
@@ -14,13 +15,13 @@ namespace Terra.UI.HUD
         [SerializeField] private float _currentHealth;
         [SerializeField] private float _maxHealth;
         
-        public void Init(float currentHealth, float maxHealth)
+        public void Init(int currentHealth, int maxHealth)
         {
             _maxHealth = maxHealth;
-            _maxHealthText.SetText(_maxHealth.ToString());
+            _maxHealthText.SetText(_maxHealth.ToString(CultureInfo.InvariantCulture));
 
             _currentHealth = currentHealth;
-            _currentHealthText.SetText(_currentHealth.ToString());
+            _currentHealthText.SetText(_currentHealth.ToString(CultureInfo.InvariantCulture));
             
             AttachListeners();
         }
@@ -41,13 +42,13 @@ namespace Terra.UI.HUD
         private void UpdateCurrentHealth(int value)
         {
             _currentHealth = value;
-            _currentHealthText.SetText(_currentHealth.ToString());
+            _currentHealthText.SetText(_currentHealth.ToString(CultureInfo.InvariantCulture));
         }
 
-        private void UpdateMaxHealth(float value)
+        private void UpdateMaxHealth(int value)
         {
             _maxHealth = value;
-            _maxHealthText.SetText(_maxHealth.ToString());
+            _maxHealthText.SetText(_maxHealth.ToString(CultureInfo.InvariantCulture));
         }
         private void DetachListeners()
         {

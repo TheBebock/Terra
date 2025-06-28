@@ -5,6 +5,7 @@ using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
+using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.GameStates
 {
@@ -18,9 +19,11 @@ namespace Terra.GameStates
             InputManager.Instance.SetAllTimeControlsState(false);
             CameraManager.Instance.SpriteMask.SetActive(false);
             CameraManager.Instance.SetCameraBlendStyle(CinemachineBlendDefinition.Style.Cut);
+            HUDManager.Instance.HideGameplayHUD();
+            HUDManager.Instance.StatsDisplay.Hide();
+            
             HUDManager.Instance.ForceSetDarkScreenAlpha(1f);
             HUDManager.Instance.ElevatorDoors.ForceSetDoorOpenPercentage(0);
-            HUDManager.Instance.HideGameplayHUD();
             CameraManager.Instance.ChangeToElevatorCamera();
             AudioManager.Instance.PlayMusic("track_1");
             EventsAPI.Invoke<StartOfNewFloorEvent>();
@@ -36,6 +39,8 @@ namespace Terra.GameStates
             
             CameraManager.Instance.ChangeToFollowPlayerCamera();
             await HUDManager.Instance.ElevatorDoors.OpenDoors();
+            
+            HUDManager.Instance.StatsDisplay.ResetObjectOpacityToDefault();
             
             EventsAPI.Invoke<ElevatorGeneratorStoppedEvent>();
             CameraManager.Instance?.SpriteMask.SetActive(true);

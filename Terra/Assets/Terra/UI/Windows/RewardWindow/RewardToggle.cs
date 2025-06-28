@@ -1,5 +1,5 @@
-﻿using NaughtyAttributes;
-using System;
+﻿using System;
+using NaughtyAttributes;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Enums;
@@ -16,7 +16,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Terra.UI
+namespace Terra.UI.Windows.RewardWindow
 {
     public class RewardToggle: UIObject, IWithSetup
     {
@@ -103,11 +103,9 @@ namespace Terra.UI
                     SetNewRewardType();
                     return;
                 }
-
-                if (PlayerInventoryManager.Instance.GetPassiveItems.Count < 1)
-                    _itemDataComparison = ItemsComparator.Instance.CompareItems(_passiveItemReward.Data);
-                else
-                    _itemDataComparison = ItemsComparator.Instance.CompareItems(PlayerInventoryManager.Instance.GetPassiveItems[0].Data, _passiveItemReward.Data);
+                
+                _itemDataComparison = ItemsComparator.Instance.CompareItems(_passiveItemReward.Data);
+                
                 LoadItemData(_passiveItemReward.Data);
             }
         }
