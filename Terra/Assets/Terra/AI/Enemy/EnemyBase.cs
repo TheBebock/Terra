@@ -74,7 +74,7 @@ namespace Terra.AI.Enemy
 
         protected Vector3 ItemsSpawnPosition => new(
             transform.position.x, 
-            transform.position.y,
+            transform.position.y - 0.5f,
             transform.position.z - 1f);
         
         /// <summary>

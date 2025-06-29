@@ -15,4 +15,5 @@ MonoBehaviour:
   dropRateChance: 25
   pickupName: Health
   pickupSprite: {fileID: 21300000, guid: 059aed2ce2991624f9cb3298422f2184, type: 3}
+  pickupMaterial: {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
   maxHealthHealAmount: 50

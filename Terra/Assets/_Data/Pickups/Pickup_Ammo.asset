@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef649f3bf582e64bbde7797175b7ed0, type: 3}
   m_Name: Pickup_Ammo
   m_EditorClassIdentifier: 
+  dropRateChance: 20
   pickupName: Ammo
   pickupSprite: {fileID: 21300000, guid: f78684d8e8aee914ba4f2dc62f12b5a9, type: 3}
+  pickupMaterial: {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
   ammoAmount: 10
