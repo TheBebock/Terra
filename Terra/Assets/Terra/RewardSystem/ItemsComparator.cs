@@ -92,16 +92,19 @@ namespace Terra.RewardSystem
         
         public static WeaponDataComparison CompareWeapons(WeaponData currentWeapon, WeaponData toCompareWeapon)
         {
+            int newWeaponStr = CalculateModifierValue(toCompareWeapon.strengthModifiers);
+            int playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
+            int playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);
+            
             WeaponDataComparison comparison = new WeaponDataComparison
             {
-                damage = CompareValue(currentWeapon.damage, toCompareWeapon.damage),
                 attackCooldown = CompareValue(currentWeapon.attackCooldown, toCompareWeapon.attackCooldown),
                 itemDataComparison = new StatsDataComparison
                 {
                     isInitialized = true,
                     
                     strength = CompareModifiers(currentWeapon.strengthModifiers, toCompareWeapon.strengthModifiers),
-                    strengthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Strength, toCompareWeapon.strengthModifiers),
+                    strengthValue =  playerStrWithoutCurrentWeapon + newWeaponStr,
                     
                     maxHealth = CompareModifiers(currentWeapon.maxHealthModifiers, toCompareWeapon.maxHealthModifiers),
                     maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, toCompareWeapon.maxHealthModifiers),
@@ -110,7 +113,7 @@ namespace Terra.RewardSystem
                     dexterityValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Dexterity, toCompareWeapon.dexModifiers),
                     
                     luck = CompareModifiers(currentWeapon.luckModifiers, toCompareWeapon.luckModifiers),
-                    luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareWeapon.strengthModifiers),
+                    luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareWeapon.luckModifiers),
 
                 }
             };

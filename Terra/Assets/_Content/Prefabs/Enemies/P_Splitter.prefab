@@ -141,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308285974110481464}
   - component: {fileID: 2692785549797332523}
+  - component: {fileID: 1719375381070469330}
   - component: {fileID: 7695155615016309967}
   - component: {fileID: 808408188259601979}
   - component: {fileID: 5765074683810301652}
@@ -193,6 +194,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1719375381070469330
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697213520634170837}
+  serializedVersion: 4
+  m_Mass: 2
+  m_Drag: 3
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!195 &7695155615016309967
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -242,10 +270,11 @@ MonoBehaviour:
   _animator: {fileID: 1319120290799917922}
   _enemyCollider: {fileID: 2692785549797332523}
   _enemyModel: {fileID: 5902760152611172917}
+  _enemyRigidBody: {fileID: 1719375381070469330}
   _healthController:
     _maxHealth:
-      baseValue: 0
-      StatModifiers: []
+      _baseValue: 0
+      _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
     _isInvincible: 0
@@ -296,9 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ce3437a73c46b08cb5d5dcf4630ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationEvents:
+  _animationEvents:
   - eventName: OnAttack
-    OnAnimationEvent:
+    onAnimationEvent:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 808408188259601979}

@@ -154,7 +154,7 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void LoadModifiersUIText(ItemData data)
         {
-            StatsDataComparison currentItemDataComparison = _weaponDataComparison.damage != default ? _weaponDataComparison.itemDataComparison : _itemDataComparison;
+            StatsDataComparison currentItemDataComparison = _weaponDataComparison.itemDataComparison.isInitialized ? _weaponDataComparison.itemDataComparison : _itemDataComparison;
 
             if (data.maxHealthModifiers.Count > 0)
             {
@@ -163,6 +163,7 @@ namespace Terra.UI.Windows.RewardWindow
                 foreach (var modifier in data.maxHealthModifiers)
                 {
                     totalValue += modifier.value;
+                    
                 }
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"\nMax Health: {totalValue}");
             }
@@ -254,8 +255,6 @@ namespace Terra.UI.Windows.RewardWindow
         {
             _rewardName.text = data.itemName;
             _rewardDescription.text = data.itemDescription;
-            _rewardDescription.text += "\n";
-            _rewardDescription.text += MarkStatisticText(_weaponDataComparison.damage, $"\nDamage: {data.damage}");
             LoadModifiersUIText(data);
             _rewardDescription.text += "\n";
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4978a7bb1d6f0024e9a91088cb11219d, type: 3}
   m_Name: PlayerBaseStats
   m_EditorClassIdentifier: 
-  baseStrength: 15
+  baseStrength: 0
   baseMaxHealth: 100
   baseSpeed: 1
   baseLuck: 1

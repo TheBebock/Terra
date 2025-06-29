@@ -24,6 +24,10 @@ namespace Terra.Managers
             public EnemyBase enemy;
             public int spawnValue;
         }
+
+        
+        [Header("Is Enabled")]
+        [SerializeField] private bool _isEnabled = true;
         
         [SerializeField] private List<EnemySpawnData> _enemies;
 
@@ -37,12 +41,12 @@ namespace Terra.Managers
         [SerializeField] private float _enemiesToSpawnPerWave = 1f;
         [SerializeField] private float _enemiesPerWaveGain = 0.5f;
         [SerializeField] private float _spawnTimeInterval = 0.2f;
-        
+
         [Header("Spawn Area")]
         [SerializeField] private LayerMask _raycastLayerMask;
         [SerializeField] private Vector2 _spawnMin;
         [SerializeField] private Vector2 _spawnMax;
-
+        
         [Foldout("Debug"), ReadOnly][SerializeField] private bool _isPaused;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _currentSpawnPoints;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _currentWaveIndex;
@@ -75,6 +79,12 @@ namespace Terra.Managers
 
         public void StartWaves()
         {
+            
+#if UNITY_EDITOR
+            
+            if(!_isEnabled)return;
+#endif
+            
             StopWaves();
             
             _waveCancellationTokenSource = new CancellationTokenSource(); 

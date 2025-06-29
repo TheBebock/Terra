@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Enums;
@@ -15,7 +16,6 @@ namespace Terra.Player
     {
         [Header("Movement Settings")]
         [SerializeField] private float _walkSpeed = 6f;
-        [SerializeField] private float _gravity = 10f;
         [SerializeField] private float _dashSpeed = 20f;
         [SerializeField] private float _dashDuration = 0.2f;
         [SerializeField] private float _dashCooldown = 1f;
@@ -67,21 +67,13 @@ namespace Terra.Player
             {
                 return;
             }
-            // Transforms 2DVector into 3DVector 
-            Vector3 forward = transform.forward * _movementInput.y; // Ruch przód/tył
-            Vector3 right = transform.right * _movementInput.x; // Ruch lewo/prawo
-            _moveDirection = (forward + right) * _walkSpeed;
+            
+            Vector3 vertical = transform.forward * _movementInput.y;
+            Vector3 horizontal = transform.right * _movementInput.x;
+            _moveDirection = (vertical + horizontal).normalized * _walkSpeed;
 
-            // Adds gravity
-            if (!_characterController.isGrounded)
-            {
-                _moveDirection.y -= _gravity * Time.deltaTime;
-            }
-            else
-            {
-                _moveDirection.y = 0;
-            }
-
+            _moveDirection.y = 0;
+            
             // Character Movement
             _characterController.Move(_moveDirection * Time.deltaTime);
             ChangeMoveDirection();
@@ -95,7 +87,6 @@ namespace Terra.Player
                 return;
             }
             IsTryingMove = true;
-            // Reads System input (Movement -> Vector2)
             _movementInput = context.ReadValue<Vector2>();
         }
 
@@ -114,12 +105,12 @@ namespace Terra.Player
 
             if (_dashCooldownTimer <= 0 && !IsDashing)
             {
-                StartCoroutine(Dash());
+                _ = Dash();
             }
         }
 
         //TODO:Change to UniTask
-        private IEnumerator Dash()
+        private async UniTaskVoid Dash()
         {
             Debug.Log("Dashing");
             IsDashing = true;
@@ -129,7 +120,7 @@ namespace Terra.Player
             while (Time.time < startTime + _dashDuration)
             {
                 _characterController.Move(dashDirection.normalized * (_dashSpeed * Time.deltaTime));
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: CancellationToken);
             }
 
             IsDashing = false;

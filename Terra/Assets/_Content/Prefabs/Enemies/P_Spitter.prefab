@@ -127,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3519331022518936286}
   - component: {fileID: 1054731030885756022}
+  - component: {fileID: 3280652380155890415}
   - component: {fileID: 4917703580583619858}
   - component: {fileID: 2826870852063976216}
   - component: {fileID: 346939443830890629}
@@ -180,6 +181,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: -0.39397177, z: 0}
+--- !u!54 &3280652380155890415
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508670294350392265}
+  serializedVersion: 4
+  m_Mass: 2
+  m_Drag: 3
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!195 &4917703580583619858
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -282,6 +310,7 @@ MonoBehaviour:
   _animator: {fileID: 790803919418352570}
   _enemyCollider: {fileID: 1054731030885756022}
   _enemyModel: {fileID: 5322432112080383420}
+  _enemyRigidBody: {fileID: 3280652380155890415}
   _healthController:
     _maxHealth:
       _baseValue: 0

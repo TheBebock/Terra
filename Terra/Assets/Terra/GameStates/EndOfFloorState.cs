@@ -36,6 +36,7 @@ namespace Terra.GameStates
             await CameraManager.Instance.StartElevatorAnimation();
             await HUDManager.Instance.FadeInDarkScreen(1.5f);
             EventsAPI.Invoke<EndOfElevatorAnimationEvent>();
+            EventsAPI.Invoke<PerformCleanupEvent>();
             GameManager.Instance.SwitchToGameState<UpgradeGameState>();
             
         }

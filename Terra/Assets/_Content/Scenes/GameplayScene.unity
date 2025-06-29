@@ -795,11 +795,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaveManager
       objectReference: {fileID: 0}
-    - target: {fileID: 7979982011955827882, guid: 27c7571229249a14cbe9e2ea29423ecc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4953,6 +4948,7 @@ Transform:
   - {fileID: 400027225}
   - {fileID: 1327152649}
   - {fileID: 5343393040412365279}
+  - {fileID: 1334173558}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &788440352 stripped
@@ -7094,6 +7090,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83675140c933476479644863325cd7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1334173557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334173558}
+  - component: {fileID: 1334173559}
+  m_Layer: 0
+  m_Name: EntityCleaner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1334173558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334173557}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 769353738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1334173559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334173557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42705cfa16b4743b2f5788e01ab795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _registeredEntities: []
 --- !u!1001 &1342869208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11474,6 +11515,11 @@ PrefabInstance:
     - target: {fileID: 496297180109255898, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
         type: 3}
       propertyPath: animationEvents.Array.data[0].OnAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2126876676}
+    - target: {fileID: 496297180109255898, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[0].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2126876676}
     - target: {fileID: 4903469478785577389, guid: ff4296a24b8d72c4c807d2fad32a9a1b,

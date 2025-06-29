@@ -11,7 +11,17 @@ namespace Terra.EffectsSystem.Actions
     {
         protected override void OnExecute(Entity target, Entity source = null)
         {
-            Debug.Log($"PushBackAction {Data.force}");
+            if (source == null)
+            {
+                Debug.LogError($"Source cannot be empty on {nameof(PushBackAction)}");
+                return;
+            }
+            Vector3 direction = (target.transform.position - source.transform.position).normalized;
+            
+            if (target.TryGetComponent(out Rigidbody rb))
+            {
+                rb.AddForce(direction * Data.force, ForceMode.Impulse);
+            }
         }
     }
 }

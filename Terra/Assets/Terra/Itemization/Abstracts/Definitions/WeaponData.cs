@@ -9,7 +9,6 @@ namespace Terra.Itemization.Abstracts.Definitions
     public abstract class WeaponData : ItemData 
     {
         public EffectsContainer effects;
-        public int damage;
         public float attackCooldown;
         public AudioClip attackSFX;
         public abstract WeaponType WeaponType { get; }

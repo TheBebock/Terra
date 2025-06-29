@@ -49,7 +49,7 @@ namespace Terra.AI.Enemy
         [FormerlySerializedAs("animator")] [Foldout("References")][SerializeField] protected Animator _animator;
         [FormerlySerializedAs("enemyCollider")] [Foldout("References")][SerializeField] protected Collider _enemyCollider;
         [FormerlySerializedAs("enemyModel")] [Foldout("References")][SerializeField] protected SpriteRenderer _enemyModel;
-
+        [Foldout("References")][SerializeField] protected Rigidbody _enemyRigidBody;
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
@@ -215,6 +215,8 @@ namespace Terra.AI.Enemy
             _agent.isStopped = true;
             _agent.velocity = Vector3.zero;
             _agent.enabled = false;
+            _enemyRigidBody.isKinematic = true;
+            
             if(_shadow) _shadow.DOFade(0, _deathFadeDuration);
             VFXcontroller.DoFadeModel(0, _deathFadeDuration, _deathFadeCurve);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onDeathParticle);
@@ -260,6 +262,12 @@ namespace Terra.AI.Enemy
                     Debug.LogError($"[{name}] Missing NavMeshAgent component.", this);
             }
 
+            if (!_enemyRigidBody)
+            {
+                _enemyRigidBody = GetComponent<Rigidbody>();
+                if (_enemyRigidBody == null)
+                    Debug.LogError($"[{name}] Missing Rigidbody component.", this);
+            }
             if (_animator == null)
             {
                 _animator = GetComponentInChildren<Animator>();

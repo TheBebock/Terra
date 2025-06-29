@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b183d64a9928094db82fd600606a6b3, type: 3}
   m_Name: ranged_test
   m_EditorClassIdentifier: 
-  id: 1967579987
+  _id: 1967579987
   itemName: ranged_test
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 02919fb39b7fa2740af3fe9d9b2685fc, type: 3}
   canBeRemoved: 0
   strengthModifiers: []
   maxHealthModifiers: []
-  speedModifiers: []
+  dexModifiers: []
   luckModifiers: []
   effects:
     statuses: []

@@ -157,9 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 436673621153902555}
   _id: -1
-  _pickupRenderer: {fileID: 4367382562170315303}
   _distanceToPlayerForMagnetism: 4.5
-  _moveSpeed: 6
+  _moveSpeed: 4
   _addSpeedModifier: 0.05
 --- !u!114 &2061838132432818342
 MonoBehaviour:

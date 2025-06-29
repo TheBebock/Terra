@@ -52,6 +52,9 @@ namespace Terra.Managers
 
             for (int i = 0; i < hitTargets.Count; i++)
             {
+                if (!hitTargets[i].CanBeDamaged) continue;
+
+                
                 int finalDamage = baseWeaponDamage + playerStrengthValue;
 
                 if (isCrit)
@@ -60,9 +63,8 @@ namespace Terra.Managers
                     Debug.Log($"CRIT! Final damage: {finalDamage}");
                 }
 
-                hitTargets[i].TakeDamage(finalDamage, isPercentage);
 
-                if (!hitTargets[i].CanBeDamaged) continue;
+                hitTargets[i].TakeDamage(finalDamage, isPercentage);
                 effectsContainer?.ExecuteActions(source, hitTargets[i] as Entity);
                 effectsContainer?.ApplyStatuses(hitTargets[i]);
             }
