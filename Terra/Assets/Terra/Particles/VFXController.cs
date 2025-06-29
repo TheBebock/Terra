@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -7,11 +8,12 @@ using NaughtyAttributes;
 using Terra.Components;
 using Terra.Core.Generics;
 using Terra.Extensions;
+using Terra.Interfaces;
 using UnityEngine;
 
 namespace Terra.Particles
 {
-    public class VFXController : MonoBehaviour
+    public class VFXController : InGameMonobehaviour, IAttachListeners
     {
         private static readonly int EmissiveIntensity = Shader.PropertyToID("_EmissiveIntensity");
         private static readonly int EmissiveMask = Shader.PropertyToID("_EmissiveMask");
@@ -33,7 +35,8 @@ namespace Terra.Particles
         
         private CancellationTokenSource _blinkCts;
         private CancellationTokenSource _fadeCts;
-        private void Start()
+
+        private void Awake()
         {
             _modelMaterial = _model.material;
 
@@ -41,8 +44,13 @@ namespace Terra.Particles
             
             _model.GetPropertyBlock(_materialPropertyBlock);
             _defaultColor = _modelMaterial.color;
+        }
+        
+        public void AttachListeners()
+        {
             ParticleComponent.OnParticleDestroyed += OnParticleDestroyed;
         }
+        
 
         private void OnParticleDestroyed(ParticleComponent particle)
         {
@@ -171,6 +179,12 @@ namespace Terra.Particles
             {
                  _model = _container.GetComponentInChildren<SpriteRenderer>();
             }
+        }
+
+
+        public void DetachListeners()
+        {
+            ParticleComponent.OnParticleDestroyed -= OnParticleDestroyed;
         }
     }
 }
