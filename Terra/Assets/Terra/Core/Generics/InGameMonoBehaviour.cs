@@ -1,6 +1,7 @@
 using System.Threading;
 using Terra.ID;
 using Terra.Interfaces;
+using Terra.Managers;
 using UnityEngine;
 
 namespace Terra.Core.Generics
@@ -26,11 +27,21 @@ namespace Terra.Core.Generics
         {
             if(this is IWithSetUp setup)
                 setup.SetUp();
- 
-            if(this is IAttachListeners attachListeners)
+
+            if (this is IAttachListeners attachListeners)
+            {
                 attachListeners.AttachListeners();
-            if(this is IUniqueable uniqueable)
+            }
+                
+            if (this is IUniqueable uniqueable)
+            {
                 uniqueable.RegisterID();
+            }
+                
+            if (this is IRequireCleanup requireCleanup)
+            {
+                EntityCleanerManager.Instance.RegisterEntity(requireCleanup);
+            }
         }
 
         protected virtual void CleanUp()
@@ -41,7 +52,12 @@ namespace Terra.Core.Generics
                 attachListeners.DetachListeners();
         
             CleanUp();
-        
+
+            if (this is IRequireCleanup requireCleanup)
+            {
+                EntityCleanerManager.Instance.UnregisterEntity(requireCleanup);
+            }
+            
             if(this is IWithSetUp setup)
                 setup.TearDown();
         

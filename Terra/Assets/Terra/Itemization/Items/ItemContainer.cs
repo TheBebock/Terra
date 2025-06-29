@@ -1,6 +1,7 @@
 using DG.Tweening;
 using NaughtyAttributes;
 using Terra.Interactions;
+using Terra.Interfaces;
 using Terra.Player;
 using Terra.Itemization.Abstracts;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Terra.Itemization.Items
     /// <summary>
     /// Represents a container for a single Item type
     /// </summary>
-    public sealed class ItemContainer : InteractableBase
+    public sealed class ItemContainer : InteractableBase, IRequireCleanup
     {
         public override bool CanBeInteractedWith => _isInitialized && PlayerInventoryManager.Instance.CanEquipItem(_item);
 
@@ -69,6 +70,12 @@ namespace Terra.Itemization.Items
             _tween?.Kill();
 
             base.CleanUp();
+        }
+
+        public void PerformCleanup()
+        {
+            //TODO: Change to Pooling
+            Destroy(gameObject);
         }
     }
 }

@@ -13,12 +13,11 @@ namespace Terra.Itemization.Pickups
     /// <summary>
     /// Represents a container for a single Pickup item type
     /// </summary>
-    public sealed class PickupContainer : InGameMonobehaviour, IPickupable
+    public sealed class PickupContainer : Entity, IPickupable, IRequireCleanup
     {
         public bool CanBePickedUp { get; private set; }
 
         [SerializeField, ReadOnly] private PickupBase _pickup;
-        [SerializeField] private SpriteRenderer _pickupRenderer;
         [SerializeField] private float _distanceToPlayerForMagnetism = 3f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField, Range(0, 1f)] private float _addSpeedModifier = 0.05f;
@@ -26,7 +25,7 @@ namespace Terra.Itemization.Pickups
         Tween _tween;
         private void Awake()
         {
-            _tween = _pickupRenderer.transform
+            _tween = VFXcontroller.Model.transform
                 .DOLocalMoveY(0.25f, 0.75f)
                 .SetRelative()        
                 .SetLoops(-1, LoopType.Yoyo)
@@ -70,8 +69,8 @@ namespace Terra.Itemization.Pickups
         public void Initialize(PickupBase pickup)
         {
             _pickup = pickup;
-            _pickupRenderer.sprite = pickup.ItemIcon;
-            _pickupRenderer.material = pickup.ItemMaterial;
+            VFXcontroller.SetModelSprite(pickup.ItemIcon);
+            VFXcontroller.SetModelMaterial(pickup.ItemMaterial);
             CanBePickedUp = true;
         }
 
@@ -92,6 +91,12 @@ namespace Terra.Itemization.Pickups
             _tween?.Kill();
 
             base.CleanUp();
+        }
+
+        public void PerformCleanup()
+        {
+            //TODO: Change to Pooling
+            Destroy(gameObject);
         }
     }
 }

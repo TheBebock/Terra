@@ -9,4 +9,9 @@ namespace Terra.EventsSystem.Events
     {
         
     }
+
+    public struct PerformCleanupEvent : IEvent
+    {
+        
+    }
 }

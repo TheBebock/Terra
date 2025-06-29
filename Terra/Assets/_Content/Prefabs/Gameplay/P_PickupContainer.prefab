@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 2212019684343905845}
   - component: {fileID: 4868003405091978973}
   - component: {fileID: 2061838132432818342}
+  - component: {fileID: 436673621153902555}
   m_Layer: 12
   m_Name: P_PickupContainer
   m_TagString: Untagged
@@ -154,6 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfc1331532eb464468cb072050ae786f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxController: {fileID: 436673621153902555}
+  _id: -1
   _pickupRenderer: {fileID: 4367382562170315303}
   _distanceToPlayerForMagnetism: 4.5
   _moveSpeed: 6
@@ -181,3 +184,24 @@ MonoBehaviour:
   _fadeValue: 0.1
   _fadeDuration: 0.25
   _maxDistanceFromCamera: 5
+--- !u!114 &436673621153902555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5363400591803542837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle: {fileID: 0}
+  onHealParticle: {fileID: 0}
+  onHitParticle: {fileID: 0}
+  onDeathParticle: {fileID: 0}
+  _container: {fileID: 8204131790201204389}
+  _model: {fileID: 4367382562170315303}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
