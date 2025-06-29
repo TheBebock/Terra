@@ -56,7 +56,7 @@ namespace Terra.Itemization.Abstracts.Definitions
             _id = newID;
         }
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             // Set modifier IDs
             UpdateModifierIDs(strengthModifiers);

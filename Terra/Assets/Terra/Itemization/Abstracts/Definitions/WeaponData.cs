@@ -13,6 +13,7 @@ namespace Terra.Itemization.Abstracts.Definitions
         public AudioClip attackSFX;
         public abstract WeaponType WeaponType { get; }
     }
+    
 
     public enum WeaponType
     {
