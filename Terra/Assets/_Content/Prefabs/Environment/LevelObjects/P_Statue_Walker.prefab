@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 97.49, y: 102.78, z: 99.749}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4902561909052374769}
@@ -98,8 +98,8 @@ MonoBehaviour:
   _id: -1
   _canBeInteractedWith: 0
   _maxHealth:
-    baseValue: 5
-    StatModifiers: []
+    _baseValue: 5
+    _statModifiers: []
   _deathFadeDuration: 2.5
   _deathFadeCurve:
     serializedVersion: 2
@@ -131,8 +131,8 @@ MonoBehaviour:
   _collider: {fileID: 2834245433352713858}
   _healthController:
     _maxHealth:
-      baseValue: 0
-      StatModifiers: []
+      _baseValue: 0
+      _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
     _isInvincible: 0
@@ -141,8 +141,10 @@ MonoBehaviour:
     _entity: {fileID: 0}
     _statuses: []
   _destroySfx: {fileID: 0}
-  _leftEmissiveTexture: {fileID: 0}
-  _rightEmissiveTexture: {fileID: 0}
+  _leftEmissiveTexture: {fileID: 2800000, guid: 34c300af735be454084edd334539a47d,
+    type: 3}
+  _rightEmissiveTexture: {fileID: 2800000, guid: 62fc4110d3e953f4c87af081d55f20c3,
+    type: 3}
   _leftSprite: {fileID: 21300000, guid: 2c8a1ce57b84c7041875e3eae865489a, type: 3}
   _rightSprite: {fileID: 21300000, guid: 1c36516aefb54d441bd6643829f97a05, type: 3}
   _amountOfCrystalsToSpawn: 4
@@ -297,7 +299,7 @@ Transform:
   m_GameObject: {fileID: 1613338847647802847}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.121, y: -0.6760021, z: -0.17500064}
+  m_LocalPosition: {x: 0.01, y: -0.6, z: -0.17500064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -414,7 +416,7 @@ Transform:
   m_GameObject: {fileID: 2942523872004704450}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.141, y: 0.349, z: -0.132}
+  m_LocalPosition: {x: -0.06, y: 0.39, z: -0.132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -617,7 +619,7 @@ Transform:
   m_GameObject: {fileID: 4629733429399559164}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.163, y: -0.03400205, z: -0.17500064}
+  m_LocalPosition: {x: -0.08, y: -0.05, z: -0.17500064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -764,7 +766,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
+  - {fileID: 2100000, guid: fff54c5c113116b48b0ff93db5fc63ce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
