@@ -49,11 +49,11 @@ namespace Terra.Player
         public static event Action<FacingDirection> OnMeleeAttackPerformed;
         public static event Action OnRangeAttackPerformed;
         
+        public EffectsContainer MeleeEffectContainer => _meleeEffectContainer;
+        public EffectsContainer RangeEffectContainer => _rangeEffectContainer;
         public bool IsTryingPerformMeleeAttack => _isTryingPerformMeleeAttack;
         
         public bool IsTryingPerformDistanceAttack => _isTryingPerformDistanceAttack;
-        
-        
 
         private FacingDirection _currentPlayerAttackDirection;
         public FacingDirection CurrentPlayerAttackDirection => _currentPlayerAttackDirection;

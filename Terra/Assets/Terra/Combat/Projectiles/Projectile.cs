@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using Terra.AI.EnemyStates;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
+using Terra.Itemization.Abstracts.Definitions;
 using Terra.Managers;
 using Terra.Player;
 using UnityEngine;
@@ -74,10 +75,18 @@ namespace Terra.Combat.Projectiles
         private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.layer == _originLayer) return;
-            
+
+          
             if (other.TryGetComponent<IDamageable>(out var target))
             {
-                CombatManager.Instance.PerformAttack(_origin, target, _effects,  _damage);
+                if (_originLayer == _playerLayer)
+                {
+                    CombatManager.Instance.PlayerPerformAttack(WeaponType.Ranged, _origin, target, _effects);
+                }
+                else
+                {
+                    CombatManager.Instance.PerformAttack(_origin, target, _effects,  _damage);
+                }
             }
 
             Debug.Log($"{gameObject.name}: collided with {other.gameObject.name}");

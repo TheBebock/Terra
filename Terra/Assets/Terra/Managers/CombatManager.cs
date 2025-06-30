@@ -3,6 +3,8 @@ using Terra.Combat;
 using Terra.Player;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
+using Terra.Extensions;
+using Terra.Itemization.Abstracts.Definitions;
 using UnityEngine;
 
 namespace Terra.Managers
@@ -11,14 +13,57 @@ namespace Terra.Managers
     public class CombatManager : MonoBehaviourSingleton<CombatManager>
     {
         private LayerMask _playerLayer;
+        [Range(0,100)]private int _basePlayerCritChance = 10; 
+        private float _critDamageMultiplier = 2f;
         private static List<IDamageable> _targetsList = new();
+        private static EffectsContainer _allPlayerEffects = new();
 
         protected override void Awake()
         {
             base.Awake();
             _playerLayer = LayerMask.NameToLayer("Player");
         }
+        
+        public void PlayerPerformAttack(WeaponType weaponType, Entity source, IDamageable target,
+            EffectsContainer effectsContainer = null, bool isPercentage = false)
+        {
+            _targetsList.Add(target);
+            PlayerPerformAttack(weaponType, source, _targetsList, effectsContainer, isPercentage);
+            _targetsList.Clear();
+        }
+        
+        public void PlayerPerformAttack(WeaponType weaponType, Entity source, List<IDamageable> hitTargets,
+            EffectsContainer effectsContainer = null, bool isPercentage = false)
+        {
+            
+            if (!PlayerStatsManager.Instance || hitTargets.Count == 0) return;
+            
+            int statsValue = weaponType == WeaponType.Melee ? 
+                PlayerStatsManager.Instance.PlayerStats.Strength
+                : PlayerStatsManager.Instance.PlayerStats.Dexterity;
+            bool isCrit = CheckForPlayerCrit();
 
+            for (int i = 0; i < hitTargets.Count; i++)
+            {
+                if (!hitTargets[i].CanBeDamaged) continue;
+                
+                int finalDamage = statsValue;
+
+                if (isCrit && !isPercentage)
+                {
+                    finalDamage = Mathf.RoundToInt(finalDamage * _critDamageMultiplier);
+                    Debug.Log($"CRIT! Final damage: {finalDamage}");
+                }
+
+                ComputePlayerEffects(weaponType, effectsContainer);
+                
+                hitTargets[i].TakeDamage(finalDamage, isPercentage);
+                _allPlayerEffects?.ExecuteActions(source, hitTargets[i] as Entity);
+                _allPlayerEffects?.ApplyStatuses(hitTargets[i]);
+                _allPlayerEffects?.Clear();
+            }
+        }
+        
         public void PerformAttack(Entity source, IDamageable target, EffectsContainer effectsContainer = null,
             int baseDamage = 0, bool isPercentage = false)
         {
@@ -34,7 +79,7 @@ namespace Terra.Managers
 
             if (source.gameObject.layer == _playerLayer)
             {
-                PlayerPerformedAttack(source, targets, effectsContainer, baseDamage, isPercentage);
+                PlayerPerformedAttackNotAccountingForWeapon(source, targets, effectsContainer, baseDamage, isPercentage);
             }
             else
             {
@@ -42,7 +87,7 @@ namespace Terra.Managers
             }
         }
 
-        private void PlayerPerformedAttack(Entity source, List<IDamageable> hitTargets,
+        private void PlayerPerformedAttackNotAccountingForWeapon(Entity source, List<IDamageable> hitTargets,
             EffectsContainer effectsContainer = null, int baseWeaponDamage = 0, bool isPercentage = false)
         {
             if (!PlayerStatsManager.Instance) return;
@@ -63,7 +108,11 @@ namespace Terra.Managers
                     Debug.Log($"CRIT! Final damage: {finalDamage}");
                 }
 
-
+                EffectsContainer tempEffectsContainer = new EffectsContainer();
+                tempEffectsContainer.actions.AddRange(effectsContainer.actions);
+                
+                tempEffectsContainer.statuses.AddRange(effectsContainer.statuses);
+                
                 hitTargets[i].TakeDamage(finalDamage, isPercentage);
                 effectsContainer?.ExecuteActions(source, hitTargets[i] as Entity);
                 effectsContainer?.ApplyStatuses(hitTargets[i]);
@@ -85,15 +134,29 @@ namespace Terra.Managers
 
         private bool CheckForPlayerCrit()
         {
-            // Prosty przykład, np. 10% szansy + bonus z broni (później można to rozbudować)
-            int luck = PlayerStatsManager.Instance.PlayerStats.Luck;
-            float baseCritChance = 0.1f; // 10%
-            float luckBonus = luck * 0.01f; // np. 1% za punkt szczęścia
+            
+            float luck = PlayerStatsManager.Instance.PlayerStats.Luck.ToFactor();
+            float baseCritChance = _basePlayerCritChance.ToFactor();
 
-            float totalCritChance = baseCritChance + luckBonus;
+            float totalCritChance = baseCritChance + luck;
             float roll = Random.Range(0, 100);
 
             return roll < totalCritChance;
+        }
+
+        private void ComputePlayerEffects(WeaponType type, EffectsContainer defaultWeaponEffects = null)
+        {
+            _allPlayerEffects.Clear();
+            switch (type)
+            {
+                case WeaponType.Melee:
+                    _allPlayerEffects.AddEffects(PlayerManager.Instance.PlayerAttackController.MeleeEffectContainer);
+                    break;
+                case WeaponType.Ranged:
+                    _allPlayerEffects.AddEffects(PlayerManager.Instance.PlayerAttackController.RangeEffectContainer);
+                    break;
+            }
+            _allPlayerEffects.AddEffects(defaultWeaponEffects);
         }
     }
 }

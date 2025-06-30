@@ -20,7 +20,7 @@ namespace Terra.Combat
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                CombatManager.Instance.PerformAttack(_entity, damageable, _weaponData.effects);
+                CombatManager.Instance.PlayerPerformAttack(WeaponType.Melee,_entity, damageable, _weaponData.effects);
             }
         }
     }

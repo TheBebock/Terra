@@ -24,6 +24,21 @@ namespace Terra.EffectsSystem.Abstract
         public List<ActionEffectData> actions = new ();
 
 
+        public void AddEffects(EffectsContainer container)
+        {
+            if (container == null) return;
+            
+            for (int i = 0; i < container.statuses.Count; i++)
+            {
+                AddNewStatusEffect(container.statuses[i]);
+            }
+            
+            for (int i = 0; i < container.actions.Count; i++)
+            {
+                AddNewActionEffect(container.actions[i]);
+            }
+        }
+
         public void AddNewStatusEffect(StatusEffectData statusToAdd, List<EffectData> statusesToDelete = null)
         {
             if (statusesToDelete != null)
@@ -93,6 +108,12 @@ namespace Terra.EffectsSystem.Abstract
             {
                 target.StatusContainer.TryAddEffect(statuses[i]);
             }
+        }
+
+        public void Clear()
+        {
+            statuses.Clear();
+            actions.Clear();
         }
     }
 }
