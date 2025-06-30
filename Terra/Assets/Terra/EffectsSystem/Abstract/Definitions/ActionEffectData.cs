@@ -9,6 +9,11 @@ namespace Terra.EffectsSystem.Abstract.Definitions
     [Serializable]
     public abstract class ActionEffectData : EffectData
     {
-
+        public sealed override float GetEffectPower()
+        {
+            return CalculateEffectPower();
+        }
+        
+        protected abstract float CalculateEffectPower();
     }
 }

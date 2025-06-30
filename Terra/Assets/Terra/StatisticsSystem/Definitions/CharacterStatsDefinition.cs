@@ -7,7 +7,7 @@ namespace Terra.StatisticsSystem.Definitions
         [Header("Character Stats")]
         public int baseStrength = 1;
         public int baseMaxHealth = 1;
-        public int baseSpeed = 1;
+        public int baseDexterity = 1;
     }
 }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
+using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Extensions;
 using Terra.Itemization;
 using Terra.Itemization.Abstracts;
@@ -8,9 +10,24 @@ using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Itemization.Pickups;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Terra.LootSystem
 {
+
+    [Serializable]
+    internal struct StatusDropData
+    {
+        [Range(1,100)] public float dropChance;
+        public StatusEffectData statusEffect;
+    }
+    
+    [Serializable]
+    internal struct ActionDropData
+    {
+        [Range(1,100)] public float dropChance;
+        public StatusEffectData actionEffect;
+    }
     /// <summary>
     /// Contains all possible items and PickupBase that can be dropped in the game.
     /// </summary>
@@ -28,7 +45,12 @@ namespace Terra.LootSystem
         [SerializeField] private List<HealthPickup> _healthPickups = new ();
         [SerializeField] private List<AmmoPickup> _ammoPickups = new ();
         [SerializeField] private List<CrystalPickup> _crystalPickups = new ();
-
+        [Header("Effects - Assigned Manually")]
+        [SerializeField] private List<StatusDropData> _statusEffects = new ();
+        [SerializeField] private List<ActionDropData> _actionEffects = new ();
+        
+        [Foldout("Debug"), ReadOnly] [SerializeField] private List<StatusDropData> _statusEffectsPerGame = new ();
+        [Foldout("Debug"), ReadOnly] [SerializeField] private List<ActionDropData> _actionEffectsPerGame = new ();
         private bool _isInitialized;
 
         public List<ItemBase> GetAllItems()
@@ -70,6 +92,12 @@ namespace Terra.LootSystem
             _healthPickups = _healthPickups.OrderByDescending(pickup => pickup.Data.dropRateChance).ToList();
             _ammoPickups = _ammoPickups.OrderByDescending(pickup => pickup.Data.dropRateChance).ToList();
             _crystalPickups = _crystalPickups.OrderByDescending(pickup => pickup.Data.dropRateChance).ToList();
+            
+            _statusEffects = _statusEffects.OrderByDescending(status => status.dropChance).ToList();
+            _actionEffects = _actionEffects.OrderByDescending(status => status.dropChance).ToList();
+            
+            _statusEffectsPerGame.AddRange(_statusEffects);
+            _actionEffectsPerGame.AddRange(_actionEffects);
         }
 
         private ItemBase CreateNewItem(ItemData data)
@@ -107,16 +135,16 @@ namespace Terra.LootSystem
         {
             List<ItemBase> selectedItems = new ();
 
-            var rangedWeapon = GetRandomRangedWeapon(); // Get a random RangedWeapon
+            var rangedWeapon = PopRandomRangedWeapon();
             if (rangedWeapon != null) selectedItems.Add(rangedWeapon);
 
-            var meleeWeapon = GetRandomMeleeWeapon();  // Get a random MeleeWeapon
+            var meleeWeapon = PopRandomMeleeWeapon();
             if (meleeWeapon != null) selectedItems.Add(meleeWeapon);
 
-            var passiveItem = GetRandomPassiveItem();  // Get a random PassiveItem
+            var passiveItem = PopRandomPassiveItem();
             if (passiveItem != null) selectedItems.Add(passiveItem);
 
-            var activeItem = GetRandomActiveItem();  // Get a random ActiveItem
+            var activeItem = PopRandomActiveItem();
             if (activeItem != null) selectedItems.Add(activeItem);
 
             return selectedItems;
@@ -143,22 +171,31 @@ namespace Terra.LootSystem
             return selectedPickups;
         }
 
-        public ActiveItem GetRandomActiveItem()
+        public StatusEffectData PopRandomStatusEffect()
+        {
+            return _statusEffectsPerGame.PopRandomElement().statusEffect;
+        }
+        
+        public StatusEffectData PopRandomActionEffect()
+        {
+            return _actionEffectsPerGame.PopRandomElement().actionEffect;
+        }
+        public ActiveItem PopRandomActiveItem()
         {
             return _activeItems.PopRandomElement();
         }
 
-        public PassiveItem GetRandomPassiveItem()
+        public PassiveItem PopRandomPassiveItem()
         {
             return _passiveItems.PopRandomElement();
         }
 
-        public MeleeWeapon GetRandomMeleeWeapon()
+        public MeleeWeapon PopRandomMeleeWeapon()
         {
             return _meleeWeapons.PopRandomElement();
         }
 
-        public RangedWeapon GetRandomRangedWeapon()
+        public RangedWeapon PopRandomRangedWeapon()
         {
             return _rangedWeapons.PopRandomElement();
         }

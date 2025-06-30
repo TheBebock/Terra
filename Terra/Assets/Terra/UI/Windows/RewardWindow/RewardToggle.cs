@@ -2,6 +2,7 @@
 using NaughtyAttributes;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract.Definitions;
+using Terra.EffectsSystem.Actions;
 using Terra.Enums;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
@@ -114,7 +115,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             if(rewardType == RewardType.ActiveItem)
             {
-                _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem();
+                _activeItemReward = LootManager.Instance.LootTable.PopRandomActiveItem();
                 if(_activeItemReward == null)
                 {
                     SetNewRewardType();
@@ -129,7 +130,7 @@ namespace Terra.UI.Windows.RewardWindow
             }
             else if(rewardType == RewardType.PassiveItem)
             {
-                _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem();
+                _passiveItemReward = LootManager.Instance.LootTable.PopRandomPassiveItem();
                 if (_passiveItemReward == null)
                 {
                     SetNewRewardType();
@@ -207,14 +208,14 @@ namespace Terra.UI.Windows.RewardWindow
             switch (UnityEngine.Random.Range(0, 2))
             {
                 case 0: 
-                    _effectReward = TemporaryEffectsContainer.Instance.actionEffectDatas?.GetRandomElement<ActionEffectData>();
+                    _effectReward = LootManager.Instance.LootTable.PopRandomActionEffect();
                     if (_effectReward != null)
                         _effectType = typeof(ActionEffectData);
                     else
                         TurnOffToogle();
                     break;
                 case 1:
-                    _effectReward = TemporaryEffectsContainer.Instance.statusEffectDatas?.GetRandomElement<StatusEffectData>();
+                    _effectReward = LootManager.Instance.LootTable.PopRandomStatusEffect();
                     if(_effectReward != null)
                         _effectType = typeof(StatusEffectData);
                     else
@@ -237,14 +238,14 @@ namespace Terra.UI.Windows.RewardWindow
             
             if (rand == 0)
             {
-                var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon();
+                var randomWeapon = LootManager.Instance.LootTable.PopRandomMeleeWeapon();
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.MeleeWeapon = randomWeapon;
             }
             else
             {
-                var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon();
+                var randomWeapon = LootManager.Instance.LootTable.PopRandomRangedWeapon();
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.RangedWeapon = randomWeapon;
@@ -311,17 +312,14 @@ namespace Terra.UI.Windows.RewardWindow
         {
             switch (_rewardType)
             {
-                case RewardType.Stats: 
-                    _statsReward.ApplyReward(); 
+                case RewardType.Stats:
+                    _statsReward.ApplyReward();
                     break;
                 case RewardType.Weapon:
                     _weaponReward.ApplyReward();
                     break;
                 case RewardType.Effect:
-                    if (_effectType.Equals(typeof(ActionEffectData)))
-                        PlayerInventoryManager.Instance.MeleeWeapon.Data.effects.actions.Add(_effectReward as ActionEffectData);
-                    else
-                        PlayerInventoryManager.Instance.MeleeWeapon.Data.effects.statuses.Add(_effectReward as StatusEffectData);
+                    ApplyEffectReward(_effectReward);
                     break;
                 case RewardType.ActiveItem:
                     PlayerInventoryManager.Instance.TryToEquipItem(_activeItemReward);
@@ -329,6 +327,44 @@ namespace Terra.UI.Windows.RewardWindow
                 case RewardType.PassiveItem:
                     PlayerInventoryManager.Instance.TryToEquipItem(_passiveItemReward);
                     break;
+            }
+        }
+
+        private void ApplyEffectReward(EffectData effectData)
+        {
+            if (effectData is StatusEffectData statusEffectData)
+            {
+                ApplyStatusEffectReward(statusEffectData);
+            }
+
+            if (effectData is ActionEffectData actionEffectData)
+            {
+                ApplyActionEffectReward(actionEffectData);
+            }
+        }
+
+        private void ApplyStatusEffectReward(StatusEffectData statusEffectData)
+        {
+            if (statusEffectData.containerType == ContainerType.None)
+            {
+                PlayerManager.Instance.PlayerEntity.StatusContainer.TryAddEffect(statusEffectData);
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerAttackController.AddNewAttackStatusEffect(statusEffectData);
+            }
+               
+        }
+
+        private void ApplyActionEffectReward(ActionEffectData actionEffectData)
+        {
+            if (actionEffectData.containerType == ContainerType.None)
+            {
+                ActionEffectsDatabase.Instance.ExecuteAction(actionEffectData, PlayerManager.Instance.PlayerEntity);
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerAttackController.AddNewAttackActionEffect(actionEffectData);
             }
         }
     }

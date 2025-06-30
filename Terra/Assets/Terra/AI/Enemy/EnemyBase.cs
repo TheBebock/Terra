@@ -89,7 +89,7 @@ namespace Terra.AI.Enemy
                 return;
             }
 
-            _agent.speed = _enemyStats.baseSpeed;
+            _agent.speed = _enemyStats.baseDexterity;
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(_enemyStats.baseMaxHealth), CancellationToken);
 

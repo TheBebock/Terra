@@ -55,7 +55,7 @@ namespace Terra.Combat
         
         private void StartAttack(FacingDirection playerFacingDir)
         {
-            //TODO: Maybe get scale from strength?
+            //TODO: Scale from new stat
             ScaleHitbox();
             _heldHitbox.gameObject.SetActive(true);
             

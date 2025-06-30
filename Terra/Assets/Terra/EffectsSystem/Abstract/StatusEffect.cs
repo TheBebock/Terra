@@ -17,6 +17,7 @@ namespace Terra.EffectsSystem.Abstract
     {
         [UsedImplicitly]
         [SerializeField, ReadOnly] private string _name;
+        
         protected StatusEffectBase(){}
         public void Apply()
         {
@@ -63,6 +64,9 @@ namespace Terra.EffectsSystem.Abstract
 
         private TStatusData _typedData;
         public TStatusData Data => _typedData;
+
+        public sealed override float GetEffectPower => Data.GetEffectPower();
+
 
         public override void Initialize(Entity target, EffectData effectData)
         {

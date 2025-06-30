@@ -19,7 +19,7 @@ namespace Terra.StatisticsSystem
         }
  
         public PlayerStats(PlayerStatsDefinition data)
-            : this(data.baseStrength, data.baseMaxHealth, data.baseSpeed, data.baseLuck){}
+            : this(data.baseStrength, data.baseMaxHealth, data.baseDexterity, data.baseLuck){}
         
 
         public void AddLuckModifier(ValueModifier modifier)

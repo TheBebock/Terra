@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b62200d448d4e194bbe78dd9146f759f, type: 3}
-  m_Name: PushbackData_
+  m_Name: PushbackData_test
   m_EditorClassIdentifier: 
   entityID: -1
   effectIcon: {fileID: 21300000, guid: 005888ede18a58e4db8d069cfa3007cb, type: 3}
@@ -18,7 +18,5 @@ MonoBehaviour:
   effectDescription: 
   effectParticle: {fileID: 0}
   containerType: 1
-  incompatibleEffects:
-  - {fileID: 11400000, guid: 88878b45326620e43b383512324244f2, type: 2}
-  - {fileID: 11400000, guid: ef82ae0793dced242b29bd962fcd82f1, type: 2}
-  force: 10
+  incompatibleEffects: []
+  force: 15

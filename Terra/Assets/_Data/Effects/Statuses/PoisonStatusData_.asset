@@ -17,6 +17,8 @@ MonoBehaviour:
   effectName: Poison
   effectDescription: 
   effectParticle: {fileID: 0}
+  containerType: 2
+  incompatibleEffects: []
   statusDuration: 3
   amountOfTicksPerSecond: 2
-  damagePerTick: 0.1
+  damagePerTick: 1

@@ -9,7 +9,6 @@ using UnityEngine;
 using Terra.Interfaces;
 using Terra.Managers;
 using Terra.Player.PlayerStates;
-using Terra.UI;
 using Terra.UI.Windows;
 using UIExtensionPackage.UISystem.UI.Windows;
 
@@ -82,9 +81,7 @@ namespace Terra.Player
             _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !_playerMovement.IsDashing));
             _stateMachine.AddTransition(idleState, locomotionState, new FuncPredicate(() => _playerMovement.IsTryingMove));
             _stateMachine.AddTransition(locomotionState, idleState, new FuncPredicate(() => !_playerMovement.IsTryingMove));
-
-            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !_playerMovement.CanPlayerMove && !IsPlayerDead));
-            _stateMachine.AddAnyTransition(_deathState, new FuncPredicate(() => IsPlayerDead));
+            
 
             _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformDistanceAttack));
@@ -94,7 +91,9 @@ namespace Terra.Player
             _stateMachine.AddTransition(meleeAttackState, idleState, new FuncPredicate(() => !_playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(rangedAttackState, idleState, new FuncPredicate(() => !_playerAttackController.IsTryingPerformDistanceAttack));
             
-
+            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !_playerMovement.CanPlayerMove && !IsPlayerDead));
+            _stateMachine.AddAnyTransition(_deathState, new FuncPredicate(() => IsPlayerDead));
+            
             _stateMachine.SetState(idleState);
         }
 
@@ -117,6 +116,8 @@ namespace Terra.Player
             transform.position = _startingPlayerPosition;
         }
 
+        public void OnMeleeEnd() => PlayerAttackController.OnMeleeAnimationEnd();
+        public void OnRangeEnd() => PlayerAttackController.OnRangeAnimationEnd();
         public void OnPlayerDeathNotify()
         {
             _isPlayerDead = true;

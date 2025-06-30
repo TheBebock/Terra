@@ -3,6 +3,7 @@ using Terra.AI.EnemyStates;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
 using Terra.Managers;
+using Terra.Player;
 using UnityEngine;
 
 namespace Terra.Combat.Projectiles
@@ -43,20 +44,33 @@ namespace Terra.Combat.Projectiles
             _originLayer = origin.gameObject.layer;
             _rigidbody.velocity = direction.normalized * data.bulletSpeed;
             transform.forward  = direction.normalized;
-            if (origin.gameObject.layer != _playerLayer)
+            if (origin.gameObject.layer == _playerLayer)
             {
-                if (direction.x < 0)
-                {
-                    _animator.CrossFade(AnimationHashes.AttackLeft, 0.1f);
-                }
-                else
-                {
-                    _animator.CrossFade(AnimationHashes.AttackRight, 0.1f);
-                }
+                PlayerProjectileInitialization();
+            }
+            else
+            {
+                EnemyProjectileInitialization(direction);
             }
             Destroy(gameObject, 20f);
         }
 
+        private void EnemyProjectileInitialization(Vector3 direction)
+        {
+            if (direction.x < 0)
+            {
+                _animator.CrossFade(AnimationHashes.AttackLeft, 0.1f);
+            }
+            else
+            {
+                _animator.CrossFade(AnimationHashes.AttackRight, 0.1f);
+            }
+        }
+
+        private void PlayerProjectileInitialization()
+        {
+            _damage += PlayerStatsManager.Instance.PlayerStats.Dexterity;
+        }
         private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.layer == _originLayer) return;

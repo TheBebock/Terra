@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Terra.AnimationEvent
@@ -5,10 +6,9 @@ namespace Terra.AnimationEvent
     public class AnimationEventStateBehaviour:StateMachineBehaviour
     {
         public string eventName;
-        [Range(0f, 1f)] public float triggerTime;
-        [SerializeField]
-        private bool _resetOnLoop = true;
-        private bool _hasTriggered;
+        [Range(0f, 0.95f)] public float triggerTime;
+        [SerializeField] private bool _resetOnLoop = true;
+        [SerializeField, ReadOnly] private bool _hasTriggered;
         private AnimationEventReceiver _receiver;
         private int _lastLoopCount = -1;
         
@@ -17,6 +17,10 @@ namespace Terra.AnimationEvent
             _lastLoopCount = -1;
             _hasTriggered = false;
             _receiver = animator.GetComponentInParent<AnimationEventReceiver>();
+            if (_receiver == null)
+            {
+                Debug.LogError($"{this} : Animator {animator.gameObject.name} has no receiver");
+            }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

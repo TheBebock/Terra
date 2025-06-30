@@ -12,6 +12,11 @@ namespace Terra.EffectsSystem.Abstract
     public class EffectBase
     {
         protected Entity entity;
+
+
+
+        public virtual float GetEffectPower => -1;
+
         /// <summary>
         ///     Initializes effect with data
         /// </summary>

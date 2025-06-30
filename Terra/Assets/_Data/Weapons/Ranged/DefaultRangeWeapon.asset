@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b183d64a9928094db82fd600606a6b3, type: 3}
-  m_Name: ranged_test
+  m_Name: DefaultRangeWeapon
   m_EditorClassIdentifier: 
   _id: 1967579987
   itemName: ranged_test
@@ -19,13 +19,14 @@ MonoBehaviour:
   canBeRemoved: 0
   strengthModifiers: []
   maxHealthModifiers: []
-  dexModifiers: []
+  dexModifiers:
+  - value: 10
+    type: 100
+    sourceID: -1
   luckModifiers: []
   effects:
     statuses: []
     actions: []
-  damage: 0
-  attackCooldown: 0.5
   attackSFX: {fileID: 0}
   ammoCapacity: 30
   bulletData:
@@ -36,4 +37,4 @@ MonoBehaviour:
       actions: []
     penetrationPower: 0
     bulletSpeed: 20
-    bulletDamage: 5
+    bulletDamage: 0

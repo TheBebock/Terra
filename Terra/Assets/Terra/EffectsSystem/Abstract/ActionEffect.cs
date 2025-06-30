@@ -16,6 +16,8 @@ namespace Terra.EffectsSystem.Abstract
     {
         [UsedImplicitly]
         [SerializeField, ReadOnly] private string _effectType;
+
+        
         public ActionEffectBase()
         {
             _effectType = GetType().Name;
@@ -40,6 +42,8 @@ namespace Terra.EffectsSystem.Abstract
     {
         private TActionData _typedData;
         public TActionData Data => _typedData;
+        
+        
 
         public sealed override void Initialize(Entity target, EffectData actionEffectData)
         {
@@ -60,8 +64,8 @@ namespace Terra.EffectsSystem.Abstract
                 Debug.LogError($"{actionEffectData} is not of type {typeof(TActionData).Name}");
             }
         }
+        public sealed override float GetEffectPower => Data.GetEffectPower();
 
-        
         protected sealed override void InternalExecute(Entity target, Entity source = null)
         {
             if (_typedData == null)

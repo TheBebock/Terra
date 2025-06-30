@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStrength: 3
   baseMaxHealth: 10
-  baseSpeed: 3
+  baseDexterity: 5

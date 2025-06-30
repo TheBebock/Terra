@@ -96,9 +96,12 @@ namespace Terra.RewardSystem
             int playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
             int playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);
             
+            int newWeaponDex = CalculateModifierValue(toCompareWeapon.dexModifiers);
+            int playerDex = PlayerStatsManager.Instance.PlayerStats.Dexterity;
+            int playerDexWithoutCurrentWeapon = playerDex - CalculateModifierValue(currentWeapon.dexModifiers);
+            
             WeaponDataComparison comparison = new WeaponDataComparison
             {
-                attackCooldown = CompareValue(currentWeapon.attackCooldown, toCompareWeapon.attackCooldown),
                 itemDataComparison = new StatsDataComparison
                 {
                     isInitialized = true,
@@ -110,7 +113,7 @@ namespace Terra.RewardSystem
                     maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, toCompareWeapon.maxHealthModifiers),
                     
                     dexterity = CompareModifiers(currentWeapon.dexModifiers, toCompareWeapon.dexModifiers),
-                    dexterityValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Dexterity, toCompareWeapon.dexModifiers),
+                    dexterityValue = playerDexWithoutCurrentWeapon + newWeaponDex,
                     
                     luck = CompareModifiers(currentWeapon.luckModifiers, toCompareWeapon.luckModifiers),
                     luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareWeapon.luckModifiers),

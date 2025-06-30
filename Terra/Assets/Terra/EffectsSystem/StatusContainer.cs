@@ -42,14 +42,22 @@ namespace Terra.EffectsSystem
             }
             
             // No effect found
-            if (!_statuses.TryFind(s => s.GetType() == newStatus.GetType(), out StatusEffectBase currentStatus))
+            if (_statuses.TryFind(s => s.GetType() == newStatus.GetType(), out StatusEffectBase currentStatus))
             {
-                newStatus.Apply();
-                _statuses.Add(newStatus);
-                return;
-            }
 
-            //TODO: Compare current and new status, swap if better
+                // If new status is better, remove current one, apply new and return
+                if (newStatus.GetEffectPower > currentStatus.GetEffectPower)
+                {
+                    if (currentStatus.TryRemove(true))
+                    {
+                        _statuses.RemoveElement(currentStatus);
+                    }
+                    newStatus.Apply();
+                    _statuses.Add(newStatus);
+                    
+                    return;
+                }
+            }
             
             currentStatus.Reset();
         }

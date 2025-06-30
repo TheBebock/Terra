@@ -1,10 +1,16 @@
 using System;
 using NaughtyAttributes;
 using System.Collections;
+using System.Collections.Generic;
 using Terra.Combat.Projectiles;
+using Terra.EffectsSystem;
+using Terra.EffectsSystem.Abstract;
+using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Enums;
+using Terra.Extensions;
 using Terra.InputSystem;
 using Terra.Interfaces;
+using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Managers;
 using UnityEngine;
@@ -28,14 +34,14 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private bool _isTryingPerformDistanceAttack;
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private float _currentMeleeCd;
-        [Foldout("Debug"), ReadOnly] [SerializeField]
-        private float _currentRangedCd;
-        [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxMeleeCd;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private float _maxRangedCd;
-
+        [Foldout("Debug"), ReadOnly] [SerializeField]
+        private EffectsContainer _meleeEffectContainer = new ();        
+        [Foldout("Debug"), ReadOnly] [SerializeField]
+        private EffectsContainer _rangeEffectContainer = new ();
+        
         [SerializeField] private AudioClip _meleeAttackSFX;
         [SerializeField] private AudioClip _rangedAttackSFX;
 
@@ -43,21 +49,11 @@ namespace Terra.Player
         public static event Action<FacingDirection> OnMeleeAttackPerformed;
         public static event Action OnRangeAttackPerformed;
         
-        public bool IsTryingPerformMeleeAttack
-        {
-            get => _isTryingPerformMeleeAttack;
-            set => _isTryingPerformMeleeAttack = value;
-
-        }
-
-        public bool IsTryingPerformDistanceAttack
-        {
-            get => _isTryingPerformDistanceAttack;
-            set => _isTryingPerformDistanceAttack = value;
-        }
-
-        public float CurrentMeleeCooldown => _currentMeleeCd;
-        public float CurrentRangedCooldown => _currentRangedCd;
+        public bool IsTryingPerformMeleeAttack => _isTryingPerformMeleeAttack;
+        
+        public bool IsTryingPerformDistanceAttack => _isTryingPerformDistanceAttack;
+        
+        
 
         private FacingDirection _currentPlayerAttackDirection;
         public FacingDirection CurrentPlayerAttackDirection => _currentPlayerAttackDirection;
@@ -73,8 +69,6 @@ namespace Terra.Player
                 _playerInventory = PlayerInventoryManager.Instance;
                 _meleeAttackSFX = _playerInventory.MeleeWeapon.Data.attackSFX;
                 _rangedAttackSFX = _playerInventory.RangedWeapon.Data.attackSFX;
-                _maxMeleeCd = _playerInventory.MeleeWeapon.Data.attackCooldown;
-                _maxRangedCd = _playerInventory.RangedWeapon.Data.attackCooldown;
             }
             else
             {
@@ -84,58 +78,40 @@ namespace Terra.Player
 
         public void AttachListeners()
         {
-            InputManager.Instance.PlayerControls.MeleeAttack.performed += OnMeleeAttackInput;
-            InputManager.Instance.PlayerControls.RangeAttack.performed += OnRangeAttackInput;
+            InputManager.Instance.PlayerControls.MeleeAttack.started += OnMeleeAttackInput;
+            InputManager.Instance.PlayerControls.RangeAttack.started += OnRangeAttackInput;
             PlayerInventoryManager.Instance.OnMeleeWeaponChanged += OnMeleeWeaponChanged;
             PlayerInventoryManager.Instance.OnRangedWeaponChanged += OnRangedWeaponChanged;
         }
-
-        private IEnumerator DecreaseMeleeCooldown()
-        {
-            while (CurrentMeleeCooldown > 0)
-            {
-                _currentMeleeCd -=0.1f;
-                yield return new WaitForSeconds(0.1f);
-            }
-        }
-
-        private IEnumerator DecreaseRangedCooldown()
-        {
-            while (CurrentRangedCooldown > 0)
-            {
-                _currentRangedCd -=0.1f;
-                yield return new WaitForSeconds(0.1f);
-            }
-        }
+        
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
-            if (_currentMeleeCd <= 0 && !_isTryingPerformMeleeAttack)
+            if (!_isTryingPerformMeleeAttack)
             {
-                AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource);
                 ChangeAttackDirection();
+
                 _isTryingPerformMeleeAttack = true;
-                _currentMeleeCd = _maxMeleeCd;
+                AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource);
                 OnMeleeAttackPerformed?.Invoke(_currentPlayerAttackDirection);
-                _playerInventory.StartCoroutine(DecreaseMeleeCooldown());
             }
         }
 
         private void OnRangeAttackInput(InputAction.CallbackContext context)
         {
-            if (_currentRangedCd <= 0 && !_isTryingPerformDistanceAttack)
+            if (!_isTryingPerformDistanceAttack)
             {
-                AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
                 ChangeAttackDirection();
+
+                
                 _isTryingPerformDistanceAttack = true;
-                _currentRangedCd = _maxRangedCd;
+                AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
                 OnRangeAttackPerformed?.Invoke();
                 ProjectileFactory.CreateProjectile(
                     _playerInventory.RangedWeapon.Data.bulletData,
                     _firePoint.position, 
                     MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position),
                     PlayerManager.Instance.PlayerEntity);
-                _playerInventory.StartCoroutine(DecreaseRangedCooldown());
             }
         }
 
@@ -166,6 +142,58 @@ namespace Terra.Player
                 else _currentPlayerAttackDirection = FacingDirection.Down;
             }
         }
+
+        public void AddNewAttackActionEffect(ActionEffectData action)
+        {
+            EffectsContainer effectsContainer = null;
+            switch (action.containerType)
+            {
+                case ContainerType.MeleeWeapon: 
+                    effectsContainer = _meleeEffectContainer; 
+                    break;
+                case ContainerType.RangedWeapon:
+                    effectsContainer = _rangeEffectContainer;
+                    break;
+                
+                case ContainerType.AllWeapons:
+                    _meleeEffectContainer.AddNewActionEffect(action, action.incompatibleEffects);
+                    _rangeEffectContainer.AddNewActionEffect(action, action.incompatibleEffects);
+                    return;
+                
+                default:
+                    Debug.LogError($"{this}: {action} has invalid container type. No effects can be added.");
+                    return;
+            }
+            
+            effectsContainer.AddNewActionEffect(action, action.incompatibleEffects);
+        }
+        
+        public void AddNewAttackStatusEffect(StatusEffectData status)
+        {
+            EffectsContainer effectsContainer = null;
+            switch (status.containerType)
+            {
+                case ContainerType.MeleeWeapon: 
+                    effectsContainer = _meleeEffectContainer; 
+                    break;
+                case ContainerType.RangedWeapon:
+                    effectsContainer = _rangeEffectContainer;
+                    break;
+                case ContainerType.AllWeapons:
+                    _meleeEffectContainer.AddNewStatusEffect(status, status.incompatibleEffects);
+                    _rangeEffectContainer.AddNewStatusEffect(status, status.incompatibleEffects);
+                    return;
+                
+                default:
+                    Debug.LogError($"{this}: {status} has invalid container type. No effects can be added.");
+                    return;
+            }
+            
+            effectsContainer.AddNewStatusEffect(status, status.incompatibleEffects);
+        }
+        
+        public void OnMeleeAnimationEnd() => _isTryingPerformMeleeAttack = false;
+        public void OnRangeAnimationEnd() => _isTryingPerformDistanceAttack = false;
         
         public void DetachListeners()
         {

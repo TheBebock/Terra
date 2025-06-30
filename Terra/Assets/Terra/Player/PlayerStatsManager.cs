@@ -6,7 +6,6 @@ using Terra.Core.ModifiableValue;
 using Terra.Extensions;
 using Terra.StatisticsSystem;
 using Terra.StatisticsSystem.Definitions;
-using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
 
 namespace Terra.Player

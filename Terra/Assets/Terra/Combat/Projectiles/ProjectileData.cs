@@ -20,6 +20,6 @@ namespace Terra.Combat.Projectiles
         [Min(2)]public float bulletSpeed;
 
         [Tooltip("Damage dealt by the bullet on hit")]
-        [Min(1)]public int bulletDamage;
+        [Min(0)]public int bulletDamage;
     }
 }

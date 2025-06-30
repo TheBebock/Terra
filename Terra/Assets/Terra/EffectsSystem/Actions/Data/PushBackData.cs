@@ -9,6 +9,11 @@ namespace Terra.EffectsSystem.Actions.Data
     public class PushBackData : ActionEffectData
     {
         public float force = 10f;
+
+        protected override float CalculateEffectPower()
+        {
+            return force;
+        }
     }
 }
 

@@ -17,4 +17,3 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     effectTypeName: Terra.EffectsSystem.Actions.PushBackAction, Terra, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  _actionsCount: 0

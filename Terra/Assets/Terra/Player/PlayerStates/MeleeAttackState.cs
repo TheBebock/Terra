@@ -14,18 +14,7 @@ namespace Terra.Player.PlayerStates
         {
             ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection); 
         }
-
-        public override void Update()
-        {
-            // Check if animator already changed state
-            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != _actualStateHash) return;
-
-            // Disable player attack trigger when animation end
-            if(animator.GetCurrentAnimatorStateInfo(0).length < animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
-            {
-                player.PlayerAttackController.IsTryingPerformMeleeAttack = false;
-            }
-        }
+        
 
         private void ChangeDirectionOfAnimation(FacingDirection playerAttackDirection)
         {
