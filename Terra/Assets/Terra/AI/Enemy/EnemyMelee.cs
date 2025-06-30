@@ -1,5 +1,5 @@
 using NaughtyAttributes;
-using Terra.AI.Data.Definitions;
+using Terra.AI.Data;
 using Terra.AI.EnemyStates;
 using Terra.Combat;
 using Terra.FSM;
@@ -14,9 +14,6 @@ namespace Terra.AI.Enemy
     {
         [SerializeField, Expandable] private MeleeEnemyData _data;
         protected override MeleeEnemyData Data => _data;
-
-        protected override float GetAttackCooldown() => Data.attackCooldown;
-        
 
         protected override void SetupStates()
         {

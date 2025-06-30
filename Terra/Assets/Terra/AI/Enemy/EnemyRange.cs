@@ -1,9 +1,10 @@
 using NaughtyAttributes;
-using Terra.AI.Data.Definitions;
+using Terra.AI.Data;
 using Terra.AI.EnemyStates;
 using Terra.Combat.Projectiles;
 using Terra.FSM;
 using Terra.Player;
+using Terra.Utils;
 using UnityEngine;
 
 namespace Terra.AI.Enemy
@@ -16,8 +17,13 @@ namespace Terra.AI.Enemy
         [Header("References")]
         [SerializeField] private Transform _firePoint;
         [SerializeField] LayerMask _obstructionLayerMask;
+        
 
-        protected override float GetAttackCooldown() => Data.attackCooldown;
+        protected override void Awake()
+        {
+            base.Awake();
+            attackTimer = new CountdownTimer(Data.attackCooldown);
+        }
 
         protected override void SetupStates()
         {
@@ -36,6 +42,12 @@ namespace Terra.AI.Enemy
             stateMachine.AddAnyTransition(enemyDeathState, new FuncPredicate(() => isDead));
             
             stateMachine.SetState(wander);
+        }
+
+        protected override void InternalUpdate()
+        {
+            base.InternalUpdate();
+            attackTimer.Tick(Time.deltaTime);
         }
 
         private bool IsPlayerNear()

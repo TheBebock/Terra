@@ -1,9 +1,8 @@
-namespace Terra.AI.Data.Definitions
+namespace Terra.AI.Data
 {
     public abstract class EnemyData : AIData
     {
         public float dashModifier = 1.5f;
-        public float attackCooldown;
         public float attackRange;
     }
 }

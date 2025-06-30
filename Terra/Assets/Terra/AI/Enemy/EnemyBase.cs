@@ -1,6 +1,6 @@
 using DG.Tweening;
 using NaughtyAttributes;
-using Terra.AI.Data.Definitions;
+using Terra.AI.Data;
 using Terra.AI.EnemyStates;
 using Terra.Combat;
 using Terra.Core.Generics;
@@ -93,7 +93,7 @@ namespace Terra.AI.Enemy
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(_enemyStats.baseMaxHealth), CancellationToken);
 
-            attackTimer = new CountdownTimer(GetAttackCooldown());
+            
 
             AttachListeners();
 
@@ -118,12 +118,18 @@ namespace Terra.AI.Enemy
 
             StatusContainer.UpdateEffects();
             stateMachine.Update();
-            attackTimer.Tick(Time.deltaTime);
+   
+            
+            
             UpdateFacingDirection();
 
 
         }
 
+        protected virtual void InternalUpdate()
+        {
+            
+        }
         /// <summary>
         /// Updates facing direction based on agent velocity.
         /// </summary>
@@ -162,11 +168,7 @@ namespace Terra.AI.Enemy
         /// Abstract method for performing an attack, to be implemented by subclasses.
         /// </summary>
         public abstract void AttemptAttack();
-
-        /// <summary>
-        /// Returns the cooldown duration between attacks, to be implemented by subclasses.
-        /// </summary>
-        protected abstract float GetAttackCooldown();
+        
 
         protected virtual bool CanAttackPlayer() {
             return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange;

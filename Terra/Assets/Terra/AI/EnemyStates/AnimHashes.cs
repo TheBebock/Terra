@@ -8,6 +8,8 @@ namespace Terra.AI.EnemyStates {
         
         public static readonly int Default = Animator.StringToHash("Default");
         public static readonly int Idle = Animator.StringToHash("Idle");
+        public static readonly int IdleLeft = Animator.StringToHash("IdleLeft");
+        public static readonly int IdleRight = Animator.StringToHash("IdleRight");
         public static readonly int OnDamaged = Animator.StringToHash("OnDamaged");
 
         public static readonly int WalkLeft = Animator.StringToHash("WalkLeft");

@@ -53,22 +53,35 @@ namespace Terra.Utils {
         
         public bool IsFinished => Time <= 0;
 
+        /// <summary>
+        /// Resets time back to its initial value and starts the timer
+        /// </summary>
         public void Restart()
         {
-            Reset();
+            ResetTime();
             Start();
         }
+        
+        /// <summary>
+        /// Resets time to given value and starts the timer
+        /// </summary>
         public void Restart(float newTime)
         {
-            Reset(newTime);
+            ResetTime(newTime);
             Start();
         }
 
-        public void Reset() => Time = initialTime;
+        /// <summary>
+        /// Resets time back to its initial value
+        /// </summary>
+        public void ResetTime() => Time = initialTime;
         
-        public void Reset(float newTime) {
+        /// <summary>
+        /// Resets time to given value
+        /// </summary>
+        public void ResetTime(float newTime) {
             initialTime = newTime;
-            Reset();
+            ResetTime();
         }
     }
     

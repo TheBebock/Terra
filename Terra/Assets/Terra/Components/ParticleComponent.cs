@@ -38,13 +38,13 @@ namespace Terra.Components
         public void ResetTimer()
         {
             if(!_isDestroyable) _particles.Play();
-            _timer?.Reset();
+            _timer?.ResetTime();
         }
 
         public void ResetTimer(float newDuration)
         {
             if(!_isDestroyable) _particles.Play();
-            _timer?.Reset(newDuration);
+            _timer?.ResetTime(newDuration);
         } 
 
         private void Update()
