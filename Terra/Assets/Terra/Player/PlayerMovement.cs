@@ -34,6 +34,7 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField] private Vector2 _movementInput;
     
         private Vector2 _dashMovementInput;
+        private OnPlayerDashTimerProgressedEvent _onDashTimerProgressed;
         public bool CanPlayerMove { 
             get => _canPlayerMove;
             set => _canPlayerMove = value;
@@ -55,6 +56,8 @@ namespace Terra.Player
         private void Awake()
         {
             _dashCooldownTimer = new CountdownTimer(_dashCooldown);
+            _onDashTimerProgressed = new();
+            _onDashTimerProgressed.progress = 0f;
         }
 
         void Update()
@@ -65,6 +68,8 @@ namespace Terra.Player
             }
 
             _dashCooldownTimer.Tick(Time.deltaTime);
+            _onDashTimerProgressed.progress = _dashCooldownTimer.Progress;
+            EventsAPI.Invoke(ref _onDashTimerProgressed);
         }
 
         public void HandleMovement()
