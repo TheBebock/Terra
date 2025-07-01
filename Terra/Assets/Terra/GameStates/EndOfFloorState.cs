@@ -22,6 +22,7 @@ namespace Terra.GameStates
             
             HUDManager.Instance.HideGameplayHUD();
             HUDManager.Instance.StatsDisplay.Hide();
+            HUDManager.Instance.PassiveItemsDisplay.Hide();
             
             _ = StartAnimation();
         }

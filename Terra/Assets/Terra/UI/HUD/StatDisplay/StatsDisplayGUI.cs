@@ -72,11 +72,7 @@ namespace Terra.UI.HUD.StatDisplay
             }
         }
         
-        private void OnOpacityChanged(int opacityPercent)
-        {
-            _opacityPercent = opacityPercent;
-            ForceSetObjectOpacity(_opacityPercent);
-        }
+
         
         private void OnStatValueChanged(StatisticType statisticType, int statValue)
         {
@@ -154,6 +150,11 @@ namespace Terra.UI.HUD.StatDisplay
         {
             _canvasGroup.alpha = 1;
         }
+        private void OnOpacityChanged(int opacityPercent)
+        {
+            _opacityPercent = opacityPercent;
+            ForceSetObjectOpacity(_opacityPercent);
+        }
                 
         public void ResetObjectOpacityToDefault() => ForceSetObjectOpacity(_opacityPercent);
         
@@ -183,14 +184,11 @@ namespace Terra.UI.HUD.StatDisplay
             }
         }
 
-        protected void OnValidate()
+        private void OnValidate()
         {
             if(!_canvasGroup) _canvasGroup = GetComponent<CanvasGroup>();
             
-            if (_statLabels.Count > 0)
-            {
-                OnOpacityChanged(_opacityPercent);
-            }
+            OnOpacityChanged(_opacityPercent);
         }
     }
 }

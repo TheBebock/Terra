@@ -441,8 +441,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5076099605895239575, guid: 8c861b6411d03a24e8ad5d511fa32c1f,
         type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5076099605895239575, guid: 8c861b6411d03a24e8ad5d511fa32c1f,
+        type: 3}
+      propertyPath: m_OverrideSorting
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5076099605895239575, guid: 8c861b6411d03a24e8ad5d511fa32c1f,
+        type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
+      value: 27
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7919760984057662771, guid: 8c861b6411d03a24e8ad5d511fa32c1f, type: 3}
@@ -477,7 +487,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6534381770938390440}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.29999998
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -497,6 +507,9 @@ MonoBehaviour:
   _interactionState: 0
   _canvasGroup: {fileID: 290848604156014653}
   _opacityPercent: 30
+  _stdTextColor: {r: 1, g: 1, b: 1, a: 1}
+  _betterTextColor: {r: 0, g: 1, b: 0, a: 1}
+  _worseTextColor: {r: 1, g: 0, b: 0, a: 1}
   _labelSetupData:
   - statisticType: 0
     statIcon: {fileID: 0}
