@@ -1,10 +1,15 @@
 using System;
+using NaughtyAttributes;
+using UnityEngine;
 
 namespace Terra.Utils {
+    [Serializable]
     public abstract class Timer {
-        protected float initialTime;
-        protected float Time { get; set; }
-        public bool IsRunning { get; protected set; }
+        [SerializeField, ReadOnly] protected float initialTime;
+        [SerializeField, ReadOnly] protected float currentTime;
+        [SerializeField, ReadOnly] protected bool isRunning;
+        protected float Time { get => currentTime; set => currentTime = value; }
+        public bool IsRunning { get => isRunning; protected set => isRunning = value; }
         
         public float Progress => Time / initialTime;
         
@@ -34,10 +39,12 @@ namespace Terra.Utils {
         public void ForceSetTime(float time) => Time = time;
         public void Resume() => IsRunning = true;
         public void Pause() => IsRunning = false;
-        
+        public void SetInitialTime(float time) => initialTime = time;
+
         public abstract void Tick(float deltaTime);
     }
     
+    [Serializable]
     public class CountdownTimer : Timer {
         public CountdownTimer(float value) : base(value) { }
 
@@ -85,6 +92,7 @@ namespace Terra.Utils {
         }
     }
     
+    [Serializable]
     public class StopwatchTimer : Timer {
         public StopwatchTimer() : base(0) { }
 

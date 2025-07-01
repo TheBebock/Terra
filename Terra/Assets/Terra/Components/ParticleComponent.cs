@@ -14,9 +14,12 @@ namespace Terra.Components
         
         [Tooltip("If the particle is played often, this shouldn't be marked, for example: 'OnHit' is played often")]
         [SerializeField] private bool _isDestroyable;
-        [SerializeField] private float _duration;
+        [Tooltip("If marked, after the timer runs out, particles are instantly destroyed, only Stopped and destroyed after their main duration")]
+        [SerializeField] private bool _fadeParticlesAfterDuration;
+        [Tooltip("How long to play the particles. -1 is infinity")]
+        [ShowIf(nameof(ShowParticlesDuration))][SerializeField] private float _duration;
         [Foldout("Debug")] [SerializeField] private ParticleSystem _particles;
-        private CountdownTimer _timer;
+        [Foldout("Debug")] [SerializeField] private CountdownTimer _timer;
         
         public static event Action<ParticleComponent> OnParticleDestroyed;
         
@@ -33,10 +36,11 @@ namespace Terra.Components
             }
             else
             {
-                _timer = new CountdownTimer(_particles.main.duration);
+                _timer = new CountdownTimer(_particles.main.duration); 
             }
             // If _duration is -1, it means that particles should exist infinitely
             if(!Mathf.Approximately(_duration, -1f)) _timer.Start();
+            _timer.OnTimerStop += OnTimerStop;
         }
 
         private void OnTimerStop()
@@ -45,8 +49,11 @@ namespace Terra.Components
         }
         private async UniTaskVoid StopParticles()
         {
-            _particles.Stop();
-            await UniTask.WaitForSeconds(_particles.main.duration + 0.5f);
+            if (_fadeParticlesAfterDuration)
+            {
+                _particles.Stop();
+                await UniTask.WaitForSeconds(_particles.main.duration + 0.5f);
+            }
             Destroy(gameObject);
         }
         public void ResetTimer()
@@ -65,12 +72,18 @@ namespace Terra.Components
         {
             _timer.Restart(newDuration);
         }
-        
+
+        public void StopPlayingParticles()
+        {
+            _particles.Stop();
+        }
         private void Update()
         {
             _timer?.Tick(Time.deltaTime);
         }
 
+        private bool ShowParticlesDuration => _particles.main.loop;
+        
         private void OnValidate()
         {
             if (!_particles)
@@ -83,7 +96,7 @@ namespace Terra.Components
         {
             base.CleanUp();
             OnParticleDestroyed?.Invoke(this);
-            _timer.OnTimerStop -= OnTimerStop;
+            if(_timer != null ) _timer.OnTimerStop -= OnTimerStop;
         }
         
     }

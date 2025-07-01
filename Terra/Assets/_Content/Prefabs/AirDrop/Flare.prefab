@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0ac16b48035b715438bdc687f6113eb1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,12 +99,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms:
+  _lookAtType: 1
+  _targetTransforms:
   - {fileID: 8232403450878813543}
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _targetVFXControllers: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!1 &2967336599148840749
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +189,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 65527
@@ -235,10 +240,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9991931e449a1fe4685ebe04cf9b8cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minIntensity: 2
-  maxIntensity: 5
-  flickerSpeed: 0.1
   _light: {fileID: 8666933444630377222}
+  _defaultIntensity: 1.5
+  _defaultColor: {r: 1, g: 0.2760729, b: 0, a: 1}
+  _isFlickering: 0
+  _minIntensity: 2
+  _maxIntensity: 5
+  _flickerSpeed: 0.1
 --- !u!1 &6679672376958221553
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +258,7 @@ GameObject:
   - component: {fileID: 4393068689361345038}
   - component: {fileID: 4939017922933646390}
   - component: {fileID: 417662908128963310}
+  - component: {fileID: 5497935527809948967}
   m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
@@ -280,7 +289,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6679672376958221553}
   serializedVersion: 8
-  lengthInSec: 10
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -5037,7 +5046,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5071,6 +5080,26 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &5497935527809948967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6679672376958221553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c7c25d7af663846b8ece033fadbbe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isDestroyable: 1
+  _fadeParticlesAfterDuration: 1
+  _duration: 20
+  _particles: {fileID: 4939017922933646390}
+  _timer:
+    initialTime: 0
+    currentTime: 0
+    isRunning: 0
 --- !u!1 &7813380913943337015
 GameObject:
   m_ObjectHideFlags: 0
@@ -5168,4 +5197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4800b79bab2b74e961e651323f641a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _smokeDurationAfterHittingGround: 6
   _rigidbody: {fileID: 8071504688529136924}
+  _particles: {fileID: 5497935527809948967}

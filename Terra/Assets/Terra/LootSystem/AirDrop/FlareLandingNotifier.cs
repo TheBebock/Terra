@@ -1,19 +1,26 @@
 using System;
 using NaughtyAttributes;
 using Terra.Components;
+using Terra.Core.Generics;
 using UnityEngine;
 
 namespace Terra.LootSystem.AirDrop
 {
-    public class FlareLandingNotifier : MonoBehaviour
+    public class FlareLandingNotifier : InGameMonobehaviour
     {
         public Action onLanded;
 
         private bool _hasLanded;
         public bool HasLanded => _hasLanded;
+
+        [SerializeField] private float _smokeDurationAfterHittingGround = 6f;
+        [SerializeField, ReadOnly] private Rigidbody _rigidbody;
+        [SerializeField, ReadOnly] private ParticleComponent _particles;
         
-        [SerializeField, ReadOnly] Rigidbody _rigidbody;
-        [SerializeField, ReadOnly] ParticleComponent _particles;
+        private void Awake()
+        {
+            _particles.Initialize();
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -26,14 +33,14 @@ namespace Terra.LootSystem.AirDrop
                 _rigidbody.constraints = RigidbodyConstraints.FreezePosition;
                 onLanded?.Invoke();
                 
-                
+                DeAttachParticles();
             }
         }
 
-        private void DeattachParticles()
+        private void DeAttachParticles()
         {
              _particles.transform.parent = null;
-             _particles.RestartTimer(_particles.MainParticlesDuration);
+             _particles.RestartTimer(_smokeDurationAfterHittingGround);
         }
         private void OnValidate()
         {
