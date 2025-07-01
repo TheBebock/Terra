@@ -48,6 +48,7 @@ namespace Terra.AI.Enemy
         [FormerlySerializedAs("animator")] [Foldout("References")][SerializeField] protected Animator _animator;
         [FormerlySerializedAs("enemyCollider")] [Foldout("References")][SerializeField] protected Collider _enemyCollider;
         [FormerlySerializedAs("enemyModel")] [Foldout("References")][SerializeField] protected SpriteRenderer _enemyModel;
+        [Foldout("References")][SerializeField] protected AudioSource _audioSource;
         [Foldout("References")][SerializeField] protected Rigidbody _enemyRigidBody;
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
@@ -68,7 +69,7 @@ namespace Terra.AI.Enemy
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float AttackRange { get; }
-        protected AudioSource audioSource;
+
 
         protected Vector3 ItemsSpawnPosition => new(
             transform.position.x, 
@@ -80,7 +81,7 @@ namespace Terra.AI.Enemy
         /// </summary>
         protected virtual void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            _audioSource = GetComponent<AudioSource>();
             if (_enemyStats == null)
             {
                 Debug.LogError($"[{nameof(EnemyBase)}] Missing EnemyStatsDefinition on {name}. Please assign it in the inspector.");
@@ -176,7 +177,7 @@ namespace Terra.AI.Enemy
                 return;
             }
             
-            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, audioSource);
+            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource);
             
             // Prevent negative damage values
             if (amount < 0) amount = 0;
@@ -202,7 +203,7 @@ namespace Terra.AI.Enemy
         {
             if (isDead) return;
             
-            AudioManager.Instance.PlaySFXAtSource(_deathSFX, audioSource);
+            AudioManager.Instance.PlaySFXAtSource(_deathSFX, _audioSource);
             isDead = true;
             _enemyCollider.enabled = false;
             _agent.isStopped = true;
@@ -273,6 +274,15 @@ namespace Terra.AI.Enemy
                 _enemyCollider = GetComponentInChildren<Collider>();
                 if (_enemyCollider == null)
                     Debug.LogError($"[{name}] Missing Collider component.", this);
+            }
+
+            if (_audioSource == null)
+            {
+                _audioSource = GetComponent<AudioSource>();
+                if (_audioSource == null)
+                {
+                    Debug.LogError($"[{name}] Missing AudioSource.", this);
+                }
             }
 
             if (_enemyModel == null)
