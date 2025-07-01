@@ -125,7 +125,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 196736
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -156,7 +156,10 @@ MonoBehaviour:
   _dashCooldown: 1
   _characterController: {fileID: 2266767933296291736}
   _isDashing: 0
-  _dashCooldownTimer: 0
+  _dashCooldownTimer:
+    initialTime: 0
+    currentTime: 0
+    isRunning: 0
   _isTryingMove: 0
   _canPlayerMove: 1
   _moveDirection: {x: 0, y: 0, z: 0}
@@ -245,6 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 4552041071504109202}
   _id: -1
+  _collider: {fileID: 6608576668348398462}
   _healthController:
     _maxHealth:
       _baseValue: 0

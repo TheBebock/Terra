@@ -2,6 +2,8 @@ using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.EffectsSystem;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Particles;
 using Terra.UI.HUD;
@@ -13,18 +15,22 @@ namespace Terra.Player
     /// <summary>
     ///     Class represents player entity inside the game world
     /// </summary>
-    public class PlayerEntity : Entity, IDamageable, IHealable, IWithSetUp
+    public class PlayerEntity : Entity, IDamageable, IHealable, IWithSetUp, IAttachListeners
     {
+        [Foldout("References")] [SerializeField]
+        private Collider _collider;
+        
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private StatusContainer _statusContainer;
+        
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public bool CanBeHealed => _healthController.CanBeHealed;
         public bool IsInvincible => _healthController.IsInvincible;
         public float MaxHealth => _healthController.MaxHealth;
         public float CurrentHealth => _healthController.CurrentHealth;
-
+        
         public StatusContainer StatusContainer => _statusContainer;
         public HealthController HealthController => _healthController;
 
@@ -47,6 +53,12 @@ namespace Terra.Player
             _healthController.OnDeath += (this as IDamageable).OnDeath;
             _healthController.OnHealed += OnHealed;
             HUDManager.Instance.HpSlider.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
+        }
+        
+        public void AttachListeners()
+        {
+            EventsAPI.Register<OnPlayerDashStartedEvent>(OnPlayerDashStarted);
+            EventsAPI.Register<OnPlayerDashEndedEvent>(OnPlayerDashEnded);
         }
 
         private void Update()
@@ -84,7 +96,16 @@ namespace Terra.Player
         {
             PlayerManager.Instance.OnPlayerDeathNotify();
         }
+
+        private void OnPlayerDashStarted(ref OnPlayerDashStartedEvent dashEvent)
+        {
+            _collider.enabled = false;
+        }
         
+        private void OnPlayerDashEnded(ref OnPlayerDashEndedEvent dashEvent)
+        {
+            _collider.enabled = true;
+        }
         public void ResetHealth(bool isSilent = true) => _healthController.ResetHealth(isSilent);
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
         
@@ -93,6 +114,13 @@ namespace Terra.Player
         {
             _healthController.OnHealed -= OnHealed;
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
+        }
+
+        
+        public void DetachListeners()
+        {
+            EventsAPI.Unregister<OnPlayerDashStartedEvent>(OnPlayerDashStarted);
+            EventsAPI.Unregister<OnPlayerDashEndedEvent>(OnPlayerDashEnded);
         }
     }
 }

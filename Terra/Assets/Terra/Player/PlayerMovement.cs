@@ -1,10 +1,14 @@
+using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Enums;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Interfaces;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,13 +26,14 @@ namespace Terra.Player
 
         [Foldout("References")] [SerializeField]private CharacterController _characterController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isDashing;
-        [Foldout("Debug"), ReadOnly] [SerializeField] private float _dashCooldownTimer;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private CountdownTimer _dashCooldownTimer;
         
         [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isTryingMove;
         [Foldout("Debug"), ReadOnly] [SerializeField] private bool _canPlayerMove = true;
         [Foldout("Debug"), ReadOnly] [SerializeField] private Vector3 _moveDirection = Vector3.zero;
         [Foldout("Debug"), ReadOnly] [SerializeField] private Vector2 _movementInput;
-
+    
+        private Vector2 _dashMovementInput;
         public bool CanPlayerMove { 
             get => _canPlayerMove;
             set => _canPlayerMove = value;
@@ -46,7 +51,11 @@ namespace Terra.Player
         
         private FacingDirection _currentplayerMoveDirection;
         public FacingDirection CurrentPlayerMoveDirection => _currentplayerMoveDirection;
-        
+
+        private void Awake()
+        {
+            _dashCooldownTimer = new CountdownTimer(_dashCooldown);
+        }
 
         void Update()
         {
@@ -55,10 +64,7 @@ namespace Terra.Player
                 return;
             }
 
-            if (_dashCooldownTimer > 0)
-            {
-                _dashCooldownTimer -= Time.deltaTime;
-            }
+            _dashCooldownTimer.Tick(Time.deltaTime);
         }
 
         public void HandleMovement()
@@ -103,18 +109,19 @@ namespace Terra.Player
                 return;
             }
 
-            if (_dashCooldownTimer <= 0 && !IsDashing)
+            if (_dashCooldownTimer.IsFinished && !IsDashing)
             {
+                _dashMovementInput = _movementInput;
                 _ = Dash();
             }
         }
-
-        //TODO:Change to UniTask
+        
         private async UniTaskVoid Dash()
         {
             Debug.Log("Dashing");
             IsDashing = true;
-            Vector3 dashDirection = (transform.forward * _movementInput.y) + (transform.right * _movementInput.x);
+            EventsAPI.Invoke<OnPlayerDashStartedEvent>();
+            Vector3 dashDirection = (transform.forward * _dashMovementInput.y) + (transform.right * _dashMovementInput.x);
             float startTime = Time.time;
 
             while (Time.time < startTime + _dashDuration)
@@ -124,7 +131,8 @@ namespace Terra.Player
             }
 
             IsDashing = false;
-            _dashCooldownTimer = _dashCooldown;
+            EventsAPI.Invoke<OnPlayerDashEndedEvent>();
+            _dashCooldownTimer.Restart();
         }
         
 
