@@ -1,9 +1,10 @@
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using Terra.AI.EnemyStates;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Managers;
+using Terra.Particles;
 using Terra.Player;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace Terra.Combat.Projectiles
         [Foldout("References")][SerializeField] private SpriteRenderer _spriteRenderer;
         [Foldout("References")][SerializeField] private Rigidbody _rigidbody;
         [Foldout("References")][SerializeField] private Animator _animator;
+        [Foldout("Particles")][SerializeField] private ParticleComponentData _particleComponentData;
         
         [Foldout("Debug"), ReadOnly][SerializeField] private int _penetrationTargets;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _damage;
@@ -86,6 +88,8 @@ namespace Terra.Combat.Projectiles
                 else
                 {
                     CombatManager.Instance.PerformAttack(_origin, target, _effects,  _damage);
+                    _particleComponentData.offset = transform.position;
+                    VFXController.SpawnParticleInWorld(_particleComponentData);
                 }
             }
 
