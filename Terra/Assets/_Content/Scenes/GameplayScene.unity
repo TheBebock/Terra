@@ -1269,6 +1269,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_Crate
       objectReference: {fileID: 0}
+    - target: {fileID: 4589782945551762997, guid: 89126689bffc37a47ba458b5b4d568c4,
+        type: 3}
+      propertyPath: onHitParticle
+      value: 
+      objectReference: {fileID: 3983852379560932045, guid: 6aedbb1e775ce224d8b462c8129ff8a2,
+        type: 3}
+    - target: {fileID: 4589782945551762997, guid: 89126689bffc37a47ba458b5b4d568c4,
+        type: 3}
+      propertyPath: onDeathParticle
+      value: 
+      objectReference: {fileID: 3983852379560932045, guid: 6aedbb1e775ce224d8b462c8129ff8a2,
+        type: 3}
     - target: {fileID: 8685751326370930998, guid: 89126689bffc37a47ba458b5b4d568c4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1861,6 +1873,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4552041071504109202, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: onHitParticle.particleComponent
+      value: 
+      objectReference: {fileID: 526896165021770385, guid: 0965a4f298d2dfc4d8d5906e5e436fb8,
+        type: 3}
+    - target: {fileID: 4552041071504109202, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: onHealParticle.particleComponent
+      value: 
+      objectReference: {fileID: 7297252601780213406, guid: 064173f6c906a0245991d29d981fadd3,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3181,6 +3205,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level1
       objectReference: {fileID: 0}
+    - target: {fileID: 7390553829316840030, guid: f20278945b8f17b42aa7a0bcfb67e639,
+        type: 3}
+      propertyPath: onHitParticle
+      value: 
+      objectReference: {fileID: 3983852379560932045, guid: 6aedbb1e775ce224d8b462c8129ff8a2,
+        type: 3}
+    - target: {fileID: 7390553829316840030, guid: f20278945b8f17b42aa7a0bcfb67e639,
+        type: 3}
+      propertyPath: onDeathParticle
+      value: 
+      objectReference: {fileID: 3983852379560932045, guid: 6aedbb1e775ce224d8b462c8129ff8a2,
+        type: 3}
     - target: {fileID: 7824700224478811826, guid: f20278945b8f17b42aa7a0bcfb67e639,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11519,6 +11555,16 @@ PrefabInstance:
       propertyPath: _dropContainer
       value: 
       objectReference: {fileID: 1553924743}
+    - target: {fileID: 2654306062946660249, guid: 034e2f64ade75854eb594c43d407183a,
+        type: 3}
+      propertyPath: _dropIntervalRange.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2654306062946660249, guid: 034e2f64ade75854eb594c43d407183a,
+        type: 3}
+      propertyPath: _dropIntervalRange.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 2821981408182063527, guid: 034e2f64ade75854eb594c43d407183a,
         type: 3}
       propertyPath: m_Name

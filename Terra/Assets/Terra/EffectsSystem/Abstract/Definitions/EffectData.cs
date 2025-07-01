@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Terra.Components;
 using Terra.Utils;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Terra.EffectsSystem.Abstract.Definitions
         public Sprite effectIcon;
         public string effectName;
         public string effectDescription;
-        public ParticleSystem effectParticle;
+        public ParticleComponent effectParticle;
         
     
 
