@@ -77,6 +77,13 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 1380208981087161323}
   _rigidbody: {fileID: 1945754477671924366}
   _animator: {fileID: 876622528808538028}
+  _particleComponentData:
+    particleComponent: {fileID: 526896165021770385, guid: f394eee8f95e5a84eb7e4456e60c477c,
+      type: 3}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
   _penetrationTargets: 0
   _damage: 0
   _origin: {fileID: 0}
@@ -186,7 +193,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2b87b494c8b17c042a395602b292776a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -214,9 +221,14 @@ MonoBehaviour:
   _lookAtType: 1
   _targetTransforms:
   - {fileID: 5002070668196428964}
+  _targetVFXControllers: []
   _lockX: 0
   _lockY: 1
   _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!95 &876622528808538028
 Animator:
   serializedVersion: 7

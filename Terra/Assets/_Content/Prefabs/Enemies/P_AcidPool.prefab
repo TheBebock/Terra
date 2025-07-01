@@ -859,11 +859,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 7297252601780213406, guid: 357cb2537b5b28e4b9d69b4ee0107297,
-    type: 3}
-  onHealParticle: {fileID: 0}
-  onHitParticle: {fileID: 0}
-  onDeathParticle: {fileID: 0}
+  onSpawnParticle:
+    particleComponent: {fileID: -5475371912470613344, guid: 60c0993b09b15094e9b658d57535b43a,
+      type: 3}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0.08
+    destroyDuration: 0
+  onHealParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHitParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onDeathParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
   _container: {fileID: 421963227697533553}
   _model: {fileID: 4857311646396969843}
   _modelMaterial: {fileID: 0}
