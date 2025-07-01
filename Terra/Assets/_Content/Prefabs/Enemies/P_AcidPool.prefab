@@ -859,7 +859,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 0}
+  onSpawnParticle: {fileID: 7297252601780213406, guid: 357cb2537b5b28e4b9d69b4ee0107297,
+    type: 3}
   onHealParticle: {fileID: 0}
   onHitParticle: {fileID: 0}
   onDeathParticle: {fileID: 0}
@@ -884,6 +885,7 @@ MonoBehaviour:
   _id: -1
   _damage: 1
   _fadeDuration: 2
+  _lightsFadeDuration: 1
   _collider: {fileID: 7982327444889465674}
   _lights:
   - {fileID: 2443618271566749524}

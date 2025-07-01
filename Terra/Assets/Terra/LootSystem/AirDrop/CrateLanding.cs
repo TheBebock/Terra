@@ -1,7 +1,9 @@
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using Terra.Combat;
+using Terra.Components;
 using Terra.Extensions;
 using Terra.Managers;
+using Terra.Particles;
 using UnityEngine;
 
 namespace Terra.LootSystem.AirDrop
@@ -12,6 +14,7 @@ namespace Terra.LootSystem.AirDrop
         [SerializeField] private LayerMask _setToLayerAfterHit;
         [SerializeField, ReadOnly] private AudioSource _audioSource;
         [SerializeField, ReadOnly] private Rigidbody _rb;
+        [SerializeField] private ParticleComponent _particles;
         private AirdropDamageHandler _damageHandler;
         private IDamageable _selfDamageable;
         private bool _isHit;
@@ -49,6 +52,7 @@ namespace Terra.LootSystem.AirDrop
             {
                 gameObject.SetLayer(_setToLayerAfterHit, true);
                 if (_dropSound) AudioManager.Instance.PlaySFXAtSourceOnce(_dropSound, _audioSource);
+                if (_particles) VFXController.SpawnParticleInWorld(_particles, transform.position, Quaternion.Euler(-90,0,0));
             }
 
             Destroy(this);

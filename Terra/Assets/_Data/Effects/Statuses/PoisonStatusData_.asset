@@ -16,7 +16,8 @@ MonoBehaviour:
   effectIcon: {fileID: 21300000, guid: 858708d0a081004479579094b128b90a, type: 3}
   effectName: Poison
   effectDescription: 
-  effectParticle: {fileID: 0}
+  effectParticle: {fileID: 7297252601780213406, guid: 357cb2537b5b28e4b9d69b4ee0107297,
+    type: 3}
   containerType: 2
   incompatibleEffects: []
   statusDuration: 3

@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 1527108251388257540}
   - component: {fileID: 8352202127488331846}
   - component: {fileID: 6565553046577328471}
-  - component: {fileID: 8551507717115372667}
+  - component: {fileID: 7116856702361030567}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -227,7 +227,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8551507717115372667
+--- !u!114 &7116856702361030567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,10 +239,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 0}
-  onHealParticle: {fileID: 0}
-  onHitParticle: {fileID: 0}
-  onDeathParticle: {fileID: 0}
+  onSpawnParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHealParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHitParticle:
+    particleComponent: {fileID: 526896165021770385, guid: 0965a4f298d2dfc4d8d5906e5e436fb8,
+      type: 3}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onDeathParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
   _container: {fileID: 5511451956620070862}
   _model: {fileID: 8352202127488331846}
   _modelMaterial: {fileID: 0}
@@ -372,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxController: {fileID: 8551507717115372667}
+  _vfxController: {fileID: 7116856702361030567}
   _id: -1
   _deathFadeDuration: 4
   _deathFadeCurve:
@@ -418,7 +439,7 @@ MonoBehaviour:
   _targetTransforms:
   - {fileID: 1527108251388257540}
   _targetVFXControllers:
-  - {fileID: 8551507717115372667}
+  - {fileID: 7116856702361030567}
   _lockX: 0
   _lockY: 1
   _lockZ: 1

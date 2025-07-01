@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -19,10 +19,11 @@ namespace Terra.Particles
         private static readonly int EmissiveMask = Shader.PropertyToID("_EmissiveMask");
         private static readonly int ColorID = Shader.PropertyToID("_Color");
         
-        [Foldout("Particles")]  public ParticleComponent onSpawnParticle;
-        [Foldout("Particles")]  public ParticleComponent onHealParticle;
-        [Foldout("Particles")]  public ParticleComponent onHitParticle;
-        [Foldout("Particles")]  public ParticleComponent onDeathParticle;
+        [Foldout("Particles")][SerializeField] public ParticleComponentData onSpawnParticle;
+        [Foldout("Particles")][SerializeField] public ParticleComponentData onHealParticle;
+        [Foldout("Particles")][SerializeField] public ParticleComponentData onHitParticle;
+        [Foldout("Particles")][SerializeField] public ParticleComponentData onDeathParticle;
+
         [Foldout("References")][SerializeField] private Transform _container;
         [Foldout("References")][SerializeField] private SpriteRenderer _model;
        
@@ -155,6 +156,17 @@ namespace Terra.Particles
             particle.Initialize(destroyDuration);
             entity.VFXcontroller._activeParticles.Add(particle);
         }
+
+        public static void SpawnAndAttachParticleToEntity(Entity entity, ParticleComponentData particleComponentData)
+        {
+            SpawnAndAttachParticleToEntity(entity, 
+                particleComponentData.particleComponent, 
+                particleComponentData.offset,
+                particleComponentData.rotation,
+                particleComponentData.scaleModifier != default ? particleComponentData.scaleModifier : 1.0f,
+                particleComponentData.destroyDuration);
+        }
+
         public static void SpawnParticleInWorld(ParticleComponent particleSystem, Vector3 position, Quaternion rotation, 
             float scaleModifier = 1.0f, float destroyDuration = 0f)
         {
@@ -167,6 +179,15 @@ namespace Terra.Particles
             particle.transform.localScale *= scaleModifier;
             
             particle.Initialize(destroyDuration);
+        }
+
+        public static void SpawnParticleInWorld(ParticleComponentData particleComponentData)
+        {
+            SpawnParticleInWorld(particleComponentData.particleComponent,
+                position: particleComponentData.offset,
+                rotation: particleComponentData.rotation,
+                scaleModifier: particleComponentData.scaleModifier != default ? particleComponentData.scaleModifier : 1.0f,
+                destroyDuration: particleComponentData.destroyDuration);
         }
         
         private void OnValidate()
