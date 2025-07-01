@@ -1,12 +1,15 @@
 using System;
+using System.Drawing.Design;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using Terra.Core.Generics;
 using Terra.Utils;
 using UnityEngine;
 
 namespace Terra.Components
 {
     [RequireComponent(typeof(ParticleSystem))]
-    public class ParticleComponent : MonoBehaviour
+    public class ParticleComponent : InGameMonobehaviour
     { 
         
         [Tooltip("If the particle is played often, this shouldn't be marked, for example: 'OnHit' is played often")]
@@ -16,6 +19,8 @@ namespace Terra.Components
         private CountdownTimer _timer;
         
         public static event Action<ParticleComponent> OnParticleDestroyed;
+        
+        public float MainParticlesDuration => _particles.main.duration;
         public void Initialize(float newDuration = 0f)
         {
             _particles.Play();
@@ -32,9 +37,18 @@ namespace Terra.Components
             }
             // If _duration is -1, it means that particles should exist infinitely
             if(!Mathf.Approximately(_duration, -1f)) _timer.Start();
-            _timer.OnTimerStop += () => Destroy(gameObject);
         }
 
+        private void OnTimerStop()
+        {
+           _ = StopParticles();
+        }
+        private async UniTaskVoid StopParticles()
+        {
+            _particles.Stop();
+            await UniTask.WaitForSeconds(_particles.main.duration + 0.5f);
+            Destroy(gameObject);
+        }
         public void ResetTimer()
         {
             if(!_isDestroyable) _particles.Play();
@@ -45,16 +59,32 @@ namespace Terra.Components
         {
             if(!_isDestroyable) _particles.Play();
             _timer?.ResetTime(newDuration);
-        } 
+        }
 
+        public void RestartTimer(float newDuration)
+        {
+            _timer.Restart(newDuration);
+        }
+        
         private void Update()
         {
             _timer?.Tick(Time.deltaTime);
         }
 
-        private void OnDestroy()
+        private void OnValidate()
         {
-            OnParticleDestroyed?.Invoke(this);
+            if (!_particles)
+            {
+                _particles = GetComponent<ParticleSystem>();
+            }
         }
+
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            OnParticleDestroyed?.Invoke(this);
+            _timer.OnTimerStop -= OnTimerStop;
+        }
+        
     }
 }
