@@ -32,7 +32,7 @@ namespace Terra.EffectsSystem
 
             TryAddEffect(statusEffect);
         }
-        
+
         public void TryAddEffect(StatusEffectBase newStatus)
         {
             if (newStatus == null)
@@ -40,26 +40,29 @@ namespace Terra.EffectsSystem
                 Debug.LogError($"{this} received status can't be null!");
                 return;
             }
-            
-            // No effect found
+
+            // Effect found
             if (_statuses.TryFind(s => s.GetType() == newStatus.GetType(), out StatusEffectBase currentStatus))
             {
-
-                // If new status is better, remove current one, apply new and return
+                // New status is better, remove current one
                 if (newStatus.GetEffectPower > currentStatus.GetEffectPower)
                 {
                     if (currentStatus.TryRemove(true))
                     {
                         _statuses.RemoveElement(currentStatus);
                     }
-                    newStatus.Apply();
-                    _statuses.Add(newStatus);
-                    
+                }
+                // New status is worse, only reset current status
+                else
+                {
+                    currentStatus.Reset();
                     return;
                 }
             }
-            
-            currentStatus.Reset();
+
+            // Apply new status 
+            newStatus.Apply();
+            _statuses.Add(newStatus);
         }
 
         public void UpdateEffects()

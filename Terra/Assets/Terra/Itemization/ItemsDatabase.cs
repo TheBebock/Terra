@@ -16,7 +16,7 @@ namespace Terra.Itemization
     [CreateAssetMenu(fileName = "ItemsDatabase", menuName = "TheBebocks/Items/Items Database")]
     public class ItemsDatabase : Core.Generics.ScriptableSingleton<ItemsDatabase>
     {
-        [FormerlySerializedAs("itemDefinitions")] [SerializeField, ReadOnly] private List<ItemData> _itemDefinitions = new();
+        [FormerlySerializedAs("itemDefinitions")] [SerializeField, Expandable] private List<ItemData> _itemDefinitions = new();
 
         public List<ItemData> ItemDefinitions => _itemDefinitions;
 

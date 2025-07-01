@@ -16,7 +16,6 @@ namespace Terra.EffectsSystem.Abstract
     {
         [UsedImplicitly]
         [SerializeField, ReadOnly] private string _effectType;
-
         
         public ActionEffectBase()
         {
@@ -42,8 +41,8 @@ namespace Terra.EffectsSystem.Abstract
     {
         private TActionData _typedData;
         public TActionData Data => _typedData;
-        
-        
+
+        public sealed override int EffectCost => _typedData.effectCost;
 
         public sealed override void Initialize(Entity target, EffectData actionEffectData)
         {

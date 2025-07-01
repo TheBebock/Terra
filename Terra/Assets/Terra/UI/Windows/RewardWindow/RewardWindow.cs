@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Terra.Enums;
 using Terra.GameStates;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
@@ -18,6 +19,7 @@ namespace Terra.UI.Windows.RewardWindow
 
         [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
+        private List<RewardType> _availableRewardTypes = new();
         public override void SetUp()
         {
             base.SetUp();
@@ -26,9 +28,14 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 _rewardToggles[i].Toggle.onValueChanged.AddListener(NotifyRewardSelected);
             }
-            LoadRewardsData();
-
+            _availableRewardTypes.Clear();
+            _availableRewardTypes.Add(RewardType.PassiveItem);
+            _availableRewardTypes.Add(RewardType.Weapon);
+            _availableRewardTypes.Add(RewardType.Effect);
+            
             _acceptButton.onClick.AddListener(ApplyReward);
+            
+            LoadRewardsData();
         }
 
         private void NotifyRewardSelected(bool value)
@@ -59,8 +66,8 @@ namespace Terra.UI.Windows.RewardWindow
         {
             _rewardToggles[0].RewardType = Enums.RewardType.Stats;
             _rewardToggles[1].RewardType = Enums.RewardType.Stats;
-            _rewardToggles[2].RewardType = (Enums.RewardType)Random.Range(1, 5);
-            _rewardToggles[3].RewardType = (Enums.RewardType)Random.Range(1, 5);
+            _rewardToggles[2].RewardType = GetRewardType();
+            _rewardToggles[3].RewardType = GetRewardType();
 
             foreach (var toggle in _rewardToggles)
             {
@@ -68,6 +75,39 @@ namespace Terra.UI.Windows.RewardWindow
             }
         }
         
+        private RewardType GetRewardType()
+        {
+            for (int i = _availableRewardTypes.Count-1; i >= 0; i--)
+            {
+                if(IsRewardTypeAvailable(_availableRewardTypes[i])) continue;
+                
+                _availableRewardTypes.RemoveAt(i);
+            }
+            if(_availableRewardTypes.Count == 0) return RewardType.Stats;
+            
+            int random = Random.Range(0, _availableRewardTypes.Count);
+            
+            return _availableRewardTypes[random];
+            
+        }
+
+        private bool IsRewardTypeAvailable(RewardType rewardType)
+        {
+            switch (rewardType)
+            {
+                case RewardType.Stats: return true;
+                case RewardType.PassiveItem:
+                    return LootManager.Instance.LootTable.PassiveItemsCount > 0;
+                case RewardType.Weapon:
+                    return LootManager.Instance.LootTable.MeleeWeaponsCount 
+                        + LootManager.Instance.LootTable.RangedWeaponsCount > 0;
+                case RewardType.Effect:
+                    return LootManager.Instance.LootTable.StatusEffectsCount + 
+                        LootManager.Instance.LootTable.ActionEffectsCount > 0;
+                
+                default: return false;
+            }
+        }
         private bool IsAnyToggleOn()
         {
             foreach (var toggle in _rewardToggles)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract.Definitions;
@@ -6,7 +7,6 @@ using Terra.EffectsSystem.Actions;
 using Terra.Enums;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
-using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Managers;
@@ -15,19 +15,20 @@ using Terra.RewardSystem;
 using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI.Windows.RewardWindow
 {
+    [RequireComponent(typeof(Toggle))]
     public class RewardToggle: UIObject
     {
-        [FormerlySerializedAs("rewardName")] [SerializeField] private TMP_Text _rewardName;
-        [FormerlySerializedAs("rewardDescription")] [SerializeField] private TMP_Text _rewardDescription;
-
-        [FormerlySerializedAs("rewardIcon")] [SerializeField] private Image _rewardIcon;
-
-        [FormerlySerializedAs("rewardToggle")] [SerializeField] private Toggle _rewardToggle;
+        [SerializeField] private TMP_Text _rewardName;
+        [SerializeField] private TMP_Text _rewardDescription;
+        [SerializeField] private TMP_Text _costDisplay;
+        [SerializeField] private Image _rewardIcon;
+        [SerializeField] private string _freeText = "FREE!";
+        
+        [SerializeField, ReadOnly] private Toggle _rewardToggle;
         private RewardData _rewardData;
 
         public Toggle Toggle => _rewardToggle;
@@ -48,8 +49,11 @@ namespace Terra.UI.Windows.RewardWindow
         private OnRewardSelected _onRewardSelected;
         [SerializeField, ReadOnly] private RewardType _rewardType;
 
+        private int _rewardCost = 0;
         public RewardType RewardType { get { return _rewardType; } set { _rewardType = value; } }
 
+        private static List<int> _availableRewards = new();
+        
         public void Init()
         {
             ChooseRewardData();
@@ -67,10 +71,20 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 _onRewardSelected.comparison = _statsDataComparison;
             }
+
+            SetToggleInteractable();
             
             _rewardToggle.onValueChanged.AddListener(OnToggle);
-        }
 
+        }
+        private void TurnOffToggle()
+        {
+            gameObject.SetActive(false);
+        }
+        private void SetToggleInteractable()
+        {
+            _rewardToggle.interactable = EconomyManager.Instance.CanBuy(_rewardCost);
+        }
         private void OnToggle(bool isOn)
         {
             if (isOn)
@@ -107,7 +121,7 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void SetNewRewardType()
         {
-            RewardType = (RewardType)UnityEngine.Random.Range(1, 5);
+            RewardType = RewardType.Stats;
             Init();
         }
 
@@ -148,6 +162,7 @@ namespace Terra.UI.Windows.RewardWindow
             _rewardName.text = data.itemName;
             _rewardDescription.text = data.itemDescription;
 
+            _costDisplay.text = GetCostDisplayText(data.itemCost);
             LoadModifiersUIText(data);
 
             _rewardIcon.sprite = data.itemSprite;
@@ -155,7 +170,8 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void LoadModifiersUIText(ItemData data)
         {
-            StatsDataComparison currentItemDataComparison = _weaponDataComparison.itemDataComparison.isInitialized ? _weaponDataComparison.itemDataComparison : _itemDataComparison;
+            StatsDataComparison currentItemDataComparison = _weaponDataComparison.itemDataComparison.isInitialized ? 
+                _weaponDataComparison.itemDataComparison : _itemDataComparison;
 
             if (data.maxHealthModifiers.Count > 0)
             {
@@ -205,21 +221,33 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void GetRandomEffect()
         {
-            switch (UnityEngine.Random.Range(0, 2))
+            _availableRewards.Clear();
+            if (LootManager.Instance.LootTable.ActionEffectsCount > 0)
+            {
+                _availableRewards.Add(0);
+            }
+
+            if (LootManager.Instance.LootTable.StatusEffectsCount > 0)
+            {
+                _availableRewards.Add(1);
+            }
+            int rand = UnityEngine.Random.Range(0, _availableRewards.Count);
+            
+            switch (rand)
             {
                 case 0: 
                     _effectReward = LootManager.Instance.LootTable.PopRandomActionEffect();
                     if (_effectReward != null)
                         _effectType = typeof(ActionEffectData);
                     else
-                        TurnOffToogle();
+                        TurnOffToggle();
                     break;
                 case 1:
                     _effectReward = LootManager.Instance.LootTable.PopRandomStatusEffect();
                     if(_effectReward != null)
                         _effectType = typeof(StatusEffectData);
                     else
-                        TurnOffToogle();
+                        TurnOffToggle();
                     break;
             }
 
@@ -227,14 +255,21 @@ namespace Terra.UI.Windows.RewardWindow
              
         }
 
-        private void TurnOffToogle()
-        {
-            gameObject.SetActive(false);
-        }
+
 
         private void GetRandomWeaponRandomType()
         {
-            int rand = UnityEngine.Random.Range(0, 1);
+            _availableRewards.Clear();
+            if (LootManager.Instance.LootTable.MeleeWeaponsCount > 0)
+            {
+                _availableRewards.Add(0);
+            }
+
+            if (LootManager.Instance.LootTable.RangedWeaponsCount > 0)
+            {
+                _availableRewards.Add(1);
+            }
+            int rand = UnityEngine.Random.Range(0, _availableRewards.Count);
             
             if (rand == 0)
             {
@@ -256,6 +291,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             _rewardName.text = data.itemName;
             _rewardDescription.text = data.itemDescription;
+            _costDisplay.text = GetCostDisplayText(data.itemCost);
             LoadModifiersUIText(data);
             _rewardDescription.text += "\n";
 
@@ -284,6 +320,7 @@ namespace Terra.UI.Windows.RewardWindow
             _rewardName.text = _statsReward.RewardName;
             _rewardDescription.text = _statsReward.RewardDescription;
             _statsDataComparison = _statsReward.Comparison;
+            _costDisplay.text = GetCostDisplayText(0);
         }
 
         private void LoadEffectData(EffectData effectData)
@@ -291,6 +328,7 @@ namespace Terra.UI.Windows.RewardWindow
             _rewardName.text = effectData.effectName;
             _rewardDescription.text = effectData.effectDescription;
             _rewardIcon.sprite = effectData.effectIcon;  
+            _costDisplay.text = GetCostDisplayText(effectData.effectCost);
         }
 
         private string MarkStatisticText(Comparison comparedStatistic, string textToMark)
@@ -366,6 +404,12 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 PlayerManager.Instance.PlayerAttackController?.AddNewAttackActionEffect(actionEffectData);
             }
+        }
+
+        private string GetCostDisplayText(int cost)
+        {
+            _rewardCost = cost;
+            return cost == 0 ? _freeText : $"{_rewardCost}"; 
         }
     }
 }

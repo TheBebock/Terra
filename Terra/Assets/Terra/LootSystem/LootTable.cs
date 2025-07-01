@@ -52,6 +52,12 @@ namespace Terra.LootSystem
         [Foldout("Debug"), ReadOnly] [SerializeField] private List<StatusDropData> _statusEffectsPerGame = new ();
         [Foldout("Debug"), ReadOnly] [SerializeField] private List<ActionDropData> _actionEffectsPerGame = new ();
         private bool _isInitialized;
+        
+        public int PassiveItemsCount => _passiveItems.Count;
+        public int MeleeWeaponsCount => _meleeWeapons.Count;
+        public int RangedWeaponsCount => _rangedWeapons.Count;
+        public int StatusEffectsCount => _statusEffectsPerGame.Count;
+        public int ActionEffectsCount => _actionEffectsPerGame.Count;
 
         public List<ItemBase> GetAllItems()
         {

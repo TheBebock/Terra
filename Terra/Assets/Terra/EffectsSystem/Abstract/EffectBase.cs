@@ -15,6 +15,7 @@ namespace Terra.EffectsSystem.Abstract
 
 
 
+        public virtual int EffectCost => 0;
         public virtual float GetEffectPower => -1;
 
         /// <summary>

@@ -64,6 +64,7 @@ namespace Terra.EffectsSystem.Abstract
 
         private TStatusData _typedData;
         public TStatusData Data => _typedData;
+        public sealed override int EffectCost => _typedData.effectCost;
 
         public sealed override float GetEffectPower => Data.GetEffectPower();
 

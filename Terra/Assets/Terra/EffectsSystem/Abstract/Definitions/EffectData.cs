@@ -16,6 +16,7 @@ namespace Terra.EffectsSystem.Abstract.Definitions
         public Sprite effectIcon;
         public string effectName;
         public string effectDescription;
+        [Min(1)] public int effectCost = 50;
         public ParticleComponent effectParticle;
         
     

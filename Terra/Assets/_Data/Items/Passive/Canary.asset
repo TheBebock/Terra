@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
   m_Name: Canary
   m_EditorClassIdentifier: 
-  id: 1784148216
+  _id: 1784148216
   itemName: Canary
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 6ddc835f92f7aae41923933d3a0efa49, type: 3}
   canBeRemoved: 1
+  itemCost: 50
   strengthModifiers: []
   maxHealthModifiers: []
-  speedModifiers: []
+  dexModifiers: []
   luckModifiers:
-  - Value: 1
-    Type: 100
-    SourceID: 1784148216
+  - value: 1
+    type: 100
+    sourceID: 1784148216

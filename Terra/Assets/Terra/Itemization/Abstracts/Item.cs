@@ -15,7 +15,9 @@ namespace Terra.Itemization.Abstracts
     public class ItemBase
     {
         public virtual ItemType ItemType { get; }
-        public virtual string ItemName { get; } 
+        public virtual string ItemName { get; }
+
+        public virtual int ItemCost { get; } = 0;
 
         public virtual Sprite ItemIcon { get; } = null;
         public virtual bool CanBeRemoved { get; protected set; }
@@ -43,6 +45,7 @@ namespace Terra.Itemization.Abstracts
 
         public sealed override bool CanBeRemoved => _data == null || _data.canBeRemoved;
 
+        public sealed override int ItemCost => _data != null ? _data.itemCost : 0;
         public virtual void OnEquip()
         {
             if (Data == null)

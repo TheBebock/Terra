@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
   m_Name: Needle
   m_EditorClassIdentifier: 
-  id: 1080377478
+  _id: 1080377478
   itemName: Needle
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 40642aa3835dc3b4c9d9bf284734903a, type: 3}
   canBeRemoved: 1
+  itemCost: 50
   strengthModifiers: []
   maxHealthModifiers:
-  - Value: 1
-    Type: 100
-    SourceID: 1080377478
-  speedModifiers: []
+  - value: 1
+    type: 100
+    sourceID: 1080377478
+  dexModifiers: []
   luckModifiers: []

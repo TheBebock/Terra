@@ -116,9 +116,14 @@ namespace Terra.Managers
 
         public void PlaySFXAtSource(AudioClip clip, AudioSource source, float pitch = 1f)
         {
-            if (source == null || clip == null)
+            if (source == null)
             {
                 Debug.LogError($"{this}: Given source or clip was null");
+                return;
+            }
+            if (clip == null)
+            {
+                Debug.LogWarning($"{this}: Given clip was null");
                 return;
             }
             if (source.isPlaying)
