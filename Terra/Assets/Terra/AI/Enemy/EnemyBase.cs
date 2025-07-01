@@ -29,7 +29,6 @@ namespace Terra.AI.Enemy
         protected abstract TEnemyData Data { get; }
 
         public sealed override float AttackRange => Data.attackRange;
-        public sealed override float AttackDashModifier => Data.dashModifier;
         
     }
 
@@ -69,7 +68,6 @@ namespace Terra.AI.Enemy
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float AttackRange { get; }
-        public abstract float AttackDashModifier { get; }
         protected AudioSource audioSource;
 
         protected Vector3 ItemsSpawnPosition => new(
@@ -93,10 +91,6 @@ namespace Terra.AI.Enemy
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(new ModifiableValue(_enemyStats.baseMaxHealth), CancellationToken);
 
-            
-
-            AttachListeners();
-
             stateMachine = new StateMachine();
             
             enemyDeathState = new EnemyDeathState(this, _agent, _animator);
@@ -115,15 +109,12 @@ namespace Terra.AI.Enemy
             if (!CanUpdateState) return;
 
             transform.rotation = Quaternion.identity;
+            InternalUpdate();
 
             StatusContainer.UpdateEffects();
             stateMachine.Update();
-   
-            
             
             UpdateFacingDirection();
-
-
         }
 
         protected virtual void InternalUpdate()

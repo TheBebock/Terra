@@ -26,8 +26,8 @@ namespace Terra.GameStates
                 Debug.LogError($"{this}: No Wave Manager found");
             }
             
-            InputManager.Instance?.SetPlayerControlsState(true);
-            InputManager.Instance?.SetAllTimeControlsState(true);
+            InputsManager.Instance?.SetPlayerControlsState(true);
+            InputsManager.Instance?.SetAllTimeControlsState(true);
             TimeManager.Instance?.ResumeTime();
             
         }

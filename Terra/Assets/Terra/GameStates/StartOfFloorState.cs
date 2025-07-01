@@ -5,7 +5,6 @@ using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
-using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.GameStates
 {
@@ -15,8 +14,8 @@ namespace Terra.GameStates
         {
             base.OnEnter(); 
             TimeManager.Instance.ResumeTime();
-            InputManager.Instance.SetPlayerControlsState(false);
-            InputManager.Instance.SetAllTimeControlsState(false);
+            InputsManager.Instance.SetPlayerControlsState(false);
+            InputsManager.Instance.SetAllTimeControlsState(false);
             CameraManager.Instance.SpriteMask.SetActive(false);
             CameraManager.Instance.SetCameraBlendStyle(CinemachineBlendDefinition.Style.Cut);
             HUDManager.Instance.HideGameplayHUD();

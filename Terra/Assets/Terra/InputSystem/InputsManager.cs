@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Terra.InputSystem
 {
-    public class InputManager : PersistentMonoSingleton<InputManager>
+    public class InputsManager : PersistentMonoSingleton<InputsManager>
     {
         private InputSystem _inputSystem;
 
@@ -114,5 +114,12 @@ namespace Terra.InputSystem
             _inputSystem.PlayerControls.Disable();
         }
 
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            
+            _inputSystem.Dispose();
+            _inputSystem = null;
+        }
     }
 }

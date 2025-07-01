@@ -6,8 +6,8 @@ namespace Terra.AI.Data
 
     public class MeleeEnemyData : EnemyData
     {
+        public float dashModifier = 1.5f;
         public float attackRadius = 1.5f;
-        public float attackCooldown;
 
     }
 }

@@ -1,16 +1,15 @@
 using System;
 using NaughtyAttributes;
-using System.Collections;
-using System.Collections.Generic;
 using Terra.Combat.Projectiles;
+using Terra.Core.Generics;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Enums;
-using Terra.Extensions;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Interfaces;
-using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Managers;
 using UnityEngine;
@@ -26,8 +25,6 @@ namespace Terra.Player
     public class PlayerAttackController : IAttachListeners
     {
         [Foldout("Debug"), ReadOnly] [SerializeField]
-        private PlayerInventoryManager _playerInventory;
-        [Foldout("Debug"), ReadOnly] [SerializeField]
         private Transform _firePoint;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private bool _isTryingPerformMeleeAttack;
@@ -42,12 +39,9 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private EffectsContainer _rangeEffectContainer = new ();
         
-        [SerializeField] private AudioClip _meleeAttackSFX;
-        [SerializeField] private AudioClip _rangedAttackSFX;
-
-        private AudioSource _audioSource;
-        public static event Action<FacingDirection> OnMeleeAttackPerformed;
-        public static event Action OnRangeAttackPerformed;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private AudioClip _meleeAttackSFX;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private AudioClip _rangedAttackSFX;
+        [Foldout("Debug"), ReadOnly] [SerializeField] private AudioSource _audioSource;
         
         public EffectsContainer MeleeEffectContainer => _meleeEffectContainer;
         public EffectsContainer RangeEffectContainer => _rangeEffectContainer;
@@ -57,31 +51,31 @@ namespace Terra.Player
 
         private FacingDirection _currentPlayerAttackDirection;
         public FacingDirection CurrentPlayerAttackDirection => _currentPlayerAttackDirection;
+        public PlayerInventoryManager PlayerInventory => PlayerInventoryManager.Instance;
+        private OnPlayerMeleeAttackPerformedEvent _meleeEvent;
         
 
-        //NOTE: variable made to not override default constructor, as it was trying to construct it for serialization
         public PlayerAttackController(AudioSource audioSource, Transform firePoint)
         {
             _audioSource = audioSource;
             _firePoint = firePoint;
+            _meleeEvent = new();
             if (PlayerInventoryManager.Instance)
             {
-                _playerInventory = PlayerInventoryManager.Instance;
-                _meleeAttackSFX = _playerInventory.MeleeWeapon.Data.attackSFX;
-                _rangedAttackSFX = _playerInventory.RangedWeapon.Data.attackSFX;
+                _meleeAttackSFX = PlayerInventory.MeleeWeapon.Data.attackSFX;
+                _rangedAttackSFX = PlayerInventory.RangedWeapon.Data.attackSFX;
             }
             else
             {
                 Debug.LogError($"{this}: Player Inventory Manager not found.");
             }
         }
-
         public void AttachListeners()
         {
-            InputManager.Instance.PlayerControls.MeleeAttack.started += OnMeleeAttackInput;
-            InputManager.Instance.PlayerControls.RangeAttack.started += OnRangeAttackInput;
-            PlayerInventoryManager.Instance.OnMeleeWeaponChanged += OnMeleeWeaponChanged;
-            PlayerInventoryManager.Instance.OnRangedWeaponChanged += OnRangedWeaponChanged;
+            InputsManager.Instance.PlayerControls.MeleeAttack.started += OnMeleeAttackInput;
+            InputsManager.Instance.PlayerControls.RangeAttack.started += OnRangeAttackInput;
+            PlayerInventory.OnMeleeWeaponChanged += OnMeleeWeaponChanged;
+            PlayerInventory.OnRangedWeaponChanged += OnRangedWeaponChanged;
         }
         
 
@@ -93,12 +87,18 @@ namespace Terra.Player
 
                 _isTryingPerformMeleeAttack = true;
                 AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource);
-                OnMeleeAttackPerformed?.Invoke(_currentPlayerAttackDirection);
+                _meleeEvent.facingDirection = _currentPlayerAttackDirection;
+                EventsAPI.Invoke(ref _meleeEvent);
             }
         }
 
         private void OnRangeAttackInput(InputAction.CallbackContext context)
         {
+            if (_firePoint == null)
+            {
+                Debug.LogError($"{this} tried to performed range attack without assigend fire point. Hash: {this.GetHashCode()}");
+                return;
+            }
             if (!_isTryingPerformDistanceAttack)
             {
                 ChangeAttackDirection();
@@ -106,9 +106,10 @@ namespace Terra.Player
                 
                 _isTryingPerformDistanceAttack = true;
                 AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
-                OnRangeAttackPerformed?.Invoke();
+                EventsAPI.Invoke<OnPlayerRangeAttackPerformedEvent>();
+                
                 ProjectileFactory.CreateProjectile(
-                    _playerInventory.RangedWeapon.Data.bulletData,
+                    PlayerInventory.RangedWeapon.Data.bulletData,
                     _firePoint.position, 
                     MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position),
                     PlayerManager.Instance.PlayerEntity);
@@ -129,7 +130,7 @@ namespace Terra.Player
         {
             if(_isTryingPerformMeleeAttack) return;
             
-            Vector3 direction = MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_playerInventory.transform.position);
+            Vector3 direction = MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(PlayerInventory.transform.position);
 
             if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
             {
@@ -197,10 +198,10 @@ namespace Terra.Player
         
         public void DetachListeners()
         {
-            if (InputManager.Instance)
+            if (InputsManager.Instance)
             {
-                InputManager.Instance.PlayerControls.MeleeAttack.performed -= OnMeleeAttackInput;
-                InputManager.Instance.PlayerControls.Dash.performed -= OnRangeAttackInput;
+                InputsManager.Instance.PlayerControls.MeleeAttack.started -= OnMeleeAttackInput;
+                InputsManager.Instance.PlayerControls.Dash.started -= OnRangeAttackInput;
             }
 
             if (PlayerInventoryManager.Instance)

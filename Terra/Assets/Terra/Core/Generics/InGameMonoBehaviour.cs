@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Terra.ID;
 using Terra.Interfaces;
@@ -13,6 +14,8 @@ namespace Terra.Core.Generics
     {
         public bool IsInitialized { get; private set; }
         protected CancellationToken CancellationToken => destroyCancellationToken; 
+        
+        public Action onDestroy;
     
         private void Start()
         {
@@ -48,6 +51,8 @@ namespace Terra.Core.Generics
         { }
         private void OnDestroy()
         {
+            onDestroy?.Invoke();
+            
             if(this is IAttachListeners attachListeners)
                 attachListeners.DetachListeners();
         

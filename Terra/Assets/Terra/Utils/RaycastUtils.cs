@@ -6,7 +6,7 @@ namespace Terra.Utils
     {
 
         public static Vector3 GetPositionInCircle(Vector3 position, float maxRandomRange,
-            LayerMask obstacleMask, int targetLayerIndex, Vector3 resultOffset = default, int maxAttempts = 10)
+            LayerMask obstacleMask, int targetLayerIndex, float minDistance = 0.5f, Vector3 resultOffset = default, int maxAttempts = 10)
         {
             Vector3 result = position;
 
@@ -16,14 +16,17 @@ namespace Terra.Utils
                 float randomDistance = Random.Range(0.1f, maxRandomRange);
                 Vector3 horizontalOffset = new Vector3(randomDir2D.x, 0, randomDir2D.y) * randomDistance;
                 Vector3 origin = position + horizontalOffset + Vector3.up;
-            
+
                 if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 50, obstacleMask))
                 {
-                    if (hit.collider.gameObject.layer == targetLayerIndex)
-                    {
-                        result = hit.point + resultOffset;
-                        break;
-                    }
+                    if (hit.collider.gameObject.layer != targetLayerIndex) continue;
+
+                    result = hit.point + resultOffset;
+
+                    if(Vector3.Distance(position, result) < minDistance) continue;
+                    
+                    break;
+
                 }
             }
 

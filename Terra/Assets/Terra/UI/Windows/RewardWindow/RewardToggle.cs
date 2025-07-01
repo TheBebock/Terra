@@ -322,10 +322,10 @@ namespace Terra.UI.Windows.RewardWindow
                     ApplyEffectReward(_effectReward);
                     break;
                 case RewardType.ActiveItem:
-                    PlayerInventoryManager.Instance.TryToEquipItem(_activeItemReward);
+                    PlayerInventoryManager.Instance?.TryToEquipItem(_activeItemReward);
                     break;
                 case RewardType.PassiveItem:
-                    PlayerInventoryManager.Instance.TryToEquipItem(_passiveItemReward);
+                    PlayerInventoryManager.Instance?.TryToEquipItem(_passiveItemReward);
                     break;
             }
         }
@@ -347,11 +347,11 @@ namespace Terra.UI.Windows.RewardWindow
         {
             if (statusEffectData.containerType == ContainerType.None)
             {
-                PlayerManager.Instance.PlayerEntity.StatusContainer.TryAddEffect(statusEffectData);
+                PlayerManager.Instance.PlayerEntity?.StatusContainer.TryAddEffect(statusEffectData);
             }
             else
             {
-                PlayerManager.Instance.PlayerAttackController.AddNewAttackStatusEffect(statusEffectData);
+                PlayerManager.Instance.PlayerAttackController?.AddNewAttackStatusEffect(statusEffectData);
             }
                
         }
@@ -364,7 +364,7 @@ namespace Terra.UI.Windows.RewardWindow
             }
             else
             {
-                PlayerManager.Instance.PlayerAttackController.AddNewAttackActionEffect(actionEffectData);
+                PlayerManager.Instance.PlayerAttackController?.AddNewAttackActionEffect(actionEffectData);
             }
         }
     }

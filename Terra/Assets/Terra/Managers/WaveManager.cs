@@ -192,7 +192,7 @@ namespace Terra.Managers
             EnemyBase enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
             _currentActiveEnemies++;
-            enemy.HealthController.OnDeath += () => { _currentActiveEnemies--; };
+            enemy.onDestroy += () => { _currentActiveEnemies--; };
         }
         
         public void SpawnEnemy(EnemyBase enemyPrefab, Vector3 position)

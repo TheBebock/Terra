@@ -37,13 +37,13 @@ namespace Terra.Interactions
             base.OnInteractableStateChanged(interactableState);
             if (interactableState)
             {
-                _greenLight.gameObject.SetActive(true);
-                _redLight.gameObject.SetActive(false);
+                _greenLight?.gameObject.SetActive(true);
+                _redLight?.gameObject.SetActive(false);
             }
             else
             {
-                _greenLight.gameObject.SetActive(false);
-                _redLight.gameObject.SetActive(true);
+                _greenLight?.gameObject.SetActive(false);
+                _redLight?.gameObject.SetActive(true);
             }
         }
 
@@ -77,6 +77,7 @@ namespace Terra.Interactions
         public void DetachListeners()
         {
             EventsAPI.Unregister<WaveEndedEvent>(OnWaveEnded);
+            EventsAPI.Unregister<ElevatorGeneratorStoppedEvent>(OnGeneratorStopped);
         }
 
         protected override void OnValidate()

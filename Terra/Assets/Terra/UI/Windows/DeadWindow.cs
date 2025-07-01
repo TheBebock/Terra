@@ -29,8 +29,8 @@ namespace Terra.UI.Windows
         {
             _darkScreen.SetActive(true);
             TimeManager.Instance.ResumeTime();
-            await ScenesManager.Instance.LoadSceneAsync(SceneNames.Gameplay, activationDelay:1f);
-            GameManager.Instance?.SwitchToGameState<StartOfFloorState>();
+            await ScenesManager.Instance.LoadGameplay();
+            GameManager.Instance.SwitchToGameState<StartOfFloorState>();
             Close();
         }
 

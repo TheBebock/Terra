@@ -64,16 +64,20 @@ MonoBehaviour:
   _id: -1
   _isPlayerDead: 0
   _playerAttackController:
-    _playerInventory: {fileID: 0}
     _firePoint: {fileID: 0}
     _isTryingPerformMeleeAttack: 0
     _isTryingPerformDistanceAttack: 0
-    _currentMeleeCd: 0
-    _currentRangedCd: 0
     _maxMeleeCd: 0
     _maxRangedCd: 0
+    _meleeEffectContainer:
+      statuses: []
+      actions: []
+    _rangeEffectContainer:
+      statuses: []
+      actions: []
     _meleeAttackSFX: {fileID: 0}
     _rangedAttackSFX: {fileID: 0}
+    _audioSource: {fileID: 0}
   _startingPlayerPosition: {x: 0, y: 0, z: 0}
   _playerMovement: {fileID: 2400752976024735065}
   _playerAnimator: {fileID: 2453622083028010261}

@@ -5,6 +5,8 @@ using NaughtyAttributes;
 using Terra.AI.EnemyStates;
 using Terra.Core.Generics;
 using Terra.Enums;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Itemization.Items;
 using Terra.Player;
@@ -49,18 +51,18 @@ namespace Terra.Combat
             
             if (PlayerManager.Instance)
             {
-                PlayerAttackController.OnMeleeAttackPerformed += StartAttack;
+                EventsAPI.Register<OnPlayerMeleeAttackPerformedEvent>(StartAttack);
             }
         }
         
-        private void StartAttack(FacingDirection playerFacingDir)
+        private void StartAttack(ref OnPlayerMeleeAttackPerformedEvent meleeEvent)
         {
             //TODO: Scale from new stat
             ScaleHitbox();
             _heldHitbox.gameObject.SetActive(true);
             
             
-            _hitboxAnimator.Play(GetAnimationHash(playerFacingDir), -1, 0f);
+            _hitboxAnimator.Play(GetAnimationHash(meleeEvent.facingDirection), -1, 0f);
 
             _ = WaitForAnimationEnd().AttachExternalCancellation(destroyCancellationToken);
         }
@@ -149,7 +151,7 @@ namespace Terra.Combat
                 PlayerInventoryManager.Instance.OnMeleeWeaponChanged -= UpdateHeldHitbox;
             }
             
-            PlayerAttackController.OnMeleeAttackPerformed -= StartAttack;
+            EventsAPI.Unregister<OnPlayerMeleeAttackPerformedEvent>(StartAttack);
         }
         public void TearDown()
         {

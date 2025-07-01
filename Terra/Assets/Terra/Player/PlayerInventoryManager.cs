@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Terra.Core.Generics;
 using NaughtyAttributes;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Abstracts.Definitions;
@@ -85,7 +87,7 @@ namespace Terra.Player
         
         public void AttachListeners()
         {
-            PlayerAttackController.OnRangeAttackPerformed += OnRangedAttack;
+            EventsAPI.Register<OnPlayerRangeAttackPerformedEvent>(OnRangedAttack);
         }
         
         private void DropItemOnGround(ItemBase item)
@@ -225,13 +227,14 @@ namespace Terra.Player
             OnCurrentAmmoChanged?.Invoke(_currentAmmo);
         }
 
-        private void OnRangedAttack() => ModifyCurrentAmmo(-1);
+        private void OnRangedAttack(ref OnPlayerRangeAttackPerformedEvent dummy) => ModifyCurrentAmmo(-1);
         
 
         public void DetachListeners()
         {
             ItemSlotBase.OnItemRemoved -= DropItemOnGround;
-            PlayerAttackController.OnRangeAttackPerformed -= OnRangedAttack;
+            EventsAPI.Unregister<OnPlayerRangeAttackPerformedEvent>(OnRangedAttack);
+
         }
     }
 }

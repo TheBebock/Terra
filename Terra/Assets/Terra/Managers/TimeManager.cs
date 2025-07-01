@@ -32,7 +32,7 @@ namespace Terra.Managers
         
         public void AttachListeners()
         {
-            if(InputManager.Instance) InputManager.Instance.AllTimeControls.Pause.performed += OnPauseInput;
+            if(InputsManager.Instance) InputsManager.Instance.AllTimeControls.Pause.performed += OnPauseInput;
             else Debug.LogError(this + " Input Manager is null");
         }
         
@@ -91,8 +91,8 @@ namespace Terra.Managers
 
         public void DetachListeners()
         {
-            if(InputManager.Instance)
-                InputManager.Instance.AllTimeControls.Pause.performed -= OnPauseInput;
+            if(InputsManager.Instance)
+                InputsManager.Instance.AllTimeControls.Pause.performed -= OnPauseInput;
         }
     }
 }

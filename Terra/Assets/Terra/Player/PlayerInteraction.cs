@@ -17,7 +17,7 @@ namespace Terra.Player
     
         public void AttachListeners()
         {
-            InputManager.Instance.PlayerControls.Interaction.performed += OnInteract;
+            InputsManager.Instance.PlayerControls.Interaction.performed += OnInteract;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -101,8 +101,8 @@ namespace Terra.Player
 
         public void DetachListeners()
         {
-            if(InputManager.Instance)
-                InputManager.Instance.PlayerControls.Interaction.started += OnInteract;
+            if(InputsManager.Instance)
+                InputsManager.Instance.PlayerControls.Interaction.started += OnInteract;
         }
     }
 }

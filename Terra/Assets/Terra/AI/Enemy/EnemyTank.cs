@@ -1,6 +1,9 @@
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.AI.Data;
 using Terra.AI.EnemyStates;
+using Terra.Enums;
+using Terra.Environment;
 using Terra.FSM;
 using Terra.Player;
 using Terra.Utils;
@@ -10,17 +13,34 @@ namespace Terra.AI.Enemy
 {
     public class EnemyTank : Enemy<TankEnemyData>
     {
-        //TODO:Either collider or raycast
-        [SerializeField] private Collider _attackCollider;
+        [SerializeField] DamageableStatue _tankStatue;
+        [SerializeField] private Transform _statueSpawnPointLeft;
+        [SerializeField] private Transform _statueSpawnPointRight;
+        [SerializeField] private EnemyColliderComponent _attackCollider;
         [SerializeField, Expandable] private TankEnemyData _data;
-        protected override TankEnemyData Data => _data;
+        [SerializeField] LayerMask _groundObjectLayerMask;
+        private int _targetLayer;
 
         private CountdownTimer _attackCooldownTimer;
         private CountdownTimer _attackDurationTimer;
+        protected override TankEnemyData Data => _data;
+
+        public LayerMask GroundObjectLayerMask => _groundObjectLayerMask;
+        public int TargetLayer => _targetLayer;
+        public EnemyColliderComponent AttackCollider => _attackCollider;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _targetLayer = LayerMask.NameToLayer("Ground");
+            _attackCollider.Init(this, _enemyStats.baseStrength);
+            _attackCollider.DisableCollider();
+        }
+
         protected override void SetupStates()
         {
-            var wander = new EnemyWanderState(this, _agent, _animator);            
-            var walkAndAttack = new EnemyWalkAndAttackState(this, _agent, _animator, PlayerManager.Instance.PlayerEntity);            
+            var walkAndAttack = new EnemyWalkAndAttackState(this, _agent, _animator, 
+                PlayerManager.Instance.PlayerEntity, _data.attackRange);            
             var tired = new EnemyTankTiredState(this, _agent, _animator);
 
             _attackCooldownTimer = new CountdownTimer(Data.attackCooldown);
@@ -34,13 +54,7 @@ namespace Terra.AI.Enemy
             stateMachine.AddTransition(walkAndAttack, tired, new FuncPredicate(CanEnterTiredState));
             stateMachine.AddTransition(tired, walkAndAttack, new FuncPredicate(CanAttackPlayer));
 
-            stateMachine.AddAnyTransition(wander, new FuncPredicate(()=>PlayerManager.Instance.IsPlayerDead && !isDead));
             stateMachine.SetState(tired);
-        }
-
-        public void RestartAttackCooldown()
-        {
-            _attackCooldownTimer?.Restart();
         }
         
         /// <summary>
@@ -53,6 +67,9 @@ namespace Terra.AI.Enemy
             _attackCooldownTimer.Restart();
         }
 
+        /// <summary>
+        ///     When the attack cooldown has finished, start the attackDuration timer
+        /// </summary>
         private void OnAttackCooldownTimerFinished()
         {
             _attackDurationTimer?.Start();
@@ -74,10 +91,29 @@ namespace Terra.AI.Enemy
         {
             return !_attackCooldownTimer.IsFinished;
         }
-        
+
+        protected override void SpawnLootOnDeath()
+        {
+            //Nothing
+        }
+
         public override void AttemptAttack()
         {
-            //TODO: Either raycast or enable collider
+            //Noop
+        }
+        
+        [UsedImplicitly]
+        public void SpawnStatue()
+        {
+            switch (CurrentDirection)
+            {
+                case FacingDirection.Left:
+                    Instantiate(_tankStatue, _statueSpawnPointLeft.position, Quaternion.identity).Init(CurrentDirection);
+                    break;
+                case FacingDirection.Right:
+                    Instantiate(_tankStatue, _statueSpawnPointRight.position, Quaternion.identity).Init(CurrentDirection);
+                    break;
+            }
         }
 
         protected override void CleanUp()

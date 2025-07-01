@@ -6,6 +6,7 @@ using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Player;
 using Terra.StatisticsSystem;
+using UnityEngine;
 
 namespace Terra.RewardSystem
 {
@@ -49,6 +50,12 @@ namespace Terra.RewardSystem
         }
         public static StatsDataComparison CompareItems(ItemData currentItem)
         {
+            if (currentItem == null)
+            {
+                Debug.LogError("Given item to compare is null");
+                return default;
+            }
+            
             StatsDataComparison comparison = new StatsDataComparison
             {
                 isInitialized = true,
@@ -70,6 +77,12 @@ namespace Terra.RewardSystem
         
         public static StatsDataComparison CompareItems(ItemData currentItem, ItemData toCompareItem)
         {
+            if (currentItem == null || toCompareItem == null)
+            {
+                Debug.LogError("Given items are null");
+                return default;
+            }
+            
             StatsDataComparison comparison = new StatsDataComparison
             {
                 isInitialized = true,
@@ -92,6 +105,11 @@ namespace Terra.RewardSystem
         
         public static WeaponDataComparison CompareWeapons(WeaponData currentWeapon, WeaponData toCompareWeapon)
         {
+            if (currentWeapon == null || toCompareWeapon == null)
+            {
+                Debug.LogError("Given weapons are null");
+                return default;
+            }
             int newWeaponStr = CalculateModifierValue(toCompareWeapon.strengthModifiers);
             int playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
             int playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);

@@ -59,7 +59,6 @@ namespace Terra.Player
 
         public void SetUp()
         {
-            _audioSource = GetComponent<AudioSource>();
             //NOTE: Needs to be in SetUp, because it caches references to managers
             _playerAttackController = new PlayerAttackController(_audioSource, _firePoint);
             _playerAttackController.AttachListeners();
@@ -155,6 +154,8 @@ namespace Terra.Player
                     Debug.LogError($"{this}: reference to PlayerEntity is missing.");
                 }
             }
+
+            if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
     }
 }

@@ -142,13 +142,13 @@ namespace Terra.Player
 
         public void AttachListeners()
         {
-            if (!InputManager.Instance)
+            if (!InputsManager.Instance)
             {
                 Debug.LogError("Input manager not found.");
                 return;
             }
 
-            var inputActions = InputManager.Instance.PlayerControls;
+            var inputActions = InputsManager.Instance.PlayerControls;
             
             // Movement
             inputActions.Movement.performed += OnMovementInput;
@@ -161,12 +161,12 @@ namespace Terra.Player
 
         public void DetachListeners()
         {
-            if (!InputManager.Instance) return;
+            if (!InputsManager.Instance) return;
             
-            InputManager.Instance.PlayerControls.Movement.performed -= OnMovementInput;
-            InputManager.Instance.PlayerControls.Movement.canceled -= OnMovementInput;
-            InputManager.Instance.PlayerControls.Movement.canceled -= OnMovementInputCanceled;
-            InputManager.Instance.PlayerControls.Dash.performed -= OnDashInput;
+            InputsManager.Instance.PlayerControls.Movement.performed -= OnMovementInput;
+            InputsManager.Instance.PlayerControls.Movement.canceled -= OnMovementInput;
+            InputsManager.Instance.PlayerControls.Movement.canceled -= OnMovementInputCanceled;
+            InputsManager.Instance.PlayerControls.Dash.performed -= OnDashInput;
         }
 
         private void OnValidate()

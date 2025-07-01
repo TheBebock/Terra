@@ -56,10 +56,15 @@ namespace Terra.Managers
             SceneManager.LoadScene(sceneName);
         }
 
+        public async UniTask LoadGameplay()
+        {
+            await LoadSceneAsync(SceneNames.Loading, allowSceneActivation:true);
+            await LoadSceneAsync(SceneNames.Gameplay, activationDelay: 1f);
+        }
         public async UniTask<float> LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single,
             bool allowSceneActivation = false, Action<float> onProgress = null, float activationDelay = 0f)
         {
-
+            
             AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, mode);
             if (asyncOp == null)
             {

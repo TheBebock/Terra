@@ -14,12 +14,12 @@ namespace Terra.AI.Enemy
     {
         [SerializeField, Expandable] private MeleeEnemyData _data;
         protected override MeleeEnemyData Data => _data;
-
+        public float AttackDashModifier => Data.dashModifier;
         protected override void SetupStates()
         {
             var wander = new EnemyWanderState(this, _agent, _animator);
             var chase = new EnemyChaseState(this, _agent, _animator, PlayerManager.Instance.transform);
-            var attack = new EnemyAttackState(this, _agent, _animator, PlayerManager.Instance.PlayerEntity);
+            var attack = new EnemyMeleeAttackState(this, _agent, _animator, PlayerManager.Instance.PlayerEntity);
             
 
             stateMachine.AddTransition(attack, chase, new FuncPredicate(() => !CanAttackPlayer()));

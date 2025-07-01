@@ -14,8 +14,8 @@ namespace Terra.GameStates
         public override void OnEnter() 
         {
             base.OnEnter();
-            InputManager.Instance.SetPlayerControlsState(false);
-            InputManager.Instance.SetAllTimeControlsState(false);
+            InputsManager.Instance.SetPlayerControlsState(false);
+            InputsManager.Instance.SetAllTimeControlsState(false);
             
             CameraManager.Instance.SetCameraBlendStyle();
             CameraManager.Instance.SpriteMask.SetActive(false);

@@ -57,6 +57,8 @@ MonoBehaviour:
     spawnValue: 5
   - enemy: {fileID: 1206317967071570289, guid: 7942ad101bcb95f49b0a3bfd84106a35, type: 3}
     spawnValue: 15
+  - enemy: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665, type: 3}
+    spawnValue: 10
   _delayBeforeFirstWave: 5
   _timeBetweenWaves: 10
   _startingWavesToSpawn: 2
