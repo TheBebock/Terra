@@ -144,8 +144,8 @@ MonoBehaviour:
   m_text: A tincture of foul smelling medicine, stitching your wounds with unnatural
     vigor.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: eea4e65549b20d140bc4c2041392e963, type: 2}
-  m_sharedMaterial: {fileID: 2141143249644944719, guid: eea4e65549b20d140bc4c2041392e963,
+  m_fontAsset: {fileID: 11400000, guid: 3ea63854707c84f468b4dc64fb496ec5, type: 2}
+  m_sharedMaterial: {fileID: -3649360976461635211, guid: 3ea63854707c84f468b4dc64fb496ec5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.05
+  m_fontSize: 25
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -368,8 +368,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: FREE!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3ea63854707c84f468b4dc64fb496ec5, type: 2}
+  m_sharedMaterial: {fileID: -3649360976461635211, guid: 3ea63854707c84f468b4dc64fb496ec5,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -794,8 +795,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Health
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6255e2bf4fa20aa4d91884ccf3a25d48, type: 2}
-  m_sharedMaterial: {fileID: 355320196399755015, guid: 6255e2bf4fa20aa4d91884ccf3a25d48,
+  m_fontAsset: {fileID: 11400000, guid: 3ea63854707c84f468b4dc64fb496ec5, type: 2}
+  m_sharedMaterial: {fileID: -3649360976461635211, guid: 3ea63854707c84f468b4dc64fb496ec5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -826,7 +827,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
