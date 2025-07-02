@@ -110,55 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ranged_attack_back_12
-      rect:
-        serializedVersion: 2
-        x: 1624
-        y: 216
-        width: 4
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aaf82d579ee883c4582b8bb8bfc8fa68
-      internalID: 2060863417
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged_attack_back_13
-      rect:
-        serializedVersion: 2
-        x: 1636
-        y: 224
-        width: 4
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b9cd5bd39fe8cee47a0d0c98160f7cd6
-      internalID: 189449940
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: ranged_attack_back_14
       rect:
         serializedVersion: 2
-        x: 92
-        y: 36
-        width: 72
-        height: 184
+        x: 101
+        y: 53
+        width: 109
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,10 +134,10 @@ TextureImporter:
       name: ranged_attack_back_15
       rect:
         serializedVersion: 2
-        x: 348
-        y: 36
-        width: 72
-        height: 180
+        x: 407
+        y: 53
+        width: 110
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +155,10 @@ TextureImporter:
       name: ranged_attack_back_16
       rect:
         serializedVersion: 2
-        x: 604
-        y: 36
-        width: 72
-        height: 180
+        x: 713
+        y: 53
+        width: 110
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +176,10 @@ TextureImporter:
       name: ranged_attack_back_17
       rect:
         serializedVersion: 2
-        x: 860
-        y: 36
-        width: 72
-        height: 180
+        x: 1020
+        y: 53
+        width: 109
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,10 +197,10 @@ TextureImporter:
       name: ranged_attack_back_18
       rect:
         serializedVersion: 2
-        x: 1116
-        y: 36
-        width: 72
-        height: 180
+        x: 1325
+        y: 53
+        width: 110
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +218,10 @@ TextureImporter:
       name: ranged_attack_back_19
       rect:
         serializedVersion: 2
-        x: 1372
-        y: 36
-        width: 72
-        height: 184
+        x: 1632
+        y: 53
+        width: 108
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,10 +239,10 @@ TextureImporter:
       name: ranged_attack_back_20
       rect:
         serializedVersion: 2
-        x: 1628
-        y: 36
-        width: 72
-        height: 184
+        x: 1937
+        y: 53
+        width: 110
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

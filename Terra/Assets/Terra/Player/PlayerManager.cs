@@ -115,6 +115,7 @@ namespace Terra.Player
             transform.position = _startingPlayerPosition;
         }
 
+        public void OnPerformRangeAttack() => _playerAttackController.PerformRangeAttack();
         public void OnMeleeEnd() => PlayerAttackController.OnMeleeAnimationEnd();
         public void OnRangeEnd() => PlayerAttackController.OnRangeAnimationEnd();
         public void OnPlayerDeathNotify()

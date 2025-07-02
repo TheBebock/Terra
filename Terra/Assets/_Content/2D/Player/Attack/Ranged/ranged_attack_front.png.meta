@@ -113,10 +113,10 @@ TextureImporter:
       name: ranged_attack_front_14
       rect:
         serializedVersion: 2
-        x: 88
-        y: 36
-        width: 80
-        height: 184
+        x: 95
+        y: 53
+        width: 121
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: ranged_attack_front_15
       rect:
         serializedVersion: 2
-        x: 344
-        y: 36
-        width: 80
-        height: 180
+        x: 402
+        y: 53
+        width: 121
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,10 +155,10 @@ TextureImporter:
       name: ranged_attack_front_16
       rect:
         serializedVersion: 2
-        x: 600
-        y: 36
-        width: 80
-        height: 180
+        x: 707
+        y: 53
+        width: 121
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,10 +176,10 @@ TextureImporter:
       name: ranged_attack_front_17
       rect:
         serializedVersion: 2
-        x: 856
-        y: 36
-        width: 80
-        height: 180
+        x: 1013
+        y: 53
+        width: 122
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: ranged_attack_front_18
       rect:
         serializedVersion: 2
-        x: 1112
-        y: 36
-        width: 84
-        height: 180
+        x: 1319
+        y: 53
+        width: 127
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +218,10 @@ TextureImporter:
       name: ranged_attack_front_19
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 36
-        width: 80
-        height: 184
+        x: 1625
+        y: 53
+        width: 122
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,10 +239,10 @@ TextureImporter:
       name: ranged_attack_front_20
       rect:
         serializedVersion: 2
-        x: 1624
-        y: 36
-        width: 80
-        height: 184
+        x: 1932
+        y: 53
+        width: 121
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

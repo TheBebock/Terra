@@ -110,36 +110,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ranged_attack_right_0
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 36
-        width: 68
-        height: 184
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1b6717aac512084428547e4429fd7fe9
-      internalID: 952066033
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: ranged_attack_right_1
       rect:
         serializedVersion: 2
-        x: 356
-        y: 36
-        width: 100
-        height: 180
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 119
+        y: 52
+        width: 97
+        height: 278
+      alignment: 9
+      pivot: {x: 0.43973944, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -152,36 +131,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ranged_attack_right_2
-      rect:
-        serializedVersion: 2
-        x: 612
-        y: 36
-        width: 124
-        height: 180
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 85daa04c7655de049a75fe7534f36362
-      internalID: 261392433
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: ranged_attack_right_3
       rect:
         serializedVersion: 2
-        x: 868
-        y: 36
-        width: 100
-        height: 180
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 426
+        y: 53
+        width: 145
+        height: 271
+      alignment: 9
+      pivot: {x: 0.29014197, y: 0.50663906}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -194,36 +152,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ranged_attack_right_5
-      rect:
-        serializedVersion: 2
-        x: 1124
-        y: 36
-        width: 92
-        height: 180
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f099ac999b2933f4f99c2febe0c98285
-      internalID: 339225031
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: ranged_attack_right_6
       rect:
         serializedVersion: 2
-        x: 1380
-        y: 36
-        width: 72
-        height: 184
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1038
+        y: 53
+        width: 187
+        height: 271
+      alignment: 9
+      pivot: {x: 0.2237823, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -239,12 +176,12 @@ TextureImporter:
       name: ranged_attack_right_7
       rect:
         serializedVersion: 2
-        x: 1636
-        y: 36
-        width: 60
-        height: 184
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1338
+        y: 53
+        width: 139
+        height: 271
+      alignment: 9
+      pivot: {x: 0.34693348, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -252,6 +189,69 @@ TextureImporter:
       bones: []
       spriteID: 74dd8e9ad66e55d42b4ba47df5c086bd
       internalID: -484946813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ranged_attack_right_4
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 53
+        width: 187
+        height: 271
+      alignment: 9
+      pivot: {x: 0.25861478, y: 0.49999994}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb905d17ebb732c4cb388518f0e3abcb
+      internalID: 110942063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ranged_attack_right_9
+      rect:
+        serializedVersion: 2
+        x: 1649
+        y: 53
+        width: 116
+        height: 278
+      alignment: 9
+      pivot: {x: 0.4111422, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b2a534e0d563344e89e5f98b33614cd
+      internalID: 1204207520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ranged_attack_right_10
+      rect:
+        serializedVersion: 2
+        x: 1950
+        y: 53
+        width: 91
+        height: 278
+      alignment: 9
+      pivot: {x: 0.5266851, y: 0.50000006}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25ca262bcce09a842b91c3005bea29ad
+      internalID: 1533209049
       vertices: []
       indices: 
       edges: []
@@ -269,6 +269,9 @@ TextureImporter:
     nameFileIdTable:
       ranged_attack_right_0: 952066033
       ranged_attack_right_1: 1536411345
+      ranged_attack_right_10: 1533209049
+      ranged_attack_right_11: 910519651
+      ranged_attack_right_12: -2013962603
       ranged_attack_right_2: 261392433
       ranged_attack_right_3: -35818838
       ranged_attack_right_4: 110942063
@@ -276,6 +279,7 @@ TextureImporter:
       ranged_attack_right_6: -53330345
       ranged_attack_right_7: -484946813
       ranged_attack_right_8: 909625144
+      ranged_attack_right_9: 1204207520
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

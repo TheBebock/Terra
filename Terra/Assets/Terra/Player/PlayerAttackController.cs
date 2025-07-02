@@ -54,8 +54,9 @@ namespace Terra.Player
         public FacingDirection CurrentPlayerAttackDirection => _currentPlayerAttackDirection;
         public PlayerInventoryManager PlayerInventory => PlayerInventoryManager.Instance;
         private OnPlayerMeleeAttackPerformedEvent _meleeEvent;
-        
 
+
+        private Vector3 _rangeShootDirection = new();
         public PlayerAttackController(AudioSource audioSource, Transform firePoint)
         {
             _audioSource = audioSource;
@@ -105,20 +106,26 @@ namespace Terra.Player
             if (!_isTryingPerformDistanceAttack)
             {
                 ChangeAttackDirection();
-
                 
                 _isTryingPerformDistanceAttack = true;
-                AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
-                EventsAPI.Invoke<OnPlayerRangeAttackPerformedEvent>();
-                
-                ProjectileFactory.CreateProjectile(
-                    PlayerInventory.RangedWeapon.Data.bulletData,
-                    _firePoint.position, 
-                    MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position, _raycastOffset),
-                    PlayerManager.Instance.PlayerEntity);
+                _rangeShootDirection =
+                    MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position, _raycastOffset);
             }
         }
 
+        public void PerformRangeAttack()
+        {
+            if(!_isTryingPerformDistanceAttack) return;
+            
+            AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
+            EventsAPI.Invoke<OnPlayerRangeAttackPerformedEvent>();
+                
+            ProjectileFactory.CreateProjectile(
+                PlayerInventory.RangedWeapon.Data.bulletData,
+                _firePoint.position, 
+                _rangeShootDirection,
+                PlayerManager.Instance.PlayerEntity);
+        }
         private void OnMeleeWeaponChanged(MeleeWeapon meleeWeapon)
         {
             _meleeAttackSFX = meleeWeapon.Data.attackSFX;

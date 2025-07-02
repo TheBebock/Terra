@@ -1729,6 +1729,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].eventName
+      value: OnPerformRangeAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1578218651}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPerformRangeAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Terra.Player.PlayerManager, Terra
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407116185486055928, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+        type: 3}
+      propertyPath: _animationEvents.Array.data[2].onAnimationEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5427650705384679002, guid: b8ad9ad7a2c60eb4bba804c20658a629,
         type: 3}
       propertyPath: _collider
@@ -6834,14 +6879,17 @@ MonoBehaviour:
     _meleeWeapons: []
     _rangedWeapons: []
     _healthPickups:
-    - _data: {fileID: 11400000, guid: 672cc341075a1e1438d070544313a65d, type: 2}
     - _data: {fileID: 11400000, guid: e2879fb5ceeba884c992e714a5be6c74, type: 2}
     - _data: {fileID: 11400000, guid: a98211e2e93a0ae44811fe752af5b6eb, type: 2}
     - _data: {fileID: 11400000, guid: 9b83f9dd8907b8b4a9ab9f458c7bb533, type: 2}
     _ammoPickups:
+    - _data: {fileID: 11400000, guid: 3eaedc9d117f669438e1990d7e450ef0, type: 2}
+    - _data: {fileID: 11400000, guid: 66a94c47b646d9f4e8e30da1f18d8319, type: 2}
     - _data: {fileID: 11400000, guid: c60dbaa7027d62d4599de820c83be0bc, type: 2}
     _crystalPickups:
+    - _data: {fileID: 11400000, guid: 031af4cec3e95b0409ad09d317f7f797, type: 2}
     - _data: {fileID: 11400000, guid: 319f7f17e969c6a47ad6dcfb5357b419, type: 2}
+    - _data: {fileID: 11400000, guid: a0eac13a15bd2894b8d1fac97cf0939c, type: 2}
     _statusEffects:
     - dropChance: 0
       statusEffect: {fileID: 11400000, guid: f8b992a33cd2de143bfcb47aa174c6b6, type: 2}
@@ -9212,6 +9260,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1578218651 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8083079388278282322, guid: b8ad9ad7a2c60eb4bba804c20658a629,
+    type: 3}
+  m_PrefabInstance: {fileID: 307734418}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421108098942b3c45a2558b803ebb67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1579884305 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1796410953413411716, guid: e6728e4cae53f4140a766aeeec0f6484,

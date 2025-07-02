@@ -78,6 +78,10 @@ namespace Terra.Player
                 case StatisticType.SwingSpeed:
                     tempValue = new ModifiableValue(_playerStats.SwingSpeed);
                     break;
+                
+                default:
+                    Debug.LogError($"{this}: unknown stat type: {type}");
+                    return 0;
             }
 
             for (int i = 0; i < modifiers.Count; i++)
