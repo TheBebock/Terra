@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42dd4cf0173ce614a9616a66c25afd15, type: 3}
   m_Name: Inventory_Player
   m_EditorClassIdentifier: 
-  startingAmmo: 5
+  startingAmmo: 15
   startingMelee:
     _data: {fileID: 11400000, guid: ead53b2bd3578aa4da731c5d4643d5c4, type: 2}
   startingRanged:

@@ -7,7 +7,7 @@ namespace Terra.Managers
     public class MouseRaycastManager : MonoBehaviourSingleton<MouseRaycastManager>
     {
         private readonly Vector3 _defaultY = new( 0f, 100f, 0f );
-        public Vector3 GetMousePositionInWorldPosition()
+        public Vector3 GetMousePositionInWorldPosition(Vector3 resultOffset = default)
         {
             Ray ray = CameraManager.Instance.MainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -23,10 +23,10 @@ namespace Terra.Managers
                 return Vector3.zero;
             }
             Vector3 worldClickPosition = ray.GetPoint(enter);
-            return worldClickPosition;
+            return worldClickPosition + resultOffset;
         }
 
-        public Vector3 GetDirectionTowardsMousePosition(Vector3 sourcePosition)
+        public Vector3 GetDirectionTowardsMousePosition(Vector3 sourcePosition, Vector3 resultOffset = default)
         {
             return (GetMousePositionInWorldPosition() - sourcePosition).normalized;
         }

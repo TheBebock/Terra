@@ -24,6 +24,7 @@ namespace Terra.Player
     [Serializable]
     public class PlayerAttackController : IAttachListeners
     {
+        private Vector3 _raycastOffset = new Vector3(0,0, -0.5f);
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private Transform _firePoint;
         [Foldout("Debug"), ReadOnly] [SerializeField]
@@ -113,7 +114,7 @@ namespace Terra.Player
                 ProjectileFactory.CreateProjectile(
                     PlayerInventory.RangedWeapon.Data.bulletData,
                     _firePoint.position, 
-                    MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position),
+                    MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position, _raycastOffset),
                     PlayerManager.Instance.PlayerEntity);
             }
         }

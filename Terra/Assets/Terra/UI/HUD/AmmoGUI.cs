@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Interfaces;
-using Terra.Managers;
 using Terra.Player;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Terra.UI.HUD
 {
@@ -26,9 +24,9 @@ namespace Terra.UI.HUD
         [SerializeField] private float _punchDuration = 0.25f;
         [SerializeField] private Vector3 _punchUpScale = new(1.2f,1.2f,1.2f);
 
-        private int _currentAmmoAmount;
-        private int _maxAmmoAmount;
-        private int _tempAmmoIncreaseAmount;
+        [Foldout("Debug")][SerializeField] private int _currentAmmoAmount;
+        [Foldout("Debug")][SerializeField] private int _maxAmmoAmount;
+        [Foldout("Debug"),ReadOnly][SerializeField] private int _tempAmmoIncreaseAmount;
         private Vector3 _tempValueTextOriginalPosition;
         private Vector3 _tempValueTextOriginalScale;
         private CancellationTokenSource _animationCts;
@@ -38,6 +36,7 @@ namespace Terra.UI.HUD
         {
             _tempValueTextOriginalPosition = _tempValueText.rectTransform.localPosition;
             _tempValueTextOriginalScale = _tempValueText.transform.localScale;
+
         }
         
         public void AttachListeners()
@@ -132,6 +131,12 @@ namespace Terra.UI.HUD
                 PlayerInventoryManager.Instance.OnCurrentAmmoChanged -= HandleCurrentAmmoChanged;
                 PlayerInventoryManager.Instance.OnMaxAmmoChanged -= HandleMaxAmmoAmountChanged;
             }
+        }
+
+        private void OnValidate()
+        {
+            _currentAmmoText.text = _currentAmmoAmount.ToString();
+            _maxAmmoText.text = _maxAmmoAmount.ToString();
         }
 
         protected override void CleanUp()
