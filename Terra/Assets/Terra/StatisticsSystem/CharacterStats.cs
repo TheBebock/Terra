@@ -12,7 +12,10 @@ namespace Terra.StatisticsSystem
         MaxHealth = 0,
         Strength = 1,
         Dexterity = 2,
-        Luck = 3
+        Luck = 3,
+        SwingSpeed = 4,
+        MeleeRange = 5,
+        RangeCooldown = 6,
     }
     
     /// <summary>

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7171882384048226510}
   - component: {fileID: 641914367473597735}
   - component: {fileID: 44556668393241724}
+  - component: {fileID: -1351021906526928856}
   m_Layer: 0
   m_Name: PopupDamageCanvas
   m_TagString: Untagged
@@ -118,6 +119,28 @@ MonoBehaviour:
   popupDamage: {fileID: 387669134032630451}
   target: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &-1351021906526928856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935507328977766095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lookAtType: 1
+  _targetTransforms: []
+  _targetVFXControllers: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!1001 &543392468384833885
 PrefabInstance:
   m_ObjectHideFlags: 0

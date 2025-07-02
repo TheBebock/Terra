@@ -6,6 +6,9 @@ namespace Terra.StatisticsSystem.Definitions
     public class PlayerStatsDefinition : CharacterStatsDefinition
     {
         public int baseLuck;
+        public int baseSwingSpeed;
+        public int baseMeleeRange;
+        public int baseRangeCooldown;
     }
 }
 

@@ -203,92 +203,92 @@ PrefabInstance:
     - target: {fileID: 5853037522391194932, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5853037522391194932, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5853037522391194932, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 5853037522391194932, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 5853037522391194932, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5853037522391194932, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6221918430602235280, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6221918430602235280, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6221918430602235280, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6221918430602235280, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50.28
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 6221918430602235280, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 260
+      value: 206
       objectReference: {fileID: 0}
     - target: {fileID: 6221918430602235280, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723230952176816907, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723230952176816907, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723230952176816907, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723230952176816907, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50.28
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 7723230952176816907, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 160
+      value: 101
       objectReference: {fileID: 0}
     - target: {fileID: 7723230952176816907, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8358366720993187875, guid: efe25d9da74b0814eb83cf0a63e030f7,
         type: 3}
@@ -514,12 +514,21 @@ MonoBehaviour:
   - statisticType: 0
     statIcon: {fileID: 21300000, guid: 4231fd732d439de4c832d7480f977314, type: 3}
     statShortName: 'HP:'
-  - statisticType: 1
-    statIcon: {fileID: 21300000, guid: 71157450167b3a746b7a3e4e6532cd59, type: 3}
-    statShortName: 'STR:'
   - statisticType: 2
     statIcon: {fileID: 21300000, guid: fbb2c2f6fa482524eb1a7402e4661e89, type: 3}
     statShortName: 'DEX:'
+  - statisticType: 1
+    statIcon: {fileID: 21300000, guid: 71157450167b3a746b7a3e4e6532cd59, type: 3}
+    statShortName: 'STR:'
+  - statisticType: 5
+    statIcon: {fileID: 21300000, guid: 38160482f8b9d214db67c2ca4fc71b4f, type: 3}
+    statShortName: 'RAN:'
+  - statisticType: 4
+    statIcon: {fileID: 21300000, guid: 28533b50ebcae2c42b0b3cfd173ec943, type: 3}
+    statShortName: 'SWS:'
+  - statisticType: 6
+    statIcon: {fileID: 21300000, guid: 3ee963cbfb04b8542b5cee9c7378932b, type: 3}
+    statShortName: 'RCD:'
   - statisticType: 3
     statIcon: {fileID: 21300000, guid: 0b69d359c0118c147ad1f10d6870171b, type: 3}
     statShortName: 'LCK:'

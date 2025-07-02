@@ -36,8 +36,7 @@ namespace Terra.Player
             _playerStats = new PlayerStats(_playerStatsData);
             
         }
-
-        //TODO: Create a wrapper for statistic to then remove StatisticType enum and change to StatWrapper<T>
+        
         public int GetStatValue(StatisticType type)
         {
             switch (type)
@@ -46,6 +45,9 @@ namespace Terra.Player
                 case StatisticType.Dexterity: return _playerStats.Dexterity;
                 case StatisticType.MaxHealth: return _playerStats.MaxHealth;
                 case StatisticType.Luck: return _playerStats.Luck;
+                case StatisticType.MeleeRange: return _playerStats.MeleeRange;
+                case StatisticType.RangeCooldown: return _playerStats.RangeCooldown;
+                case StatisticType.SwingSpeed: return _playerStats.SwingSpeed;
             }
             return -1;
         }
@@ -66,6 +68,15 @@ namespace Terra.Player
                     break;
                 case StatisticType.Luck:
                     tempValue = new ModifiableValue(_playerStats.Luck);
+                    break;
+                case StatisticType.MeleeRange:
+                    tempValue = new ModifiableValue(_playerStats.MeleeRange);
+                    break;
+                case StatisticType.RangeCooldown:
+                    tempValue = new ModifiableValue(_playerStats.RangeCooldown);
+                    break;
+                case StatisticType.SwingSpeed:
+                    tempValue = new ModifiableValue(_playerStats.SwingSpeed);
                     break;
             }
 
