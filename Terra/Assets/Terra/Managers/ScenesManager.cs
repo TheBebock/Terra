@@ -11,6 +11,7 @@ namespace Terra.Managers
 
     public static class SceneNames
     {
+        public const string IntroScene = "IntroScene";
         public const string MainMenu = "MainMenuScene";
         public const string Gameplay = "GameplayScene";
         public const string Loading = "LoadingScene";
