@@ -8,6 +8,7 @@ using Terra.Extensions;
 using Terra.Player;
 using Terra.RewardSystem;
 using Terra.StatisticsSystem;
+using Terra.Utils;
 using UIExtensionPackage.Core.Interfaces;
 using UIExtensionPackage.UISystem.Core.Base;
 using UIExtensionPackage.UISystem.Core.Interfaces;
@@ -41,7 +42,7 @@ namespace Terra.UI.HUD.StatDisplay
         
 
         [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField, Range(0,100)] private int _opacityPercent = 80;
+        [SerializeField, Range(0,1)] private float _opacityPercent = 0.3f;
         [SerializeField] private Color _stdTextColor = Color.white;
         [SerializeField] private Color _betterTextColor = Color.green;
         [SerializeField] private Color _worseTextColor = Color.red;
@@ -55,6 +56,7 @@ namespace Terra.UI.HUD.StatDisplay
         {
             EventsAPI.Register<OnRewardSelected>(OnRewardSelected);
             EventsAPI.Register<OnRewardUnselected>(OnRewardUnselected);
+            EventsAPI.Register<StatsOpacityChangedEvent>(OnOpacityChanged);
             if (PlayerStatsManager.Instance != null)
             {
                 PlayerStatsManager.Instance.OnStatValueChanged += OnStatValueChanged;
@@ -70,10 +72,16 @@ namespace Terra.UI.HUD.StatDisplay
                 statLabel.Init(_labelSetupData[i].statIcon, _labelSetupData[i].statShortName, statValue.ToString());
                 _statLabels.Add(new StatLabelData(_labelSetupData[i].statisticType, statLabel));
             }
-        }
-        
 
-        
+            _opacityPercent = GameSettings.DefaultStatsOpacity;
+            OnOpacityChanged(_opacityPercent);
+        }
+
+
+        private void OnOpacityChanged(ref StatsOpacityChangedEvent opacity)
+        {
+            OnOpacityChanged(opacity.alfa);
+        }
         private void OnStatValueChanged(StatisticType statisticType, int statValue)
         {
             for (int i = 0; i < _statLabels.Count; i++)
@@ -150,20 +158,22 @@ namespace Terra.UI.HUD.StatDisplay
         {
             _canvasGroup.alpha = 1;
         }
-        private void OnOpacityChanged(int opacityPercent)
+        private void OnOpacityChanged(float opacityPercent)
         {
-            _opacityPercent = opacityPercent;
+            _opacityPercent = Mathf.Clamp01(opacityPercent);
             ForceSetObjectOpacity(_opacityPercent);
+            GameSettings.DefaultStatsOpacity = _opacityPercent;
         }
                 
+        private void ForceSetObjectOpacity(float opacity)
+        {
+            opacity =  Mathf.Clamp01(opacity);
+            _canvasGroup.alpha = opacity;
+        }
+
         public void ResetObjectOpacityToDefault() => ForceSetObjectOpacity(_opacityPercent);
         
-        public void ForceSetObjectOpacity(int opacityPercent)
-        {
-            opacityPercent =  Math.Clamp(opacityPercent, 0, 100);
-            _canvasGroup.alpha = opacityPercent.ToFactor();
-        }
-        
+
         public void Hide()
         {
             _canvasGroup.alpha = 0;
@@ -178,6 +188,8 @@ namespace Terra.UI.HUD.StatDisplay
         {
             EventsAPI.Unregister<OnRewardSelected>(OnRewardSelected);
             EventsAPI.Unregister<OnRewardUnselected>(OnRewardUnselected);
+            EventsAPI.Unregister<StatsOpacityChangedEvent>(OnOpacityChanged);
+
             if (PlayerStatsManager.Instance != null)
             {
                 PlayerStatsManager.Instance.OnStatValueChanged -= OnStatValueChanged;

@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Extensions;
-using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Player;
+using Terra.Utils;
 using UIExtensionPackage.Core.Interfaces;
 using UIExtensionPackage.UISystem.Core.Base;
 using UIExtensionPackage.UISystem.Core.Interfaces;
@@ -18,7 +20,7 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
     {
 
         [SerializeField] private Image _iconPrefab;
-        [SerializeField, Range(0, 100)] private int _opacityPercent = 80;
+        [SerializeField, Range(0, 1)] private float _opacityPercent = 0.3f;
         [Foldout("References")][SerializeField] private CanvasGroup _canvasGroup;
         [Foldout("References")][SerializeField] private Transform _itemsIconsContainer;
         [Foldout("Debug"), ReadOnly] private List<Image> _itemIcons = new();
@@ -31,11 +33,15 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
                     OnPassiveItemAdded(PlayerInventoryManager.Instance.GetPassiveItems[i]);
                 }
             }
+            
+            _opacityPercent = GameSettings.DefaultStatsOpacity;
+            OnOpacityChanged(_opacityPercent);
         }
 
         public void AttachListeners()
         {
             PlayerInventoryManager.Instance.OnPassiveItemAdded += OnPassiveItemAdded;
+            EventsAPI.Register<ItemsOpacityChangedEvent>(OnOpacityChanged);
         }
 
 
@@ -49,19 +55,27 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
         {
             _canvasGroup.alpha = 1;
         }
-        private void OnOpacityChanged(int opacityPercent)
+        
+        private void OnOpacityChanged(ref ItemsOpacityChangedEvent opacity)
         {
-            _opacityPercent = opacityPercent;
+            OnOpacityChanged(opacity.alfa);
+        }
+        
+        private void OnOpacityChanged(float opacityPercent)
+        {
+            _opacityPercent = Mathf.Clamp01(opacityPercent);
             ForceSetObjectOpacity(_opacityPercent);
+            GameSettings.DefaultItemsOpacity = _opacityPercent;
+        }
+                
+        private void ForceSetObjectOpacity(float opacity)
+        {
+            _canvasGroup.alpha = opacity;
         }
                 
         public void ResetObjectOpacityToDefault() => ForceSetObjectOpacity(_opacityPercent);
         
-        public void ForceSetObjectOpacity(int opacityPercent)
-        {
-            opacityPercent = Math.Clamp(opacityPercent, 0, 100);
-            _canvasGroup.alpha = opacityPercent.ToFactor();
-        }
+
         
         public void Hide()
         {
@@ -70,6 +84,8 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
         
         public void DetachListeners()
         {
+            EventsAPI.Unregister<ItemsOpacityChangedEvent>(OnOpacityChanged);
+
             if (PlayerInventoryManager.Instance)
             {
                 PlayerInventoryManager.Instance.OnPassiveItemAdded -= OnPassiveItemAdded;

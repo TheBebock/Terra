@@ -1,4 +1,11 @@
+using System;
+using NaughtyAttributes;
+using Terra.Enums;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Managers;
+using Terra.UI.MainMenu;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,35 +14,111 @@ namespace Terra.MainMenu
     public class SettingsUI : MonoBehaviour
     {
         [SerializeField] private Button _closeButton;
-        public Slider masterSlider;
-        public Slider sfxSlider;
-        public Slider musicSlider;
+        [SerializeField] private Image _darkScreen;
+        [BoxGroup("Audio")] [SerializeField] private  Slider _masterSlider;
+        [BoxGroup("Audio")] [SerializeField] private  Slider _sfxSlider;
+        [BoxGroup("Audio")] [SerializeField] private  Slider _musicSlider;
+        [BoxGroup("Audio")] [SerializeField] private Vector2 _audioRange = new(-40, 10);
         private float _lastPlayTime = -1f;
         private float _sfxCooldown = 0.3f;
-    
 
-        public void Start()
+        [BoxGroup("Gameplay")][SerializeField] private Slider _itemsOpacitySlider;
+        [BoxGroup("Gameplay")][SerializeField] private Slider _statsOpacitySlider;
+        [BoxGroup("Graphics")] [SerializeField] private Vector2 _opacityRange = new(-0.2f, 0.5f);
+
+        [BoxGroup("Graphics")] [SerializeField] private Button _brightnessButton;
+        [BoxGroup("Graphics")] [SerializeField] private GammaSettings _gammaSettings;
+        
+        ItemsOpacityChangedEvent _itemsOpacityChangedEvent;
+        StatsOpacityChangedEvent _statsOpacityChangedEvent;
+        
+        private void Awake()
         {
-            _closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+            _itemsOpacityChangedEvent = new ItemsOpacityChangedEvent();
+            _statsOpacityChangedEvent = new StatsOpacityChangedEvent();
             
-            masterSlider.value = PlayerPrefs.HasKey("MasterVolume") ? PlayerPrefs.GetFloat("MasterVolume") : 10f;
-            sfxSlider.value = PlayerPrefs.HasKey("SFXVolume") ? PlayerPrefs.GetFloat("SFXVolume") : 10f;
-            musicSlider.value = PlayerPrefs.HasKey("MusicVolume") ? PlayerPrefs.GetFloat("MusicVolume") : 10f;
+            InitializeSliders();  
+            
+            _closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+            _brightnessButton.onClick.AddListener(()=> _gammaSettings.gameObject.SetActive(true));
+        }
 
-            masterSlider.onValueChanged.RemoveAllListeners();
-            masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
+        private void InitializeSliders()
+        {
+            _masterSlider.onValueChanged.RemoveAllListeners();
+            _sfxSlider.onValueChanged.RemoveAllListeners();
+            _musicSlider.onValueChanged.RemoveAllListeners();
+            
+            _statsOpacitySlider.onValueChanged.RemoveAllListeners();
+            _itemsOpacitySlider.onValueChanged.RemoveAllListeners();
 
-            sfxSlider.onValueChanged.RemoveAllListeners();
-            sfxSlider.onValueChanged.AddListener((value) =>
+            SetSliderRange(_masterSlider, _audioRange);
+            SetSliderRange(_sfxSlider, _audioRange);
+            SetSliderRange(_musicSlider, _audioRange);
+            
+            SetSliderRange(_itemsOpacitySlider, _opacityRange);
+            SetSliderRange(_statsOpacitySlider, _opacityRange);
+            
+            _masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
+
+            _sfxSlider.onValueChanged.AddListener((value) =>
             {
                 AudioManager.Instance.SetSFXVolume(value);
                 PlayTestSFX();
             });
 
-            musicSlider.onValueChanged.RemoveAllListeners();
-            musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
+            _musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
+            
+            _itemsOpacitySlider.onValueChanged.AddListener(OnItemsOpacityChanged);
+            _statsOpacitySlider.onValueChanged.AddListener(OnStatsOpacityChanged);
         }
-    
+
+        private void OnEnable()
+        {
+            SetSliderValue(_masterSlider, GameSettings.DefaultMasterVolume);
+            SetSliderValue(_sfxSlider, GameSettings.DefaultSFXVolume);
+            SetSliderValue(_musicSlider, GameSettings.DefaultMusicVolume);
+            
+            SetSliderValue(_itemsOpacitySlider, GameSettings.DefaultItemsOpacity);
+            SetSliderValue(_statsOpacitySlider, GameSettings.DefaultStatsOpacity);
+        }
+
+        private void OnDisable()
+        {
+            SetDarkScreenOpacity(0);
+            EventsAPI.Invoke<SettingsClosedEvent>();
+        }
+
+        private void OnItemsOpacityChanged(float value)
+        {
+            _itemsOpacityChangedEvent.alfa = value;
+            EventsAPI.Invoke(ref _itemsOpacityChangedEvent);
+        }
+        
+        private void OnStatsOpacityChanged(float value)
+        {
+            _statsOpacityChangedEvent.alfa = value;
+            EventsAPI.Invoke(ref _statsOpacityChangedEvent);
+        }
+        
+
+        private void SetSliderRange(Slider slider, Vector2 range)
+        {
+            slider.minValue = range.x;
+            slider.maxValue = range.y;
+        }
+
+        private void SetSliderValue(Slider slider, float value)
+        {
+            slider.value = value;
+        }
+
+
+        public void SetDarkScreenOpacity(float value)
+        {
+            value = Mathf.Clamp01(value);
+            _darkScreen.color = new Color(_darkScreen.color.r, _darkScreen.color.g, _darkScreen.color.b, value);
+        }
         private void PlayTestSFX()
         {
             if (Time.time - _lastPlayTime < _sfxCooldown) return;

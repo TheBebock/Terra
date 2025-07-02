@@ -29,8 +29,6 @@ namespace Terra.Managers
         
         public async void LoadMainMenu()
         {
-            TimeManager.Instance?.ResumeTime();
-            
             await LoadSceneAsync(SceneNames.MainMenu, LoadSceneMode.Single, true);
             GameManager.Instance?.SwitchToGameState<DefaultGameState>();
         }
@@ -61,10 +59,13 @@ namespace Terra.Managers
         {
             await LoadSceneAsync(SceneNames.Loading, allowSceneActivation:true);
             await LoadSceneAsync(SceneNames.Gameplay, activationDelay: 1f);
+            GameManager.Instance?.SwitchToGameState<StartOfFloorState>();
         }
         public async UniTask<float> LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single,
             bool allowSceneActivation = false, Action<float> onProgress = null, float activationDelay = 0f)
         {
+            
+            TimeManager.Instance.ResumeTime();
             
             AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, mode);
             if (asyncOp == null)

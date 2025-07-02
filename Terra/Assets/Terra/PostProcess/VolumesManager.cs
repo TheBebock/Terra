@@ -1,11 +1,13 @@
 using Terra.Core.Generics;
+using Terra.Interfaces;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace Terra.PostProcess
 {
-    public class VolumesManager : PersistentMonoSingleton<VolumesManager>
+    public class VolumesManager : PersistentMonoSingleton<VolumesManager>, IWithSetUp
     {
         [SerializeField] private float _currentGamma;
         [SerializeField] private float _currentBloom = 1;
@@ -18,16 +20,26 @@ namespace Terra.PostProcess
         [SerializeField] private LiftGammaGain _gamma;
 
         public  Vector2 GammaRange => _gammaRange;
+        
+        public void SetUp()
+        {
+            SetGamma(GameSettings.DefaultGamma);
+        }
+        
         public void SetBloom(float value)
         {
             value = Mathf.Clamp(value, _bloomRange.x, _bloomRange.y);
+            _currentBloom = value;
             _bloom.intensity.value = value;
         }
 
         public void SetGamma(float value)
         {
             value = Mathf.Clamp(value, _gammaRange.x, _gammaRange.y);
+            _currentGamma = value;
             _gamma.gamma.value = new Vector4(value, value, value, value);
+            
+            GameSettings.DefaultGamma = value;
         }
 
         private void OnValidate()
@@ -37,6 +49,13 @@ namespace Terra.PostProcess
             
             SetBloom(_currentBloom);
             SetGamma(_currentGamma);
+        }
+
+
+
+        public void TearDown()
+        {
+            //Noop
         }
     }
 }

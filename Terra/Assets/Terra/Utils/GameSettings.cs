@@ -1,5 +1,6 @@
 
 using System.IO;
+using Terra.Enums;
 using UnityEngine;
 
 namespace Terra.Utils
@@ -7,11 +8,12 @@ namespace Terra.Utils
     public static class GameSettings
     {
         public static float DefaultGamma = 0f;
-        public static float DefaultStatsOpacity = 0.8f;
-        public static float DefaultItemsOpacity = 0.8f;
+        public static float DefaultStatsOpacity = 0.3f;
+        public static float DefaultItemsOpacity = 0.3f;
         public static float DefaultMasterVolume = 1.0f;
         public static float DefaultSFXVolume = 1.0f;
         public static float DefaultMusicVolume = 1.0f;
+        public static GameDifficulty DefaultDifficultyLevel = GameDifficulty.Normal;
 
         private static string SettingsFilePath => Path.Combine(Application.persistentDataPath, "settings.json");
 
@@ -45,6 +47,8 @@ namespace Terra.Utils
             else
             {
                 Debug.Log($"Settings file not found, using default values.");
+                Debug.Log($"Creating new settings file.");
+                SaveGameSettings();
             }
         }
 
@@ -63,7 +67,9 @@ namespace Terra.Utils
             string json = JsonUtility.ToJson(data, true);
             string dir = Path.GetDirectoryName(SettingsFilePath);
             if (!Directory.Exists(dir))
+            {
                 Directory.CreateDirectory(dir);
+            }
 
             File.WriteAllText(SettingsFilePath, json);
 

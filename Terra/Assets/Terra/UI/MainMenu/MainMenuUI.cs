@@ -1,32 +1,41 @@
+using System;
 using Terra.Managers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Terra.UI.MainMenu
 {
     public class MainMenuUI : MonoBehaviour
     {
-        public GameObject settingsPanel;
+        [SerializeField] private Button _startGameButton;
+        [SerializeField] private Button _exitGameButton;
+        [SerializeField] private GameObject _settingsPanel;
+        [SerializeField] private GameObject _helpPanel;
 
-        public void Start()
+        private void Awake()
         {
-            settingsPanel.SetActive(false);
+            if(_settingsPanel)_settingsPanel?.SetActive(false);
+            if(_helpPanel) _helpPanel?.SetActive(false);
+            _startGameButton?.onClick.AddListener(StartGameplayScene);
+            _exitGameButton?.onClick.AddListener(QuitGame);
         }
+        
         
         public void ShowSettings()
         {
-            settingsPanel.SetActive(true);
+            _settingsPanel?.SetActive(true);
         }
-
-        public void CloseSettings()
+        public void ShowHelp()
         {
-            settingsPanel.SetActive(false);
+            _helpPanel?.SetActive(true);
         }
-        public void StartGameplayScene()
+        
+        private void StartGameplayScene()
         {
             _ = ScenesManager.Instance.LoadGameplay();
         }
 
-        public void QuitGame()
+        private void QuitGame()
         {
             Application.Quit();
             Debug.Log("Quit Game");

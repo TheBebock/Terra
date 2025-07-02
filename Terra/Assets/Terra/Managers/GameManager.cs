@@ -21,8 +21,8 @@ namespace Terra.Managers
         protected override void Awake()
         {
             base.Awake();
-            if(!Instance == this) return;
-        
+            if(Instance != this) return;
+            
             _allGameStates.Clear();
             _allGameStates.Add(typeof(GameplayState), new GameplayState());
             _allGameStates.Add(typeof(UpgradeGameState), new UpgradeGameState());

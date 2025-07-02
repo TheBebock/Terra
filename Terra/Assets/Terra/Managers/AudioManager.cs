@@ -2,6 +2,7 @@ using System;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Interfaces;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Serialization;
@@ -18,7 +19,7 @@ namespace Terra.Managers
             public AudioClip clip;
         }
 
-        [FormerlySerializedAs("MinDB")] [Foldout("Config")] [SerializeField] private float _minDB;
+        [FormerlySerializedAs("MinDB")] [Foldout("Config")] [SerializeField] private float _minDB= -60;
         [FormerlySerializedAs("MaxDB")] [Foldout("Config")] [SerializeField] private float _maxDB;
 
         [FormerlySerializedAs("musicSounds")] [Foldout("References")] [SerializeField]
@@ -155,8 +156,8 @@ namespace Terra.Managers
 
         private void LoadVolumeSetting(string parameterName, float minDB, float maxDB)
         {
-            float normalizedValue = PlayerPrefs.GetFloat(parameterName, -1f);
-            float volume = normalizedValue <= 0 ? -80f : Mathf.Lerp(minDB, maxDB, normalizedValue / 10f);
+            float normalizedValue = Mathf.Clamp01(GetValue(parameterName));
+            float volume = normalizedValue <= 0 ? -80f : Mathf.Lerp(minDB, maxDB, normalizedValue);
             _audioMixer.SetFloat(parameterName, volume);
         }
         
@@ -172,10 +173,10 @@ namespace Terra.Managers
         }
         private void SetVolume(string parameterName, float value)
         {
-            float volume = value == 0 ? -80 : Mathf.Lerp(_minDB, _maxDB, value / 10f);
+            value = Mathf.Clamp01(value);
+            float volume = value == 0 ? -80 : Mathf.Lerp(_minDB, _maxDB, value);
             _audioMixer.SetFloat(parameterName, volume);
-            PlayerPrefs.SetFloat(parameterName, value);
-            PlayerPrefs.Save();
+            SaveValue(parameterName, value);
         }
 
         public void SetMasterVolume(float value) => SetVolume("MasterVolume", value);
@@ -183,6 +184,36 @@ namespace Terra.Managers
         public void SetMusicVolume(float value) => SetVolume("MusicVolume", value);
 
 
+        private float GetValue(string parameterName)
+        {
+            switch (parameterName)
+            {
+                case "MasterVolume":
+                    return GameSettings.DefaultMusicVolume;
+                case "SFXVolume":
+                    return GameSettings.DefaultSFXVolume;
+                case "MusicVolume":
+                    return GameSettings.DefaultMusicVolume;
+                default:
+                    return 0f;
+            }
+        }
+
+        private void SaveValue(string parameterName, float value)
+        {
+            switch (parameterName)
+            {
+                case "MasterVolume":
+                    GameSettings.DefaultMusicVolume = value;
+                    break;
+                case "SFXVolume":
+                    GameSettings.DefaultSFXVolume = value;
+                    break;
+                case "MusicVolume":
+                    GameSettings.DefaultMusicVolume = value;
+                    break;
+            }
+        }
         public void TearDown()
         {
             StopMusic();

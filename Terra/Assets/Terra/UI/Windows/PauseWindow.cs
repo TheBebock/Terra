@@ -1,3 +1,4 @@
+using Terra.MainMenu;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
@@ -10,20 +11,22 @@ namespace Terra.UI.Windows
     {
         public override bool AllowMultiple { get; } = false;
         
-        [FormerlySerializedAs("resumeButton")] [SerializeField] Button _resumeButton;
-        [FormerlySerializedAs("saveButton")] [SerializeField] Button _saveButton;
-        [FormerlySerializedAs("loadButton")] [SerializeField] Button _loadButton;
-        [FormerlySerializedAs("optionsButton")] [SerializeField] Button _optionsButton;
-        [FormerlySerializedAs("exitToMenuButton")] [SerializeField] Button _exitToMenuButton;
-
+        [SerializeField] Button _resumeButton;
+        [SerializeField] Button _settingsButton;
+        [SerializeField] Button _exitToMenuButton;
+        
+        [SerializeField] SettingsUI _settingsPanel;
+        [SerializeField,Range(0,1f)] private float _settingsDarkScreenOpacity = 0.3f;
         public override void SetUp()
         {
             base.SetUp();
             
             _resumeButton?.onClick.AddListener(Resume);
-            _exitToMenuButton?.onClick.AddListener(ExitGame);
+            _settingsButton?.onClick.AddListener(OpenSettings);
+            _exitToMenuButton?.onClick.AddListener(ExitToMenu);
             
-            //TODO: add other functionalities
+            if(_settingsPanel) _settingsPanel.gameObject.SetActive(false);
+
         }
 
         private void Resume()
@@ -31,7 +34,15 @@ namespace Terra.UI.Windows
             TimeManager.Instance?.ResumeGame();
             Close();
         }
-        
-        private void ExitGame() => Application.Quit();
+
+        private void OpenSettings()
+        {
+            _settingsPanel.gameObject.SetActive(true);
+            _settingsPanel.SetDarkScreenOpacity(_settingsDarkScreenOpacity);
+        }
+        private void ExitToMenu()
+        {
+            ScenesManager.Instance.LoadMainMenu();
+        }
     }
 }

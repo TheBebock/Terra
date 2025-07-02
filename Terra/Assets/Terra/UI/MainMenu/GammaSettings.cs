@@ -1,6 +1,7 @@
 using System;
 using Terra.Core.Generics;
 using Terra.PostProcess;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ namespace Terra.UI.MainMenu
     
         [SerializeField] private Button _backButton;
         [SerializeField] private Slider _gammaSlider;
-
+        
         private void Start()
         {
             _backButton.onClick.AddListener(()=> gameObject.SetActive(false));
@@ -24,6 +25,13 @@ namespace Terra.UI.MainMenu
             {
                 Debug.LogError($"{this} Volumes Manager is missing, something went horribly wrong");
             }
+            
+            _gammaSlider.value = GameSettings.DefaultGamma;
+        }
+
+        private void OnEnable()
+        {
+            _gammaSlider.value = GameSettings.DefaultGamma;
         }
 
         private void InitSliderValues(Vector2 gammaRange)

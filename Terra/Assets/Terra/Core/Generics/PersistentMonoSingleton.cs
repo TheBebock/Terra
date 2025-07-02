@@ -11,6 +11,10 @@ namespace Terra.Core.Generics
     {
         protected override void Awake()
         {
+            // In case of a duplicate, it will get destroyed in base.Awake()
+            base.Awake();
+            if(Instance != this as T) return;
+            
             // Ensure that object is on the root level as Unity only allows root level objects to be made persistent.
             if (transform.parent)
             {
@@ -19,8 +23,7 @@ namespace Terra.Core.Generics
             }
             // Mark this object as DontDestroyOnLoad
             DontDestroyOnLoad(gameObject);
-            // In case of a duplicate, it will get destroyed in base.Awake()
-            base.Awake();
+            
         }
     }
 }
