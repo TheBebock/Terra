@@ -17,6 +17,7 @@ namespace Terra.PostProcess
         [SerializeField] private Bloom _bloom;
         [SerializeField] private LiftGammaGain _gamma;
 
+        public  Vector2 GammaRange => _gammaRange;
         public void SetBloom(float value)
         {
             value = Mathf.Clamp(value, _bloomRange.x, _bloomRange.y);

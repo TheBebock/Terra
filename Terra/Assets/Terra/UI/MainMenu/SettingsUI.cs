@@ -6,20 +6,21 @@ namespace Terra.MainMenu
 {
     public class SettingsUI : MonoBehaviour
     {
+        [SerializeField] private Button _closeButton;
         public Slider masterSlider;
         public Slider sfxSlider;
         public Slider musicSlider;
-        public Slider ambientSlider;
         private float _lastPlayTime = -1f;
         private float _sfxCooldown = 0.3f;
     
 
         public void Start()
         {
+            _closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+            
             masterSlider.value = PlayerPrefs.HasKey("MasterVolume") ? PlayerPrefs.GetFloat("MasterVolume") : 10f;
             sfxSlider.value = PlayerPrefs.HasKey("SFXVolume") ? PlayerPrefs.GetFloat("SFXVolume") : 10f;
             musicSlider.value = PlayerPrefs.HasKey("MusicVolume") ? PlayerPrefs.GetFloat("MusicVolume") : 10f;
-            ambientSlider.value = PlayerPrefs.HasKey("AmbientVolume") ? PlayerPrefs.GetFloat("AmbientVolume") : 1f;
 
             masterSlider.onValueChanged.RemoveAllListeners();
             masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
@@ -33,9 +34,6 @@ namespace Terra.MainMenu
 
             musicSlider.onValueChanged.RemoveAllListeners();
             musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
-
-            ambientSlider.onValueChanged.RemoveAllListeners();
-            ambientSlider.onValueChanged.AddListener(AudioManager.Instance.SetAmbientVolume);
         }
     
         private void PlayTestSFX()

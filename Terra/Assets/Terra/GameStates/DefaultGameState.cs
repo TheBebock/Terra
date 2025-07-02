@@ -1,4 +1,5 @@
 using System;
+using Terra.Managers;
 
 namespace Terra.GameStates
 {
@@ -9,6 +10,11 @@ namespace Terra.GameStates
     [Serializable]
     public class DefaultGameState : GameState
     {
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            TimeManager.Instance.ResumeTime();
+        }
     }
 }
 

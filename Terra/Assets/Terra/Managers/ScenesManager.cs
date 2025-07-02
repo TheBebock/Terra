@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.GameStates;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,14 +26,13 @@ namespace Terra.Managers
         [SerializeField, ReadOnly] private List<string> _sceneNames = new ();
 
         public string CurrentSceneName => SceneManager.GetActiveScene().name;
-
-        //TODO: Add async LoadScene, that implements correct initialization pipeline, ie: load ground first, then entities, then ui.. etc
-
-        public void LoadMainMenu()
+        
+        public async void LoadMainMenu()
         {
             TimeManager.Instance?.ResumeTime();
             
-            ForceLoadScene(0);
+            await LoadSceneAsync(SceneNames.MainMenu, LoadSceneMode.Single, true);
+            GameManager.Instance?.SwitchToGameState<DefaultGameState>();
         }
 
         public void ForceLoadScene(int buildIndex)

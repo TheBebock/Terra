@@ -26,18 +26,14 @@ namespace Terra.Managers
 
         [FormerlySerializedAs("sfxSounds")] [Foldout("References")] [SerializeField]
         private Sound[] _sfxSounds;
-
-        [FormerlySerializedAs("ambientSounds")] [Foldout("References")] [SerializeField]
-        private Sound[] _ambientSounds;
+        
 
         [FormerlySerializedAs("musicSource")] [Foldout("References")] [SerializeField]
         private AudioSource _musicSource;
 
         [FormerlySerializedAs("sfxSource")] [Foldout("References")] [SerializeField]
         private AudioSource _sfxSource;
-
-        [FormerlySerializedAs("ambientSource")] [Foldout("References")] [SerializeField]
-        private AudioSource _ambientSource;
+        
 
         [FormerlySerializedAs("AudioMixer")] [Foldout("References")] [SerializeField]
         private AudioMixer _audioMixer;
@@ -51,13 +47,13 @@ namespace Terra.Managers
         
         public void SetUp()
         {
-            
+            LoadVolume();   
         }
 
         
         public void PlayMusic(string clip)
         {
-            Sound s = Array.Find(_musicSounds, x => x.name == clip);
+            Sound s = Array.Find(_musicSounds, x => x.name.Equals(clip, StringComparison.OrdinalIgnoreCase));
 
             if (s.name == default)
             {
@@ -74,30 +70,11 @@ namespace Terra.Managers
         {
             _musicSource.Stop();
         }
-
-        public void PlayAmbient(string clip)
-        {
-            Sound s = Array.Find(_ambientSounds, x => x.name == clip);
-
-            if (s.name == default)
-            {
-                Debug.LogError($"Sound {clip} Not Found");
-            }
-            else
-            {
-                _ambientSource.clip = s.clip;
-                _ambientSource.Play();
-            }
-        }
-
-        public void StopAmbient(string clip)
-        {
-            _ambientSource.Stop();
-        }
+        
 
         public void PlaySFX(string clip)
         {
-            Sound s = Array.Find(_sfxSounds, x => x.name == clip);
+            Sound s = Array.Find(_sfxSounds, x => x.name.Equals(clip, StringComparison.OrdinalIgnoreCase));
 
             if (s.name == default)
             {
@@ -159,7 +136,7 @@ namespace Terra.Managers
 
         public bool IsMusicPlayingClip(string clip)
         {
-            Sound s = Array.Find(_musicSounds, x => x.name == clip);
+            Sound s = Array.Find(_musicSounds, x => x.name.Equals(clip, StringComparison.OrdinalIgnoreCase));
             if (s.name == default)
             {
                 Debug.Log("Sound Not Found");
@@ -174,7 +151,6 @@ namespace Terra.Managers
             LoadVolumeSetting("MasterVolume", _minDB, _maxDB);
             LoadVolumeSetting("SFXVolume", _minDB, _maxDB);
             LoadVolumeSetting("MusicVolume", _minDB, _maxDB);
-            LoadVolumeSetting("AmbientVolume", _minDB, _maxDB);
         }
 
         private void LoadVolumeSetting(string parameterName, float minDB, float maxDB)
@@ -205,7 +181,6 @@ namespace Terra.Managers
         public void SetMasterVolume(float value) => SetVolume("MasterVolume", value);
         public void SetSFXVolume(float value) => SetVolume("SFXVolume", value);
         public void SetMusicVolume(float value) => SetVolume("MusicVolume", value);
-        public void SetAmbientVolume(float value) => SetVolume("AmbientVolume", value);
 
 
         public void TearDown()
