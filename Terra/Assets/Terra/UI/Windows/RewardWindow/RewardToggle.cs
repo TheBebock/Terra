@@ -56,6 +56,13 @@ namespace Terra.UI.Windows.RewardWindow
         
         public void Init()
         {
+            SetRewardData();
+            
+            _rewardToggle.onValueChanged.AddListener(OnToggle);
+        }
+
+        private void SetRewardData()
+        {
             ChooseRewardData();
             
             _onRewardSelected = new OnRewardSelected();
@@ -73,9 +80,6 @@ namespace Terra.UI.Windows.RewardWindow
             }
 
             SetToggleInteractable();
-            
-            _rewardToggle.onValueChanged.AddListener(OnToggle);
-
         }
         private void TurnOffToggle()
         {
@@ -122,7 +126,7 @@ namespace Terra.UI.Windows.RewardWindow
         private void SetNewRewardType()
         {
             RewardType = RewardType.Stats;
-            Init();
+            SetRewardData();
         }
 
         private void GetRandomItem(RewardType rewardType)
@@ -144,7 +148,7 @@ namespace Terra.UI.Windows.RewardWindow
             }
             else if(rewardType == RewardType.PassiveItem)
             {
-                _passiveItemReward = LootManager.Instance.LootTable.PopRandomPassiveItem();
+                _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem();
                 if (_passiveItemReward == null)
                 {
                     SetNewRewardType();

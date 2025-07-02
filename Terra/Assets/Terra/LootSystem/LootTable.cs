@@ -147,7 +147,7 @@ namespace Terra.LootSystem
             var meleeWeapon = PopRandomMeleeWeapon();
             if (meleeWeapon != null) selectedItems.Add(meleeWeapon);
 
-            var passiveItem = PopRandomPassiveItem();
+            var passiveItem = GetRandomPassiveItem();
             if (passiveItem != null) selectedItems.Add(passiveItem);
 
             var activeItem = PopRandomActiveItem();
@@ -191,9 +191,14 @@ namespace Terra.LootSystem
             return _activeItems.PopRandomElement();
         }
 
-        public PassiveItem PopRandomPassiveItem()
+        public PassiveItem GetRandomPassiveItem()
         {
-            return _passiveItems.PopRandomElement();
+            return _passiveItems.GetRandomElement<PassiveItem>();
+        }
+
+        public void RemovePassiveItem(PassiveItem passiveItem)
+        {
+            _passiveItems.RemoveElement(passiveItem);
         }
 
         public MeleeWeapon PopRandomMeleeWeapon()

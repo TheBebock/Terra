@@ -152,7 +152,7 @@ namespace Terra.Player
             OnStatValueChanged?.Invoke(StatisticType.Dexterity, _playerStats.Dexterity);
         }
         
-        public void RemoveSpeed(List<ValueModifier> modifiers)
+        public void RemoveDexterity(List<ValueModifier> modifiers)
         {
             if(modifiers.IsNullOrEmpty()) return;
 

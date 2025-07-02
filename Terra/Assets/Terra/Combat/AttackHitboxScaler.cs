@@ -48,6 +48,7 @@ namespace Terra.Combat
             {
                 PlayerInventoryManager.Instance.OnMeleeWeaponChanged += UpdateHeldHitbox;
             }
+
             
             if (PlayerManager.Instance)
             {
@@ -58,7 +59,10 @@ namespace Terra.Combat
         private void StartAttack(ref OnPlayerMeleeAttackPerformedEvent meleeEvent)
         {
             //TODO: Scale from new stat
-            ScaleHitbox();
+            float scaleModif = 0;  
+            //PlayerStatsManager.Instance.PlayerStats.MeleeRange;
+
+            ScaleHitbox(scaleModif);
             _heldHitbox.gameObject.SetActive(true);
             
             

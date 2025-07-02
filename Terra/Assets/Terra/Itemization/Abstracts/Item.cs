@@ -77,7 +77,7 @@ namespace Terra.Itemization.Abstracts
             }
             PlayerStatsManager.Instance?.RemoveStrength(Data.strengthModifiers);
             PlayerStatsManager.Instance?.RemoveMaxHealth(Data.maxHealthModifiers);
-            PlayerStatsManager.Instance?.RemoveSpeed(Data.dexModifiers);
+            PlayerStatsManager.Instance?.RemoveDexterity(Data.dexModifiers);
             PlayerStatsManager.Instance?.RemoveLuck(Data.luckModifiers);
         }
         
