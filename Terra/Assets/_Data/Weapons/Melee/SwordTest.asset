@@ -17,6 +17,7 @@ MonoBehaviour:
   itemDescription: Mighty Sword
   itemSprite: {fileID: 21300000, guid: 6eb3605eaee10754490a172a8e3aa7ed, type: 3}
   canBeRemoved: 1
+  itemCost: 50
   strengthModifiers:
   - value: 8
     type: 100
@@ -24,10 +25,12 @@ MonoBehaviour:
   maxHealthModifiers: []
   dexModifiers: []
   luckModifiers: []
+  swingSpeedModifiers: []
+  meleeRangeModifiers: []
+  rangeCooldownModifiers: []
   effects:
     statuses: []
     actions: []
-  attackCooldown: 1
   attackSFX: {fileID: 8300000, guid: 12d75895461f34342b45c2df053c683a, type: 3}
   attackPrefab: {fileID: 8613042151254537667, guid: 8d9bf7f8ae9fec641abf863efbefa942,
     type: 3}

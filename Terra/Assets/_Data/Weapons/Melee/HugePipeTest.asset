@@ -25,6 +25,9 @@ MonoBehaviour:
   maxHealthModifiers: []
   dexModifiers: []
   luckModifiers: []
+  swingSpeedModifiers: []
+  meleeRangeModifiers: []
+  rangeCooldownModifiers: []
   effects:
     statuses: []
     actions: []
