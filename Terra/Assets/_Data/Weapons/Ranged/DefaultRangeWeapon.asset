@@ -25,6 +25,9 @@ MonoBehaviour:
     type: 100
     sourceID: -1
   luckModifiers: []
+  swingSpeedModifiers: []
+  meleeRangeModifiers: []
+  rangeCooldownModifiers: []
   effects:
     statuses: []
     actions: []
