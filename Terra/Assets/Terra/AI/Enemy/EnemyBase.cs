@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NaughtyAttributes;
 using Terra.AI.Data;
@@ -217,10 +218,22 @@ namespace Terra.AI.Enemy
 
             SpawnLootOnDeath();
             OnDeath();
-            
-            Destroy(gameObject, _deathFadeDuration + 0.2f); 
+
+            _ = DestroyObj();
         }
-        
+
+        private async UniTaskVoid DestroyObj()
+        {
+            await UniTask.WaitForSeconds(_deathFadeDuration + 0.2f);
+            BeforeDeletion();
+            await UniTask.WaitForSeconds(0.1f);
+            Destroy(gameObject);
+        }
+
+        protected virtual void BeforeDeletion()
+        {
+            
+        }
         protected virtual void OnDeath(){}
 
         /// <summary>

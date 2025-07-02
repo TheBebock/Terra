@@ -1,5 +1,5 @@
-using Terra.MainMenu;
 using Terra.Managers;
+using Terra.UI.MainMenu;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -36,18 +36,20 @@ namespace Terra.UI.Windows
             Close();
         }
 
-        private void HideButtons()
+        public void HideButtons()
         {
             _buttonsCanvasGroup.alpha = 0;
         }
 
-        private void ShowButtons()
+        public void ShowButtons()
         {
             _buttonsCanvasGroup.alpha = 1;
         }
         private void OpenSettings()
         {
+            HideButtons();
             _settingsPanel.gameObject.SetActive(true);
+            _settingsPanel.IsInMainMenu = false;
             _settingsPanel.SetDarkScreenOpacity(_settingsDarkScreenOpacity);
         }
         private void ExitToMenu()

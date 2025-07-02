@@ -1542,6 +1542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661809209659016145}
   - component: {fileID: 210089571186941659}
+  - component: {fileID: 969358738570528265}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -1587,6 +1588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 327d184b48bc2fb47876d003c6b88465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 969358738570528265}
+  _isInMainMenu: 1
   _closeButton: {fileID: 918120239865470046}
   _darkScreen: {fileID: 7058578613122344207}
   _masterSlider: {fileID: 4872521261869621025}
@@ -1598,6 +1601,18 @@ MonoBehaviour:
   _opacityRange: {x: 0, y: 1}
   _brightnessButton: {fileID: 6739477073230802939}
   _gammaSettings: {fileID: 6405714504777082536}
+--- !u!225 &969358738570528265
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791884822902705360}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1989358999982978665
 GameObject:
   m_ObjectHideFlags: 0

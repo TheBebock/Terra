@@ -21,8 +21,14 @@ namespace Terra.AI.Enemy
             _enemyCollider.enabled = true;
         }
 
+        protected override void BeforeDeletion()
+        {
+            base.BeforeDeletion();
+            SpawnStatue();
+        }
+
         [UsedImplicitly]
-        public void SpawnStatue()
+        private void SpawnStatue()
         {
             switch (CurrentDirection)
             {

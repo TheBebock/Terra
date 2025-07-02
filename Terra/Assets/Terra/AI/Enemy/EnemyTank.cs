@@ -96,14 +96,19 @@ namespace Terra.AI.Enemy
         {
             //Nothing
         }
+        
+        protected override void BeforeDeletion()
+        {
+            base.BeforeDeletion();
+            SpawnStatue();
+        }
 
         public override void AttemptAttack()
         {
             //Noop
         }
-        
-        [UsedImplicitly]
-        public void SpawnStatue()
+
+        private void SpawnStatue()
         {
             switch (CurrentDirection)
             {

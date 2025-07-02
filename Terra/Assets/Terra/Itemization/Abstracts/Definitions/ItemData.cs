@@ -32,7 +32,9 @@ namespace Terra.Itemization.Abstracts.Definitions
         public List<ValueModifier> maxHealthModifiers;
         public List<ValueModifier> dexModifiers;
         public List<ValueModifier> luckModifiers;
-        
+        public List<ValueModifier> swingSpeedModifiers;
+        public List<ValueModifier> meleeRangeModifiers;
+        public List<ValueModifier> rangeCooldownModifiers;
         public int Identity => _id;
 
 
@@ -64,6 +66,9 @@ namespace Terra.Itemization.Abstracts.Definitions
             UpdateModifierIDs(maxHealthModifiers);
             UpdateModifierIDs(dexModifiers);
             UpdateModifierIDs(luckModifiers);
+            UpdateModifierIDs(rangeCooldownModifiers);
+            UpdateModifierIDs(meleeRangeModifiers);
+            UpdateModifierIDs(swingSpeedModifiers);
             
             // test 
             //int test = IDFactory.GetNewUniqueId();

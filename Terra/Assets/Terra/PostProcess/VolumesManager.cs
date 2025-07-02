@@ -24,7 +24,8 @@ namespace Terra.PostProcess
         
         public void SetUp()
         {
-            SetGamma(GameSettings.DefaultGamma);
+            if(Instance != this) return;
+            SetGamma(GameSettings.DefaultGamma, false);
         }
         
         public void SetBloom(float value)
@@ -34,24 +35,28 @@ namespace Terra.PostProcess
             _bloom.intensity.value = value;
         }
 
-        public void SetGamma(float value)
+        public void SetGamma(float value, bool saveToSettings = true)
         {
             value = Mathf.Clamp(value, _gammaRange.x, _gammaRange.y);
             value = (float)Math.Round(value, 3);
             _currentGamma = value;
             _gamma.gamma.value = new Vector4(1, 1, 1, value);
             
-            GameSettings.DefaultGamma = value;
+            if(saveToSettings) GameSettings.DefaultGamma = value;
         }
 
+#if UNITY_EDITOR
+        
         private void OnValidate()
         {
             if (!_bloom) _bloom = _globalVolume.sharedProfile.TryGet(out Bloom bloom) ?  bloom : null;
             if (!_gamma) _gamma = _globalVolume.sharedProfile.TryGet(out LiftGammaGain gamma) ?  gamma : null;
             
             SetBloom(_currentBloom);
-            SetGamma(_currentGamma);
+            SetGamma(_currentGamma, false);
         }
+#endif
+        
 
 
 

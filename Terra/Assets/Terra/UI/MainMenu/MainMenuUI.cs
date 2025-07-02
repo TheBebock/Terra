@@ -9,12 +9,12 @@ namespace Terra.UI.MainMenu
     {
         [SerializeField] private Button _startGameButton;
         [SerializeField] private Button _exitGameButton;
-        [SerializeField] private GameObject _settingsPanel;
+        [SerializeField] private SettingsUI _settingsPanel;
         [SerializeField] private GameObject _helpPanel;
 
         private void Awake()
         {
-            if(_settingsPanel)_settingsPanel?.SetActive(false);
+            if(_settingsPanel)_settingsPanel?.gameObject.SetActive(false);
             if(_helpPanel) _helpPanel?.SetActive(false);
             _startGameButton?.onClick.AddListener(StartGameplayScene);
             _exitGameButton?.onClick.AddListener(QuitGame);
@@ -23,7 +23,8 @@ namespace Terra.UI.MainMenu
         
         public void ShowSettings()
         {
-            _settingsPanel?.SetActive(true);
+            _settingsPanel.IsInMainMenu = true;
+            _settingsPanel.gameObject.SetActive(true);
         }
         public void ShowHelp()
         {

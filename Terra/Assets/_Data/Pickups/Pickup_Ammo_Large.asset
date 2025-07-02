@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0ca3ee2d2de9954d89aa1aefa2100d8, type: 3}
-  m_Name: Pickup_Health10
+  m_Script: {fileID: 11500000, guid: 6ef649f3bf582e64bbde7797175b7ed0, type: 3}
+  m_Name: Pickup_Ammo_Large
   m_EditorClassIdentifier: 
-  dropRateChance: 75
-  pickupName: Health
-  pickupSprite: {fileID: 21300000, guid: ea759422ee11e604ea32a953b710ec96, type: 3}
+  dropRateChance: 20
+  pickupName: Ammo
+  pickupSprite: {fileID: 21300000, guid: fbc039d4150b40446b377e5dc7e07cb7, type: 3}
   pickupMaterial: {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
-  maxHealthHealAmount: 10
+  ammoAmount: 15

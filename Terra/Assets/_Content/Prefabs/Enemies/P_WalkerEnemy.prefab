@@ -159,6 +159,7 @@ MonoBehaviour:
   _animator: {fileID: 1199198475853365639}
   _enemyCollider: {fileID: 3740106023029474068}
   _enemyModel: {fileID: 3217267435475957119}
+  _audioSource: {fileID: 5781299182056900915}
   _enemyRigidBody: {fileID: 3848772399654846776}
   _healthController:
     _maxHealth:
@@ -222,22 +223,6 @@ MonoBehaviour:
         - m_Target: {fileID: 1206317967071570289}
           m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyMelee, Terra
           m_MethodName: AttemptAttack
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 1
-  - eventName: OnDeath
-    onAnimationEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1206317967071570289}
-          m_TargetAssemblyTypeName: Terra.AI.Enemy.EnemyWalker, Terra
-          m_MethodName: SpawnStatue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

@@ -1,18 +1,20 @@
 using System;
 using NaughtyAttributes;
-using Terra.Enums;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Managers;
-using Terra.UI.MainMenu;
+using Terra.UI.Windows;
 using Terra.Utils;
+using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Terra.MainMenu
+namespace Terra.UI.MainMenu
 {
     public class SettingsUI : MonoBehaviour
     {
+        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField, ReadOnly] private bool _isInMainMenu = true;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Image _darkScreen;
         [BoxGroup("Audio")] [SerializeField] private  Slider _masterSlider;
@@ -29,9 +31,11 @@ namespace Terra.MainMenu
         [BoxGroup("Graphics")] [SerializeField] private Button _brightnessButton;
         [BoxGroup("Graphics")] [SerializeField] private GammaSettings _gammaSettings;
         
+        
         ItemsOpacityChangedEvent _itemsOpacityChangedEvent;
         StatsOpacityChangedEvent _statsOpacityChangedEvent;
         
+        public bool IsInMainMenu { get => _isInMainMenu; set => _isInMainMenu = value; }
         public Button CloseButton => _closeButton;
         private void Awake()
         {
@@ -40,10 +44,55 @@ namespace Terra.MainMenu
             
             InitializeSliders();  
             
-            _closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-            _brightnessButton.onClick.AddListener(()=> _gammaSettings.gameObject.SetActive(true));
+            _closeButton.onClick.AddListener(OnBackButtonClicked);
+            _brightnessButton.onClick.AddListener(OnBrightnessButtonClicked);
         }
 
+        private void Start()
+        {
+            _gammaSettings.SetSettingsPanel(this);
+        }
+
+        private void OnEnable()
+        {
+            SetSliderValue(_masterSlider, GameSettings.DefaultMasterVolume);
+            SetSliderValue(_sfxSlider, GameSettings.DefaultSFXVolume);
+            SetSliderValue(_musicSlider, GameSettings.DefaultMusicVolume);
+            
+            SetSliderValue(_itemsOpacitySlider, GameSettings.DefaultItemsOpacity);
+            SetSliderValue(_statsOpacitySlider, GameSettings.DefaultStatsOpacity);
+        }
+
+        private void OnBackButtonClicked()
+        {
+            gameObject.SetActive(false);
+            if (UIWindowManager.Instance)
+            {
+                if(UIWindowManager.Instance.TryGetWindowFromStacks(out PauseWindow pauseWindow))
+                {
+                    pauseWindow.ShowButtons();
+                }
+            }
+        }
+        private void OnBrightnessButtonClicked()
+        {
+            if(!_isInMainMenu) HideSettings();
+            _gammaSettings.EnableGameObject(_isInMainMenu);
+        }
+
+        public void ShowSettings()
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.blocksRaycasts = true;
+            _canvasGroup.interactable = true;
+        }
+
+        public void HideSettings()
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.blocksRaycasts = false;
+            _canvasGroup.interactable = false;
+        }
         private void InitializeSliders()
         {
             _masterSlider.onValueChanged.RemoveAllListeners();
@@ -74,21 +123,8 @@ namespace Terra.MainMenu
             _statsOpacitySlider.onValueChanged.AddListener(OnStatsOpacityChanged);
         }
 
-        private void OnEnable()
-        {
-            SetSliderValue(_masterSlider, GameSettings.DefaultMasterVolume);
-            SetSliderValue(_sfxSlider, GameSettings.DefaultSFXVolume);
-            SetSliderValue(_musicSlider, GameSettings.DefaultMusicVolume);
-            
-            SetSliderValue(_itemsOpacitySlider, GameSettings.DefaultItemsOpacity);
-            SetSliderValue(_statsOpacitySlider, GameSettings.DefaultStatsOpacity);
-        }
 
-        private void OnDisable()
-        {
-            SetDarkScreenOpacity(1);
-            EventsAPI.Invoke<SettingsClosedEvent>();
-        }
+
 
         private void OnItemsOpacityChanged(float value)
         {
@@ -126,6 +162,18 @@ namespace Terra.MainMenu
         
             AudioManager.Instance.PlaySFX("UI_Interaction");
             _lastPlayTime = Time.time;
+        }
+        
+        
+        private void OnDisable()
+        {
+            SetDarkScreenOpacity(1);
+            EventsAPI.Invoke<SettingsClosedEvent>();
+        }
+        
+        private void OnValidate()
+        {
+            if(!_canvasGroup) _canvasGroup = GetComponent<CanvasGroup>();
         }
     }
 }
