@@ -65,17 +65,19 @@ namespace UIExtensionPackage.ExtendedUI.CustomUIElements
             _verticalConstraints = newVerticalConstraints;
             SetLayoutVertical();
         }
-        
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            if(_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
-        }
 
         public void SetLayouts()
         {
             SetLayoutHorizontal();
             SetLayoutVertical();
         }
+        
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            if(_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
+        }
+#endif
     }
 }

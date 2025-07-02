@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2966037860167143798}
   - component: {fileID: 8870155296990095217}
+  - component: {fileID: 7699730917887938833}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -66,6 +67,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &7699730917887938833
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4750391278899140404}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5965439843264296065
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,8 +235,9 @@ MonoBehaviour:
   _resumeButton: {fileID: 2353184885328929413}
   _settingsButton: {fileID: 3985928000332298175}
   _exitToMenuButton: {fileID: 7879541134752221302}
+  _buttonsCanvasGroup: {fileID: 7699730917887938833}
   _settingsPanel: {fileID: 4110717928857096583}
-  _settingsDarkScreenOpacity: 0.3
+  _settingsDarkScreenOpacity: 0.9
 --- !u!1 &8954838669353319551
 GameObject:
   m_ObjectHideFlags: 0

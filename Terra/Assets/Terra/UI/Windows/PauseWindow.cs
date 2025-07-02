@@ -14,9 +14,9 @@ namespace Terra.UI.Windows
         [SerializeField] Button _resumeButton;
         [SerializeField] Button _settingsButton;
         [SerializeField] Button _exitToMenuButton;
-        
+        [SerializeField] CanvasGroup _buttonsCanvasGroup;
         [SerializeField] SettingsUI _settingsPanel;
-        [SerializeField,Range(0,1f)] private float _settingsDarkScreenOpacity = 0.3f;
+        [SerializeField,Range(0,1f)] private float _settingsDarkScreenOpacity = 0.9f;
         public override void SetUp()
         {
             base.SetUp();
@@ -24,6 +24,7 @@ namespace Terra.UI.Windows
             _resumeButton?.onClick.AddListener(Resume);
             _settingsButton?.onClick.AddListener(OpenSettings);
             _exitToMenuButton?.onClick.AddListener(ExitToMenu);
+            _settingsPanel?.CloseButton.onClick.AddListener(ShowButtons);
             
             if(_settingsPanel) _settingsPanel.gameObject.SetActive(false);
 
@@ -35,6 +36,15 @@ namespace Terra.UI.Windows
             Close();
         }
 
+        private void HideButtons()
+        {
+            _buttonsCanvasGroup.alpha = 0;
+        }
+
+        private void ShowButtons()
+        {
+            _buttonsCanvasGroup.alpha = 1;
+        }
         private void OpenSettings()
         {
             _settingsPanel.gameObject.SetActive(true);
@@ -42,6 +52,7 @@ namespace Terra.UI.Windows
         }
         private void ExitToMenu()
         {
+            Close();
             ScenesManager.Instance.LoadMainMenu();
         }
     }

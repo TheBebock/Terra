@@ -1,3 +1,4 @@
+using System;
 using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Utils;
@@ -36,8 +37,9 @@ namespace Terra.PostProcess
         public void SetGamma(float value)
         {
             value = Mathf.Clamp(value, _gammaRange.x, _gammaRange.y);
+            value = (float)Math.Round(value, 3);
             _currentGamma = value;
-            _gamma.gamma.value = new Vector4(value, value, value, value);
+            _gamma.gamma.value = new Vector4(1, 1, 1, value);
             
             GameSettings.DefaultGamma = value;
         }

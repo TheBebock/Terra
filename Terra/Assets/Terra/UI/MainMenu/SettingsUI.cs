@@ -32,6 +32,7 @@ namespace Terra.MainMenu
         ItemsOpacityChangedEvent _itemsOpacityChangedEvent;
         StatsOpacityChangedEvent _statsOpacityChangedEvent;
         
+        public Button CloseButton => _closeButton;
         private void Awake()
         {
             _itemsOpacityChangedEvent = new ItemsOpacityChangedEvent();
