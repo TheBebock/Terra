@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
   m_Name: Booze
   m_EditorClassIdentifier: 
-  id: 1549832268
+  _id: 1549832268
   itemName: Booze
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 2b8ad4fb8a33fa04c820852b6d1dce04, type: 3}
   canBeRemoved: 1
+  itemCost: 0
   strengthModifiers:
-  - Value: 2
-    Type: 100
-    SourceID: 1549832268
+  - value: 5
+    type: 100
+    sourceID: 1549832268
   maxHealthModifiers: []
-  speedModifiers:
-  - Value: -1
-    Type: 100
-    SourceID: 1549832268
+  dexModifiers: []
   luckModifiers: []
+  swingSpeedModifiers: []
+  meleeRangeModifiers: []
+  rangeCooldownModifiers:
+  - value: -2
+    type: 100
+    sourceID: 1549832268

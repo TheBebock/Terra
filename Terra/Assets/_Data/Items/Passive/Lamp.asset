@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
-  m_Name: Dice
+  m_Name: Lamp
   m_EditorClassIdentifier: 
-  _id: 1540286638
-  itemName: Dice
+  _id: 1337554462
+  itemName: Lamp
   itemDescription: 
-  itemSprite: {fileID: 21300000, guid: 6e1751b54441957429339f804bd9259c, type: 3}
+  itemSprite: {fileID: 21300000, guid: f20edf6247681614fbd55b9a6245852e, type: 3}
   canBeRemoved: 1
-  itemCost: 0
+  itemCost: 50
   strengthModifiers:
-  - value: -2
-    type: 100
-    sourceID: 1540286638
+  - value: -5
+    type: 300
+    sourceID: 1337554462
   maxHealthModifiers: []
-  dexModifiers: []
+  dexModifiers:
+  - value: 20
+    type: 300
+    sourceID: 1337554462
   luckModifiers: []
   swingSpeedModifiers: []
   meleeRangeModifiers: []
-  rangeCooldownModifiers:
-  - value: 10
-    type: 100
-    sourceID: 1540286638
+  rangeCooldownModifiers: []

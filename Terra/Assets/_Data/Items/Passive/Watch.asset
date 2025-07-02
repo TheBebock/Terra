@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
-  m_Name: Dice
+  m_Name: Watch
   m_EditorClassIdentifier: 
-  _id: 1540286638
-  itemName: Dice
+  _id: -624372227
+  itemName: Watch
   itemDescription: 
-  itemSprite: {fileID: 21300000, guid: 6e1751b54441957429339f804bd9259c, type: 3}
+  itemSprite: {fileID: 21300000, guid: 8f12ae71233b6b74c99364a427a619a7, type: 3}
   canBeRemoved: 1
-  itemCost: 0
-  strengthModifiers:
-  - value: -2
-    type: 100
-    sourceID: 1540286638
+  itemCost: 50
+  strengthModifiers: []
   maxHealthModifiers: []
   dexModifiers: []
   luckModifiers: []
   swingSpeedModifiers: []
-  meleeRangeModifiers: []
+  meleeRangeModifiers:
+  - value: -5
+    type: 300
+    sourceID: -624372227
   rangeCooldownModifiers:
-  - value: 10
-    type: 100
-    sourceID: 1540286638
+  - value: 15
+    type: 300
+    sourceID: -624372227

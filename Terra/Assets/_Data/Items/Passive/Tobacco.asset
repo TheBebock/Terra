@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
-  m_Name: Dice
+  m_Name: Tobacco
   m_EditorClassIdentifier: 
-  _id: 1540286638
-  itemName: Dice
+  _id: -177915187
+  itemName: Tobacco
   itemDescription: 
-  itemSprite: {fileID: 21300000, guid: 6e1751b54441957429339f804bd9259c, type: 3}
+  itemSprite: {fileID: 21300000, guid: c25655344e6036a4b945bba2830c7984, type: 3}
   canBeRemoved: 1
   itemCost: 0
-  strengthModifiers:
-  - value: -2
-    type: 100
-    sourceID: 1540286638
+  strengthModifiers: []
   maxHealthModifiers: []
-  dexModifiers: []
-  luckModifiers: []
-  swingSpeedModifiers: []
-  meleeRangeModifiers: []
-  rangeCooldownModifiers:
+  dexModifiers:
   - value: 10
     type: 100
-    sourceID: 1540286638
+    sourceID: -177915187
+  luckModifiers: []
+  swingSpeedModifiers:
+  - value: -2
+    type: 100
+    sourceID: -177915187
+  meleeRangeModifiers: []
+  rangeCooldownModifiers: []

@@ -12,15 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51354b5748c956948a89a7a43f00acb6, type: 3}
   m_Name: Gruel
   m_EditorClassIdentifier: 
-  id: 730708821
+  _id: 730708821
   itemName: Gruel
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 9a596675d30a8ce439119b8286845e4e, type: 3}
   canBeRemoved: 1
-  strengthModifiers:
-  - Value: 1
-    Type: 100
-    SourceID: 730708821
-  maxHealthModifiers: []
-  speedModifiers: []
+  itemCost: 0
+  strengthModifiers: []
+  maxHealthModifiers:
+  - value: 15
+    type: 100
+    sourceID: 730708821
+  dexModifiers: []
   luckModifiers: []
+  swingSpeedModifiers:
+  - value: -2
+    type: 100
+    sourceID: 730708821
+  meleeRangeModifiers: []
+  rangeCooldownModifiers:
+  - value: -2
+    type: 100
+    sourceID: 730708821
