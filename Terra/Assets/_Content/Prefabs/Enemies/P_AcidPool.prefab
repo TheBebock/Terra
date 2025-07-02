@@ -862,7 +862,7 @@ MonoBehaviour:
   onSpawnParticle:
     particleComponent: {fileID: -5475371912470613344, guid: 60c0993b09b15094e9b658d57535b43a,
       type: 3}
-    offset: {x: 0, y: 0, z: 0}
+    offset: {x: 0, y: 0.8, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scaleModifier: 0.08
     destroyDuration: 0

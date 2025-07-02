@@ -140,7 +140,7 @@ MonoBehaviour:
       type: 3}
     offset: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
+    scaleModifier: 0.8
     destroyDuration: 0
   onDeathParticle:
     particleComponent: {fileID: 0}

@@ -310,6 +310,7 @@ MonoBehaviour:
   _animator: {fileID: 790803919418352570}
   _enemyCollider: {fileID: 1054731030885756022}
   _enemyModel: {fileID: 5322432112080383420}
+  _audioSource: {fileID: 8888007274786749166}
   _enemyRigidBody: {fileID: 3280652380155890415}
   _healthController:
     _maxHealth:
@@ -691,7 +692,7 @@ MonoBehaviour:
       type: 3}
     offset: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
+    scaleModifier: 0.8
     destroyDuration: 0
   onDeathParticle:
     particleComponent: {fileID: 0}

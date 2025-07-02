@@ -256,7 +256,7 @@ MonoBehaviour:
       type: 3}
     offset: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
+    scaleModifier: 0.8
     destroyDuration: 0
   onDeathParticle:
     particleComponent: {fileID: 0}
@@ -408,6 +408,7 @@ MonoBehaviour:
   _animator: {fileID: 6565553046577328471}
   _enemyCollider: {fileID: 6078002889707953221}
   _enemyModel: {fileID: 8352202127488331846}
+  _audioSource: {fileID: 7495781591095699518}
   _enemyRigidBody: {fileID: 85762507150413155}
   _healthController:
     _maxHealth:

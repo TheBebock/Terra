@@ -981,7 +981,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 30
+        scalar: 15
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -4904,6 +4904,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c7c25d7af663846b8ece033fadbbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: AcidBloodParticle
   _isDestroyable: 0
+  _fadeParticlesAfterDuration: 0
   _duration: 0.25
   _particles: {fileID: 7019362542546366139}
+  _timer:
+    initialTime: 0
+    currentTime: 0
+    isRunning: 0
