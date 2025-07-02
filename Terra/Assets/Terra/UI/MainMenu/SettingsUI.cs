@@ -86,7 +86,7 @@ namespace Terra.MainMenu
 
         private void OnDisable()
         {
-            SetDarkScreenOpacity(0);
+            SetDarkScreenOpacity(1);
             EventsAPI.Invoke<SettingsClosedEvent>();
         }
 

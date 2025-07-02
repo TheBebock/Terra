@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  _currentGamma: -0.45
+  _currentGamma: 0
   _currentBloom: 0.5
-  _gammaRange: {x: -0.2, y: 0.5}
+  _gammaRange: {x: -0.5, y: 0.5}
   _bloomRange: {x: 0, y: 2}
   _globalVolume: {fileID: 8695452018514400095}
   _bloom: {fileID: 1641740166786297975, guid: 3b5b3509cb5a216439eec4a9a904953f, type: 2}
