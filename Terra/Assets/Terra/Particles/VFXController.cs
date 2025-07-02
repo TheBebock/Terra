@@ -139,15 +139,27 @@ namespace Terra.Particles
                                $"but particle system is null");
                 return;
             }
-            
-            if (entity.VFXcontroller._activeParticles.TryFind(p=> p == particleSystem,
-                    out ParticleComponent foundParticle))
+
+
+            foreach (var p in entity.VFXcontroller._activeParticles)
             {
-                 if(destroyDuration > 0f) foundParticle.ResetTimer(destroyDuration);
-                 else foundParticle.ResetTimer();
-                 return;
+                if (p.Identifier.Equals(particleSystem.Identifier, StringComparison.OrdinalIgnoreCase))
+                {
+                    // If the particle is looped, reset its timer
+                    if (p.DestroyDuration > 0 && p.IsLooped)
+                    {
+                        p.ResetTimer();
+                        return;
+                    }
+                    // If particle is not playing and isn't destroyed on end, reset it timer
+                    if (!p.IsPlaying && !p.IsDestroyable)
+                    {
+                        p.ResetTimer();
+                        return;
+                    }
+                }
             }
-            
+           
             ParticleComponent particle = Instantiate(particleSystem, entity.transform);
             particle.transform.localPosition = positionOffset;
             particle.transform.rotation = rotation;

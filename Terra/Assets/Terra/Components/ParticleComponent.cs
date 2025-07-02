@@ -1,5 +1,4 @@
 using System;
-using System.Drawing.Design;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
@@ -10,8 +9,9 @@ namespace Terra.Components
 {
     [RequireComponent(typeof(ParticleSystem))]
     public class ParticleComponent : InGameMonobehaviour
-    { 
-        
+    {
+
+        [ReadOnly] public string Identifier = string.Empty;
         [Tooltip("If the particle is played often, this shouldn't be marked, for example: 'OnHit' is played often")]
         [SerializeField] private bool _isDestroyable;
         [Tooltip("If marked, after the timer runs out, particles are instantly destroyed, only Stopped and destroyed after their main duration")]
@@ -23,6 +23,11 @@ namespace Terra.Components
         
         public static event Action<ParticleComponent> OnParticleDestroyed;
         
+        public ParticleSystem ParticleSystem => _particles;
+        public float DestroyDuration => _duration;
+        public bool IsDestroyable => _isDestroyable;
+        public bool IsPlaying => _particles.isPlaying;
+        public bool IsLooped => _particles.main.loop;
         public float MainParticlesDuration => _particles.main.duration;
         public void Initialize(float newDuration = 0f)
         {
@@ -54,7 +59,7 @@ namespace Terra.Components
                 _particles.Stop();
                 await UniTask.WaitForSeconds(_particles.main.duration + 0.5f);
             }
-            Destroy(gameObject);
+            if(_isDestroyable) Destroy(gameObject);
         }
         public void ResetTimer()
         {
@@ -90,6 +95,8 @@ namespace Terra.Components
             {
                 _particles = GetComponent<ParticleSystem>();
             }
+            
+            Identifier = gameObject.name;
         }
 
         protected override void CleanUp()

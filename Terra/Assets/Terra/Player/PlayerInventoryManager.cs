@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace Terra.Player
 {
-    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IAttachListeners
+    public class PlayerInventoryManager : MonoBehaviourSingleton<PlayerInventoryManager>, IAttachListeners, IWithSetUp
     {
         [SerializeField, Expandable] StartingInventoryData _startingInventoryData;
         [Foldout("Debug"), SerializeField, ReadOnly]private int _currentAmmo =20;
@@ -27,7 +27,7 @@ namespace Terra.Player
 
         private ItemSlotBase[] _itemSlots;       
         public int CurrentAmmo => _currentAmmo;
-        public int MaxAmmo => _currentAmmo;
+        public int MaxAmmo => _maxAmmo;
         public List<PassiveItem> GetPassiveItems => _passiveItems;
         public ActiveItem ActiveItem => _activeItemSlot.EquippedItem;
         public MeleeWeapon MeleeWeapon => _meleeWeaponSlot.EquippedItem;
@@ -54,18 +54,18 @@ namespace Terra.Player
             // Attach listeners
             ItemSlotBase.OnItemRemoved += DropItemOnGround;
             
+            TryEquipStartingInventory();
         }
 
-        private void InitEquipmentSlots()
+        public void SetUp()
         {
-            // Create item slots
-            _meleeWeaponSlot = new();
-            _rangedWeaponSlot = new();
-            _activeItemSlot = new();
-            _passiveItems = new();
-   
-            
-            // Equip starting items
+            // This initializes ammo display
+            SetCurrentAmmo(_startingInventoryData.startingAmmo);
+            SetMaxAmmo(_maxAmmo);
+        }
+
+        private void TryEquipStartingInventory()
+        {
             if (_startingInventoryData != null)
             {
                 _meleeWeaponSlot.Equip(_startingInventoryData.startingMelee);
@@ -82,7 +82,14 @@ namespace Terra.Player
                     _passiveItems[i].OnEquip();
                 }
             }
-            ModifyCurrentAmmo(_startingInventoryData.startingAmmo);
+        }
+        private void InitEquipmentSlots()
+        {
+            // Create item slots
+            _meleeWeaponSlot = new();
+            _rangedWeaponSlot = new();
+            _activeItemSlot = new();
+            _passiveItems = new();
         }
         
         public void AttachListeners()
@@ -234,6 +241,13 @@ namespace Terra.Player
         {
             ItemSlotBase.OnItemRemoved -= DropItemOnGround;
             EventsAPI.Unregister<OnPlayerRangeAttackPerformedEvent>(OnRangedAttack);
+
+        }
+
+
+
+        public void TearDown()
+        {
 
         }
     }

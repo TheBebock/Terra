@@ -512,16 +512,16 @@ MonoBehaviour:
   _worseTextColor: {r: 1, g: 0, b: 0, a: 1}
   _labelSetupData:
   - statisticType: 0
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: 4231fd732d439de4c832d7480f977314, type: 3}
     statShortName: 'HP:'
   - statisticType: 1
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: 71157450167b3a746b7a3e4e6532cd59, type: 3}
     statShortName: 'STR:'
   - statisticType: 2
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: fbb2c2f6fa482524eb1a7402e4661e89, type: 3}
     statShortName: 'DEX:'
   - statisticType: 3
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: 0b69d359c0118c147ad1f10d6870171b, type: 3}
     statShortName: 'LCK:'
   _statLabelContainer: {fileID: 1605251153524280446}
   _statLabelPrefab: {fileID: 9175356683986197771, guid: efe25d9da74b0814eb83cf0a63e030f7,

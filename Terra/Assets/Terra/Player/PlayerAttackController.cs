@@ -99,6 +99,8 @@ namespace Terra.Player
                 Debug.LogError($"{this} tried to performed range attack without assigend fire point. Hash: {this.GetHashCode()}");
                 return;
             }
+            if(PlayerInventoryManager.Instance.CurrentAmmo <= 0) return;
+            
             if (!_isTryingPerformDistanceAttack)
             {
                 ChangeAttackDirection();
