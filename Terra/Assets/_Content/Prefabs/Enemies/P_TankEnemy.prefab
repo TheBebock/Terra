@@ -572,8 +572,8 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
-  _hurtSFX: {fileID: 0}
-  _deathSFX: {fileID: 0}
+  _hurtSFX: {fileID: 8300000, guid: 41dc693988a6887408d216ccc5f34458, type: 3}
+  _deathSFX: {fileID: 8300000, guid: 190e1a80456988c41954fad51ef5257f, type: 3}
   _tankStatue: {fileID: 8021882952653162575, guid: bd32ae8df1fef9d4b886e8ffdaf4e892,
     type: 3}
   _statueSpawnPointLeft: {fileID: 1065510367122526159}
@@ -670,7 +670,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

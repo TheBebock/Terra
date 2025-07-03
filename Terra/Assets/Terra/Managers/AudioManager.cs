@@ -89,8 +89,14 @@ namespace Terra.Managers
 
         public void PlaySFX(AudioClip clip)
         {
+            if (clip == null)
+            {
+                Debug.LogError($"{this}: Given {clip} is null");
+                return;
+            }
+            Debug.Log($"{this}: Playing {clip}");
             _sfxSource.PlayOneShot(clip);
-        }
+        } 
 
         public void PlaySFXAtSource(AudioClip clip, AudioSource source, float pitch = 1f)
         {

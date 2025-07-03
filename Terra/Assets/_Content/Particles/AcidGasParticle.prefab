@@ -42,7 +42,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6582149165997614802}
   serializedVersion: 8
-  lengthInSec: 3
+  lengthInSec: 2.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4845,6 +4845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c7c25d7af663846b8ece033fadbbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: AcidGasParticle
   _isDestroyable: 0
   _fadeParticlesAfterDuration: 0
   _duration: 3

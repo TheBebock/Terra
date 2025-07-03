@@ -172,8 +172,8 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
-  _hurtSFX: {fileID: 0}
-  _deathSFX: {fileID: 0}
+  _hurtSFX: {fileID: 8300000, guid: c7f8bf42a9ba5694b9ce7e6280c08f94, type: 3}
+  _deathSFX: {fileID: 8300000, guid: 97bc76ea3598dc54fadf22ad2e1759b6, type: 3}
   _data: {fileID: 11400000, guid: e5db6f8fc4ec4c04583a0432a99b4d2a, type: 2}
   _walkerStatue: {fileID: 4196527001876395458, guid: 2c0b3e0a916b04e4c8a2a68de81a4303,
     type: 3}
@@ -290,7 +290,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

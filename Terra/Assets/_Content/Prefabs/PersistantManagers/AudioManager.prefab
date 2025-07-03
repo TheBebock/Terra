@@ -55,6 +55,8 @@ MonoBehaviour:
   _sfxSounds:
   - name: test
     clip: {fileID: 8300000, guid: 2aa0d403f462fee48a3ccd292b8369f6, type: 3}
+  - name: ui_interaction
+    clip: {fileID: 8300000, guid: df319b4dfabd7474789f360edec7279e, type: 3}
   _musicSource: {fileID: 562973011450223939}
   _sfxSource: {fileID: 6714153471306540602}
   _audioMixer: {fileID: 24100000, guid: 5300a84c237af2e41893c0069fdefe98, type: 2}

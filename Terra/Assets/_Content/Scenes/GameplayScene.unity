@@ -10472,7 +10472,7 @@ MonoBehaviour:
   _interactionState: 0
   _leftDoor: {fileID: 542957758}
   _rightDoor: {fileID: 220400711}
-  _doorsSound: {fileID: 0}
+  _doorsSound: {fileID: 8300000, guid: b88573b74ed8d974aa24fd058ee3ed4c, type: 3}
   _doorsOffset: 480
   _animationDuration: 2.5
   _openAnimationCurve:
@@ -13920,6 +13920,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665,
+        type: 3}
+      propertyPath: _hurtSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: c7f8bf42a9ba5694b9ce7e6280c08f94, type: 3}
+    - target: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665,
+        type: 3}
+      propertyPath: _deathSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 97bc76ea3598dc54fadf22ad2e1759b6, type: 3}
     - target: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665,
         type: 3}
       propertyPath: _deathFadeDuration

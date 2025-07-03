@@ -224,9 +224,9 @@ namespace Terra.AI.Enemy
 
         private async UniTaskVoid DestroyObj()
         {
-            await UniTask.WaitForSeconds(_deathFadeDuration + 0.2f);
+            await UniTask.WaitForSeconds(_deathFadeDuration + 0.2f, cancellationToken: CancellationToken);
             BeforeDeletion();
-            await UniTask.WaitForSeconds(0.1f);
+            await UniTask.WaitForSeconds(0.1f, cancellationToken: CancellationToken);
             Destroy(gameObject);
         }
 
