@@ -1,5 +1,16 @@
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.AI.Data;
+using Terra.AI.EnemyStates;
+using Terra.AI.EnemyStates.BossStates;
+using Terra.Combat;
+using Terra.Combat.Projectiles;
+using Terra.Enums;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
+using Terra.FSM;
+using Terra.Managers;
+using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
 
@@ -7,80 +18,263 @@ namespace Terra.AI.Enemy
 {
     public class EnemyBoss : Enemy<BossEnemyData>
     {
-        [SerializeField] private EnemyColliderComponent _leftAttackCollider;
-        [SerializeField] private EnemyColliderComponent _rightAttackCollider;
+        [SerializeField] private SphereCollider _leftAttackCollider;
+        [SerializeField] private SphereCollider _rightAttackCollider;
+        [SerializeField] private Transform _leftAcidPoolSpawnPoint;
+        [SerializeField] private Transform _rightAcidPoolSpawnPoint;
+        [SerializeField] private Transform _leftFirePoint;
+        [SerializeField] private Transform _rightFirePoint;
+
+        [Foldout("SFX")][SerializeField] private AudioClip _spitAttackSFX;
+        [Foldout("SFX")][SerializeField] private AudioClip _pumpAttackSFX;
+        
         [SerializeField, Expandable] private BossEnemyData _data;
         
         [SerializeField] LayerMask _groundObjectLayerMask;
         private int _targetLayer;
 
-        private CountdownTimer _attackCooldownTimer;
+        private CountdownTimer _pumpAttackCooldownTimer;
+        private CountdownTimer _spitAttackCooldownTimer;
         protected override BossEnemyData Data => _data;
 
+        private AcidPool _instantiadedAcidPool;
+        private bool _isIdle = true;
+        private bool _isInPrePump = false;
+        private bool _isInPostPump = false;
+        private bool _canSpit;
+        private bool _canPump;
+        private int _currentPumpCycle = 0;
+        public bool IsInPrePump => _isInPrePump;
         public LayerMask GroundObjectLayerMask => _groundObjectLayerMask;
         public int TargetLayer => _targetLayer;
-        public EnemyColliderComponent LeftAttackCollider => _leftAttackCollider;
-        public EnemyColliderComponent RightAttackCollider => _rightAttackCollider;
 
         protected override void Awake()
         {
             base.Awake();
-         
-            return;
             _targetLayer = LayerMask.NameToLayer("Ground");
-            _leftAttackCollider.Init(this, _enemyStats.baseStrength);
-            _leftAttackCollider.DisableCollider();
-            _rightAttackCollider.Init(this, _enemyStats.baseStrength);
-            _rightAttackCollider.DisableCollider();
+        }
+
+        public override void AttachListeners()
+        {
+            base.AttachListeners();
+            EventsAPI.Register<OnBossStartMovingEvent>(OnBossStartMovingEvent);
         }
 
         protected override void SetupStates()
         {
+            var pumpAttackState = new BossPumpAttack(this, _agent, _animator);
+            var spitAttackState = new BossAcidSpitAttack(this, _agent, _animator);
+            var normalAttackState = new EnemyMeleeAttackState(this, _agent, _animator, 
+                PlayerManager.Instance.PlayerEntity, Data.dashModifier);
+            var idleState = new BossIdleState(this, _agent, _animator);
+            var chaseState = new EnemyChaseState(this, _agent, _animator, PlayerManager.Instance.transform);
+            var postPumpAttackState = new BossPostPumpAttack(this, _agent, _animator);
+            
+            stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(CanMove));
+            
+            stateMachine.AddTransition(chaseState, spitAttackState, new FuncPredicate(CanPerformSpitAttack));
+            stateMachine.AddTransition(chaseState, pumpAttackState, new FuncPredicate(CanPerformPumpAttack));
+            stateMachine.AddTransition(chaseState, normalAttackState, new FuncPredicate(CanAttackPlayer));
 
-            _attackCooldownTimer = new CountdownTimer(Data.attackCooldown);
-            _attackCooldownTimer.OnTimerStop += OnAttackCooldownTimerFinished;
+            stateMachine.AddTransition(normalAttackState, chaseState, new FuncPredicate(() => !CanAttackPlayer()));
+            stateMachine.AddTransition(spitAttackState, chaseState, new FuncPredicate(() => !CanPerformSpitAttack()));
+
+            stateMachine.AddTransition(pumpAttackState, postPumpAttackState, new FuncPredicate(() => !CanPerformPumpAttack()));
+            stateMachine.AddTransition(postPumpAttackState, chaseState, new FuncPredicate(() => _isInPostPump == false));
             
-            _attackCooldownTimer.Start();
             
+            _pumpAttackCooldownTimer = new CountdownTimer(Data.pumpAttackCooldown);
+            _spitAttackCooldownTimer = new CountdownTimer(Data.spitAttackCooldown);
             
+            _pumpAttackCooldownTimer.OnTimerStop += OnPumpAttackCooldownTimerFinished;
+            _spitAttackCooldownTimer.OnTimerStop += OnPumpAttackCooldownTimerFinished;
+            
+            _spitAttackCooldownTimer.Start();
+            _pumpAttackCooldownTimer.Start();
+            
+            stateMachine.SetState(idleState);
         }
-        
+
+        private void OnBossStartMovingEvent(ref OnBossStartMovingEvent moveEvent)
+        {
+            _isIdle = false;
+        }
+
+        protected override void BeforeDeletion()
+        {
+            base.BeforeDeletion();
+            EventsAPI.Invoke<OnBossDiedEvent>();
+        }
 
         /// <summary>
         ///     When the attack cooldown has finished, start the attackDuration timer
         /// </summary>
-        private void OnAttackCooldownTimerFinished()
+        private void OnPumpAttackCooldownTimerFinished()
         {
-            
+            _canPump = true;
         }
-        
+        private void OnSpitAttackCooldownTimerFinished()
+        {
+            _canSpit = true;
+        }
         protected override void InternalUpdate()
         {
             base.InternalUpdate();
-            _attackCooldownTimer?.Tick(Time.deltaTime);
+            _pumpAttackCooldownTimer?.Tick(Time.deltaTime);            
+            _spitAttackCooldownTimer?.Tick(Time.deltaTime);
+
         }
+        
         
         protected override bool CanAttackPlayer()
         {
-            return _attackCooldownTimer.IsFinished;
+            //Check for special attacks and for distance to player
+            return !_pumpAttackCooldownTimer.IsFinished && !_spitAttackCooldownTimer.IsFinished &&
+                   IsInRangeForNormalAttack();
+        }
+
+        private bool CanPerformSpitAttack()
+        {
+            return _canSpit;
+        }
+
+        private bool CanPerformPumpAttack()
+        {
+            return _canPump;
         }
         
-
+        private bool CanMove() => _isIdle == false;
         protected override void SpawnLootOnDeath()
         {
-            //Nothing
+            //Do not spawn anything
         }
         
         public override void AttemptAttack()
         {
-            //Noop
+            Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;
+            
+            UpdateFacingDirection(dir);
+
+            SphereCollider attackCollider = CurrentDirection == FacingDirection.Left ? _leftAttackCollider : _rightAttackCollider;
+            var targets = ComponentProvider.GetTargetsInSphere<IDamageable>(
+                attackCollider.transform.position, attackCollider.radius, ComponentProvider.EnemyTargetsMask);
+            
+            
+            CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
+            if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
+            EventsAPI.Invoke<OnBossPerformedNormalAttack>();
+        }
+
+        [UsedImplicitly]
+        public void OnSpitAttackPerformed()
+        {
+            _canSpit = false;
+            _spitAttackCooldownTimer.Restart();
+
+            Transform firePoint = CurrentDirection == FacingDirection.Left ? _leftFirePoint : _rightFirePoint;
+
+            Vector3 dir = GetNormalisedDirectionToPlayer(firePoint);
+            float randomDirOffsetX;
+            float randomDirOffsetZ;
+            float randomSpeedModifier;
+            
+            for (int i = 0; i < Data.howManyProjectiles; i++)
+            {
+                randomDirOffsetX = Random.Range(Data.directionOffSetRange.x, Data.directionOffSetRange.y);
+                randomDirOffsetZ = Random.Range(Data.directionOffSetRange.x, Data.directionOffSetRange.y);
+                randomSpeedModifier = Random.Range(Data.speedOffsetRange.x, Data.speedOffsetRange.y);
+                Vector3 finalDir = new Vector3(dir.x + randomDirOffsetX, dir.y, dir.z + randomDirOffsetZ);
+                ProjectileFactory.CreateProjectile(Data.enemyBulletData, firePoint.position, finalDir, this, randomSpeedModifier);
+            }
+            
+            if(_spitAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_spitAttackSFX, _audioSource);
         }
         
+        public void PrePumpAttackStart()
+        {
+            _isInPrePump = true;
+        }
+
+        
+        [UsedImplicitly]
+        public void OnPrePumpEnded()
+        {
+            _isInPrePump = false;
+        }
+        
+        [UsedImplicitly]
+        public void OnPumpAttackPerformed()
+        {
+            if (_instantiadedAcidPool == null)
+            {
+                SpawnAcidPool();
+            }
+            else
+            {
+                PerformPumpCycle();
+            }
+        }
+        
+        
+        [UsedImplicitly]
+        public void OnPostPumpEnded()
+        {
+            _isInPostPump = false;
+        }
+
+
+
+
+        private void PerformPumpCycle()
+        {
+            if (_currentPumpCycle >= Data.pumpCyclesToPerform)
+            {
+                OnPumpAttackEnd();
+                return;
+            }
+            
+            _currentPumpCycle++;
+            
+            _instantiadedAcidPool.ResetDeathTimer();
+            Vector3 newAcidPoolScale = _instantiadedAcidPool.transform.localScale + Data.onPumpScaleAdd;
+            _instantiadedAcidPool.transform.localScale = newAcidPoolScale;
+            if(_pumpAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_pumpAttackSFX, _audioSource);
+        }
+
+        private void SpawnAcidPool()
+        {
+            Transform acidPoolSpawnPoint = CurrentDirection == FacingDirection.Left ?
+                _leftAcidPoolSpawnPoint : _rightAcidPoolSpawnPoint;
+            _instantiadedAcidPool = Instantiate(Data.acidPoolPrefab, 
+                acidPoolSpawnPoint.position, acidPoolSpawnPoint.rotation);
+            _instantiadedAcidPool.Init(Data.acidLifeDurationPerCycle, Data.acidDamage);
+            
+            if(_pumpAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_pumpAttackSFX, _audioSource);
+        }
+
+        private void OnPumpAttackEnd()
+        {
+            _canPump = false;
+            _instantiadedAcidPool = null;
+            _currentPumpCycle = 0;
+            _pumpAttackCooldownTimer.Restart();
+
+            _isInPostPump = true;
+        }
+        
+        public override void DetachListeners()
+        {
+            base.DetachListeners();
+            
+            EventsAPI.Unregister<OnBossStartMovingEvent>(OnBossStartMovingEvent);
+
+        }
 
         protected override void CleanUp()
         {
             base.CleanUp();
-            _attackCooldownTimer.OnTimerStop -= OnAttackCooldownTimerFinished;
+            _pumpAttackCooldownTimer.OnTimerStop -= OnPumpAttackCooldownTimerFinished;
+            _spitAttackCooldownTimer.OnTimerStop -= OnSpitAttackCooldownTimerFinished;
         }
     }
 }

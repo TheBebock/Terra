@@ -37,7 +37,7 @@ namespace Terra.Combat.Projectiles
         /// <summary>
         ///     Initializes the projectile with configuration data and sets its velocity.
         /// </summary>
-        public void Initialize(BulletData data, Vector3 direction, Entity origin)
+        public void Initialize(BulletData data, Vector3 direction, Entity origin, float bulletSpeedModifier =1f)
         {
             
             _penetrationTargets = data.penetrationPower;
@@ -45,7 +45,7 @@ namespace Terra.Combat.Projectiles
             _effects = data.bulletEffects;
             _origin = origin;
             _originLayer = origin.gameObject.layer;
-            _rigidbody.velocity = direction.normalized * data.bulletSpeed;
+            _rigidbody.velocity = direction.normalized * (data.bulletSpeed * bulletSpeedModifier);
             transform.forward  = direction.normalized;
             if (origin.gameObject.layer == _playerLayer)
             {

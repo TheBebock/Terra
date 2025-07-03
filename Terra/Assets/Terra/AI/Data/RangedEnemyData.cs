@@ -13,10 +13,10 @@ namespace Terra.AI.Data
 
         private void OnValidate()
         {
-            if (keepDistanceFromPlayer > attackRange)
+            if (keepDistanceFromPlayer > normalAttackRange)
             {
-                Debug.LogError($"{nameof(keepDistanceFromPlayer)} needs to be lower than {nameof(attackRange)}");
-                keepDistanceFromPlayer = attackRange / 2;
+                Debug.LogError($"{nameof(keepDistanceFromPlayer)} needs to be lower than {nameof(normalAttackRange)}");
+                keepDistanceFromPlayer = normalAttackRange / 2;
             }
         }
     }

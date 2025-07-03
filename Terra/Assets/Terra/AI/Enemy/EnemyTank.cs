@@ -33,14 +33,14 @@ namespace Terra.AI.Enemy
         {
             base.Awake();
             _targetLayer = LayerMask.NameToLayer("Ground");
-            _attackCollider.Init(this, _enemyStats.baseStrength);
+            _attackCollider.Init(this, _enemyStats.baseStrength, _deafultAttackSFX, _audioSource);
             _attackCollider.DisableCollider();
         }
 
         protected override void SetupStates()
         {
             var walkAndAttack = new EnemyWalkAndAttackState(this, _agent, _animator, 
-                PlayerManager.Instance.PlayerEntity, _data.attackRange);            
+                PlayerManager.Instance.PlayerEntity, _data.normalAttackRange);            
             var tired = new EnemyTankTiredState(this, _agent, _animator);
 
             _attackCooldownTimer = new CountdownTimer(Data.attackCooldown);

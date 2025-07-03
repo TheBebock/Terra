@@ -23,7 +23,8 @@ namespace Terra.Combat.Projectiles
         /// <exception cref="InvalidOperationException">
         /// Thrown if the prefab is not assigned or does not contain a <see cref="Projectile"/> component.
         /// </exception>
-        public static Projectile CreateProjectile(BulletData data, Vector3 position, Vector3 direction, Entity shooter)
+        public static Projectile CreateProjectile(BulletData data, Vector3 position, Vector3 direction, Entity shooter, 
+            float bulletSpeedModifier =1f)
         {
             if (data.bulletPrefab == null)
             {
@@ -35,7 +36,7 @@ namespace Terra.Combat.Projectiles
             Projectile projectile = UnityEngine.Object.Instantiate(data.bulletPrefab, position, Quaternion.identity);
             
             // Initialize the projectile with its configuration, direction, and owner.
-            projectile.Initialize(data, direction, shooter);
+            projectile.Initialize(data, direction, shooter, bulletSpeedModifier);
 
             return projectile;
         }

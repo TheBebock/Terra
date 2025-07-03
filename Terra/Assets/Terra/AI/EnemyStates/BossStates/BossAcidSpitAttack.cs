@@ -1,4 +1,5 @@
 using Terra.AI.Enemy;
+using Terra.Enums;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +11,12 @@ namespace Terra.AI.EnemyStates.BossStates
         {
         }
 
-        
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            int animHash = boss.CurrentDirection == FacingDirection.Left ? rangeAttackLeft : rangeAttackRight;
+            animator.CrossFade(animHash, CrossFadeDuration);
+        }
 
     }
 }

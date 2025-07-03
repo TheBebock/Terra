@@ -7,6 +7,14 @@ namespace Terra.EventsSystem.Events
         
     }
 
+    public struct OnBossStartMovingEvent : IEvent
+    {
+        
+    }
+    public struct OnBossPerformedNormalAttack : IEvent
+    {
+        
+    }
     public struct OnBossDiedEvent : IEvent
     {
         

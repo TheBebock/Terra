@@ -54,7 +54,7 @@ namespace Terra.AI.EnemyStates {
         private bool IsPlayerInRange() {
             float distanceToPlayer = Vector3.Distance(enemy.transform.position, player.transform.position);
             
-            return distanceToPlayer <= enemy.AttackRange;  // Return true if the player is within range
+            return distanceToPlayer <= enemy.NormalAttackRange;  // Return true if the player is within range
         }
 
         // Check if there is an unobstructed path to the player

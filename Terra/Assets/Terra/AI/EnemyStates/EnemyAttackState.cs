@@ -5,26 +5,34 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace Terra.AI.EnemyStates {
-    public class EnemyMeleeAttackState : EnemyBaseAttackState {
-        
-        private EnemyMelee _melee;
+    public class EnemyMeleeAttackState : EnemyBaseAttackState
+    {
+
+        private float _attackDashModifier = 1f;
         public EnemyMeleeAttackState(EnemyBase enemy, NavMeshAgent agent, Animator animator, PlayerEntity player) : base(enemy, agent, animator, player)
         {
             if (enemy is EnemyMelee melee)
             {
-                _melee = melee;
+                _attackDashModifier = melee.AttackDashModifier;
             }
             else
             {
-                Debug.LogError($"{enemy.name} is not a {nameof(EnemyMelee)}, but has {nameof(EnemyMeleeAttackState)} assigned");
+                Debug.LogWarning($"{enemy.name} is not a {nameof(EnemyMelee)}, but has {nameof(EnemyMeleeAttackState)} assigned");
             }
+        }
+        
+        public EnemyMeleeAttackState(EnemyBase enemy, NavMeshAgent agent, Animator animator, PlayerEntity player, 
+            float attackDashModifier) : base(enemy, agent, animator, player)
+        {
+            _attackDashModifier = attackDashModifier;
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
             
-            navMeshAgent.velocity *= _melee.AttackDashModifier;
+            navMeshAgent.velocity *= _attackDashModifier;
+            
             Vector3 dir = (PlayerManager.Instance.transform.position - enemy.transform.position).normalized;
             enemy.UpdateFacingDirection(dir);
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;

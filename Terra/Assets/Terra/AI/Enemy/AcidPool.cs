@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Components;
@@ -9,6 +12,7 @@ using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Particles;
+using Terra.Utils;
 using UnityEngine;
 
 namespace Terra.AI.Enemy
@@ -21,19 +25,64 @@ namespace Terra.AI.Enemy
         [SerializeField] private float _lightsFadeDuration = 1f;
         [SerializeField, ReadOnly] private Collider _collider;
         [SerializeField] private List<LightComponent> _lights = new();
-        private float _lifeDuration; 
+        [SerializeField]  private float _lifeDuration = 10f;
+        [SerializeField, ReadOnly] private CountdownTimer _deathTimer;
+
+        private CancellationTokenSource _scaleCts;
+        public void AttachListeners()
+        {
+            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
+        }
+
         
         public void Init(float lifeDuration, int damage)
         {
             _damage = damage;
             _lifeDuration = lifeDuration;
+            _deathTimer = new CountdownTimer(_lifeDuration);
+            _deathTimer.OnTimerStop += OnTimerStop;
+            _deathTimer.Start();
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onSpawnParticle);
-            _ = StartDeathAnim();
         }
-        
-        public void AttachListeners()
+
+        private void OnTimerStop()
         {
-            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
+            _ = StartDeathAnim();
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onSpawnParticle);
+            
+        }
+        public void ResetDeathTimer()
+        { 
+            _deathTimer.ResetTime();
+        }
+
+        public void DoScale(Vector3 newScale, float duration)
+        {
+            _ = DoScaleAsync(newScale, duration);
+        }
+        public async UniTaskVoid DoScaleAsync(Vector3 newScale, float duration)
+        {
+            _scaleCts?.Cancel();
+            _scaleCts?.Dispose();
+            _scaleCts = new CancellationTokenSource();
+            
+            try
+            {
+                 await transform
+                    .DOScale(newScale, duration)
+                    .WithCancellation(_scaleCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                transform.localScale = newScale;
+            }
+        }
+        private void OnStartOfNewFloor(ref StartOfNewFloorEvent @event)
+        {
+            Destroy(gameObject);
         }
 
         private async UniTaskVoid StartDeathAnim()
@@ -57,15 +106,19 @@ namespace Terra.AI.Enemy
             damageable.TakeDamage(_damage);
         }
 
-        private void OnStartOfNewFloor(ref StartOfNewFloorEvent @event)
-        {
-            Destroy(gameObject);
-        }
 
+        
         public void DetachListeners()
         {
             EventsAPI.Unregister<StartOfNewFloorEvent>(OnStartOfNewFloor);
         }
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            _deathTimer.OnTimerStop -= OnTimerStop;
+        }
+
+
 
         protected override void OnValidate()
         {

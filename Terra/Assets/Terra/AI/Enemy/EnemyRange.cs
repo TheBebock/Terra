@@ -3,6 +3,7 @@ using Terra.AI.Data;
 using Terra.AI.EnemyStates;
 using Terra.Combat.Projectiles;
 using Terra.FSM;
+using Terra.Managers;
 using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
@@ -58,7 +59,7 @@ namespace Terra.AI.Enemy
         private bool CheckForObstructions()
         {
             Vector3 direction = PlayerManager.Instance.transform.position - _firePoint.position;
-            float distance = AttackRange;
+            float distance = NormalAttackRange;
             direction.Normalize();
             
             Vector3 leftRayOrigin = new(_firePoint.position.x - _bulletRaycastOffset, _firePoint.position.y, _firePoint.position.z);
@@ -85,7 +86,7 @@ namespace Terra.AI.Enemy
             if (_firePoint == null) { Debug.LogError("firePoint missing"); return; }
 
 
-            Vector3 dir = (PlayerManager.Instance.transform.position - _firePoint.position).normalized;
+            Vector3 dir = GetNormalisedDirectionToPlayer(_firePoint);
 
             Quaternion rot = Quaternion.LookRotation(dir);
 
@@ -99,6 +100,8 @@ namespace Terra.AI.Enemy
             );
 
             p.transform.rotation = rot;
+            
+            if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
 
             attackTimer.Restart();
         }
@@ -106,7 +109,7 @@ namespace Terra.AI.Enemy
         private void OnDrawGizmos()
         {
             Vector3 direction = PlayerManager.Instance.PlayerEntity.transform.position - _firePoint.position;
-            float distance = AttackRange;
+            float distance = NormalAttackRange;
             direction.Normalize();
              
             Vector3 leftRayOrigin = new(_firePoint.position.x - _bulletRaycastOffset, _firePoint.position.y, _firePoint.position.z);

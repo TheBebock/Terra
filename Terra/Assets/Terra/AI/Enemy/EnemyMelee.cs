@@ -31,7 +31,7 @@ namespace Terra.AI.Enemy
 
         public override void AttemptAttack()
         {
-            Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;
+            Vector3 dir = GetNormalisedDirectionToPlayer();
             
             UpdateFacingDirection(dir);
             
@@ -39,6 +39,7 @@ namespace Terra.AI.Enemy
                 transform.position, Data.attackRadius, ComponentProvider.EnemyTargetsMask);
 
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
+            if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
         }
 
         private void OnDrawGizmos()

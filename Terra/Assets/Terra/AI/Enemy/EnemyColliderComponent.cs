@@ -18,7 +18,9 @@ namespace Terra.AI.Enemy
         [Foldout("Debug"), ReadOnly][SerializeField] private int _damage;
         [Foldout("Debug"), ReadOnly][SerializeField] private Entity _entity;
         [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effectsContainer = null;
-        
+        [Foldout("Debug"), ReadOnly][SerializeField] private AudioClip _attackSFX;
+        [Foldout("Debug"), ReadOnly][SerializeField] private AudioSource _audioSource;
+
         private CountdownTimer _damageTimer;
 
         public void EnableCollider()
@@ -35,10 +37,12 @@ namespace Terra.AI.Enemy
             _damageTimer.Stop();
         }
         List<IDamageable> _damageables = new();
-        public void Init(Entity entity, int damage, EffectsContainer effectsContainer = null)
+        public void Init(Entity entity, int damage, AudioClip attackSFX, AudioSource audioSource, EffectsContainer effectsContainer = null)
         {
             _entity = entity;
             _damage = damage;
+            _attackSFX = attackSFX;
+            _audioSource = audioSource;
             _effectsContainer = effectsContainer;
             _damageTimer = new CountdownTimer(0.25f);
             _damageTimer.OnTimerStop += OnDamageTimerStop;
@@ -85,6 +89,7 @@ namespace Terra.AI.Enemy
                 }
                 _damageables[i].TakeDamage(_damage);
             }
+            if(_attackSFX) AudioManager.Instance?.PlaySFXAtSource(_attackSFX, _audioSource);
         }
 
         protected override void CleanUp()

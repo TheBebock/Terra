@@ -29,7 +29,7 @@ namespace Terra.AI.Enemy
     {
         protected abstract TEnemyData Data { get; }
 
-        public sealed override float AttackRange => Data.attackRange;
+        public sealed override float NormalAttackRange => Data.normalAttackRange;
         
     }
 
@@ -38,8 +38,11 @@ namespace Terra.AI.Enemy
     /// </summary>
     public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
-        [SerializeField] private float _deathFadeDuration = 4;
-        [SerializeField] private AnimationCurve _deathFadeCurve;
+        
+        [BoxGroup("Death")][SerializeField] private bool _destroyOnDeath = true;
+        [BoxGroup("Death")][SerializeField] private float _deathFadeDuration = 4;
+        [BoxGroup("Death")][SerializeField] private AnimationCurve _deathFadeCurve;
+        
         [FormerlySerializedAs("enemyStats")]
         [Header("Stats")] 
         [SerializeField, Expandable] protected EnemyStatsDefinition _enemyStats;
@@ -56,6 +59,7 @@ namespace Terra.AI.Enemy
         
         [FormerlySerializedAs("hurtSFX")] [Foldout("SFX")] [SerializeField] protected AudioClip _hurtSFX;
         [FormerlySerializedAs("deathSFX")] [Foldout("SFX")] [SerializeField] protected AudioClip _deathSFX;
+        [Foldout("SFX")] [SerializeField] protected AudioClip _deafultAttackSFX;
         
         protected StateMachine stateMachine;
         protected EnemyDeathState enemyDeathState;
@@ -69,7 +73,7 @@ namespace Terra.AI.Enemy
         public StatusContainer StatusContainer => _statusContainer;
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
-        public abstract float AttackRange { get; }
+        public abstract float NormalAttackRange { get; }
 
 
         protected Vector3 ItemsSpawnPosition => new(
@@ -161,10 +165,21 @@ namespace Terra.AI.Enemy
         /// Abstract method for performing an attack, to be implemented by subclasses.
         /// </summary>
         public abstract void AttemptAttack();
-        
 
+
+        protected bool IsInRangeForNormalAttack()
+        {
+            return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= NormalAttackRange;
+        }
+
+        protected Vector3 GetNormalisedDirectionToPlayer(Transform sourceTransform = null)
+        {
+            if(!sourceTransform) sourceTransform = transform;
+            Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;
+            return dir;
+        }
         protected virtual bool CanAttackPlayer() {
-            return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= AttackRange;
+            return IsInRangeForNormalAttack();
         }
         
         /// <summary>
