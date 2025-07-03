@@ -51,6 +51,10 @@ namespace Terra.Managers
             LoadVolume();   
         }
 
+        public void SetAudioManagerMusicSourceLooping(bool isLooping)
+        {
+            _musicSource.loop = isLooping;
+        }
         
         public void PlayMusic(string clip)
         {

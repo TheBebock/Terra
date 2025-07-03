@@ -5,6 +5,7 @@ using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
+using UnityEngine;
 
 namespace Terra.GameStates
 {
@@ -23,7 +24,29 @@ namespace Terra.GameStates
             HUDManager.Instance.ForceSetDarkScreenAlpha(1f);
             HUDManager.Instance.ElevatorDoors.ForceSetDoorOpenPercentage(0);
             CameraManager.Instance.ChangeToElevatorCamera();
-            AudioManager.Instance.PlayMusic("track_1");
+            
+            string audioClipName;
+            string otherAudioClipName;
+
+            if (Random.Range(0, 2) == 0)
+            {
+                audioClipName = "track_1";
+                otherAudioClipName = "track_2";
+            }
+            else
+            {
+                audioClipName = "track_2";
+                otherAudioClipName = "track_1";
+            }
+            if (AudioManager.Instance.IsMusicPlayingClip(audioClipName))
+            {
+                AudioManager.Instance.PlayMusic(otherAudioClipName);
+            }
+            else
+            {
+                AudioManager.Instance.PlayMusic(audioClipName);
+            }
+            
             EventsAPI.Invoke<StartOfNewFloorEvent>();
             _ = StartAnimation();
         }

@@ -31,6 +31,8 @@ namespace Terra.Managers
         {
             await LoadSceneAsync(SceneNames.MainMenu, LoadSceneMode.Single, true);
             GameManager.Instance?.SwitchToGameState<DefaultGameState>();
+            AudioManager.Instance?.PlayMusic("main_menu");
+            AudioManager.Instance?.SetAudioManagerMusicSourceLooping(true);
         }
 
         public void ForceLoadScene(int buildIndex)
