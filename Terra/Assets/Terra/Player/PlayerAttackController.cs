@@ -141,8 +141,9 @@ namespace Terra.Player
         {
             if(_isTryingPerformMeleeAttack) return;
             
-            Vector3 direction = MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(PlayerInventory.transform.position);
-
+            Vector3 direction = MouseRaycastManager.Instance.
+                GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
+            PlayerManager.Instance.PlayerMovement.PushPlayerInDirection(direction, PlayerManager.Instance.PushPlayerForce);
             if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
             {
                 if(direction.x > 0) _currentPlayerAttackDirection = FacingDirection.Right;

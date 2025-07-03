@@ -90,6 +90,12 @@ namespace Terra.Player
             ChangeMoveDirection();
         }
 
+        public void PushPlayerInDirection(Vector3 direction, float force)
+        {
+            direction.y = 0f;
+            _characterController.Move(direction * force * Time.deltaTime);
+        }
+
         private void OnMovementInput(InputAction.CallbackContext context)
         {
             if (!CanPlayerMove)

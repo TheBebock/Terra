@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
+  _pushPlayerForceOnMeleeAttack: 25
   _isPlayerDead: 0
   _playerAttackController:
     _firePoint: {fileID: 0}
@@ -191,6 +192,15 @@ MonoBehaviour:
     _luck:
       _baseValue: 1
       _statModifiers: []
+    _swingSpeed:
+      _baseValue: 0
+      _statModifiers: []
+    _meleeRange:
+      _baseValue: 0
+      _statModifiers: []
+    _rangeCooldown:
+      _baseValue: 0
+      _statModifiers: []
 --- !u!95 &2453622083028010261
 Animator:
   serializedVersion: 7
@@ -225,10 +235,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnParticle: {fileID: 0}
-  onHealParticle: {fileID: 0}
-  onHitParticle: {fileID: 0}
-  onDeathParticle: {fileID: 0}
+  onSpawnParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHealParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHitParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onDeathParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
   _container: {fileID: 3668154996905167841}
   _model: {fileID: 585892353238847723}
   _modelMaterial: {fileID: 0}
@@ -296,6 +326,22 @@ MonoBehaviour:
         - m_Target: {fileID: 8083079388278282322}
           m_TargetAssemblyTypeName: Terra.Player.PlayerManager, Terra
           m_MethodName: OnRangeEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventName: OnPerformRangeAttack
+    onAnimationEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8083079388278282322}
+          m_TargetAssemblyTypeName: Terra.Player.PlayerManager, Terra
+          m_MethodName: OnPerformRangeAttack
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

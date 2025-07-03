@@ -30,10 +30,10 @@ namespace Terra.RewardSystem
 
         public override void ApplyReward()
         {
-            if (_modifiersMaxHealth.Count > 0) PlayerStatsManager.Instance.AddMaxHealth(_modifiersMaxHealth);
-            if (_modifiersDexterity.Count > 0) PlayerStatsManager.Instance.AddDexterity(_modifiersDexterity);
-            if (_modifiersStrength.Count > 0) PlayerStatsManager.Instance.AddStrength(_modifiersStrength);
-            if (_modifiersLuck.Count > 0) PlayerStatsManager.Instance.AddLuck(_modifiersLuck);
+            if (_modifiersMaxHealth.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.MaxHealth, _modifiersMaxHealth);
+            if (_modifiersDexterity.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.Dexterity,_modifiersDexterity);
+            if (_modifiersStrength.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.Strength,_modifiersStrength);
+            if (_modifiersLuck.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.Luck,_modifiersLuck);
         }
 
         public void AddRandomStat()

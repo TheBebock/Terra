@@ -19,7 +19,6 @@ namespace Terra.Player
     {
         [Foldout("References")] [SerializeField]
         private Collider _collider;
-        
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField]
@@ -108,6 +107,7 @@ namespace Terra.Player
         {
             _collider.enabled = true;
         }
+        
         public void ResetHealth(bool isSilent = true) => _healthController.ResetHealth(isSilent);
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
         

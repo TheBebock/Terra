@@ -19,10 +19,10 @@ namespace Terra.Player
     /// </summary>
     public class PlayerManager : MonoBehaviourSingleton<PlayerManager>, IWithSetUp
     {
+        [Tooltip("How much to push player towards mouse position on melee attack")]
+        [SerializeField] private float _pushPlayerForceOnMeleeAttack = 2f;
         [Foldout("Debug")][SerializeField, ReadOnly] private bool _isPlayerDead;
-
-        [Foldout("Debug")] [SerializeField, ReadOnly]
-        private PlayerAttackController _playerAttackController;
+        [Foldout("Debug")] [SerializeField, ReadOnly] private PlayerAttackController _playerAttackController;
         [Foldout("Debug")][SerializeField, ReadOnly] private StateMachine _stateMachine;
         
         [Foldout("References")] [SerializeField] private Vector3 _startingPlayerPosition;
@@ -42,7 +42,7 @@ namespace Terra.Player
 
         public PlayerMovement PlayerMovement => _playerMovement;
         public PlayerAttackController PlayerAttackController => _playerAttackController;
-        
+        public float PushPlayerForce => _pushPlayerForceOnMeleeAttack;
         public event Action OnPlayerDeath;
 
         private DeathState _deathState;

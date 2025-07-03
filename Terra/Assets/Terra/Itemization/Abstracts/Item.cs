@@ -2,6 +2,7 @@ using System;
 using Terra.Player;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Interfaces;
+using Terra.StatisticsSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -58,10 +59,13 @@ namespace Terra.Itemization.Abstracts
             {
                 Debug.LogError($"{this}: Player Manager not found, cannot add stat modifiers.");
             }
-            PlayerStatsManager.Instance?.AddStrength(Data.strengthModifiers);
-            PlayerStatsManager.Instance?.AddMaxHealth(Data.maxHealthModifiers);
-            PlayerStatsManager.Instance?.AddDexterity(Data.dexModifiers);
-            PlayerStatsManager.Instance?.AddLuck(Data.luckModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.Strength, Data.strengthModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.MaxHealth, Data.maxHealthModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.Dexterity, Data.dexModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.Luck,Data.luckModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.MeleeRange, Data.meleeRangeModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.SwingSpeed, Data.swingSpeedModifiers);
+            PlayerStatsManager.Instance?.AddModifiers(StatisticType.RangeCooldown, Data.rangeCooldownModifiers);
         }
         
         public void OnUnEquip()
@@ -75,10 +79,13 @@ namespace Terra.Itemization.Abstracts
             {
                 Debug.LogError($"{this}: Player Manager not found, cannot remove stat modifiers.");
             }
-            PlayerStatsManager.Instance?.RemoveStrength(Data.strengthModifiers);
-            PlayerStatsManager.Instance?.RemoveMaxHealth(Data.maxHealthModifiers);
-            PlayerStatsManager.Instance?.RemoveDexterity(Data.dexModifiers);
-            PlayerStatsManager.Instance?.RemoveLuck(Data.luckModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.Strength, Data.strengthModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.MaxHealth, Data.maxHealthModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.Dexterity, Data.dexModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.Luck,Data.luckModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.MeleeRange, Data.meleeRangeModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.SwingSpeed, Data.swingSpeedModifiers);
+            PlayerStatsManager.Instance?.RemoveModifiers(StatisticType.RangeCooldown, Data.rangeCooldownModifiers);
         }
         
     }
