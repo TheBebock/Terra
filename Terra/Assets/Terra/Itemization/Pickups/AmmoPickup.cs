@@ -15,5 +15,11 @@ namespace Terra.Itemization.Pickups
         {
             PlayerInventoryManager.Instance.ModifyCurrentAmmo(Data.ammoAmount);
         }
+
+        public override bool CanBePickedUp()
+        {
+            if (!PlayerInventoryManager.Instance) return false;
+            return PlayerInventoryManager.Instance.CurrentAmmo < PlayerInventoryManager.Instance.MaxAmmo;
+        }
     }
 }

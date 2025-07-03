@@ -16,5 +16,10 @@ namespace Terra.Itemization.Pickups
             PlayerManager.Instance.PlayerEntity.Heal(Data.maxHealthHealAmount, true);
         }
         
+        public override bool CanBePickedUp()
+        {
+            if (!PlayerManager.Instance) return false;
+            return PlayerManager.Instance.HealthController.CurrentHealth < PlayerManager.Instance.HealthController.MaxHealth;
+        }
     }
 }

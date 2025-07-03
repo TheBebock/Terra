@@ -45,12 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: -1
-  popupTMPPrefab: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
+  _popupTMPPrefab: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
     type: 3}
-  popupCanvasPrefab: {fileID: 44556668393241724, guid: 349417750e94b0045a26e83d65fd58b8,
+  _popupCanvasPrefab: {fileID: 44556668393241724, guid: 349417750e94b0045a26e83d65fd58b8,
     type: 3}
-  destroyTime: 1
-  popupOffset: {x: 0, y: -300, z: 300}
-  randomizerdPosition: {x: 3, y: 1, z: 3}
-  pooledPopups: []
-  amountToPool: 20
+  _destroyTime: 1
+  _popupOffset: {x: 0, y: -300, z: 300}
+  _randomizerdPosition: {x: 3, y: 1, z: 3}
+  _damageColor: {r: 0.93333334, g: 0.3019608, b: 0.11764706, a: 1}
+  _critDamageColor: {r: 1, g: 0.8064977, b: 0, a: 1}
+  _healColor: {r: 0, g: 0.7924528, b: 0, a: 1}
+  _critHealColor: {r: 0.6112658, g: 1, b: 0.18396229, a: 1}
+  _pooledPopups: []
+  _amountToPool: 20

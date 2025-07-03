@@ -15,9 +15,12 @@ namespace Terra.Itemization.Pickups
     /// </summary>
     public sealed class PickupContainer : Entity, IPickupable, IRequireCleanup
     {
-        public bool CanBePickedUp { get; private set; }
+
+        public bool CanBePickedUp => _isInitialized && _pickup != null && _pickup.CanBePickedUp();
 
         [SerializeField, ReadOnly] private PickupBase _pickup;
+        [SerializeField, ReadOnly] private bool _isInitialized;
+
         [SerializeField] private float _distanceToPlayerForMagnetism = 3f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField, Range(0, 1f)] private float _addSpeedModifier = 0.05f;
@@ -35,7 +38,7 @@ namespace Terra.Itemization.Pickups
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (collision.CompareTag("Player") && CanBePickedUp && _pickup != null)
+            if (collision.CompareTag("Player") && CanBePickedUp)
             {
                 PickUp();
             }
@@ -69,9 +72,9 @@ namespace Terra.Itemization.Pickups
         public void Initialize(PickupBase pickup)
         {
             _pickup = pickup;
+            _isInitialized = true;
             VFXcontroller.SetModelSprite(pickup.ItemIcon);
             VFXcontroller.SetModelMaterial(pickup.ItemMaterial);
-            CanBePickedUp = true;
         }
 
         public void PickUp()
@@ -80,11 +83,7 @@ namespace Terra.Itemization.Pickups
             _pickup.OnPickUp();
             Destroy(gameObject);
         }
-
-        public void SetAvailability(bool isAvailable)
-        {
-            CanBePickedUp = isAvailable;
-        }
+        
         
         protected override void CleanUp()
         {

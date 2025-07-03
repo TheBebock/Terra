@@ -80,6 +80,8 @@ namespace Terra.Player
         {
             if(!CanBeHealed) return;
             _healthController.Heal(amount, isPercentage);
+            bool isCrit = amount >= _healthController.MaxHealth/2 - 1;
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, isHeal: true, isCrit);
         }
 
         private void OnHealed(int amount)

@@ -24,9 +24,10 @@ namespace Terra.Itemization.Abstracts
         public virtual PickupType PickupType => throw new NotImplementedException();
         public virtual Sprite ItemIcon => throw new NotImplementedException();
         public virtual Material ItemMaterial => throw new NotImplementedException();
-        
         public virtual float DropRate => throw new NotImplementedException();
         public virtual void OnPickUp() { }
+        public virtual bool CanBePickedUp(){return true;}
+
     }
     
     /// <summary>
