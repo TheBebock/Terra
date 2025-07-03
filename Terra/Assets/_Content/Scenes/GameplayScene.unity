@@ -3775,16 +3775,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_Boss
       objectReference: {fileID: 0}
-    - target: {fileID: 2317127295530148372, guid: 84990e5cd79ba924bb3c4f890b90197d,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3848772399654846776, guid: 84990e5cd79ba924bb3c4f890b90197d,
-        type: 3}
-      propertyPath: m_Interpolate
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4643372447952132618, guid: 84990e5cd79ba924bb3c4f890b90197d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3838,109 +3828,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 251934167059348343, guid: 84990e5cd79ba924bb3c4f890b90197d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 700205837}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84990e5cd79ba924bb3c4f890b90197d, type: 3}
---- !u!1 &700205829 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 251934167059348343, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &700205830 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3217267435475957119, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &700205831 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6983760377835395327, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 700205829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &700205832 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1093005004753631194, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &700205833 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5781299182056900915, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!195 &700205834 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 7519315527293647657, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &700205835 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 3848772399654846776, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &700205836 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 3740106023029474068, guid: 84990e5cd79ba924bb3c4f890b90197d,
-    type: 3}
-  m_PrefabInstance: {fileID: 700205828}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &700205837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 700205829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f782dd5d7999173458f0a0363b58b930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vfxController: {fileID: 700205831}
-  _id: -1
-  _deathFadeDuration: 4
-  _deathFadeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _enemyStats: {fileID: 11400000, guid: 750d21afd1e74c04785af9b697a27f2b, type: 2}
-  _shadow: {fileID: 0}
-  _agent: {fileID: 700205834}
-  _animator: {fileID: 700205832}
-  _enemyCollider: {fileID: 700205836}
-  _enemyModel: {fileID: 700205830}
-  _audioSource: {fileID: 700205833}
-  _enemyRigidBody: {fileID: 700205835}
-  _healthController:
-    _maxHealth:
-      _baseValue: 0
-      _statModifiers: []
-    _currentHealth: 0
-    _canBeHealed: 0
-    _isInvincible: 0
-    _immuneAfterHit: 0
-  _statusContainer:
-    _entity: {fileID: 0}
-    _statuses: []
-  _hurtSFX: {fileID: 0}
-  _deathSFX: {fileID: 0}
-  _data: {fileID: 11400000, guid: b5f5b52cd641f814fb37063f03f2a574, type: 2}
 --- !u!1 &707396088
 GameObject:
   m_ObjectHideFlags: 0
