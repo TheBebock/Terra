@@ -61,7 +61,7 @@ namespace Terra.UI.Windows.RewardWindow
             _rewardToggle.onValueChanged.AddListener(OnToggle);
         }
 
-        private void SetRewardData()
+        public void SetRewardData()
         {
             ChooseRewardData();
             

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Enums;
 using Terra.GameStates;
@@ -16,6 +16,9 @@ namespace Terra.UI.Windows.RewardWindow
 
         [FormerlySerializedAs("rewardToggles")] [SerializeField] List<RewardToggle> _rewardToggles = new();
         [FormerlySerializedAs("acceptButton")] [SerializeField] Button _acceptButton;
+        [FormerlySerializedAs("rerollButton")] [SerializeField] Button _rerollButton;
+        [SerializeField] private int _rerollCost = 0;
+        public static int leftRerolls = 3;
 
         [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
@@ -34,7 +37,11 @@ namespace Terra.UI.Windows.RewardWindow
             _availableRewardTypes.Add(RewardType.Effect);
             
             _acceptButton.onClick.AddListener(ApplyReward);
-            
+            _rerollButton.onClick.AddListener(RerollRewards);
+
+            CheckRerollsAvailability();
+
+
             LoadRewardsData();
         }
 
@@ -60,6 +67,43 @@ namespace Terra.UI.Windows.RewardWindow
             _currentlyActiveToggle.Toggle.isOn = false;
             GameManager.Instance.SwitchToGameState<StartOfFloorState>();
             Close();
+        }
+
+        private void CheckRerollsAvailability()
+        {
+            if (_rerollCost != 0)
+            {
+                _rerollButton.interactable = EconomyManager.Instance.CanBuy(_rerollCost);
+            }
+            else
+            {
+                if (leftRerolls <= 0)
+                    _rerollButton.interactable = false;
+                else
+                    _rerollButton.interactable = true;
+            }
+        }
+
+        private void RerollRewards()
+        {
+            leftRerolls--;
+            CheckRerollsAvailability();
+
+            if (IsAnyToggleOn())
+            {
+                _currentlyActiveToggle.Toggle.isOn = false;
+                _currentlyActiveToggle = null;
+            }
+
+            _rewardToggles[0].RewardType = Enums.RewardType.Stats;
+            _rewardToggles[1].RewardType = Enums.RewardType.Stats;
+            _rewardToggles[2].RewardType = GetRewardType();
+            _rewardToggles[3].RewardType = GetRewardType();
+
+            _rewardToggles[0].SetRewardData();
+            _rewardToggles[1].SetRewardData();
+            _rewardToggles[2].SetRewardData();
+            _rewardToggles[3].SetRewardData();
         }
 
         private void LoadRewardsData()
