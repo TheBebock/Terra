@@ -1,0 +1,19 @@
+
+
+Wszystkie teksty w grze sa tylko w tych dwoch rozmiarach
+
+
+Font: silkscreen
+
+
+- nagłówki:
+regular 
+size: 32
+kerning: -10% 
+
+
+
+- text/hud:
+regular 
+size: 24
+kerning: -5% 
