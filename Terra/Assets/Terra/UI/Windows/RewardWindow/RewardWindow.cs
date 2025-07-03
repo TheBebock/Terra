@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using Terra.Enums;
 using Terra.GameStates;
 using Terra.Managers;
+using TMPro;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,6 +18,7 @@ namespace Terra.UI.Windows.RewardWindow
         [FormerlySerializedAs("rewardToggles")] [SerializeField] List<RewardToggle> _rewardToggles = new();
         [FormerlySerializedAs("acceptButton")] [SerializeField] Button _acceptButton;
         [FormerlySerializedAs("rerollButton")] [SerializeField] Button _rerollButton;
+        [SerializeField] private TMP_Text _rerollCostText;
         [SerializeField] private int _rerollCost = 0;
         public static int leftRerolls = 3;
 
@@ -41,6 +43,15 @@ namespace Terra.UI.Windows.RewardWindow
 
             CheckRerollsAvailability();
 
+            if(_rerollCost != 0)
+            {
+                _rerollCostText.gameObject.SetActive(true);
+                _rerollCostText.text = _rerollCost.ToString();
+            }
+            else
+            {
+                _rerollCostText.gameObject.SetActive(false);
+            }
 
             LoadRewardsData();
         }
@@ -87,6 +98,7 @@ namespace Terra.UI.Windows.RewardWindow
         private void RerollRewards()
         {
             leftRerolls--;
+            EconomyManager.Instance.TryToBuy(_rerollCost);
             CheckRerollsAvailability();
 
             if (IsAnyToggleOn())

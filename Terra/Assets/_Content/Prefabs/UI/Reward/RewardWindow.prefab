@@ -504,7 +504,8 @@ MonoBehaviour:
   - {fileID: 9170438856966539622}
   _acceptButton: {fileID: 1590742580868664031}
   _rerollButton: {fileID: 7978006012303582030}
-  _rerollCost: 0
+  _rerollCostText: {fileID: 2606835060319430446}
+  _rerollCost: 50
   _currentlyActiveToggle: {fileID: 0}
 --- !u!114 &6790220197464283819
 MonoBehaviour:
@@ -1090,21 +1091,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4141446267915768304, guid: a83a3294623c7424c8484d2694857d18,
-        type: 3}
-      propertyPath: m_text
-      value: reroll
-      objectReference: {fileID: 0}
-    - target: {fileID: 4141446267915768304, guid: a83a3294623c7424c8484d2694857d18,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 37.65
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a83a3294623c7424c8484d2694857d18, type: 3}
+--- !u!114 &2606835060319430446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7625151835158587326, guid: a83a3294623c7424c8484d2694857d18,
+    type: 3}
+  m_PrefabInstance: {fileID: 5619557326002585744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7978006012303582030 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2543196438253085662, guid: a83a3294623c7424c8484d2694857d18,
