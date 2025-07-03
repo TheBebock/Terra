@@ -1,5 +1,6 @@
-using Terra.Itemization.Abstracts.Definitions;
+﻿using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
+using Terra.Managers;
 using Terra.Player;
 using UnityEngine;
 
@@ -13,8 +14,16 @@ namespace Terra.RewardSystem
 
         public override void ApplyReward()
         {
-            if(WeaponType == WeaponType.Melee) Debug.Log($"New Item Swap Status: {PlayerInventoryManager.Instance.TryToEquipItem(MeleeWeapon)}");
-            else if(WeaponType == WeaponType.Ranged) PlayerInventoryManager.Instance.TryToEquipItem(RangedWeapon);
+            if (WeaponType == WeaponType.Melee)
+            {
+                Debug.Log($"New Item Swap Status: {PlayerInventoryManager.Instance.TryToEquipItem(MeleeWeapon)}");
+                LootManager.Instance.LootTable.RemoveMeleeWeapon(MeleeWeapon);
+            }
+            else if (WeaponType == WeaponType.Ranged)
+            {
+                PlayerInventoryManager.Instance.TryToEquipItem(RangedWeapon);
+                LootManager.Instance.LootTable.RemoveRangedWeapon(RangedWeapon);
+            }
         }
     }
 }

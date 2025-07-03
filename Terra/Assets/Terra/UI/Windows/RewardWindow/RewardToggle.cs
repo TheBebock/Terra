@@ -133,7 +133,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             if(rewardType == RewardType.ActiveItem)
             {
-                _activeItemReward = LootManager.Instance.LootTable.PopRandomActiveItem();
+                _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem();
                 if(_activeItemReward == null)
                 {
                     SetNewRewardType();
@@ -240,14 +240,14 @@ namespace Terra.UI.Windows.RewardWindow
             switch (rand)
             {
                 case 0: 
-                    _effectReward = LootManager.Instance.LootTable.PopRandomActionEffect();
+                    _effectReward = LootManager.Instance.LootTable.GetRandomActionEffect();
                     if (_effectReward != null)
                         _effectType = typeof(ActionEffectData);
                     else
                         TurnOffToggle();
                     break;
                 case 1:
-                    _effectReward = LootManager.Instance.LootTable.PopRandomStatusEffect();
+                    _effectReward = LootManager.Instance.LootTable.GetRandomStatusEffect();
                     if(_effectReward != null)
                         _effectType = typeof(StatusEffectData);
                     else
@@ -277,14 +277,14 @@ namespace Terra.UI.Windows.RewardWindow
             
             if (rand == 0)
             {
-                var randomWeapon = LootManager.Instance.LootTable.PopRandomMeleeWeapon();
+                var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon();
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.MeleeWeapon = randomWeapon;
             }
             else
             {
-                var randomWeapon = LootManager.Instance.LootTable.PopRandomRangedWeapon();
+                var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon();
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.RangedWeapon = randomWeapon;
@@ -365,9 +365,11 @@ namespace Terra.UI.Windows.RewardWindow
                     break;
                 case RewardType.ActiveItem:
                     PlayerInventoryManager.Instance?.TryToEquipItem(_activeItemReward);
+                    LootManager.Instance.LootTable.RemoveActiveItem(_activeItemReward);
                     break;
                 case RewardType.PassiveItem:
                     PlayerInventoryManager.Instance?.TryToEquipItem(_passiveItemReward);
+                    LootManager.Instance.LootTable.RemovePassiveItem(_passiveItemReward);
                     break;
             }
         }
@@ -395,7 +397,7 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 PlayerManager.Instance.PlayerAttackController?.AddNewAttackStatusEffect(statusEffectData);
             }
-               
+            LootManager.Instance.LootTable.RemoveStatusEffect(statusEffectData);
         }
 
         private void ApplyActionEffectReward(ActionEffectData actionEffectData)
@@ -408,6 +410,7 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 PlayerManager.Instance.PlayerAttackController?.AddNewAttackActionEffect(actionEffectData);
             }
+            LootManager.Instance.LootTable.RemoveActionEffect(actionEffectData);
         }
 
         private string GetCostDisplayText(int cost)
