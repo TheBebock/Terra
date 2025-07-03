@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 738820099736754893}
   - component: {fileID: 9195085895194291793}
   m_Layer: 0
-  m_Name: IntroController
+  m_Name: VideoController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,4 +47,18 @@ MonoBehaviour:
   videoPlayer: {fileID: 0}
   skipSlider: {fileID: 0}
   holdDuration: 2
-  nextScene: MainMenuScene
+  onVideoEndAction:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9195085895194291793}
+        m_TargetAssemblyTypeName: Terra.UI.IntroScene.IntroController, Terra
+        m_MethodName: LoadMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

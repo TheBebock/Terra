@@ -1378,7 +1378,7 @@ PrefabInstance:
     - target: {fileID: 8005609370141163693, guid: f1992629b58e7fc4c866dae1bc147971,
         type: 3}
       propertyPath: m_Name
-      value: IntroController
+      value: VideoController
       objectReference: {fileID: 0}
     - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
         type: 3}
@@ -1395,11 +1395,63 @@ PrefabInstance:
       propertyPath: holdDuration
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6328707316704843461}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Terra.UI.IntroScene.VideoController, Terra
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+        type: 3}
+      propertyPath: _onVideoEndAction.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1992629b58e7fc4c866dae1bc147971, type: 3}
+--- !u!114 &6328707316704843461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9195085895194291793, guid: f1992629b58e7fc4c866dae1bc147971,
+    type: 3}
+  m_PrefabInstance: {fileID: 6328707316704843460}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dbf8891037bfc3428f206b6dc568286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
