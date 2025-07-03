@@ -31,6 +31,10 @@ namespace Terra.Managers
         
         [SerializeField] private List<EnemySpawnData> _enemies;
 
+        [BoxGroup("Boss Settings")] [SerializeField]
+        private int _waveToSpawnBoss;
+        [BoxGroup("Boss Settings")] [SerializeField] EnemyBoss _bossPrefab;
+        
         [Header("Waves Settings")] 
         [SerializeField] private float _delayBeforeFirstWave = 5f;
         [SerializeField] private float _timeBetweenWaves = 10f;
@@ -118,6 +122,8 @@ namespace Terra.Managers
         private async UniTask StartSpawningWaves(CancellationToken token)
         {
 
+            TrySpawningBoss();
+            
             await UniTask.WaitForSeconds(_delayBeforeFirstWave, cancellationToken: token);
             
             _wavesToSpawn = _startingWavesToSpawn + Mathf.RoundToInt(_currentLevel * _wavesGainPerLevel);
@@ -149,6 +155,13 @@ namespace Terra.Managers
             OnLevelEnd();
         }
 
+        private void TrySpawningBoss()
+        {
+            if(_currentLevel != _waveToSpawnBoss) return;
+            
+            EnemyBoss enemy = Instantiate(_bossPrefab, _bossPrefab.transform.position, Quaternion.identity);
+            
+        }
         private async UniTask HandleWaveSpawning(CancellationToken token)
         {
             _currentSpawnPoints = _startingSpawnPoints + _spawnPointsGain * _currentWaveIndex;

@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -866, y: -316}
-  m_SizeDelta: {x: 300, y: 0}
+  m_AnchoredPosition: {x: -864.6307, y: -316}
+  m_SizeDelta: {x: 303, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7855871555728402513
 MonoBehaviour:
@@ -487,7 +487,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6534381770938390440}
   m_Enabled: 1
-  m_Alpha: 0.29999998
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -506,7 +506,7 @@ MonoBehaviour:
   _activeState: 1
   _interactionState: 0
   _canvasGroup: {fileID: 290848604156014653}
-  _opacityPercent: 30
+  _opacityPercent: 1
   _stdTextColor: {r: 1, g: 1, b: 1, a: 1}
   _betterTextColor: {r: 0, g: 1, b: 0, a: 1}
   _worseTextColor: {r: 1, g: 0, b: 0, a: 1}
