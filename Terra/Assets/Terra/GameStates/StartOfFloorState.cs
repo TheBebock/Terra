@@ -19,8 +19,6 @@ namespace Terra.GameStates
             CameraManager.Instance.SpriteMask.SetActive(false);
             CameraManager.Instance.SetCameraBlendStyle(CinemachineBlendDefinition.Style.Cut);
             HUDManager.Instance.HideGameplayHUD();
-            HUDManager.Instance.StatsDisplay.Hide();
-            HUDManager.Instance.PassiveItemsDisplay.Hide();
             
             HUDManager.Instance.ForceSetDarkScreenAlpha(1f);
             HUDManager.Instance.ElevatorDoors.ForceSetDoorOpenPercentage(0);

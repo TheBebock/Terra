@@ -17,6 +17,8 @@ namespace Terra.UI.HUD
     public class HUDManager : MonoBehaviourSingleton<HUDManager>, IAttachListeners
     {
         [SerializeField] private CanvasGroup _gameplayHUDCanvasGroup;
+        [SerializeField] private CanvasGroup _crystalCanvasGroup;
+        [SerializeField] private CanvasGroup _ammoCanvasGroup;
         [SerializeField] private HpSlider _hpSlider;
         [SerializeField] private ElevatorDoors _elevatorDoors;
         [SerializeField] private Image _darkScreen;
@@ -84,17 +86,34 @@ namespace Terra.UI.HUD
         public void ShowGameplayHUD()
         {
             _gameplayHUDCanvasGroup.alpha = 1;
-            _gameplayHUDCanvasGroup.interactable = true;
-            _gameplayHUDCanvasGroup.blocksRaycasts = true;
+            ShowCrystalCounter();
+            ShowAmmoCounter();
         }
         
         public void HideGameplayHUD()
         {
             _gameplayHUDCanvasGroup.alpha = 0;
-            _gameplayHUDCanvasGroup.interactable = false;
-            _gameplayHUDCanvasGroup.blocksRaycasts = false;
+            HideCrystalCounter();
+            HideAmmoCounter();
+            StatsDisplay.Hide();
+            PassiveItemsDisplay.Hide();
         }
-        
+        public void ShowCrystalCounter()
+        {
+            _crystalCanvasGroup.alpha = 1;
+        }
+        public void HideCrystalCounter()
+        {
+            _crystalCanvasGroup.alpha = 0; 
+        }
+        public void ShowAmmoCounter()
+        {
+            _ammoCanvasGroup.alpha = 1;
+        }
+        public void HideAmmoCounter()
+        {
+            _ammoCanvasGroup.alpha = 0;
+        }
         public void DetachListeners()
         {
             EventsAPI.Unregister<StartOfNewFloorEvent>(OnStartOfFloor);

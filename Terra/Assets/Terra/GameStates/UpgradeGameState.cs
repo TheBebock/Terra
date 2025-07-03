@@ -14,6 +14,8 @@ namespace Terra.GameStates
             TimeManager.Instance.PauseTime();
             UIWindowManager.Instance.OpenWindow<RewardWindow>();
             HUDManager.Instance.StatsDisplay.Show();
+            HUDManager.Instance.ShowAmmoCounter();
+            HUDManager.Instance.ShowCrystalCounter();
         }
 
         public override void OnExit()
@@ -21,8 +23,6 @@ namespace Terra.GameStates
             base.OnExit();
             TimeManager.Instance.RemovePauseLock(this);
             TimeManager.Instance.ResumeTime();
-            
-            HUDManager.Instance.StatsDisplay.Hide();
         }
     }
 }

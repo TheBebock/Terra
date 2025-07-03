@@ -1648,8 +1648,8 @@ CanvasGroup:
   m_GameObject: {fileID: 273091145}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1001 &307734418
 PrefabInstance:
@@ -3082,6 +3082,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: -1
   _gameplayHUDCanvasGroup: {fileID: 273091147}
+  _crystalCanvasGroup: {fileID: 857179131}
+  _ammoCanvasGroup: {fileID: 993641786}
   _hpSlider: {fileID: 162581447}
   _elevatorDoors: {fileID: 1750200351}
   _darkScreen: {fileID: 1654139516}
@@ -5073,6 +5075,7 @@ GameObject:
   - component: {fileID: 857179128}
   - component: {fileID: 857179130}
   - component: {fileID: 857179129}
+  - component: {fileID: 857179131}
   m_Layer: 5
   m_Name: CrystalDisplay
   m_TagString: Untagged
@@ -5146,6 +5149,18 @@ MonoBehaviour:
   _delayAfterGoldChange: 1.5
   _punchDuration: 0.25
   _punchUpScale: {x: 1.1, y: 1.1, z: 1.1}
+--- !u!225 &857179131
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857179127}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &861162178
 GameObject:
   m_ObjectHideFlags: 0
@@ -6351,6 +6366,7 @@ GameObject:
   - component: {fileID: 993641782}
   - component: {fileID: 993641785}
   - component: {fileID: 993641783}
+  - component: {fileID: 993641786}
   m_Layer: 5
   m_Name: AmmoDisplay
   m_TagString: Untagged
@@ -6430,6 +6446,18 @@ MonoBehaviour:
   _currentAmmoAmount: 15
   _maxAmmoAmount: 15
   _tempAmmoIncreaseAmount: 0
+--- !u!225 &993641786
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993641781}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 1
 --- !u!4 &1021323611 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8968970985673108434, guid: a5d4076596a25fb448f6ef7c06271d6e,

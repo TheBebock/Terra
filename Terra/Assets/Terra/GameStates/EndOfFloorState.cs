@@ -21,8 +21,6 @@ namespace Terra.GameStates
             CameraManager.Instance.SpriteMask.SetActive(false);
             
             HUDManager.Instance.HideGameplayHUD();
-            HUDManager.Instance.StatsDisplay.Hide();
-            HUDManager.Instance.PassiveItemsDisplay.Hide();
             
             _ = StartAnimation();
         }
