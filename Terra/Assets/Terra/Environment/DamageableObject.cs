@@ -61,7 +61,7 @@ namespace Terra.Environment
 
         protected virtual void OnDamaged(int value)
         {
-            _propAnimator?.SetTrigger(AnimationHashes.OnDamaged);
+            if(_propAnimator) _propAnimator?.SetTrigger(AnimationHashes.OnDamaged);
 
             VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);

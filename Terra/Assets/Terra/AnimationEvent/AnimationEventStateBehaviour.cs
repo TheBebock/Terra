@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -11,10 +12,13 @@ namespace Terra.AnimationEvent
         [SerializeField, ReadOnly] private bool _hasTriggered;
         private AnimationEventReceiver _receiver;
         private int _lastLoopCount = -1;
+        private float _previousTime =-1f;
         
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             _lastLoopCount = -1;
+            _previousTime =-1f;
+            
             _hasTriggered = false;
             _receiver = animator.GetComponentInParent<AnimationEventReceiver>();
             if (_receiver == null)
@@ -25,9 +29,19 @@ namespace Terra.AnimationEvent
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            
-            float currentTime = stateInfo.normalizedTime % 1f;
-            int currentLoop = Mathf.FloorToInt(stateInfo.normalizedTime);
+
+            float currentNormalizedTime = stateInfo.normalizedTime;
+
+            if (currentNormalizedTime < _previousTime)
+            {
+                _hasTriggered = false;
+                _lastLoopCount = -1;
+            }
+
+            _previousTime = currentNormalizedTime;
+
+            int currentLoop = Mathf.FloorToInt(currentNormalizedTime);
+            float currentTime = currentNormalizedTime % 1f;
             
             if (_resetOnLoop && stateInfo.loop && currentLoop != _lastLoopCount)
             {
@@ -47,11 +61,24 @@ namespace Terra.AnimationEvent
             if (_receiver != null)
             {
                 _receiver.OnAnimationEventTriggered(eventName);
+                _ = ResetAfterDelay();
             }
             else
             {
                 Debug.LogError($"{this} : Animator {animator.name} has no receiver");
             }
+        }
+
+        private async UniTaskVoid ResetAfterDelay()
+        {
+            await UniTask.WaitForSeconds(0.1f);
+            ResetState();
+        }
+        public void ResetState()
+        {
+            _hasTriggered = false;
+            _lastLoopCount = -1;
+            _previousTime = -1f;
         }
     }
 }

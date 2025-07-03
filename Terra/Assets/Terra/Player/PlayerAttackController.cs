@@ -24,7 +24,8 @@ namespace Terra.Player
     [Serializable]
     public class PlayerAttackController : IAttachListeners
     {
-        private Vector3 _raycastOffset = new Vector3(0,0, -0.5f);
+        //NOTE: Due to ground not rotating towards camera compared to all other entities, there needs to be an offset
+        private Vector3 _raycastOffset = new(0,0, -1.85f);
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private Transform _firePoint;
         [Foldout("Debug"), ReadOnly] [SerializeField]
@@ -83,7 +84,7 @@ namespace Terra.Player
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
-            if (!_isTryingPerformMeleeAttack)
+            if (!_isTryingPerformMeleeAttack && !_isTryingPerformDistanceAttack)
             {
                 ChangeAttackDirection();
 
@@ -103,7 +104,7 @@ namespace Terra.Player
             }
             if(PlayerInventoryManager.Instance.CurrentAmmo <= 0) return;
             
-            if (!_isTryingPerformDistanceAttack)
+            if (!_isTryingPerformDistanceAttack && !_isTryingPerformMeleeAttack)
             {
                 ChangeAttackDirection();
                 

@@ -7,11 +7,15 @@ namespace Terra.Managers
     public class MouseRaycastManager : MonoBehaviourSingleton<MouseRaycastManager>
     {
         private readonly Vector3 _defaultY = new( 0f, 100f, 0f );
-        public Vector3 GetMousePositionInWorldPosition(Vector3 resultOffset = default)
+        public Vector3 GetMousePositionInWorldPosition(Vector3 resultOffset = default) 
         {
             Ray ray = CameraManager.Instance.MainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                {
+                    return hit.point + resultOffset;
+                }
                 return hit.point;
             }
             Debug.Log($"{nameof(MouseRaycastManager)}: Couldn't hit any colliders, proceeding to hit on default Y");
@@ -28,7 +32,7 @@ namespace Terra.Managers
 
         public Vector3 GetDirectionTowardsMousePosition(Vector3 sourcePosition, Vector3 resultOffset = default)
         {
-            return (GetMousePositionInWorldPosition() - sourcePosition).normalized;
+            return (GetMousePositionInWorldPosition(resultOffset) - sourcePosition).normalized;
         }
     }
 }
