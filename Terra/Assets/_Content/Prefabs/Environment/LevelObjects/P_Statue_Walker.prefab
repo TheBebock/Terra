@@ -119,6 +119,7 @@ MonoBehaviour:
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
+  _hurtSFX: {fileID: 0}
   _destroySfx: {fileID: 0}
   _leftEmissiveTexture: {fileID: 2800000, guid: 34c300af735be454084edd334539a47d,
     type: 3}
@@ -732,8 +733,8 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6293002743506845930}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -817,6 +818,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 7889322403991344603}
+  _particlesAnchor: {fileID: 0}
   _model: {fileID: 2928413566856010481}
   _modelMaterial: {fileID: 0}
   _activeParticles: []

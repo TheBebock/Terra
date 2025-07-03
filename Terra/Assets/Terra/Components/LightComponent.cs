@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace Terra.Components
         [SerializeField, ReadOnly] protected float _defaultIntensity;
         [SerializeField, ReadOnly] protected Color _defaultColor;
         
+        
+        private CancellationTokenSource _setRangeCts;
+
         public abstract void StartLightMode();
         protected abstract void OnUpdate();
 
@@ -49,7 +53,31 @@ namespace Terra.Components
         {
             _light.DOColor(endValue, duration).WithCancellation(CancellationToken);
         }
-        
+
+        public void DoSetRange(float endValue, float duration)
+        {
+            _ = DoSetRangeAsync(endValue, duration);
+        }
+        private async UniTaskVoid DoSetRangeAsync(float endValue, float duration)
+        {
+            _setRangeCts?.Cancel();
+            _setRangeCts?.Dispose();
+            _setRangeCts = new CancellationTokenSource();
+            try
+            {
+                await DOTween.To(
+                    () => _light.range,
+                    x => _light.range = x,
+                    endValue,
+                    duration
+                ).WithCancellation(CancellationToken);
+            }
+            finally
+            {
+                _light.range = endValue;
+            }
+            
+        }
         protected virtual void OnValidate()
         {
             if (_light == null) _light = GetComponent<Light>();

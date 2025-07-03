@@ -1,8 +1,8 @@
 using NaughtyAttributes;
 using Terra.AI.Enemy;
 using Terra.Combat.Projectiles;
+using Terra.Components;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Terra.AI.Data
 {
@@ -10,7 +10,8 @@ namespace Terra.AI.Data
     public class BossEnemyData : EnemyData
     {
         [Min(1f)] public float dashModifier = 2f;
-        [Min(1f)] public float attackCooldown = 5f;
+        
+        [BoxGroup("Particles")] public ParticleComponent normalAttackParticles;
         
         [BoxGroup("Cooldowns")][Min(1f)] public float pumpAttackCooldown = 10f;
         [BoxGroup("Cooldowns")][Min(1f)] public float spitAttackCooldown = 5f;

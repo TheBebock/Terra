@@ -16,6 +16,7 @@ namespace Terra.Environment
         [SerializeField] LayerMask _obstacleMask;
         int _targetLayerIndex;
 
+        
         public void Init(FacingDirection facingDirection)
         {
             switch (facingDirection)

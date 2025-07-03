@@ -73,8 +73,7 @@ namespace Terra.Managers
         
         public void AttachListeners()
         {
-            EventsAPI.Register<EndOfFloorEvent>(OnEndOfFloor);
-
+            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
             if (!TimeManager.Instance) return;
 
             TimeManager.Instance.OnGamePaused += PauseWaves;
@@ -109,10 +108,12 @@ namespace Terra.Managers
             _linkedCts?.Dispose();
             _waveCancellationTokenSource?.Dispose();
         }
+        
 
-        private void OnEndOfFloor(ref EndOfFloorEvent dummy)
+        private void OnStartOfNewFloor(ref StartOfNewFloorEvent dummy)
         {
             _currentLevel++;
+            TrySpawningBoss();
         }
 
         public void PauseWaves() => _isPaused = true;
@@ -122,7 +123,6 @@ namespace Terra.Managers
         private async UniTask StartSpawningWaves(CancellationToken token)
         {
 
-            TrySpawningBoss();
             
             await UniTask.WaitForSeconds(_delayBeforeFirstWave, cancellationToken: token);
             
@@ -160,6 +160,10 @@ namespace Terra.Managers
             if(_currentLevel != _waveToSpawnBoss) return;
             
             EnemyBoss enemy = Instantiate(_bossPrefab, _bossPrefab.transform.position, Quaternion.identity);
+            //NOTE: Increasing active enemies here and not decreasing it on boss death, make the WaveEnded event to never be invoked
+            // It is not supposed to get invoked on floor with boss
+            _currentActiveEnemies++;
+            
             EventsAPI.Invoke<OnBossSpawnedEvent>();
             
         }
@@ -221,8 +225,6 @@ namespace Terra.Managers
         {
             EventsAPI.Invoke<WaveEndedEvent>();
             Debug.Log($"{gameObject.name}: OnWaveEnded event raised");
-
-            //GameManager.Instance.SwitchToGameState<EndOfFloorState>();
         }
 
         private Vector3 GetRandomSpawnPosition()
@@ -260,7 +262,8 @@ namespace Terra.Managers
 
         public void DetachListeners()
         {
-            EventsAPI.Unregister<EndOfFloorEvent>(OnEndOfFloor);
+
+            EventsAPI.Unregister<StartOfNewFloorEvent>(OnStartOfNewFloor);
 
             if (!TimeManager.Instance) return;
             

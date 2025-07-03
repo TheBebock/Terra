@@ -5,7 +5,6 @@ using Terra.InputSystem;
 using Terra.Managers;
 using Terra.Player;
 using Terra.UI.HUD;
-using UIExtensionPackage.UISystem.UI.Windows;
 
 namespace Terra.GameStates
 {

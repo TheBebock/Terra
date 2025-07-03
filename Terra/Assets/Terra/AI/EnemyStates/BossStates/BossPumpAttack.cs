@@ -17,6 +17,10 @@ namespace Terra.AI.EnemyStates.BossStates
         {
             base.OnEnter();
 
+            navMeshAgent.velocity = Vector3.zero;
+            navMeshAgent.isStopped = true;
+            
+            boss.UpdateFacingDirection(boss.GetNormalisedDirectionToPlayer());
             boss.PrePumpAttackStart();
             pumpDirection = enemy.CurrentDirection;
             animationName = pumpDirection == FacingDirection.Left ? prePumpAttackLeft : pumpAttackRight;

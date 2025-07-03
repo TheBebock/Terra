@@ -25,12 +25,13 @@ namespace Terra.Environment
         
         [Foldout("References")][SerializeField] private Animator _propAnimator;
         [Foldout("References")][SerializeField] private SpriteRenderer _propShadow;
-        [Foldout("References")] [SerializeField] private AudioSource _audioSource;
+        [Foldout("References")] [SerializeField] protected AudioSource _audioSource;
         [Foldout("References")] [SerializeField] private Collider _collider;
         
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
         
+        [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _hurtSFX;
         [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _destroySfx;
         
         private Sequence _doSequence;
@@ -66,8 +67,8 @@ namespace Terra.Environment
             VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
               
-            // Show VFX
-            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, value);
+            if(_hurtSFX) AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource);
+            PopupDamageManager.Instance?.UsePopup(transform, Quaternion.identity, value);
         }
 
         public void Kill(bool isSilent = false) => _healthController.Kill(isSilent);
@@ -82,7 +83,7 @@ namespace Terra.Environment
             if(_propAnimator) _propAnimator.SetTrigger(AnimationHashes.Death);
 
             
-            AudioManager.Instance.PlaySFXAtSource(_destroySfx, _audioSource);
+            if(_destroySfx) AudioManager.Instance?.PlaySFXAtSource(_destroySfx, _audioSource);
             _propShadow?.DOFade(0, _deathFadeDuration).SetEase(_deathFadeCurve);
             VFXcontroller.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onDeathParticle);

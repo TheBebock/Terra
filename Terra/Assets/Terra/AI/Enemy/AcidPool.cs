@@ -43,6 +43,8 @@ namespace Terra.AI.Enemy
             _deathTimer.OnTimerStop += OnTimerStop;
             _deathTimer.Start();
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onSpawnParticle);
+            transform.localScale = Vector3.zero;
+            DoScale(new(1f,1f,1f), 1f);
         }
 
         private void OnTimerStop()
@@ -60,7 +62,7 @@ namespace Terra.AI.Enemy
         {
             _ = DoScaleAsync(newScale, duration);
         }
-        public async UniTaskVoid DoScaleAsync(Vector3 newScale, float duration)
+        private async UniTaskVoid DoScaleAsync(Vector3 newScale, float duration)
         {
             _scaleCts?.Cancel();
             _scaleCts?.Dispose();
@@ -68,16 +70,24 @@ namespace Terra.AI.Enemy
             
             try
             {
-                 await transform
+                ScaleLights(duration);
+                  transform
                     .DOScale(newScale, duration)
                     .WithCancellation(_scaleCts.Token);
-            }
-            catch (OperationCanceledException)
-            {
             }
             finally
             {
                 transform.localScale = newScale;
+            }
+        }
+
+        private void ScaleLights(float duration)
+        {
+            float scale = transform.localScale.y > transform.localScale.z ? 
+                transform.localScale.y : transform.localScale.z;
+            for (int i = 0; i < _lights.Count; i++)
+            {
+                _lights[i].DoSetRange(scale, duration);
             }
         }
         private void OnStartOfNewFloor(ref StartOfNewFloorEvent @event)

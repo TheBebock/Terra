@@ -16,7 +16,8 @@ namespace Terra.AI.EnemyStates {
         public override void OnEnter()
         {
             Debug.Log("Chase");
-
+    
+            enemy.UpdateFacingDirection(enemy.GetNormalisedDirectionToPlayer());
             _animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.WalkLeft : AnimationHashes.WalkRight;
             animator.CrossFade(_animationName, CrossFadeDuration);
         }

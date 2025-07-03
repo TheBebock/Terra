@@ -1,4 +1,6 @@
 using System;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
@@ -30,6 +32,7 @@ namespace Terra.GameStates
             InputsManager.Instance?.SetAllTimeControlsState(true);
             TimeManager.Instance?.ResumeTime();
             
+            EventsAPI.Invoke<OnBossStartMovingEvent>();
         }
     }
 }

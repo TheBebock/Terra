@@ -19,5 +19,11 @@ namespace Terra.AI.EnemyStates.BossStates
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? postPumpAttackLeft : postPumpAttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);
         }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            navMeshAgent.isStopped = false;
+        }
     }
 }

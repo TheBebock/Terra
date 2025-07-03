@@ -10,6 +10,7 @@ using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.FSM;
 using Terra.Managers;
+using Terra.Particles;
 using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
@@ -87,10 +88,8 @@ namespace Terra.AI.Enemy
             _spitAttackCooldownTimer = new CountdownTimer(Data.spitAttackCooldown);
             
             _pumpAttackCooldownTimer.OnTimerStop += OnPumpAttackCooldownTimerFinished;
-            _spitAttackCooldownTimer.OnTimerStop += OnPumpAttackCooldownTimerFinished;
-            
-            _spitAttackCooldownTimer.Start();
-            _pumpAttackCooldownTimer.Start();
+            _spitAttackCooldownTimer.OnTimerStop += OnSpitAttackCooldownTimerFinished;
+
             
             stateMachine.SetState(idleState);
         }
@@ -98,6 +97,9 @@ namespace Terra.AI.Enemy
         private void OnBossStartMovingEvent(ref OnBossStartMovingEvent moveEvent)
         {
             _isIdle = false;
+                        
+            _spitAttackCooldownTimer.Start();
+            _pumpAttackCooldownTimer.Start();
         }
 
         protected override void BeforeDeletion()
@@ -163,6 +165,7 @@ namespace Terra.AI.Enemy
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
             
             if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
+            if(Data.normalAttackParticles) VFXController.SpawnParticleInWorld(Data.normalAttackParticles, attackCollider.transform.position, Quaternion.identity);
             
             EventsAPI.Invoke<OnBossPerformedNormalAttack>();
         }
@@ -237,7 +240,7 @@ namespace Terra.AI.Enemy
             
             _instantiadedAcidPool.ResetDeathTimer();
             Vector3 newAcidPoolScale = _instantiadedAcidPool.transform.localScale + Data.onPumpScaleAdd;
-            _instantiadedAcidPool.transform.localScale = newAcidPoolScale;
+            _instantiadedAcidPool.DoScale(newAcidPoolScale, 0.5f);
             if(_pumpAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_pumpAttackSFX, _audioSource);
         }
 
@@ -246,7 +249,7 @@ namespace Terra.AI.Enemy
             Transform acidPoolSpawnPoint = CurrentDirection == FacingDirection.Left ?
                 _leftAcidPoolSpawnPoint : _rightAcidPoolSpawnPoint;
             _instantiadedAcidPool = Instantiate(Data.acidPoolPrefab, 
-                acidPoolSpawnPoint.position, acidPoolSpawnPoint.rotation);
+                acidPoolSpawnPoint.position, Data.acidPoolPrefab.transform.rotation);
             _instantiadedAcidPool.Init(Data.acidLifeDurationPerCycle, Data.acidDamage);
             
             if(_pumpAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_pumpAttackSFX, _audioSource);

@@ -10,22 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b2138518b2aca547897f19ea164e7e9, type: 3}
-  m_Name: Boss_Enemy
+  m_Name: Boss_EnemyData
   m_EditorClassIdentifier: 
-  normalAttackRange: 5
-  dashModifier: 2
-  attackCooldown: 5
-  pumpAttackCooldown: 10
-  spitAttackCooldown: 5
+  normalAttackRange: 7
+  dashModifier: 1.5
+  normalAttackParticles: {fileID: 3983852379560932045, guid: 644f917c2add25f46bb8569f65a69675,
+    type: 3}
+  pumpAttackCooldown: 15
+  spitAttackCooldown: 8
   pumpCyclesToPerform: 3
   onPumpScaleAdd: {x: 1, y: 0.5, z: 0.5}
   acidPoolPrefab: {fileID: 8651052522678446162, guid: 229af8ddff66c3345b016c7a93902dd6,
     type: 3}
-  acidLifeDurationPerCycle: 10
+  acidLifeDurationPerCycle: 8
   acidDamage: 1
   howManyProjectiles: 7
-  directionOffSetRange: {x: -0.2, y: 0.2}
-  speedOffsetRange: {x: 0.75, y: 1.25}
+  directionOffSetRange: {x: -0.3, y: 0.3}
+  speedOffsetRange: {x: 0.5, y: 1.25}
   enemyBulletData:
     bulletPrefab: {fileID: 167767852919785825, guid: 87d6558933bc08a499f1bbddcb8cbda1,
       type: 3}
@@ -33,5 +34,5 @@ MonoBehaviour:
       statuses: []
       actions: []
     penetrationPower: 0
-    bulletSpeed: 20
+    bulletSpeed: 10
     bulletDamage: 10

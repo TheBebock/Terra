@@ -172,7 +172,7 @@ namespace Terra.AI.Enemy
             return Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) <= NormalAttackRange;
         }
 
-        protected Vector3 GetNormalisedDirectionToPlayer(Transform sourceTransform = null)
+        public Vector3 GetNormalisedDirectionToPlayer(Transform sourceTransform = null)
         {
             if(!sourceTransform) sourceTransform = transform;
             Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;

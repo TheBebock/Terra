@@ -6,7 +6,6 @@ namespace Terra.EventsSystem.Events
     {
         
     }
-
     public struct OnBossStartMovingEvent : IEvent
     {
         

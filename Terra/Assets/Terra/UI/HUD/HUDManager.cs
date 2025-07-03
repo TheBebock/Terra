@@ -72,7 +72,7 @@ namespace Terra.UI.HUD
 
         private void OnStartOfFloor(ref StartOfNewFloorEvent dummy)
         {
-            int floor = WaveManager.Instance.CurrentLevel + 1;
+            int floor = WaveManager.Instance.CurrentLevel;
             _floorCounter?.SetText($"{_floorCounterText} {floor}");
         }
         private void OnWaveEnded(ref WaveEndedEvent dummy)
