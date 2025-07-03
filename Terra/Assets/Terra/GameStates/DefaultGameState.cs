@@ -1,4 +1,5 @@
 using System;
+using Terra.InputSystem;
 using Terra.Managers;
 
 namespace Terra.GameStates
@@ -14,6 +15,7 @@ namespace Terra.GameStates
         {
             base.OnEnter();
             TimeManager.Instance.ResumeTime();
+            InputsManager.Instance.SetAllTimeControlsState(false);
         }
     }
 }

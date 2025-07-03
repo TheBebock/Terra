@@ -20,7 +20,7 @@ namespace Terra.UI.MainMenu
         [BoxGroup("Audio")] [SerializeField] private  Slider _masterSlider;
         [BoxGroup("Audio")] [SerializeField] private  Slider _sfxSlider;
         [BoxGroup("Audio")] [SerializeField] private  Slider _musicSlider;
-        [BoxGroup("Audio")] [SerializeField] private Vector2 _audioRange = new(-40, 10);
+        [BoxGroup("Audio")] [SerializeField] private Vector2 _audioRange = new(0, 1);
         private float _lastPlayTime = -1f;
         private float _sfxCooldown = 0.3f;
 
@@ -52,16 +52,7 @@ namespace Terra.UI.MainMenu
         {
             _gammaSettings.SetSettingsPanel(this);
         }
-
-        private void OnEnable()
-        {
-            SetSliderValue(_masterSlider, GameSettings.DefaultMasterVolume);
-            SetSliderValue(_sfxSlider, GameSettings.DefaultSFXVolume);
-            SetSliderValue(_musicSlider, GameSettings.DefaultMusicVolume);
-            
-            SetSliderValue(_itemsOpacitySlider, GameSettings.DefaultItemsOpacity);
-            SetSliderValue(_statsOpacitySlider, GameSettings.DefaultStatsOpacity);
-        }
+        
 
         private void OnBackButtonClicked()
         {
@@ -108,6 +99,13 @@ namespace Terra.UI.MainMenu
             
             SetSliderRange(_itemsOpacitySlider, _opacityRange);
             SetSliderRange(_statsOpacitySlider, _opacityRange);
+            
+            SetSliderValue(_masterSlider, GameSettings.DefaultMasterVolume);
+            SetSliderValue(_sfxSlider, GameSettings.DefaultSFXVolume);
+            SetSliderValue(_musicSlider, GameSettings.DefaultMusicVolume);
+            
+            SetSliderValue(_itemsOpacitySlider, GameSettings.DefaultItemsOpacity);
+            SetSliderValue(_statsOpacitySlider, GameSettings.DefaultStatsOpacity);
             
             _masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
 

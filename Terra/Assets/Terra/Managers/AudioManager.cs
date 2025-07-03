@@ -180,9 +180,10 @@ namespace Terra.Managers
         private void SetVolume(string parameterName, float value)
         {
             value = Mathf.Clamp01(value);
+            SaveValue(parameterName, value);
+
             float volume = value == 0 ? -80 : Mathf.Lerp(_minDB, _maxDB, value);
             _audioMixer.SetFloat(parameterName, volume);
-            SaveValue(parameterName, value);
         }
 
         public void SetMasterVolume(float value) => SetVolume("MasterVolume", value);
@@ -195,7 +196,7 @@ namespace Terra.Managers
             switch (parameterName)
             {
                 case "MasterVolume":
-                    return GameSettings.DefaultMusicVolume;
+                    return GameSettings.DefaultMasterVolume;
                 case "SFXVolume":
                     return GameSettings.DefaultSFXVolume;
                 case "MusicVolume":
@@ -210,7 +211,7 @@ namespace Terra.Managers
             switch (parameterName)
             {
                 case "MasterVolume":
-                    GameSettings.DefaultMusicVolume = value;
+                    GameSettings.DefaultMasterVolume = value;
                     break;
                 case "SFXVolume":
                     GameSettings.DefaultSFXVolume = value;

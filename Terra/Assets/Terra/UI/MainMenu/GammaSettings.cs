@@ -22,20 +22,13 @@ namespace Terra.UI.MainMenu
             if (VolumesManager.Instance)
             {
                 InitSliderValues(VolumesManager.Instance.GammaRange);
+                _gammaSlider.value = GameSettings.DefaultGamma;
                 _gammaSlider.onValueChanged.AddListener(OnSliderValueChanged);
             }
             else
             {
                 Debug.LogError($"{this} Volumes Manager is missing, something went horribly wrong");
             }
-            
-            _gammaSlider.value = GameSettings.DefaultGamma;
-        }
-        
-
-        private void OnEnable()
-        {
-            _gammaSlider.value = GameSettings.DefaultGamma;
         }
 
         public void SetSettingsPanel(SettingsUI settingsPanel) => _settingsPanel = settingsPanel;

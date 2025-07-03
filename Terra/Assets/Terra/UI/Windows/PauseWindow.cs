@@ -2,7 +2,6 @@ using Terra.Managers;
 using Terra.UI.MainMenu;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Terra.UI.Windows
