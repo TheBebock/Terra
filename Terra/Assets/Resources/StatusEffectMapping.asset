@@ -21,3 +21,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     effectTypeName: Terra.EffectsSystem.Statuses.PoisonStatus, Terra, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - dataTypeName: Terra.EffectsSystem.Statuses.Data.RegenerationStatusData, Terra,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    effectTypeName: Terra.EffectsSystem.Statuses.RegenerationStatus, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

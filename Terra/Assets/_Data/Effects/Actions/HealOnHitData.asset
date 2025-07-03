@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62200d448d4e194bbe78dd9146f759f, type: 3}
-  m_Name: PushbackData_test2
+  m_Script: {fileID: 11500000, guid: 413af9e562f3f914eb3d3dbbc34f163e, type: 3}
+  m_Name: HealOnHitData
   m_EditorClassIdentifier: 
   entityID: -1
-  effectIcon: {fileID: 21300000, guid: 005888ede18a58e4db8d069cfa3007cb, type: 3}
-  effectName: Pushback
+  effectIcon: {fileID: 0}
+  effectName: Leech Life
   effectDescription: 
+  effectCost: 50
   effectParticle: {fileID: 0}
-  containerType: 1
-  incompatibleEffects:
-  - {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
-  force: 2
+  containerType: 2
+  incompatibleEffects: []
+  healAmount: 2

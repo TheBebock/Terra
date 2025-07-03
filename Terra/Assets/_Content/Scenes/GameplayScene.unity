@@ -6933,10 +6933,10 @@ MonoBehaviour:
     - _data: {fileID: 11400000, guid: a0eac13a15bd2894b8d1fac97cf0939c, type: 2}
     _statusEffects:
     - dropChance: 0
-      statusEffect: {fileID: 11400000, guid: f8b992a33cd2de143bfcb47aa174c6b6, type: 2}
+      statusEffect: {fileID: 11400000, guid: 142e9ce150c9991458944457c25af4ef, type: 2}
     _actionEffects:
     - dropChance: 0
-      actionEffect: {fileID: 11400000, guid: f8b992a33cd2de143bfcb47aa174c6b6, type: 2}
+      actionEffect: {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
     _statusEffectsPerGame: []
     _actionEffectsPerGame: []
 --- !u!4 &1158039037 stripped

@@ -17,8 +17,9 @@ MonoBehaviour:
   effectName: Burn
   effectDescription: 
   effectCost: 50
-  effectParticle: {fileID: 0}
-  containerType: 2
+  effectParticle: {fileID: 7297252601780213406, guid: 434a4a9147ce50a4fb2d5929e0afd077,
+    type: 3}
+  containerType: 1
   incompatibleEffects: []
   statusDuration: 12
   tickTime: 3

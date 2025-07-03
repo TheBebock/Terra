@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10f869af00ce3a4e9483d536fbb4e74, type: 3}
+  m_Name: RegenerationStatusData
+  m_EditorClassIdentifier: 
+  entityID: -1
+  effectIcon: {fileID: 21300000, guid: f0c892b33bd14fa4d97f5bd71abb9a44, type: 3}
+  effectName: 
+  effectDescription: 
+  effectCost: 120
+  effectParticle: {fileID: 7716638365138479202, guid: 0a56cebf3ef8fa24b995e755f5c14270,
+    type: 3}
+  containerType: 0
+  incompatibleEffects: []
+  statusDuration: -1
+  tickTime: 2
+  healPerTick: 1

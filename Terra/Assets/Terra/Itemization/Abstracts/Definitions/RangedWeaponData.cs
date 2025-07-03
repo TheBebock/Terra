@@ -1,7 +1,6 @@
 using Terra.Combat.Projectiles;
 using Terra.Core.ModifiableValue;
 using Terra.EffectsSystem;
-using Terra.EffectsSystem.Abstract.Definitions;
 using UnityEngine;
 
 namespace Terra.Itemization.Abstracts.Definitions

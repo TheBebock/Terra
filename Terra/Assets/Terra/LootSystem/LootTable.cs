@@ -27,7 +27,7 @@ namespace Terra.LootSystem
     internal struct ActionDropData
     {
         [Range(1,100)] public float dropChance;
-        public StatusEffectData actionEffect;
+        public ActionEffectData actionEffect;
     }
     /// <summary>
     /// Contains all possible items and PickupBase that can be dropped in the game.
@@ -144,7 +144,7 @@ namespace Terra.LootSystem
             return _statusEffectsPerGame.PopRandomElement().statusEffect;
         }
         
-        public StatusEffectData PopRandomActionEffect()
+        public ActionEffectData PopRandomActionEffect()
         {
             return _actionEffectsPerGame.PopRandomElement().actionEffect;
         }
@@ -235,7 +235,7 @@ namespace Terra.LootSystem
             return _statusEffectsPerGame.GetRandomElement<StatusDropData>().statusEffect;
         }
 
-        public StatusEffectData GetRandomActionEffect()
+        public ActionEffectData GetRandomActionEffect()
         {
             return _actionEffectsPerGame.GetRandomElement<ActionDropData>().actionEffect;
         }

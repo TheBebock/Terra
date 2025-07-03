@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: ActionEffectsDatabase
   m_EditorClassIdentifier: 
   _mapping:
+  - dataTypeName: Terra.EffectsSystem.Actions.Data.HealOnHitData, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    effectTypeName: Terra.EffectsSystem.Actions.HealOnHitAction, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - dataTypeName: Terra.EffectsSystem.Actions.Data.PushBackData, Terra, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     effectTypeName: Terra.EffectsSystem.Actions.PushBackAction, Terra, Version=0.0.0.0,

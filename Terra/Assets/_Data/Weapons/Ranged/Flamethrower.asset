@@ -17,7 +17,7 @@ MonoBehaviour:
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: cd374aed28ded71418b6bad56dcdb1f2, type: 3}
   canBeRemoved: 1
-  itemCost: 50
+  itemCost: 80
   strengthModifiers: []
   maxHealthModifiers: []
   dexModifiers:
@@ -37,7 +37,8 @@ MonoBehaviour:
     bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,
       type: 3}
     bulletEffects:
-      statuses: []
+      statuses:
+      - {fileID: 11400000, guid: 99f31cd7a46f2f74395ccc278edc6186, type: 2}
       actions: []
     penetrationPower: 0
     bulletSpeed: 20

@@ -50,7 +50,6 @@ namespace Terra.Player
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealth, CancellationToken, true);
             _healthController.OnDeath += (this as IDamageable).OnDeath;
-            _healthController.OnHealed += OnHealed;
             HUDManager.Instance.HpSlider.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
         }
         
@@ -73,6 +72,7 @@ namespace Terra.Player
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
             
             VFXcontroller.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
+            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
         }
 
         public void Heal(int amount, bool isPercentage = false)
@@ -81,13 +81,11 @@ namespace Terra.Player
             _healthController.Heal(amount, isPercentage);
             bool isCrit = amount >= _healthController.MaxHealth/2 - 1;
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, isHeal: true, isCrit);
-        }
-
-        private void OnHealed(int amount)
-        {
+            
             VFXcontroller.BlinkModelsColor(Color.green, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHealParticle);
         }
+        
         
         void IDamageable.OnDeath()
         {
@@ -114,7 +112,6 @@ namespace Terra.Player
         
         public void TearDown()
         {
-            _healthController.OnHealed -= OnHealed;
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
         }
 
