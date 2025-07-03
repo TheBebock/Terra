@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Extensions;
 using Terra.Itemization;
@@ -136,10 +137,40 @@ namespace Terra.LootSystem
             Debug.LogError($"{this} Couldn't find matching type");
             return null;
         }
-        
-        public List<ItemBase> GetRandomItemsFromEachCategory()
+
+#region POP_RANDOM
+        public StatusEffectData PopRandomStatusEffect()
         {
-            List<ItemBase> selectedItems = new ();
+            return _statusEffectsPerGame.PopRandomElement().statusEffect;
+        }
+        
+        public StatusEffectData PopRandomActionEffect()
+        {
+            return _actionEffectsPerGame.PopRandomElement().actionEffect;
+        }
+        public ActiveItem PopRandomActiveItem()
+        {
+            return _activeItems.PopRandomElement();
+        }
+
+        public PassiveItem PopRandomPassiveItem()
+        {
+            return _passiveItems.PopRandomElement();
+        }
+
+        public MeleeWeapon PopRandomMeleeWeapon()
+        {
+            return _meleeWeapons.PopRandomElement();
+        }
+
+        public RangedWeapon PopRandomRangedWeapon()
+        {
+            return _rangedWeapons.PopRandomElement();
+        }
+
+        public List<ItemBase> PopRandomItemsFromEachCategory()
+        {
+            List<ItemBase> selectedItems = new();
 
             var rangedWeapon = PopRandomRangedWeapon();
             if (rangedWeapon != null) selectedItems.Add(rangedWeapon);
@@ -147,7 +178,7 @@ namespace Terra.LootSystem
             var meleeWeapon = PopRandomMeleeWeapon();
             if (meleeWeapon != null) selectedItems.Add(meleeWeapon);
 
-            var passiveItem = GetRandomPassiveItem();
+            var passiveItem = PopRandomPassiveItem();
             if (passiveItem != null) selectedItems.Add(passiveItem);
 
             var activeItem = PopRandomActiveItem();
@@ -155,12 +186,34 @@ namespace Terra.LootSystem
 
             return selectedItems;
         }
+#endregion
+
+#region GET_RANDOM
 
         public ItemBase GetRandomItem()
         {
             return GetRandomItemsFromEachCategory().GetRandomElement<ItemBase>();
         }
-        
+
+        public List<ItemBase> GetRandomItemsFromEachCategory()
+        {
+            List<ItemBase> selectedItems = new ();
+
+            var rangedWeapon = GetRandomRangedWeapon();
+            if (rangedWeapon != null) selectedItems.Add(rangedWeapon);
+
+            var meleeWeapon = GetRandomMeleeWeapon();
+            if (meleeWeapon != null) selectedItems.Add(meleeWeapon);
+
+            var passiveItem = GetRandomPassiveItem();
+            if (passiveItem != null) selectedItems.Add(passiveItem);
+
+            var activeItem = GetRandomActiveItem();
+            if (activeItem != null) selectedItems.Add(activeItem);
+
+            return selectedItems;
+        }
+
         public List<PickupBase> GetRandomPickupsFromEachCategory()
         {
             List<PickupBase> selectedPickups = new List<PickupBase>();
@@ -177,40 +230,35 @@ namespace Terra.LootSystem
             return selectedPickups;
         }
 
-        public StatusEffectData PopRandomStatusEffect()
+        public StatusEffectData GetRandomStatusEffect()
         {
-            return _statusEffectsPerGame.PopRandomElement().statusEffect;
-        }
-        
-        public StatusEffectData PopRandomActionEffect()
-        {
-            return _actionEffectsPerGame.PopRandomElement().actionEffect;
-        }
-        public ActiveItem PopRandomActiveItem()
-        {
-            return _activeItems.PopRandomElement();
+            return _statusEffectsPerGame.GetRandomElement<StatusDropData>().statusEffect;
         }
 
+        public StatusEffectData GetRandomActionEffect()
+        {
+            return _actionEffectsPerGame.GetRandomElement<ActionDropData>().actionEffect;
+        }
+        public ActiveItem GetRandomActiveItem()
+        {
+            return _activeItems.GetRandomElement<ActiveItem>();
+        }
         public PassiveItem GetRandomPassiveItem()
         {
             return _passiveItems.GetRandomElement<PassiveItem>();
         }
 
-        public void RemovePassiveItem(PassiveItem passiveItem)
+        public MeleeWeapon GetRandomMeleeWeapon()
         {
-            _passiveItems.RemoveElement(passiveItem);
+            return _meleeWeapons.GetRandomElement<MeleeWeapon>();
         }
 
-        public MeleeWeapon PopRandomMeleeWeapon()
+        public RangedWeapon GetRandomRangedWeapon()
         {
-            return _meleeWeapons.PopRandomElement();
+            return _rangedWeapons.GetRandomElement<RangedWeapon>();
         }
 
-        public RangedWeapon PopRandomRangedWeapon()
-        {
-            return _rangedWeapons.PopRandomElement();
-        }
-        
+
         public PickupBase GetRandomPickup() => GetRandomPickupsFromEachCategory().GetRandomElement<PickupBase>();
         public HealthPickup GetRandomHealthPickup()
         {
@@ -240,6 +288,7 @@ namespace Terra.LootSystem
             }
             return pickupBases[0];
         }
+#endregion 
 
         public bool AddItemToLootTable(ItemBase item)
         {
@@ -304,6 +353,43 @@ namespace Terra.LootSystem
             Debug.LogError($"PickupBase {pickupBase.PickupName} already exists in the loot table");
             return false;
         }
+
+#region REMOVES
+
+
+        public void RemoveStatusEffect(StatusEffectData statusEffect)
+        {
+            int index = _statusEffectsPerGame.FindIndex(statusDrop => statusDrop.statusEffect == statusEffect);
+            if (index >= 0)
+                _statusEffectsPerGame.RemoveAt(index);
+        }
+
+        public void RemoveActionEffect(ActionEffectData actionEffect)
+        {
+            int index = _actionEffectsPerGame.FindIndex(actionDrop => actionDrop.actionEffect == actionEffect);
+            if(index >= 0)
+                _statusEffectsPerGame.RemoveAt(index);
+        }
+        public void RemoveActiveItem(ActiveItem activeItem)
+        {
+            _activeItems.RemoveElement(activeItem);
+        }
+        public void RemovePassiveItem(PassiveItem passiveItem)
+        {
+            _passiveItems.RemoveElement(passiveItem);
+        }
+
+        public void RemoveMeleeWeapon(MeleeWeapon meleeWeapon)
+        {
+            _meleeWeapons.RemoveElement(meleeWeapon);
+        }
+
+        public void RemoveRangedWeapon(RangedWeapon rangedWeapon)
+        {
+            _rangedWeapons.RemoveElement(rangedWeapon);
+        }
+
+#endregion
     }
 }
     
