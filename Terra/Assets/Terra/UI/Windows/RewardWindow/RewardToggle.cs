@@ -179,47 +179,44 @@ namespace Terra.UI.Windows.RewardWindow
 
             if (data.maxHealthModifiers.Count > 0)
             {
-                float totalValue = 0;
-
-                foreach (var modifier in data.maxHealthModifiers)
-                {
-                    totalValue += modifier.value;
-                    
-                }
+                float totalValue = ItemsComparator.CalculateModifierValue(data.maxHealthModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"\nMax Health: {totalValue}");
             }
 
             if (data.luckModifiers.Count > 0)
             {
-                float totalValue = 0;
-
-                foreach (var modifier in data.luckModifiers)
-                {
-                    totalValue += modifier.value;
-                }
+                float totalValue = ItemsComparator.CalculateModifierValue(data.luckModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"\nLuck: {totalValue}");
             }
 
             if (data.strengthModifiers.Count > 0)
             {
-                float totalValue = 0;
-
-                foreach (var modifier in data.strengthModifiers)
-                {
-                    totalValue += modifier.value;
-                }
+                float totalValue = ItemsComparator.CalculateModifierValue(data.strengthModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"\nStrength: {totalValue}");
             }
 
             if (data.dexModifiers.Count > 0)
             {
-                float totalValue = 0;
+                float totalValue = ItemsComparator.CalculateModifierValue(data.dexModifiers);
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.dexterity, $"\nDexterity: {totalValue}");
+            }
 
-                foreach (var modifier in data.dexModifiers)
-                {
-                    totalValue += modifier.value;
-                }
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.dexterity, $"\nSpeed: {totalValue}");
+            if(data.swingSpeedModifiers.Count > 0)
+            {
+                float totalValue = ItemsComparator.CalculateModifierValue(data.swingSpeedModifiers);
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.swingSpeed, $"\nSwing Speed: {totalValue}");
+            }
+
+            if (data.meleeRangeModifiers.Count > 0)
+            {
+                float totalValue = ItemsComparator.CalculateModifierValue(data.meleeRangeModifiers);
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.meleeRange, $"\nRange: {totalValue}");
+            }
+
+            if (data.rangeCooldownModifiers.Count > 0)
+            {
+                float totalValue = ItemsComparator.CalculateModifierValue(data.rangeCooldownModifiers);
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.rangeCooldown, $"\nRange Cooldown: {totalValue}");
             }
         }
 

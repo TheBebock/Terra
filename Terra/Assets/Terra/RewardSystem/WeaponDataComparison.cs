@@ -6,7 +6,6 @@ namespace Terra.RewardSystem
     [Serializable]
     public struct WeaponDataComparison
     {
-        public Comparison attackCooldown;
         public StatsDataComparison itemDataComparison;
 
     }

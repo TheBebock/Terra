@@ -45,6 +45,21 @@ namespace Terra.RewardSystem
                     comparison.luckValue =
                         PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, modifiers);
                     break;
+                case StatisticType.SwingSpeed:
+                    comparison.swingSpeed = CompareModifiers(0, modifiers);
+                    comparison.swingSpeedValue = 
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.SwingSpeed, modifiers);
+                    break;
+                case StatisticType.MeleeRange:
+                    comparison.meleeRange = CompareModifiers(0, modifiers);
+                    comparison.meleeRangeValue =
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MeleeRange, modifiers);
+                    break;
+                case StatisticType.RangeCooldown:
+                    comparison.rangeCooldown = CompareModifiers(0, modifiers);
+                    comparison.rangeCooldownValue =
+                        PlayerStatsManager.Instance.GetTempStatValue(StatisticType.RangeCooldown, modifiers);
+                    break;
             }
             return comparison;
         }
@@ -71,6 +86,16 @@ namespace Terra.RewardSystem
         
                 luck = CompareModifiers(0,currentItem.luckModifiers),
                 luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, currentItem.luckModifiers),
+
+                swingSpeed = CompareModifiers(0, currentItem.swingSpeedModifiers),
+                swingSpeedValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.SwingSpeed, currentItem.swingSpeedModifiers),
+
+                meleeRange = CompareModifiers(0, currentItem.meleeRangeModifiers),
+                meleeRangeValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MeleeRange, currentItem.meleeRangeModifiers),
+
+                rangeCooldown = CompareModifiers(0, currentItem.rangeCooldownModifiers),
+                rangeCooldownValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.RangeCooldown, currentItem.rangeCooldownModifiers),
+
             };
             return comparison;
         }
@@ -98,6 +123,16 @@ namespace Terra.RewardSystem
         
                 luck = CompareModifiers(currentItem.luckModifiers, toCompareItem.luckModifiers),
                 luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareItem.luckModifiers),
+
+                swingSpeed = CompareModifiers(currentItem.swingSpeedModifiers, toCompareItem.swingSpeedModifiers),
+                swingSpeedValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.SwingSpeed, toCompareItem.swingSpeedModifiers),
+
+                meleeRange = CompareModifiers(currentItem.meleeRangeModifiers, toCompareItem.meleeRangeModifiers),
+                meleeRangeValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MeleeRange, toCompareItem.meleeRangeModifiers),
+
+                rangeCooldown = CompareModifiers(currentItem.rangeCooldownModifiers, toCompareItem.rangeCooldownModifiers),
+                rangeCooldownValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.RangeCooldown, toCompareItem.rangeCooldownModifiers),
+
             };
             return comparison;
         }
@@ -117,24 +152,47 @@ namespace Terra.RewardSystem
             int newWeaponDex = CalculateModifierValue(toCompareWeapon.dexModifiers);
             int playerDex = PlayerStatsManager.Instance.PlayerStats.Dexterity;
             int playerDexWithoutCurrentWeapon = playerDex - CalculateModifierValue(currentWeapon.dexModifiers);
+
+            int newWeaponMeleeRange = CalculateModifierValue(toCompareWeapon.meleeRangeModifiers);
+            int playerMeleeRange = PlayerStatsManager.Instance.PlayerStats.MeleeRange;
+            int playerMeleeRangeWithoutCurrentWeapon = playerMeleeRange - CalculateModifierValue(currentWeapon.meleeRangeModifiers);
             
+            int newWeaponSwingSpeed = CalculateModifierValue(toCompareWeapon.swingSpeedModifiers);
+            int playerSwingSpeed = PlayerStatsManager.Instance.PlayerStats.SwingSpeed;
+            int playerSwingSpeedWithoutCurrentWeapon = playerSwingSpeed - CalculateModifierValue(currentWeapon.swingSpeedModifiers);
+
+            int newWeaponRangeCooldown = CalculateModifierValue(toCompareWeapon.rangeCooldownModifiers);
+            int playerRangeCooldown = PlayerStatsManager.Instance.PlayerStats.RangeCooldown;
+            int playerRangeCooldownWithoutCurrentWeapon = playerRangeCooldown - CalculateModifierValue(currentWeapon.rangeCooldownModifiers);
+
+
+
             WeaponDataComparison comparison = new WeaponDataComparison
             {
                 itemDataComparison = new StatsDataComparison
                 {
                     isInitialized = true,
-                    
+
                     strength = CompareModifiers(currentWeapon.strengthModifiers, toCompareWeapon.strengthModifiers),
-                    strengthValue =  playerStrWithoutCurrentWeapon + newWeaponStr,
-                    
+                    strengthValue = playerStrWithoutCurrentWeapon + newWeaponStr,
+
                     maxHealth = CompareModifiers(currentWeapon.maxHealthModifiers, toCompareWeapon.maxHealthModifiers),
                     maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, toCompareWeapon.maxHealthModifiers),
-                    
+
                     dexterity = CompareModifiers(currentWeapon.dexModifiers, toCompareWeapon.dexModifiers),
                     dexterityValue = playerDexWithoutCurrentWeapon + newWeaponDex,
-                    
+
                     luck = CompareModifiers(currentWeapon.luckModifiers, toCompareWeapon.luckModifiers),
                     luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareWeapon.luckModifiers),
+
+                    swingSpeed = CompareModifiers(currentWeapon.swingSpeedModifiers, toCompareWeapon.swingSpeedModifiers),
+                    swingSpeedValue = playerSwingSpeedWithoutCurrentWeapon + newWeaponSwingSpeed,
+
+                    meleeRange = CompareModifiers(currentWeapon.meleeRangeModifiers, toCompareWeapon.meleeRangeModifiers),
+                    meleeRangeValue = playerMeleeRangeWithoutCurrentWeapon + newWeaponMeleeRange,
+
+                    rangeCooldown = CompareModifiers(currentWeapon.rangeCooldownModifiers, toCompareWeapon.rangeCooldownModifiers),
+                    rangeCooldownValue = playerRangeCooldownWithoutCurrentWeapon + newWeaponRangeCooldown,
 
                 }
             };
@@ -166,7 +224,7 @@ namespace Terra.RewardSystem
             return Comparison.Equal;
         }
 
-        private static int CalculateModifierValue(List<ValueModifier> modifiers)
+        public static int CalculateModifierValue(List<ValueModifier> modifiers)
         {
             float finalValue = 0;
             float sumPercentAdd = 0;

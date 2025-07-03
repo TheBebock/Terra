@@ -15,5 +15,11 @@ namespace Terra.RewardSystem
         public int dexterityValue;
         public Comparison luck;
         public int luckValue;
+        public Comparison swingSpeed;
+        public int swingSpeedValue;
+        public Comparison meleeRange;
+        public int meleeRangeValue;
+        public Comparison rangeCooldown;
+        public int rangeCooldownValue;
     }
 }
