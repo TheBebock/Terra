@@ -4,7 +4,6 @@ using NaughtyAttributes;
 using Terra.Enums;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
-using Terra.Extensions;
 using Terra.Player;
 using Terra.RewardSystem;
 using Terra.StatisticsSystem;
@@ -74,7 +73,6 @@ namespace Terra.UI.HUD.StatDisplay
             }
 
             _opacityPercent = GameSettings.DefaultStatsOpacity;
-            OnOpacityChanged(_opacityPercent);
         }
 
 
