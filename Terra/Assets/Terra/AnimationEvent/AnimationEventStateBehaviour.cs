@@ -9,6 +9,7 @@ namespace Terra.AnimationEvent
         public string eventName;
         [Range(0f, 0.95f)] public float triggerTime;
         [SerializeField] private bool _resetOnLoop = true;
+        [SerializeField] private bool _autoResetOnNotify = false;
         [SerializeField, ReadOnly] private bool _hasTriggered;
         private AnimationEventReceiver _receiver;
         private int _lastLoopCount = -1;
@@ -61,7 +62,7 @@ namespace Terra.AnimationEvent
             if (_receiver != null)
             {
                 _receiver.OnAnimationEventTriggered(eventName);
-                _ = ResetAfterDelay();
+                if(_autoResetOnNotify) _ = ResetAfterDelay();
             }
             else
             {

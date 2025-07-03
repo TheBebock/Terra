@@ -41,6 +41,7 @@ MonoBehaviour:
   eventName: OnRangeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!1107 &-8078411519652959298
 AnimatorStateMachine:
@@ -155,6 +156,7 @@ MonoBehaviour:
   eventName: OnMeleeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 1
   _hasTriggered: 0
 --- !u!1102 &-5666045511603311521
 AnimatorState:
@@ -226,6 +228,7 @@ MonoBehaviour:
   eventName: OnPerformRangeAttack
   triggerTime: 0.2
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!114 &-4045025987413264919
 MonoBehaviour:
@@ -242,6 +245,7 @@ MonoBehaviour:
   eventName: OnMeleeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 1
   _hasTriggered: 0
 --- !u!1102 &-3787340560390636442
 AnimatorState:
@@ -338,6 +342,7 @@ MonoBehaviour:
   eventName: OnRangeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!114 &-863518515555963528
 MonoBehaviour:
@@ -354,6 +359,7 @@ MonoBehaviour:
   eventName: OnMeleeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 1
   _hasTriggered: 0
 --- !u!1102 &-792486798081125760
 AnimatorState:
@@ -444,6 +450,7 @@ MonoBehaviour:
   eventName: OnRangeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!1102 &1035119316207726056
 AnimatorState:
@@ -513,6 +520,7 @@ MonoBehaviour:
   eventName: OnPerformRangeAttack
   triggerTime: 0.2
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!114 &2892193453124118522
 MonoBehaviour:
@@ -529,6 +537,7 @@ MonoBehaviour:
   eventName: OnRangeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!1102 &3007696284969990526
 AnimatorState:
@@ -599,6 +608,7 @@ MonoBehaviour:
   eventName: OnPerformRangeAttack
   triggerTime: 0.2
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!114 &5997174871754299080
 MonoBehaviour:
@@ -615,6 +625,7 @@ MonoBehaviour:
   eventName: OnMeleeEnd
   triggerTime: 0.95
   _resetOnLoop: 1
+  _autoResetOnNotify: 1
   _hasTriggered: 0
 --- !u!1102 &6799243490787584074
 AnimatorState:
@@ -711,6 +722,7 @@ MonoBehaviour:
   eventName: OnPerformRangeAttack
   triggerTime: 0.2
   _resetOnLoop: 1
+  _autoResetOnNotify: 0
   _hasTriggered: 0
 --- !u!1102 &9043091966232850677
 AnimatorState:
