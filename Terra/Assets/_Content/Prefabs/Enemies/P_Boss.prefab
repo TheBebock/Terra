@@ -203,6 +203,7 @@ MonoBehaviour:
     _statuses: []
   _hurtSFX: {fileID: 0}
   _deathSFX: {fileID: 0}
+  _deafultAttackSFX: {fileID: 8300000, guid: dc5ff4e084fc8a146a76b10ac7db3c90, type: 3}
   _leftAttackCollider: {fileID: 4967288078273184107}
   _rightAttackCollider: {fileID: 4960484615970103389}
   _leftAcidPoolSpawnPoint: {fileID: 4362303513404524141}

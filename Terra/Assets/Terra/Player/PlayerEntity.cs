@@ -5,6 +5,7 @@ using Terra.EffectsSystem;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
+using Terra.Managers;
 using Terra.Particles;
 using Terra.UI.HUD;
 using UnityEngine;
@@ -17,8 +18,14 @@ namespace Terra.Player
     /// </summary>
     public class PlayerEntity : Entity, IDamageable, IHealable, IWithSetUp, IAttachListeners
     {
+        [Header("SFX")]
+        [SerializeField] private AudioClip _hurtSound;
+        [SerializeField] private AudioClip _deathSound;
+        
         [Foldout("References")] [SerializeField]
-        private Collider _collider;
+        private Collider _collider;        
+        [Foldout("References")] [SerializeField]
+        private AudioSource _audioSource;
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField]
@@ -70,6 +77,7 @@ namespace Terra.Player
             Debug.Log($"{this}: Taking Damage {amount}");
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
+            if(_hurtSound) AudioManager.Instance?.PlaySFXAtSource(_hurtSound, _audioSource);
             
             VFXcontroller.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
@@ -93,7 +101,9 @@ namespace Terra.Player
         }
         private void OnDeath()
         {
-            PlayerManager.Instance.OnPlayerDeathNotify();
+            PlayerManager.Instance?.OnPlayerDeathNotify();
+            if(_deathSound) AudioManager.Instance?.PlaySFXAtSource(_deathSound, _audioSource);
+
         }
 
         private void OnPlayerDashStarted(ref OnPlayerDashStartedEvent dashEvent)
@@ -114,12 +124,17 @@ namespace Terra.Player
         {
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
         }
-
         
         public void DetachListeners()
         {
             EventsAPI.Unregister<OnPlayerDashStartedEvent>(OnPlayerDashStarted);
             EventsAPI.Unregister<OnPlayerDashEndedEvent>(OnPlayerDashEnded);
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
     }
 }

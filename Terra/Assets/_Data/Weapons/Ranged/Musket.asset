@@ -31,7 +31,7 @@ MonoBehaviour:
   effects:
     statuses: []
     actions: []
-  attackSFX: {fileID: 0}
+  attackSFX: {fileID: 8300000, guid: d757f404d6933284791931becb5be652, type: 3}
   ammoCapacity: 10
   bulletData:
     bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,

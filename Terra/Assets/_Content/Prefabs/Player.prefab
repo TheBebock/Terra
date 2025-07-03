@@ -260,6 +260,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 3668154996905167841}
+  _particlesAnchor: {fileID: 0}
   _model: {fileID: 585892353238847723}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
@@ -278,7 +279,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 4552041071504109202}
   _id: -1
+  _hurtSound: {fileID: 8300000, guid: f408b5213bacc4f408d5a1f706bf0a89, type: 3}
+  _deathSound: {fileID: 8300000, guid: 8b5cc27dea3b59540a2ba62424855804, type: 3}
   _collider: {fileID: 6608576668348398462}
+  _audioSource: {fileID: 1189192986816225722}
   _healthController:
     _maxHealth:
       _baseValue: 0

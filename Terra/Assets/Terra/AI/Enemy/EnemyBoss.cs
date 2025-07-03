@@ -161,7 +161,9 @@ namespace Terra.AI.Enemy
             
             
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
+            
             if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
+            
             EventsAPI.Invoke<OnBossPerformedNormalAttack>();
         }
 
@@ -221,9 +223,7 @@ namespace Terra.AI.Enemy
         {
             _isInPostPump = false;
         }
-
-
-
+        
 
         private void PerformPumpCycle()
         {

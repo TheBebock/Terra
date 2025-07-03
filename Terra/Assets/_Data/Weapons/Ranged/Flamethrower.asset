@@ -32,7 +32,7 @@ MonoBehaviour:
     statuses:
     - {fileID: 11400000, guid: 99f31cd7a46f2f74395ccc278edc6186, type: 2}
     actions: []
-  attackSFX: {fileID: 0}
+  attackSFX: {fileID: 8300000, guid: d757f404d6933284791931becb5be652, type: 3}
   ammoCapacity: 8
   bulletData:
     bulletPrefab: {fileID: 167767852919785825, guid: 80e4de16381ff0b46b7de5089be7eea2,
