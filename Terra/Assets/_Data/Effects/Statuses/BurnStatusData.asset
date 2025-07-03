@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityID: -1
   effectIcon: {fileID: 0}
-  effectName: Burn
+  effectName: Fire
   effectDescription: 
   effectCost: 50
   effectParticle: {fileID: 7297252601780213406, guid: 434a4a9147ce50a4fb2d5929e0afd077,

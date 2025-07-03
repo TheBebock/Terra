@@ -29,7 +29,8 @@ MonoBehaviour:
   meleeRangeModifiers: []
   rangeCooldownModifiers: []
   effects:
-    statuses: []
+    statuses:
+    - {fileID: 11400000, guid: 99f31cd7a46f2f74395ccc278edc6186, type: 2}
     actions: []
   attackSFX: {fileID: 0}
   ammoCapacity: 8
