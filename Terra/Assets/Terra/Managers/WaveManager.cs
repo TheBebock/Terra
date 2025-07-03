@@ -160,6 +160,7 @@ namespace Terra.Managers
             if(_currentLevel != _waveToSpawnBoss) return;
             
             EnemyBoss enemy = Instantiate(_bossPrefab, _bossPrefab.transform.position, Quaternion.identity);
+            EventsAPI.Invoke<OnBossSpawnedEvent>();
             
         }
         private async UniTask HandleWaveSpawning(CancellationToken token)
