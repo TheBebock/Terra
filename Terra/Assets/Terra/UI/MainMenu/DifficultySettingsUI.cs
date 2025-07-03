@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NaughtyAttributes;
 using Terra.Enums;
 using Terra.EventsSystem;
@@ -18,7 +18,7 @@ namespace Terra.UI.MainMenu
         [BoxGroup("Gameplay")][SerializeField] private Button _difficultyButtonRight;
         [BoxGroup("Gameplay")][SerializeField] private TMP_Text _currentDifficultyText;
 
-        int _amountOfDifficulties;
+        [Foldout("Debug")][SerializeField] private int _amountOfDifficulties;
         GameDifficultyChangedEvent _gameDifficultyChanged;
 
         private void Awake()
@@ -49,13 +49,15 @@ namespace Terra.UI.MainMenu
         {
             _gameDifficulty--;
             if(_gameDifficulty <= 0) _difficultyButtonLeft.interactable = false;
+            if ((int)_gameDifficulty < _amountOfDifficulties) _difficultyButtonRight.interactable = true;
             UpdateCurrentDifficulty();
         }
 
         private void OnRightButtonClicked()
         {
             _gameDifficulty++;
-            if((int)_gameDifficulty >= _amountOfDifficulties) _difficultyButtonLeft.interactable = false;
+            if((int)_gameDifficulty >= _amountOfDifficulties) _difficultyButtonRight.interactable = false;
+            if (_gameDifficulty > 0) _difficultyButtonLeft.interactable = true;
             UpdateCurrentDifficulty();
         }
 
