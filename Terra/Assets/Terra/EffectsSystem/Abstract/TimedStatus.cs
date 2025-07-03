@@ -1,9 +1,8 @@
-using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Utils;
 using UnityEngine;
 
-namespace Terra.EffectsSystem.Statuses
+namespace Terra.EffectsSystem.Abstract
 {
 
     /// <summary>
@@ -21,24 +20,11 @@ namespace Terra.EffectsSystem.Statuses
 
         public float CurrentTime => _durationTimer.GetTime();
         public float Progress => _durationTimer.Progress;
-
-        private float GetTimePerTick()
-        {
-            float duration = Data.statusDuration;
-            // Status is infinite
-            if (Mathf.Approximately(duration, Constants.StatusInfiniteDuration))
-            {
-                return (float)100 / Data.amountOfTicksPerSecond;
-            }
-            // Status time can vary and be in decimals, so it needs to be computed
-            float totalTicks = Mathf.Round(Data.statusDuration * Data.amountOfTicksPerSecond);
-            return duration / totalTicks;
-        }
         
         protected override void OnApply()
         {
             _durationTimer = new StopwatchTimer();
-            _tickTimer = new CountdownTimer(GetTimePerTick());
+            _tickTimer = new CountdownTimer(Data.tickTime);
             
             _tickTimer.Start();
             _tickTimer.OnTimerStop += OnStatusTick;

@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract.Definitions;
+using Terra.Particles;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstract
@@ -98,7 +99,10 @@ namespace Terra.EffectsSystem.Abstract
                 return;
             }
 
-            //TODO: Add VFX
+            if (Data.effectParticle)
+            {
+                VFXController.SpawnAndAttachParticleToEntityOnAnchor(entity, Data.effectParticle);
+            }
             OnApply();
         }
 
@@ -123,7 +127,10 @@ namespace Terra.EffectsSystem.Abstract
 
             if (!CanBeRemoved && !force) return false;
 
-            //TODO: Remove VFX
+            if (Data.effectParticle)
+            {
+                VFXController.RemoveParticleFromEntity(entity, Data.effectParticle);
+            }
             OnRemove();
             
             return true;

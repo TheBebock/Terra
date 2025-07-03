@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: StatusEffectMapping
   m_EditorClassIdentifier: 
   mappings:
+  - dataTypeName: Terra.EffectsSystem.Statuses.Data.BurnStatusData, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    effectTypeName: Terra.EffectsSystem.Statuses.BurnStatus, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - dataTypeName: Terra.EffectsSystem.Statuses.Data.PoisonStatusData, Terra, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     effectTypeName: Terra.EffectsSystem.Statuses.PoisonStatus, Terra, Version=0.0.0.0,

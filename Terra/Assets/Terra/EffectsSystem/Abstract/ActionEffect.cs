@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract.Definitions;
+using Terra.Particles;
 using UnityEngine;
 
 namespace Terra.EffectsSystem.Abstract
@@ -73,6 +74,10 @@ namespace Terra.EffectsSystem.Abstract
                 return;
             }
 
+            if (Data.effectParticle)
+            {
+                VFXController.SpawnAndAttachParticleToEntityOnAnchor(target, Data.effectParticle);
+            }
             OnExecute(target, source);
         }
 

@@ -25,6 +25,7 @@ namespace Terra.Particles
         [Foldout("Particles")][SerializeField] public ParticleComponentData onDeathParticle;
 
         [Foldout("References")][SerializeField] private Transform _container;
+        [Foldout("References")][SerializeField] private Transform _particlesAnchor;
         [Foldout("References")][SerializeField] private SpriteRenderer _model;
        
         [Foldout("Debug")][SerializeField] private Material _modelMaterial;
@@ -33,7 +34,7 @@ namespace Terra.Particles
         
         private MaterialPropertyBlock _materialPropertyBlock;
         public SpriteRenderer Model => _model;
-        
+        public Transform ParticlesAnchor => _particlesAnchor;
         private CancellationTokenSource _blinkCts;
         private CancellationTokenSource _fadeCts;
 
@@ -81,6 +82,15 @@ namespace Terra.Particles
             _model.SetPropertyBlock(_materialPropertyBlock);
         }
 
+        public Transform GetParticlesContainer(bool useAnchor = false)
+        {
+            if (useAnchor && _particlesAnchor != null)
+            {
+                return _particlesAnchor;
+            }
+
+            return _container;
+        }
         [UsedImplicitly]
         public void SetMaterialEmissiveMap(Texture map)
         {
@@ -131,7 +141,7 @@ namespace Terra.Particles
         
         public static void SpawnAndAttachParticleToEntity(Entity entity, ParticleComponent particleSystem, 
             Vector3 positionOffset = default, Quaternion rotation = default,
-            float scaleModifier = 1.0f, float destroyDuration = 0f)
+            float scaleModifier = 1.0f, float destroyDuration = 0f, bool useParticlesAnchor = false)
         {
             if (!particleSystem)
             {
@@ -159,8 +169,9 @@ namespace Terra.Particles
                     }
                 }
             }
-           
-            ParticleComponent particle = Instantiate(particleSystem, entity.transform);
+
+            Transform particleContainer = entity.VFXcontroller.GetParticlesContainer(useParticlesAnchor);
+            ParticleComponent particle = Instantiate(particleSystem, particleContainer);
             particle.transform.localPosition = positionOffset;
             particle.transform.rotation = rotation;
             particle.transform.localScale *= scaleModifier;
@@ -179,6 +190,13 @@ namespace Terra.Particles
                 particleComponentData.destroyDuration);
         }
 
+        public static void SpawnAndAttachParticleToEntityOnAnchor(Entity entity, ParticleComponent particleComponent, float destroyDuration =0f)
+        {
+            SpawnAndAttachParticleToEntity(entity,
+                particleComponent,
+                destroyDuration: destroyDuration,
+                useParticlesAnchor: true);
+        }
         public static void SpawnParticleInWorld(ParticleComponent particleSystem, Vector3 position, Quaternion rotation, 
             float scaleModifier = 1.0f, float destroyDuration = 0f)
         {
@@ -200,6 +218,35 @@ namespace Terra.Particles
                 rotation: particleComponentData.rotation,
                 scaleModifier: particleComponentData.scaleModifier != default ? particleComponentData.scaleModifier : 1.0f,
                 destroyDuration: particleComponentData.destroyDuration);
+        }
+
+        private void RemoveParticle(ParticleComponent particles)
+        {
+            foreach (var p in _activeParticles)
+            {
+                if (p.Identifier.Equals(particles.Identifier, StringComparison.OrdinalIgnoreCase))
+                {
+                    p.KillParticles();
+                    return;
+                }
+            }
+            
+            Debug.LogWarning($"{this}: Tried to remove particle {particles.Identifier}, but it doesn't exist.");
+        }
+        public static void RemoveParticleFromEntity(Entity entity, ParticleComponent particleComponent)
+        {
+            if (!entity)
+            {
+                Debug.LogError($"Entity to remove from was null");
+                return;
+            }
+
+            if (!particleComponent)
+            {
+                Debug.LogError($"Particle to remove was null");
+                return;
+            }
+            entity.VFXcontroller.RemoveParticle(particleComponent);
         }
         
         private void OnValidate()

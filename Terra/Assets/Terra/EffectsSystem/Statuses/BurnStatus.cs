@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace Terra.EffectsSystem.Statuses
 {
-    [StatusEffect(typeof(PoisonStatusData))]
-    public class PoisonStatus : TimedStatus<PoisonStatusData>
+    [StatusEffect(typeof(BurnStatusData))]
+    public class BurnStatus : TimedStatus<BurnStatusData>
     {
         IDamageable _damageable;
         protected override void OnApply()

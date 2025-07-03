@@ -34,7 +34,7 @@ namespace Terra.EffectsSystem.Abstract.Definitions
         public virtual float GetEffectPower(){return -1;}
         
         private bool ShowIncompatibleEffects() => containerType is not ContainerType.None;
-        protected void OnValidate()
+        protected virtual void OnValidate()
         {
             if (!ShowIncompatibleEffects())
             {
@@ -49,7 +49,6 @@ namespace Terra.EffectsSystem.Abstract.Definitions
                     incompatibleEffects.RemoveAt(i);
                 }
             }
-            
         }
 
         private bool ValidateIncompatibleEffect(EffectData incompatibleEffect)

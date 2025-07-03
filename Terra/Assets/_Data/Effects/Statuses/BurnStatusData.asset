@@ -9,18 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55154ecfe17222a439ba1fd635845bb4, type: 3}
-  m_Name: PoisonStatusData_
+  m_Script: {fileID: 11500000, guid: c3783b5d4e2476947baf1d758dc8c225, type: 3}
+  m_Name: BurnStatusData
   m_EditorClassIdentifier: 
   entityID: -1
-  effectIcon: {fileID: 21300000, guid: 858708d0a081004479579094b128b90a, type: 3}
-  effectName: Poison
+  effectIcon: {fileID: 0}
+  effectName: Burn
   effectDescription: 
   effectCost: 50
-  effectParticle: {fileID: 7297252601780213406, guid: 357cb2537b5b28e4b9d69b4ee0107297,
-    type: 3}
+  effectParticle: {fileID: 0}
   containerType: 2
   incompatibleEffects: []
-  statusDuration: 5
-  tickTime: 1
-  damagePerTick: 3
+  statusDuration: 12
+  tickTime: 3
+  damagePerTick: 10

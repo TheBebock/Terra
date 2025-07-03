@@ -5,8 +5,8 @@ using UnityEngine;
 namespace Terra.EffectsSystem.Statuses.Data
 {
 
-    [CreateAssetMenu(fileName = "PoisonStatusData_", menuName = "TheBebocks/Statuses/Data/PoisonStatusData")]
-    public class PoisonStatusData : TimedStatusData
+    [CreateAssetMenu(fileName = "BurnStatusData_", menuName = "TheBebocks/Statuses/Data/BurnStatusData")]
+    public class BurnStatusData : TimedStatusData
     {
         [Min(1)]public int damagePerTick = 1;
 

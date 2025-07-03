@@ -78,9 +78,9 @@ namespace Terra.Components
             _timer.Restart(newDuration);
         }
 
-        public void StopPlayingParticles()
+        public void KillParticles()
         {
-            _particles.Stop();
+            _timer.Stop();
         }
         private void Update()
         {
