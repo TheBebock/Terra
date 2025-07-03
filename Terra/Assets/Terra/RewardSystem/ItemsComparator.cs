@@ -13,8 +13,8 @@ namespace Terra.RewardSystem
     
     public static class ItemsComparator
     {
-        public static readonly string BetterItemColor = "green";
-        public static readonly string WorseItemColor = "red";
+        public static readonly string BetterItemColor = "#00980A";
+        public static readonly string WorseItemColor = "#C70000";
 
 
         public static StatsDataComparison CompareStats(StatisticType type, List<ValueModifier> modifiers)

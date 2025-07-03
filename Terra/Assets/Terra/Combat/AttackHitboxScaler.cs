@@ -58,8 +58,8 @@ namespace Terra.Combat
         
         private void StartAttack(ref OnPlayerMeleeAttackPerformedEvent meleeEvent)
         {
-            float scaleModif = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.MeleeRange);
-            ScaleHitbox(Mathf.Lerp(0.5f, 1.5f, scaleModif));
+            float scaleModif = Mathf.InverseLerp(0, 100f, PlayerStatsManager.Instance.PlayerStats.MeleeRange);
+            ScaleHitbox(Mathf.Lerp(0.2f, 1.4f, scaleModif));
 
             _heldHitbox.gameObject.SetActive(true);
 
