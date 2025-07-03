@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Terra.AnimationEvent;
 using Terra.Enums;
@@ -23,7 +23,14 @@ namespace Terra.Player.PlayerStates
             {
                 b.ResetState();
             }
+            ApplyAnimationModifiers();
             ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection); 
+        }
+
+        private void ApplyAnimationModifiers()
+        {
+            float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.RangeCooldown);
+            animator.SetFloat("SwingSpeed", Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
         }
         
 

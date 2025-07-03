@@ -4903,6 +4903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c7c25d7af663846b8ece033fadbbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: PoisonParticle
   _isDestroyable: 0
   _fadeParticlesAfterDuration: 0
   _duration: 0.5

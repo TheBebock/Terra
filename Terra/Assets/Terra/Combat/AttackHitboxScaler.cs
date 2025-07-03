@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
@@ -58,13 +58,13 @@ namespace Terra.Combat
         
         private void StartAttack(ref OnPlayerMeleeAttackPerformedEvent meleeEvent)
         {
-            //TODO: Scale from new stat
-            float scaleModif = 0;  
-            //PlayerStatsManager.Instance.PlayerStats.MeleeRange;
+            float scaleModif = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.MeleeRange);
+            ScaleHitbox(Mathf.Lerp(0.5f, 1.5f, scaleModif));
 
-            ScaleHitbox(scaleModif);
             _heldHitbox.gameObject.SetActive(true);
-            
+
+            var animationSpeedModifier = Mathf.Clamp01(PlayerStatsManager.Instance.PlayerStats.SwingSpeed);
+            _hitboxAnimator.SetFloat("SlashSpeed", Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
             
             _hitboxAnimator.Play(GetAnimationHash(meleeEvent.facingDirection), -1, 0f);
 
@@ -83,9 +83,9 @@ namespace Terra.Combat
                 Debug.LogError($"{this}: New hitbox is null");
                 return;
             }
-            
+
             _heldHitbox = Instantiate( meleeWeapon.Data.attackPrefab.transform, transform);
-            
+
             _weaponColliders.Clear();
             _weaponColliders = _heldHitbox.GetComponentsInChildren<WeaponCollider>().ToList();
 
@@ -135,13 +135,13 @@ namespace Terra.Combat
         {
             if (scaleModifier == 0) return;
         
-            float positionModifier = _positionToScaleRatio * scaleModifier;
+            float positionModifier = scaleModifier;
         
             Vector3 newScale = _originalScale + _originalScale * scaleModifier;
             Vector3 newPosition = _originalPosition + _originalPosition * positionModifier;
 
-            transform.localScale = newScale;
-            transform.position = newPosition;
+            _heldHitbox.transform.localScale = newScale;
+            _heldHitbox.transform.localPosition = newPosition;
         }
         private void UpdateScaleRatio()
         {

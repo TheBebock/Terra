@@ -1,4 +1,4 @@
-using Terra.Enums;
+﻿using Terra.Enums;
 using UnityEngine;
 
 namespace Terra.Player.PlayerStates
@@ -12,7 +12,14 @@ namespace Terra.Player.PlayerStates
 
         public override void OnEnter()
         {
+            ApplyAnimationModifiers();
             ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection);
+        }
+
+        private void ApplyAnimationModifiers()
+        {
+            float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.RangeCooldown);
+            animator.SetFloat("RangeCooldown", Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
         }
 
         private void ChangeDirectionOfAnimation(FacingDirection playerAttackDirection)
