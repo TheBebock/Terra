@@ -17,7 +17,7 @@ namespace Terra.Managers
     public class CombatManager : MonoBehaviourSingleton<CombatManager>, IAttachListeners
     {
         private LayerMask _playerLayer;
-        [Range(0,100)]private int _basePlayerCritChance = 10; 
+        [Range(0,100)]private int _basePlayerCritChance = 5; 
         private float _critDamageMultiplier = 2f;
         private static List<IDamageable> _targetsList = new();
         private static EffectsContainer _allPlayerEffects = new();
@@ -162,13 +162,13 @@ namespace Terra.Managers
         private bool CheckForPlayerCrit()
         {
             
-            float luck = PlayerStatsManager.Instance.PlayerStats.Luck.ToFactor();
-            float baseCritChance = _basePlayerCritChance.ToFactor();
+            float luck = PlayerStatsManager.Instance.PlayerStats.Luck;
+            float baseCritChance = _basePlayerCritChance;
 
             float totalCritChance = baseCritChance + luck;
-            float roll = Random.Range(0, 100);
+            float roll = Random.Range(0, 101);
 
-            return roll < totalCritChance;
+            return roll <= totalCritChance;
         }
 
         private void ComputePlayerEffects(WeaponType type, EffectsContainer defaultWeaponEffects = null)

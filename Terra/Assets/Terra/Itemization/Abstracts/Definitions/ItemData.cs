@@ -25,7 +25,6 @@ namespace Terra.Itemization.Abstracts.Definitions
         [ReadOnly] public string itemName;
         public string itemDescription;
         public Sprite itemSprite;
-        public bool canBeRemoved = true;
         [Min(0)] public int itemCost =50;
         
         public List<ValueModifier> strengthModifiers;

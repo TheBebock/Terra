@@ -44,7 +44,7 @@ namespace Terra.Itemization.Abstracts
 
         public sealed override Sprite ItemIcon => _data != null ? _data.itemSprite : null;
 
-        public sealed override bool CanBeRemoved => _data == null || _data.canBeRemoved;
+        public sealed override bool CanBeRemoved => true;
 
         public sealed override int ItemCost => _data != null ? _data.itemCost : 0;
         public virtual void OnEquip()
