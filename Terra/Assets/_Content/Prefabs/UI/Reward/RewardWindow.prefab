@@ -1230,12 +1230,12 @@ PrefabInstance:
     - target: {fileID: 4056687731978729732, guid: a83a3294623c7424c8484d2694857d18,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 260
+      value: 216
       objectReference: {fileID: 0}
     - target: {fileID: 4056687731978729732, guid: a83a3294623c7424c8484d2694857d18,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 70
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4056687731978729732, guid: a83a3294623c7424c8484d2694857d18,
         type: 3}
@@ -2111,6 +2111,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClaimRewardBtn
       objectReference: {fileID: 0}
+    - target: {fileID: 5778388586805169402, guid: 1e2d90728c17d7947ad8eac24226f06e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778388586805169402, guid: 1e2d90728c17d7947ad8eac24226f06e,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 7394604482410177201, guid: 1e2d90728c17d7947ad8eac24226f06e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2144,12 +2154,12 @@ PrefabInstance:
     - target: {fileID: 7394604482410177201, guid: 1e2d90728c17d7947ad8eac24226f06e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 260
+      value: 216
       objectReference: {fileID: 0}
     - target: {fileID: 7394604482410177201, guid: 1e2d90728c17d7947ad8eac24226f06e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 90
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 7394604482410177201, guid: 1e2d90728c17d7947ad8eac24226f06e,
         type: 3}

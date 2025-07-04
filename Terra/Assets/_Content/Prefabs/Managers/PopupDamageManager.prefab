@@ -52,8 +52,8 @@ MonoBehaviour:
   _destroyTime: 1
   _popupOffset: {x: 0, y: -300, z: 300}
   _randomizerdPosition: {x: 3, y: 1, z: 3}
-  _damageColor: {r: 0.93333334, g: 0.3019608, b: 0.11764706, a: 1}
-  _critDamageColor: {r: 1, g: 0.8064977, b: 0, a: 1}
+  _damageColor: {r: 1, g: 1, b: 1, a: 1}
+  _critDamageColor: {r: 0, g: 1, b: 0.9003706, a: 1}
   _healColor: {r: 0, g: 0.7924528, b: 0, a: 1}
   _critHealColor: {r: 0.6112658, g: 1, b: 0.18396229, a: 1}
   _pooledPopups: []

@@ -456,6 +456,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _activeState: 1
   _interactionState: 0
+  _spriteData:
+  - type: 0
+    sprite: {fileID: 21300000, guid: 4231fd732d439de4c832d7480f977314, type: 3}
+  - type: 1
+    sprite: {fileID: 21300000, guid: 71157450167b3a746b7a3e4e6532cd59, type: 3}
+  - type: 2
+    sprite: {fileID: 21300000, guid: fbb2c2f6fa482524eb1a7402e4661e89, type: 3}
+  - type: 3
+    sprite: {fileID: 21300000, guid: 0b69d359c0118c147ad1f10d6870171b, type: 3}
+  - type: 4
+    sprite: {fileID: 21300000, guid: 28533b50ebcae2c42b0b3cfd173ec943, type: 3}
+  - type: 5
+    sprite: {fileID: 21300000, guid: 38160482f8b9d214db67c2ca4fc71b4f, type: 3}
+  - type: 6
+    sprite: {fileID: 21300000, guid: 3ee963cbfb04b8542b5cee9c7378932b, type: 3}
   _rewardName: {fileID: 1458760421355640563}
   _rewardDescription: {fileID: 8962810774606270078}
   _costDisplay: {fileID: 4001405116972764956}

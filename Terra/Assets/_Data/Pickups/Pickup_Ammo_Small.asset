@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pickup_Ammo_Small
   m_EditorClassIdentifier: 
   dropRateChance: 75
+  pickupSound: {fileID: 8300000, guid: e80fcabb668645947945e6bf55331bce, type: 3}
   pickupName: Ammo
   pickupSprite: {fileID: 21300000, guid: 88af40ad4ce8df64f9d8fd0a7003ae1b, type: 3}
   pickupMaterial: {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}

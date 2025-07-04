@@ -1,26 +1,22 @@
+using System;
 using Terra.Player;
 using Terra.Core.ModifiableValue;
-
-using UnityEngine;
 using System.Collections.Generic;
 using Terra.Extensions;
 using Terra.StatisticsSystem;
+using Random = UnityEngine.Random;
 
 namespace Terra.RewardSystem
 {
     public class StatsReward: RewardData
     {
-        private List<ValueModifier> _modifiersMaxHealth = new();
-        private List<ValueModifier> _modifiersDexterity = new();
-        private List<ValueModifier> _modifiersStrength = new();
-        private List<ValueModifier> _modifiersLuck = new();
-        
         private List<ValueModifier> _modifiers = new();
-
         
         private int _maxFlatModifier = 5;
         private int _maxPercentMultModifier = 20;
+        private StatisticType _statType;
 
+        public StatisticType StatType => _statType;
         public string RewardName => rewardName;
         public string RewardDescription => rewardDescription;
     
@@ -30,38 +26,30 @@ namespace Terra.RewardSystem
 
         public override void ApplyReward()
         {
-            if (_modifiersMaxHealth.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.MaxHealth, _modifiersMaxHealth);
-            if (_modifiersDexterity.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.Dexterity,_modifiersDexterity);
-            if (_modifiersStrength.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.Strength,_modifiersStrength);
-            if (_modifiersLuck.Count > 0) PlayerStatsManager.Instance.AddModifiers(StatisticType.Luck,_modifiersLuck);
+            PlayerStatsManager.Instance.AddModifiers(_statType, _modifiers);
         }
 
         public void AddRandomStat()
         {
-            switch(Random.Range(0, 4))
+            int statTypesAmount = Enum.GetValues(typeof(StatisticType)).Length;
+            _statType = (StatisticType)Random.Range(0, statTypesAmount);
+            switch(_statType)
             {
-                case 0: 
-                    _modifiersMaxHealth.Add(AddRandomModifier());
+                case StatisticType.MaxHealth: 
                     rewardName = "Max Health";
-                    _comparison = ItemsComparator.CompareStats(StatisticType.MaxHealth, _modifiersMaxHealth);
                     break;
-                case 1:
-                    _modifiersDexterity.Add(AddRandomModifier());
-                    rewardName = "Dexterity";
-                    _comparison = ItemsComparator.CompareStats(StatisticType.Dexterity, _modifiersDexterity);
+                case StatisticType.SwingSpeed: 
+                    rewardName = "Swing Speed";
                     break;
-                case 2: 
-                    _modifiersStrength.Add(AddRandomModifier());
-                    rewardName = "Strength";
-                    _comparison = ItemsComparator.CompareStats(StatisticType.Strength, _modifiersStrength);
+                case StatisticType.RangeCooldown:
+                    rewardName = "Fire Rate";
                     break;
-                case 3: 
-                    _modifiersLuck.Add(AddRandomModifier());
-                    rewardName = "Luck";
-                    _comparison = ItemsComparator.CompareStats(StatisticType.Luck, _modifiersLuck);
-                    break;
+               default:
+                   rewardName = _statType.ToString();
+                   break;
             }
-            
+            _modifiers.Add(AddRandomModifier());
+            _comparison = ItemsComparator.CompareStats(_statType, _modifiers);
         }
 
         public ValueModifier AddRandomModifier()

@@ -1,0 +1,6 @@
+przyciski z menu tylko podmienic napis play na resume. (wielkosc fontu na przyciskach 24, -5%)
+
+napis pause - font: 32, -10%
+
+
+nie byłam pewna czy do ui lepsze z ramka czy bez tło wiec mozecie wybrac.

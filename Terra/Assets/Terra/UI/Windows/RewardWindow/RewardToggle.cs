@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Codice.Client.BaseCommands;
 using NaughtyAttributes;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract.Definitions;
@@ -13,6 +12,7 @@ using Terra.Itemization.Items;
 using Terra.Managers;
 using Terra.Player;
 using Terra.RewardSystem;
+using Terra.StatisticsSystem;
 using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
@@ -23,6 +23,13 @@ namespace Terra.UI.Windows.RewardWindow
     [RequireComponent(typeof(Toggle))]
     public class RewardToggle: UIObject
     {
+        [Serializable]
+        internal struct RandomStatSpriteData
+        {
+            public StatisticType type;
+            public Sprite sprite;
+        }
+        [SerializeField] RandomStatSpriteData[] _spriteData;
         [SerializeField] private TMP_Text _rewardName;
         [SerializeField] private TMP_Text _rewardDescription;
         [SerializeField] private TMP_Text _costDisplay;
@@ -349,6 +356,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             _rewardName.text = _statsReward.RewardName;
             _rewardDescription.text = _statsReward.RewardDescription;
+            _rewardIcon.sprite = GetStatSprite(_statsReward.StatType);
             _statsDataComparison = _statsReward.Comparison;
             _costDisplay.text = GetCostDisplayText(0);
         }
@@ -361,6 +369,15 @@ namespace Terra.UI.Windows.RewardWindow
             _costDisplay.text = GetCostDisplayText(effectData.effectCost);
         }
 
+        private Sprite GetStatSprite(StatisticType statisticType)
+        {
+            for (int i = 0; i < _spriteData.Length; i++)
+            {
+                if(_spriteData[i].type == statisticType) return _spriteData[i].sprite;
+            }
+
+            return null;
+        }
         private string MarkStatisticText(Comparison comparedStatistic, string textToMark)
         {
             string newTextWithMark = "";
