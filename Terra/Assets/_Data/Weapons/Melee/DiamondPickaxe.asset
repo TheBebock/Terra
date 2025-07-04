@@ -17,7 +17,7 @@ MonoBehaviour:
   itemDescription: 
   itemSprite: {fileID: 0}
   canBeRemoved: 1
-  itemCost: 50
+  itemCost: 200
   strengthModifiers:
   - value: 0
     type: 100
