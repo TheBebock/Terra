@@ -106,6 +106,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -2890770981320802095}
+  - {fileID: 2283308326588876332}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -189,6 +190,23 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-3664339061026288195
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5c92c734b24c3aa702b2e090cb3d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: OnAttackEnded
+  triggerTime: 0.95
+  _resetOnLoop: 1
+  _autoResetOnNotify: 0
+  _hasTriggered: 0
 --- !u!1102 &-3286342376293094110
 AnimatorState:
   serializedVersion: 6
@@ -246,6 +264,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventName: OnRangeAttackPerformed
   triggerTime: 0.6
+  _resetOnLoop: 1
+  _autoResetOnNotify: 0
+  _hasTriggered: 0
+--- !u!114 &-873481033844920128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5c92c734b24c3aa702b2e090cb3d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: OnAttackEnded
+  triggerTime: 0.95
   _resetOnLoop: 1
   _autoResetOnNotify: 0
   _hasTriggered: 0
@@ -365,6 +400,23 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &2283308326588876332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5c92c734b24c3aa702b2e090cb3d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: OnRangeAttackEnded
+  triggerTime: 0.95
+  _resetOnLoop: 1
+  _autoResetOnNotify: 0
+  _hasTriggered: 0
 --- !u!1102 &2778689274545136476
 AnimatorState:
   serializedVersion: 6
@@ -440,6 +492,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -4374320359056697958}
+  - {fileID: -873481033844920128}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -467,6 +520,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: 3286371899078954691}
+  - {fileID: -3664339061026288195}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -508,6 +562,23 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &5194191133702458268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5c92c734b24c3aa702b2e090cb3d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: OnRangeAttackEnded
+  triggerTime: 0.95
+  _resetOnLoop: 1
+  _autoResetOnNotify: 0
+  _hasTriggered: 0
 --- !u!114 &5618228655158863331
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -606,6 +677,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -8512768319588376899}
+  - {fileID: 5194191133702458268}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

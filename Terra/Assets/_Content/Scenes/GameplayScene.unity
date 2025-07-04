@@ -695,6 +695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
+      propertyPath: _isEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
       propertyPath: _waveToSpawnBoss
       value: 1
       objectReference: {fileID: 0}
@@ -3720,10 +3725,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_Boss
       objectReference: {fileID: 0}
-    - target: {fileID: 251934167059348343, guid: 84990e5cd79ba924bb3c4f890b90197d,
+    - target: {fileID: 3848772399654846776, guid: 84990e5cd79ba924bb3c4f890b90197d,
         type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848772399654846776, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643372447952132618, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 112.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643372447952132618, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 99.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643372447952132618, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 95.31
       objectReference: {fileID: 0}
     - target: {fileID: 4643372447952132618, guid: 84990e5cd79ba924bb3c4f890b90197d,
         type: 3}
@@ -3759,6 +3784,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960484615970103389, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4967288078273184107, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5697169161249476621, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 5697169161249476621, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749601622358991811, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749601622358991811, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13871,6 +13926,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_TankEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6251738633811743477, guid: 4d0eaea6f0c919a4cbc179ed0ead1665,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6482236192107866871, guid: 4d0eaea6f0c919a4cbc179ed0ead1665,
         type: 3}

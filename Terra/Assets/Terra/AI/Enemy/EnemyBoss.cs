@@ -32,29 +32,22 @@ namespace Terra.AI.Enemy
         [SerializeField, Expandable] private BossEnemyData _data;
         
         [SerializeField] LayerMask _groundObjectLayerMask;
-        private int _targetLayer;
 
         private CountdownTimer _pumpAttackCooldownTimer;
         private CountdownTimer _spitAttackCooldownTimer;
         protected override BossEnemyData Data => _data;
 
         private AcidPool _instantiadedAcidPool;
-        private bool _isIdle = true;
-        private bool _isInPrePump = false;
-        private bool _isInPostPump = false;
-        private bool _canSpit;
-        private bool _canPump;
-        private int _currentPumpCycle = 0;
+        [Foldout("Debug"), ReadOnly][SerializeField] private bool _isIdle = true;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isInPrePump = false;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isInPostPump = false;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isPerformingMeleeAttack = false;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _canSpit;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _canPump;
+        [Foldout("Debug"), ReadOnly][SerializeField]private int _currentPumpCycle = 0;
         public bool IsInPrePump => _isInPrePump;
-        public LayerMask GroundObjectLayerMask => _groundObjectLayerMask;
-        public int TargetLayer => _targetLayer;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            _targetLayer = LayerMask.NameToLayer("Ground");
-        }
-
+        
         public override void AttachListeners()
         {
             base.AttachListeners();
@@ -65,8 +58,7 @@ namespace Terra.AI.Enemy
         {
             var pumpAttackState = new BossPumpAttack(this, _agent, _animator);
             var spitAttackState = new BossAcidSpitAttack(this, _agent, _animator);
-            var normalAttackState = new EnemyMeleeAttackState(this, _agent, _animator, 
-                PlayerManager.Instance.PlayerEntity, Data.dashModifier);
+            var normalAttackState = new BossNormalAttack(this, _agent, _animator, Data.dashModifier);
             var idleState = new BossIdleState(this, _agent, _animator);
             var chaseState = new EnemyChaseState(this, _agent, _animator, PlayerManager.Instance.transform);
             var postPumpAttackState = new BossPostPumpAttack(this, _agent, _animator);
@@ -130,6 +122,10 @@ namespace Terra.AI.Enemy
         
         protected override bool CanAttackPlayer()
         {
+            if (_isPerformingMeleeAttack)
+            {
+                return true;
+            }
             //Check for special attacks and for distance to player
             return !_pumpAttackCooldownTimer.IsFinished && !_spitAttackCooldownTimer.IsFinished &&
                    IsInRangeForNormalAttack();
@@ -150,7 +146,11 @@ namespace Terra.AI.Enemy
         {
             //Do not spawn anything
         }
-        
+
+        public void MeleeAttackStarted()
+        {
+            _isPerformingMeleeAttack = true;
+        }
         public override void AttemptAttack()
         {
             Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;
@@ -165,17 +165,21 @@ namespace Terra.AI.Enemy
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
             
             if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
-            if(Data.normalAttackParticles) VFXController.SpawnParticleInWorld(Data.normalAttackParticles, attackCollider.transform.position, Quaternion.identity);
+            if(Data.normalAttackParticles) VFXController.SpawnParticleInWorld(Data.normalAttackParticles, attackCollider.transform.position, Quaternion.identity, destroyDuration: 1f);
             
             EventsAPI.Invoke<OnBossPerformedNormalAttack>();
         }
-
+        
         [UsedImplicitly]
-        public void OnSpitAttackPerformed()
+        public void OnMeleeAttackEnded()
         {
-            _canSpit = false;
-            _spitAttackCooldownTimer.Restart();
-
+            _isPerformingMeleeAttack = false;
+        }
+ 
+        [UsedImplicitly]
+        public void OnRangeAttackPerformed()
+        {
+            
             Transform firePoint = CurrentDirection == FacingDirection.Left ? _leftFirePoint : _rightFirePoint;
 
             Vector3 dir = GetNormalisedDirectionToPlayer(firePoint);
@@ -193,6 +197,13 @@ namespace Terra.AI.Enemy
             }
             
             if(_spitAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_spitAttackSFX, _audioSource);
+        }
+        
+        [UsedImplicitly]
+        public void OnRangeAttackEnded()
+        {
+            _canSpit = false;
+            _spitAttackCooldownTimer.Restart();
         }
         
         public void PrePumpAttackStart()

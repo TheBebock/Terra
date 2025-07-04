@@ -32,9 +32,7 @@ namespace Terra.AI.EnemyStates {
             base.OnEnter();
             
             navMeshAgent.velocity *= _attackDashModifier;
-            
-            Vector3 dir = (PlayerManager.Instance.transform.position - enemy.transform.position).normalized;
-            enemy.UpdateFacingDirection(dir);
+            enemy.UpdateFacingDirection(enemy.GetNormalisedDirectionToPlayer());
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.AttackLeft : AnimationHashes.AttackRight;
             animator.CrossFade(animationName, CrossFadeDuration);
         }

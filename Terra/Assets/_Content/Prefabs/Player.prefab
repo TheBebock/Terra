@@ -154,7 +154,7 @@ MonoBehaviour:
   _walkSpeed: 6
   _dashSpeed: 20
   _dashDuration: 0.2
-  _dashCooldown: 1
+  _dashCooldown: 3
   _characterController: {fileID: 2266767933296291736}
   _isDashing: 0
   _dashCooldownTimer:

@@ -34,5 +34,5 @@ MonoBehaviour:
       statuses: []
       actions: []
     penetrationPower: 0
-    bulletSpeed: 10
+    bulletSpeed: 12.5
     bulletDamage: 10

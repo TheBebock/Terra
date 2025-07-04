@@ -149,6 +149,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 6482236192107866871}
+  _particlesAnchor: {fileID: 0}
   _model: {fileID: 1242218747063888912}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
@@ -352,6 +353,8 @@ MonoBehaviour:
   _effectsContainer:
     statuses: []
     actions: []
+  _attackSFX: {fileID: 0}
+  _audioSource: {fileID: 0}
 --- !u!136 &7421223248194925679
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -464,7 +467,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -528,6 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 5428209396498942137}
   _id: -1
+  _destroyOnDeath: 1
   _deathFadeDuration: 4
   _deathFadeCurve:
     serializedVersion: 2
@@ -574,6 +578,7 @@ MonoBehaviour:
     _statuses: []
   _hurtSFX: {fileID: 8300000, guid: 41dc693988a6887408d216ccc5f34458, type: 3}
   _deathSFX: {fileID: 8300000, guid: 190e1a80456988c41954fad51ef5257f, type: 3}
+  _deafultAttackSFX: {fileID: 0}
   _tankStatue: {fileID: 8021882952653162575, guid: bd32ae8df1fef9d4b886e8ffdaf4e892,
     type: 3}
   _statueSpawnPointLeft: {fileID: 1065510367122526159}

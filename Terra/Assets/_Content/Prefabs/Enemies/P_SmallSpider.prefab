@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 6499631907356174462}
   _id: -1
+  _destroyOnDeath: 1
   _deathFadeDuration: 4
   _deathFadeCurve:
     serializedVersion: 2
@@ -153,6 +154,7 @@ MonoBehaviour:
     _statuses: []
   _hurtSFX: {fileID: 8300000, guid: 107040207b4e2004ca277a6777d11e32, type: 3}
   _deathSFX: {fileID: 8300000, guid: e148e1a0cb8729f489e1191e18d92462, type: 3}
+  _deafultAttackSFX: {fileID: 0}
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
 --- !u!114 &4048340942986829069
 MonoBehaviour:
@@ -453,6 +455,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 4903469478785577389}
+  _particlesAnchor: {fileID: 0}
   _model: {fileID: 8514623365129911429}
   _modelMaterial: {fileID: 0}
   _activeParticles: []

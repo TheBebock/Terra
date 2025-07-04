@@ -148,6 +148,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 1308285974110481464}
+  _particlesAnchor: {fileID: 0}
   _model: {fileID: 5902760152611172917}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
@@ -278,6 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 4768523894255627857}
   _id: -1
+  _destroyOnDeath: 1
   _deathFadeDuration: 4
   _deathFadeCurve:
     serializedVersion: 2
@@ -306,6 +308,7 @@ MonoBehaviour:
     _statuses: []
   _hurtSFX: {fileID: 8300000, guid: 5f9ac63128bb68c41b7727e03c65f618, type: 3}
   _deathSFX: {fileID: 8300000, guid: d6e2c85d12a350e448fed0b8a69a884a, type: 3}
+  _deafultAttackSFX: {fileID: 0}
   _data: {fileID: 11400000, guid: 867dc2d77d5582f45ad7ecaea9ae959e, type: 2}
   _enemyToSpawn: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b,
     type: 3}
