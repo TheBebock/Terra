@@ -113,7 +113,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 200}
+  m_SizeDelta: {x: 273.55, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2230816665337922992
 MonoBehaviour:
@@ -128,9 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
+    m_Left: 25
+    m_Right: 25
+    m_Top: 10
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -315,7 +315,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 160}
+  m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6737735822594793371
 CanvasRenderer:
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fa24c733785013a4499b35237af247ce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6ca72889f0d52644e900c77a568506cc, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -643,23 +643,32 @@ PrefabInstance:
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
       propertyPath: m_text
-      value: A tincture of foul smelling medicine, stitching your wounds with unnatural
-        vigor.
+      value: 'asdad
+
+        adasd
+
+        adada
+
+        ad
+
+        ad
+
+        ad'
       objectReference: {fileID: 0}
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
       propertyPath: m_margin.w
-      value: 13.878433
+      value: 0.13439941
       objectReference: {fileID: 0}
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
       propertyPath: m_margin.y
-      value: 27.783615
+      value: 0.29556274
       objectReference: {fileID: 0}
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
       propertyPath: m_margin.z
-      value: -17.421646
+      value: -0.114349365
       objectReference: {fileID: 0}
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
@@ -705,7 +714,7 @@ PrefabInstance:
     - target: {fileID: 2928814628114037334, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}
       propertyPath: m_margin.w
-      value: -12.314987
+      value: -0.09806824
       objectReference: {fileID: 0}
     - target: {fileID: 5555299411657732846, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}
@@ -750,7 +759,7 @@ PrefabInstance:
     - target: {fileID: 8604847495253107885, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8604847495253107885, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}
