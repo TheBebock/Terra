@@ -8,7 +8,7 @@ namespace Terra.Utils {
         [SerializeField, ReadOnly] protected float initialTime;
         [SerializeField, ReadOnly] protected float currentTime;
         [SerializeField, ReadOnly] protected bool isRunning;
-        protected float Time { get => currentTime; set => currentTime = value; }
+        public float Time { get => currentTime; protected set => currentTime = value; }
         public bool IsRunning { get => isRunning; protected set => isRunning = value; }
         
         public float Progress => Time / initialTime;

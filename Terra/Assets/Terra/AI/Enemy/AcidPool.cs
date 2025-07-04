@@ -33,7 +33,6 @@ namespace Terra.AI.Enemy
         {
             EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
         }
-
         
         public void Init(float lifeDuration, int damage)
         {
@@ -47,6 +46,11 @@ namespace Terra.AI.Enemy
             DoScale(new(1f,1f,1f), 1f);
         }
 
+        private void Update()
+        {
+            _deathTimer?.Tick(Time.deltaTime);
+        }
+
         private void OnTimerStop()
         {
             _ = StartDeathAnim();
@@ -55,13 +59,16 @@ namespace Terra.AI.Enemy
         }
         public void ResetDeathTimer()
         { 
+            Debug.Log($"Before Reset death timer: {_deathTimer.Time} | {_deathTimer.IsRunning}");
             _deathTimer.ResetTime();
+            Debug.Log($"After Reset death timer: {_deathTimer.Time} | {_deathTimer.IsRunning}");
         }
 
         public void DoScale(Vector3 newScale, float duration)
         {
             _ = DoScaleAsync(newScale, duration);
         }
+        
         private async UniTaskVoid DoScaleAsync(Vector3 newScale, float duration)
         {
             _scaleCts?.Cancel();
@@ -71,7 +78,7 @@ namespace Terra.AI.Enemy
             try
             {
                 ScaleLights(duration);
-                  transform
+                await transform
                     .DOScale(newScale, duration)
                     .WithCancellation(_scaleCts.Token);
             }
@@ -115,8 +122,6 @@ namespace Terra.AI.Enemy
             
             damageable.TakeDamage(_damage);
         }
-
-
         
         public void DetachListeners()
         {
@@ -127,9 +132,7 @@ namespace Terra.AI.Enemy
             base.CleanUp();
             _deathTimer.OnTimerStop -= OnTimerStop;
         }
-
-
-
+        
         protected override void OnValidate()
         {
             base.OnValidate();

@@ -175,6 +175,11 @@ namespace Terra.AI.Enemy
         {
             _isPerformingMeleeAttack = false;
         }
+
+        public void RangeAttackStart()
+        {
+            if(_spitAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_spitAttackSFX, _audioSource);
+        }
  
         [UsedImplicitly]
         public void OnRangeAttackPerformed()
@@ -195,8 +200,6 @@ namespace Terra.AI.Enemy
                 Vector3 finalDir = new Vector3(dir.x + randomDirOffsetX, dir.y, dir.z + randomDirOffsetZ);
                 ProjectileFactory.CreateProjectile(Data.enemyBulletData, firePoint.position, finalDir, this, randomSpeedModifier);
             }
-            
-            if(_spitAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_spitAttackSFX, _audioSource);
         }
         
         [UsedImplicitly]
@@ -216,6 +219,7 @@ namespace Terra.AI.Enemy
         public void OnPrePumpEnded()
         {
             _isInPrePump = false;
+            if(_pumpAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_pumpAttackSFX, _audioSource);
         }
         
         [UsedImplicitly]

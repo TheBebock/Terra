@@ -202,16 +202,16 @@ MonoBehaviour:
     _entity: {fileID: 0}
     _statuses: []
   _hurtSFX: {fileID: 0}
-  _deathSFX: {fileID: 0}
-  _deafultAttackSFX: {fileID: 8300000, guid: dc5ff4e084fc8a146a76b10ac7db3c90, type: 3}
+  _deathSFX: {fileID: 8300000, guid: f85ea63e1dea7984991ff579511120f3, type: 3}
+  _deafultAttackSFX: {fileID: 8300000, guid: 5beae1376fc8f144b99c83e31099cbd7, type: 3}
   _leftAttackCollider: {fileID: 4967288078273184107}
   _rightAttackCollider: {fileID: 4960484615970103389}
   _leftAcidPoolSpawnPoint: {fileID: 4362303513404524141}
   _rightAcidPoolSpawnPoint: {fileID: 9201865484395290618}
   _leftFirePoint: {fileID: 1322677142935201023}
   _rightFirePoint: {fileID: 773279910457525895}
-  _spitAttackSFX: {fileID: 0}
-  _pumpAttackSFX: {fileID: 0}
+  _spitAttackSFX: {fileID: 8300000, guid: 2032043c5cee66c4f91dcd972b49d108, type: 3}
+  _pumpAttackSFX: {fileID: 8300000, guid: a3e007e1ea4690449bc707ea1a5756dc, type: 3}
   _data: {fileID: 11400000, guid: cb69f1fd9c2acdf4b834f23f9548525f, type: 2}
   _groundObjectLayerMask:
     serializedVersion: 2
@@ -767,7 +767,7 @@ Transform:
   m_GameObject: {fileID: 2969575214130103924}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.702001, y: -0.827, z: -1.031}
+  m_LocalPosition: {x: 2.44, y: -0.827, z: -1.031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1403,7 +1403,7 @@ Transform:
   m_GameObject: {fileID: 7002646631105450112}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.906999, y: -0.827, z: -1.029}
+  m_LocalPosition: {x: -4.13, y: -0.827, z: -1.029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
