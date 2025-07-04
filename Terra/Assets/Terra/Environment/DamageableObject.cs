@@ -2,6 +2,7 @@ using DG.Tweening;
 using NaughtyAttributes;
 using Terra.AI.EnemyStates;
 using Terra.Combat;
+using Terra.Core.Generics;
 using Terra.Core.ModifiableValue;
 using Terra.EffectsSystem;
 using Terra.Interactions;
@@ -17,7 +18,7 @@ namespace Terra.Environment
     /// <summary>
     /// Represents object in game world that can be damaged
     /// </summary>
-    public class DamageableObject : InteractableBase, IDamageable, IAttachListeners
+    public class DamageableObject : Entity, IDamageable, IAttachListeners
     {
         [SerializeField] private ModifiableValue _maxHealth;
         [SerializeField] private float _deathFadeDuration = 2.5f;
@@ -35,7 +36,6 @@ namespace Terra.Environment
         [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _destroySfx;
         
         private Sequence _doSequence;
-
         
         public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
@@ -89,11 +89,6 @@ namespace Terra.Environment
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onDeathParticle);
 
             Destroy(gameObject, _deathFadeDuration + 0.5f);
-        }
-        
-        public override void OnInteraction()
-        {
-            //DO nothing
         }
 
         public virtual void AttachListeners()

@@ -6,11 +6,7 @@ namespace Terra.Interfaces
         /// Checks if available for interaction
         /// </summary>
         public bool CanBeInteractedWith { get; }
-    
-        /// <summary>
-        /// Checks for displaying visualisation
-        /// </summary>
-        public bool CanShowVisualisation { get; set; }
+        
         /// <summary>
         /// Called on interaction
         /// </summary>
@@ -19,13 +15,13 @@ namespace Terra.Interfaces
         /// <summary>
         /// Called when is ready to be interacted with by Player
         /// </summary>
-        public void ShowVisualisation();
+        public void ShowVisualization();
 
 
         /// <summary>
         /// Stop all visualisation
         /// </summary>
-        public void StopVisualization();
+        public void StopVisualization(bool force = false);
 
     }
 }

@@ -77,7 +77,7 @@ namespace Terra.Player
         {
             _currentInteractable?.StopVisualization();
             _currentInteractable = newInteractable;
-            _currentInteractable?.ShowVisualisation();
+            _currentInteractable?.ShowVisualization();
         }
 
         private void OnInteract(InputAction.CallbackContext context)

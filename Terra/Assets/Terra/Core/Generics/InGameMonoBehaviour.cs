@@ -43,7 +43,7 @@ namespace Terra.Core.Generics
                 
             if (this is IRequireCleanup requireCleanup)
             {
-                EntityCleanerManager.Instance.RegisterEntity(requireCleanup);
+                EntityCleanerManager.Instance?.RegisterEntity(requireCleanup);
             }
         }
 
@@ -69,5 +69,13 @@ namespace Terra.Core.Generics
             if(this is IUniqueable uniqueable)
                 uniqueable.ReturnID();
         }
+
+#if UNITY_EDITOR
+
+        protected virtual void OnValidate()
+        {
+            
+        }
+#endif
     }
 }

@@ -47,23 +47,7 @@ namespace Terra.Itemization.Items
                 Destroy(gameObject);
             }
         }
-
-        protected override void ShowAvailableVisualization()
-        {
-            base.ShowAvailableVisualization();
-        }
-
-        protected override void ShowUnAvailableVisualization()
-        {
-            base.ShowUnAvailableVisualization();
-            //TODO: Display VFX
-        }
-
-        public override void StopVisualization()
-        {
-            base.StopVisualization();
-            //NOTE: Maybe some additional logic
-        }
+        
 
         protected override void CleanUp()
         {

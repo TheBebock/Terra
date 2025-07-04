@@ -9,22 +9,21 @@ namespace Terra.Interactions
     /// </summary>
     public abstract class InteractableBase : Entity, IInteractable
     {
+
+        [SerializeField] private GameObject _interactionIconObject;
+        [SerializeField] private bool _showInteractionIconWithoutPlayerNearby;
         [SerializeField] private bool _canBeInteractedWith;
         public virtual bool CanBeInteractedWith => _canBeInteractedWith;
-        public virtual bool CanShowVisualisation { get; set; }
-
-
         
         public abstract void OnInteraction();
+        
     
         public void Interact()
         {
             if(!CanBeInteractedWith) return;
 
             StopVisualization();
-
-            // Show VFX
-            // Play sound
+            
             OnInteraction();
         }
 
@@ -35,43 +34,42 @@ namespace Terra.Interactions
         }
         protected virtual void OnInteractableStateChanged(bool interactableState)
         {
-            
-        }
-        public void ShowVisualisation()
-        {
-            if(!CanShowVisualisation) return;
-            if (CanBeInteractedWith)
+            if (interactableState == false)
             {
-                ShowAvailableVisualization();
-
+                StopVisualization(true);
             }
             else
             {
-                ShowUnAvailableVisualization();
+                if(_showInteractionIconWithoutPlayerNearby) ShowVisualization();
+            }
+        }
+        
+        public void ShowVisualization()
+        {
+            if (CanBeInteractedWith)
+            {
+                _interactionIconObject.SetActive(true);
+                OnShowVisualization();
             }
         }
 
-        /// <summary>
-        /// Shown when is available
-        /// </summary>
-        protected virtual void ShowAvailableVisualization()
+        protected virtual void OnShowVisualization() { }
+        public virtual void StopVisualization(bool force = false)
         {
-        
-        }
-    
-        /// <summary>
-        /// Shown when interaction is not available
-        /// </summary>
-        protected virtual void ShowUnAvailableVisualization()
-        {
-        
-        }
+            if (force)
+            {
+                _interactionIconObject.SetActive(false);
+                OnStopVisualization();
+                return;
+            }
 
-        public virtual void StopVisualization()
-        {
-            CanShowVisualisation = false;
+            if (_showInteractionIconWithoutPlayerNearby == false)
+            {
+                _interactionIconObject.SetActive(false);
+                OnStopVisualization();
+            }
         }
-
-    
+        
+        protected virtual void OnStopVisualization() { }
     }
 }
