@@ -6,15 +6,20 @@ namespace Terra.EventsSystem.Events
     public struct OnPlayerMeleeAttackPerformedEvent : IEvent
     {
         public FacingDirection facingDirection;
-
-        public OnPlayerMeleeAttackPerformedEvent(FacingDirection newFacingDirection)
-        {
-            facingDirection = newFacingDirection;
-        }
+        
+    }
+    public struct OnPlayerMeleeAttackEndedEvent : IEvent
+    {
+            
     }
     
     public struct OnPlayerRangeAttackPerformedEvent : IEvent
     {
 
+    }
+    
+    public struct OnPlayerRangeAttackEndedEvent : IEvent
+    {
+            
     }
 }

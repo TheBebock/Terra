@@ -45,7 +45,6 @@ namespace Terra.Managers
         [FormerlySerializedAs("AmbientAudioLowPassFilter")] [Foldout("References")] [SerializeField]
         private AudioLowPassFilter _ambientAudioLowPassFilter;
         
-        
         public void SetUp()
         {
             LoadVolume();   

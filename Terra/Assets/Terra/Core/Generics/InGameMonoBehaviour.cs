@@ -60,7 +60,7 @@ namespace Terra.Core.Generics
 
             if (this is IRequireCleanup requireCleanup)
             {
-                EntityCleanerManager.Instance.UnregisterEntity(requireCleanup);
+                EntityCleanerManager.Instance?.UnregisterEntity(requireCleanup);
             }
             
             if(this is IWithSetUp setup)

@@ -11,6 +11,8 @@ namespace Terra.GameStates
 {
     public class StartOfFloorState : GameState
     {
+        private static bool _isFirstEverRound = true;
+
         public override void OnEnter() 
         {
             base.OnEnter(); 
@@ -38,6 +40,13 @@ namespace Terra.GameStates
                 audioClipName = "track_2";
                 otherAudioClipName = "track_1";
             }
+
+            if (_isFirstEverRound)
+            {
+                _isFirstEverRound = false;
+                audioClipName = "track_1";
+            }
+            
             if (AudioManager.Instance.IsMusicPlayingClip(audioClipName))
             {
                 AudioManager.Instance.PlayMusic(otherAudioClipName);

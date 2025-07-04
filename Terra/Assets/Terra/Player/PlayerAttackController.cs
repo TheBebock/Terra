@@ -85,8 +85,12 @@ namespace Terra.Player
         {
             if (!_isTryingPerformMeleeAttack && !_isTryingPerformDistanceAttack)
             {
-                ChangeAttackDirection();
+                Vector3 direction = MouseRaycastManager.Instance.
+                    GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
+                ChangeAttackDirection(direction);
 
+                PlayerManager.Instance.PlayerMovement.PushPlayerInDirection(direction, PlayerManager.Instance.PushPlayerForce);
+                
                 _isTryingPerformMeleeAttack = true;
                 AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource);
                 _meleeEvent.facingDirection = _currentPlayerAttackDirection;
@@ -105,7 +109,9 @@ namespace Terra.Player
             
             if (!_isTryingPerformDistanceAttack && !_isTryingPerformMeleeAttack)
             {
-                ChangeAttackDirection();
+                Vector3 direction = MouseRaycastManager.Instance.
+                    GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
+                ChangeAttackDirection(direction);
                 
                 _isTryingPerformDistanceAttack = true;
                 _rangeShootDirection =
@@ -136,13 +142,10 @@ namespace Terra.Player
             _rangedAttackSFX = rangedWeapon.Data.attackSFX;
         }
         
-        private void ChangeAttackDirection()
+        private void ChangeAttackDirection(Vector3 direction)
         {
             if(_isTryingPerformMeleeAttack) return;
             
-            Vector3 direction = MouseRaycastManager.Instance.
-                GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
-            PlayerManager.Instance.PlayerMovement.PushPlayerInDirection(direction, PlayerManager.Instance.PushPlayerForce);
             if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
             {
                 if(direction.x > 0) _currentPlayerAttackDirection = FacingDirection.Right;

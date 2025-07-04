@@ -16,3 +16,6 @@ MonoBehaviour:
   baseMaxHealth: 100
   baseDexterity: 0
   baseLuck: 1
+  baseSwingSpeed: 0
+  baseMeleeRange: 0
+  baseRangeCooldown: 0

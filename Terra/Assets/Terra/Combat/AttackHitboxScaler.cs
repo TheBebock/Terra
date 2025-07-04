@@ -16,6 +16,8 @@ namespace Terra.Combat
 {
     public class AttackHitboxScaler : InGameMonobehaviour, IAttachListeners, IWithSetUp
     {
+        private static readonly int SlashSpeed = Animator.StringToHash("SlashSpeed");
+
         [Foldout("References")] [SerializeField]
         private Entity _entity;
         
@@ -58,13 +60,15 @@ namespace Terra.Combat
         
         private void StartAttack(ref OnPlayerMeleeAttackPerformedEvent meleeEvent)
         {
-            float scaleModif = Mathf.InverseLerp(0, 100f, PlayerStatsManager.Instance.PlayerStats.MeleeRange);
-            ScaleHitbox(Mathf.Lerp(0.2f, 1.4f, scaleModif));
+            float scaleModif = Mathf.InverseLerp(-100, 100f, PlayerStatsManager.Instance.PlayerStats.MeleeRange);
+            float computedScale = Mathf.Lerp(0.8f, 1.2f, scaleModif);
+            ScaleHitbox(computedScale);
 
             _heldHitbox.gameObject.SetActive(true);
 
-            var animationSpeedModifier = Mathf.Clamp01(PlayerStatsManager.Instance.PlayerStats.SwingSpeed);
-            _hitboxAnimator.SetFloat("SlashSpeed", Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
+            var animationSpeedModifier = Mathf.InverseLerp(-100, 100f, PlayerStatsManager.Instance.PlayerStats.SwingSpeed);
+            float computedSpeed = Mathf.Lerp(0.78f, 1.22f, animationSpeedModifier);
+            _hitboxAnimator.SetFloat(SlashSpeed, computedSpeed);
             
             _hitboxAnimator.Play(GetAnimationHash(meleeEvent.facingDirection), -1, 0f);
 
@@ -137,8 +141,8 @@ namespace Terra.Combat
         
             float positionModifier = scaleModifier;
         
-            Vector3 newScale = _originalScale + _originalScale * scaleModifier;
-            Vector3 newPosition = _originalPosition + _originalPosition * positionModifier;
+            Vector3 newScale = _originalScale * scaleModifier;
+            Vector3 newPosition = _originalPosition * positionModifier;
 
             _heldHitbox.transform.localScale = newScale;
             _heldHitbox.transform.localPosition = newPosition;

@@ -20,7 +20,8 @@ namespace Terra.Player.PlayerStates
         private void ApplyAnimationModifiers()
         {
             float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.RangeCooldown);
-            animator.SetFloat(RangeCooldown, Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
+            float computedModifier = Mathf.Lerp(0.5f, 2f, animationSpeedModifier);
+            animator.SetFloat(RangeCooldown, computedModifier);
         }
 
         private void ChangeDirectionOfAnimation(FacingDirection playerAttackDirection)

@@ -3,6 +3,8 @@ using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Combat;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.FSM;
 using Terra.GameStates;
 using UnityEngine;
@@ -116,8 +118,17 @@ namespace Terra.Player
         }
 
         public void OnPerformRangeAttack() => _playerAttackController.PerformRangeAttack();
-        public void OnMeleeEnd() => PlayerAttackController.OnMeleeAnimationEnd();
-        public void OnRangeEnd() => PlayerAttackController.OnRangeAnimationEnd();
+
+        public void OnMeleeEnd()
+        {
+            EventsAPI.Invoke<OnPlayerMeleeAttackEndedEvent>();
+            PlayerAttackController.OnMeleeAnimationEnd();
+        } 
+        public void OnRangeEnd()
+        { 
+            EventsAPI.Invoke<OnPlayerRangeAttackEndedEvent>();
+            PlayerAttackController.OnRangeAnimationEnd();
+        }
         public void OnPlayerDeathNotify()
         {
             _isPlayerDead = true;

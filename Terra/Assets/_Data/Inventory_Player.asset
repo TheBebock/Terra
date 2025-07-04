@@ -20,5 +20,4 @@ MonoBehaviour:
   startingActive:
     _data: {fileID: 0}
     _currentCd: 0
-  startingPassiveItems:
-  - _data: {fileID: 11400000, guid: d76b16b1ddab27746b7ade3b0f406871, type: 2}
+  startingPassiveItems: []

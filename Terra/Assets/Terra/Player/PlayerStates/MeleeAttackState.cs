@@ -29,8 +29,8 @@ namespace Terra.Player.PlayerStates
 
         private void ApplyAnimationModifiers()
         {
-            float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.RangeCooldown);
-            animator.SetFloat(SwingSpeed, Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
+            float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.SwingSpeed);
+            animator.SetFloat(SwingSpeed, Mathf.Lerp(0.67f, 1.25f, animationSpeedModifier));
         }
         
 

@@ -30,9 +30,11 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField] private bool _canPlayerMove = true;
         [Foldout("Debug"), ReadOnly] [SerializeField] private Vector3 _moveDirection = Vector3.zero;
         [Foldout("Debug"), ReadOnly] [SerializeField] private Vector2 _movementInput;
-    
+        [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isPlayerActionBlockingMovement;
+
         private Vector2 _dashMovementInput;
         private OnPlayerDashTimerProgressedEvent _onDashTimerProgressed;
+        private FacingDirection _currentplayerMoveDirection;
         public bool CanPlayerMove { 
             get => _canPlayerMove;
             set => _canPlayerMove = value;
@@ -48,8 +50,9 @@ namespace Terra.Player
             private set => _isTryingMove = value;
         }
         
-        private FacingDirection _currentplayerMoveDirection;
+        
         public FacingDirection CurrentPlayerMoveDirection => _currentplayerMoveDirection;
+        
 
         private void Awake()
         {
@@ -58,9 +61,34 @@ namespace Terra.Player
             _onDashTimerProgressed.progress = 0f;
         }
 
+        public void AttachListeners()
+        {
+            EventsAPI.Register<OnPlayerMeleeAttackPerformedEvent>(OnPlayerMeleeAttackPerformed);
+            EventsAPI.Register<OnPlayerMeleeAttackEndedEvent>(OnPlayerMeleeAttackEnded);
+            EventsAPI.Register<OnPlayerRangeAttackPerformedEvent>(OnPlayerRangeAttackPerformed);
+            EventsAPI.Register<OnPlayerRangeAttackEndedEvent>(OnPlayerRangeAttackEnded);
+            
+            if (!InputsManager.Instance)
+            {
+                Debug.LogError("Input manager not found.");
+                return;
+            }
+
+            var inputActions = InputsManager.Instance.PlayerControls;
+            
+            // Movement
+            inputActions.Movement.performed += OnMovementInput;
+            inputActions.Movement.canceled += OnMovementInput;
+            inputActions.Movement.canceled += OnMovementInputCanceled;
+
+            // Dash
+            inputActions.Dash.performed += OnDashInput;
+        }
+        
+        
         void Update()
         {
-            if (PlayerManager.Instance.IsPlayerDead || !CanPlayerMove)
+            if (PlayerManager.Instance.IsPlayerDead)
             {
                 return;
             }
@@ -72,7 +100,8 @@ namespace Terra.Player
 
         public void HandleMovement()
         {
-            if (PlayerManager.Instance.IsPlayerDead || !CanPlayerMove)
+            if (PlayerManager.Instance.IsPlayerDead || !CanPlayerMove || 
+                _isPlayerActionBlockingMovement)
             {
                 return;
             }
@@ -112,7 +141,7 @@ namespace Terra.Player
 
         private void OnDashInput(InputAction.CallbackContext context)
         {
-            if (!CanPlayerMove)
+            if (!CanPlayerMove || _isPlayerActionBlockingMovement)
             {
                 Debug.LogWarning("Player cannot dash. Ignoring dash input.");
                 return;
@@ -157,27 +186,32 @@ namespace Terra.Player
                 _currentplayerMoveDirection = FacingDirection.Right;
         }
 
-        public void AttachListeners()
+        private void OnPlayerMeleeAttackPerformed(ref OnPlayerMeleeAttackPerformedEvent ev)
         {
-            if (!InputsManager.Instance)
-            {
-                Debug.LogError("Input manager not found.");
-                return;
-            }
-
-            var inputActions = InputsManager.Instance.PlayerControls;
-            
-            // Movement
-            inputActions.Movement.performed += OnMovementInput;
-            inputActions.Movement.canceled += OnMovementInput;
-            inputActions.Movement.canceled += OnMovementInputCanceled;
-
-            // Dash
-            inputActions.Dash.performed += OnDashInput;
+            _isPlayerActionBlockingMovement = true;
         }
 
+        private void OnPlayerMeleeAttackEnded(ref OnPlayerMeleeAttackEndedEvent ev)
+        {
+            _isPlayerActionBlockingMovement = false;
+        }
+
+        private void OnPlayerRangeAttackPerformed(ref OnPlayerRangeAttackPerformedEvent ev)
+        {
+            _isPlayerActionBlockingMovement = true;
+        }
+        
+        private void OnPlayerRangeAttackEnded(ref OnPlayerRangeAttackEndedEvent ev)
+        {
+            _isPlayerActionBlockingMovement = false;
+        }
         public void DetachListeners()
         {
+            EventsAPI.Unregister<OnPlayerMeleeAttackPerformedEvent>(OnPlayerMeleeAttackPerformed);
+            EventsAPI.Unregister<OnPlayerMeleeAttackEndedEvent>(OnPlayerMeleeAttackEnded);
+            EventsAPI.Unregister<OnPlayerRangeAttackPerformedEvent>(OnPlayerRangeAttackPerformed);
+            EventsAPI.Unregister<OnPlayerRangeAttackEndedEvent>(OnPlayerRangeAttackEnded);
+            
             if (!InputsManager.Instance) return;
             
             InputsManager.Instance.PlayerControls.Movement.performed -= OnMovementInput;
