@@ -80,10 +80,14 @@ namespace Terra.Interactions
             EventsAPI.Unregister<ElevatorGeneratorStoppedEvent>(OnGeneratorStopped);
         }
 
+#if UNITY_EDITOR
+        
         protected override void OnValidate()
         {
             base.OnValidate();
             if(_animators.Count == 0)_animators = GetComponentsInChildren<Animator>().ToList();
         }
+#endif
+
     }
 }

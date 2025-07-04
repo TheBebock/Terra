@@ -109,12 +109,15 @@ namespace Terra.Environment
             base.CleanUp();
             _doSequence?.Kill();
         }
-
+#if UNITY_EDITOR
+        
         protected override void OnValidate()
         {
             base.OnValidate();
             if(!_collider) _collider = GetComponent<Collider>();
             if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
+#endif
+
     }
 }

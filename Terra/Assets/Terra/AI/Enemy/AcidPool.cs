@@ -132,6 +132,8 @@ namespace Terra.AI.Enemy
             base.CleanUp();
             _deathTimer.OnTimerStop -= OnTimerStop;
         }
+
+#if UNITY_EDITOR
         
         protected override void OnValidate()
         {
@@ -140,5 +142,6 @@ namespace Terra.AI.Enemy
             _lights = GetComponentsInChildren<LightComponent>().ToList();
             if(!_collider) _collider = GetComponent<Collider>();
         }
+#endif
     }
 }

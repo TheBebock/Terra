@@ -130,10 +130,13 @@ namespace Terra.Player
             EventsAPI.Unregister<OnPlayerDashEndedEvent>(OnPlayerDashEnded);
         }
 
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
             if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
+#endif
+       
     }
 }
