@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 649b1d63eea4ca841ab768b083b556d9, type: 3}
+  m_Name: InstaHealData
+  m_EditorClassIdentifier: 
+  entityID: -1
+  effectIcon: {fileID: 21300000, guid: 0abb3f22d0497f7488fe577e4011c281, type: 3}
+  effectName: Smelling Salts
+  effectDescription: 
+  effectCost: 50
+  effectParticle: {fileID: 0}
+  containerType: 0
+  incompatibleEffects: []
+  amount: 80
+  isPercentage: 0

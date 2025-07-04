@@ -17,6 +17,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     effectTypeName: Terra.EffectsSystem.Actions.HealOnHitAction, Terra, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - dataTypeName: Terra.EffectsSystem.Actions.Data.InstaHealData, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    effectTypeName: Terra.EffectsSystem.Actions.InstaHealAction, Terra, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - dataTypeName: Terra.EffectsSystem.Actions.Data.PushBackData, Terra, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     effectTypeName: Terra.EffectsSystem.Actions.PushBackAction, Terra, Version=0.0.0.0,
