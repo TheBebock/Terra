@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Terra.Managers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -26,12 +27,14 @@ namespace Terra.UI.IntroScene
                 videoPlayer.loopPointReached += _ => _onVideoEndAction[index].Invoke();
             }
             skipSlider.gameObject.SetActive(false);
+            skipSlider.minValue = 0f;
             skipSlider.maxValue = holdDuration;
+            skipSlider.value = 0f;
         }
 
         void Update()
         {
-            if (Input.GetMouseButton(0))
+            if (Input.anyKey)
             {
                 if (!_isHolding)
                 {
