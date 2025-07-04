@@ -104,7 +104,7 @@ namespace Terra.UI.HUD.StatDisplay
             {
                 case StatisticType.Strength:
                     if(comparison.strengthValue == 0) return;
-                    statLabelData.statLabel.SetDescription(comparison.strengthValue);
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.strengthValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.strength));
                     break;
                 case StatisticType.MaxHealth:
@@ -116,34 +116,39 @@ namespace Terra.UI.HUD.StatDisplay
                 case StatisticType.Dexterity:
                     if(comparison.dexterityValue == 0) return;
 
-                    statLabelData.statLabel.SetDescription(comparison.dexterityValue);
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.dexterityValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.dexterity));
                     break;
                 case StatisticType.Luck:
                     if(comparison.luckValue == 0) return;
 
-                    statLabelData.statLabel.SetDescription(comparison.luckValue);
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.luckValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.luck));
                     break;
                 case StatisticType.SwingSpeed:
                     if(comparison.swingSpeedValue == 0) return;
 
-                    statLabelData.statLabel.SetDescription(comparison.swingSpeedValue);
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.swingSpeedValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.swingSpeed));
                     break;
                 case StatisticType.MeleeRange:
                     if (comparison.meleeRangeValue == 0) return;
 
-                    statLabelData.statLabel.SetDescription(comparison.meleeRangeValue);
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.meleeRangeValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.meleeRange));
                     break;
                 case StatisticType.RangeCooldown:
                     if (comparison.rangeCooldownValue == 0) return;
 
-                    statLabelData.statLabel.SetDescription(comparison.rangeCooldownValue);
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.rangeCooldownValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.rangeCooldown));
                     break;
             }
+        }
+
+        private int ClampStatValue(int value)
+        {
+            return Mathf.Clamp(value, -100, 100);
         }
 
         private Color GetColorBasedOnComparison(Comparison comparison)
