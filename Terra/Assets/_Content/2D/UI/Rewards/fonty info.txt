@@ -1,0 +1,20 @@
+
+
+Wszystkie teksty w grze sa tylko w tych dwoch rozmiarach
+
+
+Font: silkscreen
+
+
+- nagłówki, przycisk claim,free, ceny, choose your reward:
+regular 
+size: 32
+kerning: -10% 
+
+
+
+
+- text/hud, staty na kartach, reroll button:
+regular 
+size: 24
+kerning: -5% 
