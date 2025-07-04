@@ -33,7 +33,6 @@ namespace Terra.Player
         
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public bool CanBeHealed => _healthController.CanBeHealed;
-        public bool IsInvincible => _healthController.IsInvincible;
         public float MaxHealth => _healthController.MaxHealth;
         public float CurrentHealth => _healthController.CurrentHealth;
         

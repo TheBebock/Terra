@@ -9,6 +9,7 @@ using Terra.Enums;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.FSM;
+using Terra.Interactions;
 using Terra.Managers;
 using Terra.Particles;
 using Terra.Player;
@@ -19,6 +20,7 @@ namespace Terra.AI.Enemy
 {
     public class EnemyBoss : Enemy<BossEnemyData>
     {
+        [SerializeField] private BossCorpse _bossCorpsePrefab;
         [SerializeField] private SphereCollider _leftAttackCollider;
         [SerializeField] private SphereCollider _rightAttackCollider;
         [SerializeField] private Transform _leftAcidPoolSpawnPoint;
@@ -48,12 +50,8 @@ namespace Terra.AI.Enemy
         public bool IsInPrePump => _isInPrePump;
 
         
-        public override void AttachListeners()
-        {
-            base.AttachListeners();
-            EventsAPI.Register<OnBossStartMovingEvent>(OnBossStartMovingEvent);
-        }
-
+        private OnBossDamagedEvent _onBossDamaged;
+        
         protected override void SetupStates()
         {
             var pumpAttackState = new BossPumpAttack(this, _agent, _animator);
@@ -81,23 +79,32 @@ namespace Terra.AI.Enemy
             
             _pumpAttackCooldownTimer.OnTimerStop += OnPumpAttackCooldownTimerFinished;
             _spitAttackCooldownTimer.OnTimerStop += OnSpitAttackCooldownTimerFinished;
+            HealthController.OnDamaged += OnDamaged;
 
+            _onBossDamaged = new OnBossDamagedEvent();
             
             stateMachine.SetState(idleState);
         }
 
-        private void OnBossStartMovingEvent(ref OnBossStartMovingEvent moveEvent)
+        public override void AttachListeners()
+        {
+            base.AttachListeners();
+            EventsAPI.Register<OnBossStartedMovingEvent>(OnBossStartMovingEvent);
+        }
+        
+        private void OnDamaged(int value)
+        {
+            _onBossDamaged.damage = value;
+            _onBossDamaged.normalizedDamage = HealthController.NormalizedCurrentHealth;
+            
+            EventsAPI.Invoke(ref _onBossDamaged);
+        }
+        private void OnBossStartMovingEvent(ref OnBossStartedMovingEvent moveEvent)
         {
             _isIdle = false;
                         
             _spitAttackCooldownTimer.Start();
             _pumpAttackCooldownTimer.Start();
-        }
-
-        protected override void BeforeDeletion()
-        {
-            base.BeforeDeletion();
-            EventsAPI.Invoke<OnBossDiedEvent>();
         }
 
         /// <summary>
@@ -116,7 +123,6 @@ namespace Terra.AI.Enemy
             base.InternalUpdate();
             _pumpAttackCooldownTimer?.Tick(Time.deltaTime);            
             _spitAttackCooldownTimer?.Tick(Time.deltaTime);
-
         }
         
         
@@ -142,10 +148,6 @@ namespace Terra.AI.Enemy
         }
         
         private bool CanMove() => _isIdle == false;
-        protected override void SpawnLootOnDeath()
-        {
-            //Do not spawn anything
-        }
 
         public void MeleeAttackStarted()
         {
@@ -279,18 +281,32 @@ namespace Terra.AI.Enemy
 
             _isInPostPump = true;
         }
-        
+        protected override void SpawnLootOnDeath()
+        {
+            //Do not spawn anything
+        }
+
+        protected override void OnDeath()
+        {
+            base.OnDeath();
+            
+            EventsAPI.Invoke<OnBossDiedEvent>();
+            
+            Instantiate(_bossCorpsePrefab, transform.position, Quaternion.identity).Init(CurrentDirection);
+        }
+
         public override void DetachListeners()
         {
             base.DetachListeners();
             
-            EventsAPI.Unregister<OnBossStartMovingEvent>(OnBossStartMovingEvent);
+            EventsAPI.Unregister<OnBossStartedMovingEvent>(OnBossStartMovingEvent);
 
         }
 
         protected override void CleanUp()
         {
             base.CleanUp();
+            HealthController.OnDamaged -= OnDamaged;
             _pumpAttackCooldownTimer.OnTimerStop -= OnPumpAttackCooldownTimerFinished;
             _spitAttackCooldownTimer.OnTimerStop -= OnSpitAttackCooldownTimerFinished;
         }

@@ -32,7 +32,7 @@ namespace Terra.GameStates
             InputsManager.Instance?.SetAllTimeControlsState(true);
             TimeManager.Instance?.ResumeTime();
             
-            EventsAPI.Invoke<OnBossStartMovingEvent>();
+            EventsAPI.Invoke<OnBossStartedMovingEvent>();
         }
     }
 }

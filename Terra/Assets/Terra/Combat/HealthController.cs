@@ -18,14 +18,12 @@ namespace Terra.Combat
         [SerializeField] private int _currentHealth;
 
         [SerializeField] private bool _canBeHealed;
-        [SerializeField] private bool _isInvincible;
 
         [SerializeField] private bool _immuneAfterHit;
         
         private static float _invincibilityTimeAfterHit = 0.2f;
         private static float _invincibilityTimeAfterSpawn = 0.5f;
         public bool CanBeHealed => _canBeHealed;
-        public bool IsInvincible => _isInvincible;
         public int MaxHealth => _maxHealth.Value;
         public int CurrentHealth => _currentHealth;
         public bool IsImmuneAfterHit => _immuneAfterHit;
@@ -74,9 +72,6 @@ namespace Terra.Combat
 
             // Change health amount
             _currentHealth -= calculatedValue;
-
-            // Clamp value, if invincible then set health to 1
-            _currentHealth = Mathf.Max(_currentHealth, IsInvincible ? 1 : 0);
 
 
             OnHealthChanged?.Invoke(_currentHealth);
@@ -132,18 +127,6 @@ namespace Terra.Combat
             }
             // Percentage value of max health
             return Mathf.RoundToInt(MaxHealth * amount.ToFactor());
-        }
-        /// <summary>
-        ///     Change invincibility state
-        /// </summary>
-        public void SetInvincible(bool invincible)
-        {
-            // Invoke event if status is different
-            if(_isInvincible != invincible) 
-                OnInvincibilityChanged?.Invoke(invincible);
- 
-            _isInvincible = invincible;
- 
         }
 
         /// <summary>

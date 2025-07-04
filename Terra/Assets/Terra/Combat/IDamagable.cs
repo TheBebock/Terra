@@ -8,11 +8,6 @@ namespace Terra.Combat
     public interface IDamageable
     {
         /// <summary>
-        ///     Whether entity can be killed
-        /// </summary>
-        public bool IsInvincible { get; }
-
-        /// <summary>
         /// Whether entity can be damaged
         /// </summary>
         public bool CanBeDamaged { get; }

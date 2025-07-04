@@ -37,7 +37,6 @@ namespace Terra.Environment
         
         private Sequence _doSequence;
         
-        public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
 
         public HealthController HealthController => _healthController;

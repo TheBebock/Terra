@@ -163,8 +163,9 @@ namespace Terra.Managers
             //NOTE: Increasing active enemies here and not decreasing it on boss death, make the WaveEnded event to never be invoked
             // It is not supposed to get invoked on floor with boss
             _currentActiveEnemies++;
-            
-            EventsAPI.Invoke<OnBossSpawnedEvent>();
+            OnBossSpawnedEvent ev = new OnBossSpawnedEvent();
+            ev.bossHp = enemy.HealthController.MaxHealth;
+            EventsAPI.Invoke(ref ev);
             
         }
         private async UniTask HandleWaveSpawning(CancellationToken token)

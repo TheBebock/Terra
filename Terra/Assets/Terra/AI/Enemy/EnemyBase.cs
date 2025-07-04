@@ -8,6 +8,8 @@ using Terra.Core.Generics;
 using Terra.Core.ModifiableValue;
 using Terra.EffectsSystem;
 using Terra.Enums;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.FSM;
 using Terra.Interfaces;
 using Terra.Managers;
@@ -71,7 +73,6 @@ namespace Terra.AI.Enemy
         public HealthController HealthController => _healthController;
         public FacingDirection CurrentDirection { get; private set; } = FacingDirection.Right;
         public StatusContainer StatusContainer => _statusContainer;
-        public bool IsInvincible => _healthController.IsInvincible;
         public bool CanBeDamaged => _healthController.CurrentHealth > 0f && !_healthController.IsImmuneAfterHit;
         public abstract float NormalAttackRange { get; }
 
@@ -110,6 +111,12 @@ namespace Terra.AI.Enemy
         /// </summary>
         protected abstract void SetupStates();
 
+        public virtual void AttachListeners()
+        {
+            _healthController.OnDeath += (this as IDamageable).OnDeath;
+            EventsAPI.Register<OnBossDiedEvent>(OnBossDiedEvent);
+        }
+
         protected void Update()
         {
             if (!CanUpdateState) return;
@@ -126,6 +133,17 @@ namespace Terra.AI.Enemy
         protected virtual void InternalUpdate()
         {
             
+        }
+
+        private void OnBossDiedEvent(ref OnBossDiedEvent bossDiedEvent)
+        {
+            _ = OnBossDiedAsync();
+        }
+
+        private async UniTaskVoid OnBossDiedAsync()
+        {
+            await UniTask.WaitForSeconds(0.5f, cancellationToken: CancellationToken);
+            HealthController.Kill(true);
         }
         /// <summary>
         /// Updates facing direction based on agent velocity.
@@ -245,10 +263,7 @@ namespace Terra.AI.Enemy
             Destroy(gameObject);
         }
 
-        protected virtual void BeforeDeletion()
-        {
-            
-        }
+        protected virtual void BeforeDeletion() {}
         protected virtual void OnDeath(){}
 
         /// <summary>
@@ -258,22 +273,20 @@ namespace Terra.AI.Enemy
         {
             LootManager.Instance.SpawnCrystalPickup(ItemsSpawnPosition);
         }
-
-        public virtual void AttachListeners()
-        {
-            _healthController.OnDeath += (this as IDamageable).OnDeath;
-        }
-
-        public virtual void DetachListeners()
-        {
-            _healthController.OnDeath -= (this as IDamageable).OnDeath;
-        }
-
+        
         public void SetCanUpdateState(bool value)
         {
             _stateMachineLocked = value;
         }
 
+        public virtual void DetachListeners()
+        {
+            EventsAPI.Unregister<OnBossDiedEvent>(OnBossDiedEvent);
+            _healthController.OnDeath -= (this as IDamageable).OnDeath;
+        }
+
+#if UNITY_EDITOR
+        
         protected override void OnValidate()
         {
             base.OnValidate();
@@ -320,5 +333,6 @@ namespace Terra.AI.Enemy
                     Debug.LogError($"[{name}] Missing SpriteRenderer (enemyModel) in children.", this);
             }
         }
+#endif  
     }
 }

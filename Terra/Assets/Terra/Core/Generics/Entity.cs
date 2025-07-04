@@ -42,12 +42,17 @@ namespace Terra.Core.Generics
             _id = newID;
         }
 
-        protected virtual void OnValidate()
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if (!_vfxController)
             {
                 _vfxController = GetComponentInChildren<VFXController>();
             }
         }
+#endif
+        
     }
 }
