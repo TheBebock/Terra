@@ -1,5 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Player;
 using Terra.Utils;
@@ -9,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace Terra.LootSystem.AirDrop
 {
-    public class AirdropManager : MonoBehaviourSingleton<AirdropManager>, IWithSetUp
+    public class AirdropManager : MonoBehaviourSingleton<AirdropManager>, IWithSetUp, IAttachListeners
     {
         [FormerlySerializedAs("flarePrefab")] [SerializeField] private FlareLandingNotifier _flarePrefab;
         [FormerlySerializedAs("cratePrefab")] [SerializeField] private GameObject _cratePrefab;
@@ -33,10 +35,20 @@ namespace Terra.LootSystem.AirDrop
             _groundLayer = LayerMask.NameToLayer("Ground");
         }
 
+        public void AttachListeners()
+        {
+            EventsAPI.Register<GameDifficultyChangedEvent>(OnDifficultyChanged);
+        }
+
         public void SetUp()
         {
             SetDifficultyMultipler();
             _ = AirdropLoop();
+        }
+
+        private void OnDifficultyChanged(ref GameDifficultyChangedEvent gameDifficulty)
+        {
+            SetDifficultyMultipler();
         }
 
         private void SetDifficultyMultipler()
@@ -151,10 +163,15 @@ namespace Terra.LootSystem.AirDrop
             Instantiate(_cratePrefab, groundPosition, Quaternion.identity, _dropContainer);
         }
         
+        public void DetachListeners()
+        {
+            EventsAPI.Unregister<GameDifficultyChangedEvent>(OnDifficultyChanged);
+        }
         
         public void TearDown()
         {
             
         }
+
     }
 }

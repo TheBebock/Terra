@@ -7,11 +7,14 @@ using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
 using UnityEngine;
 using Terra.Utils;
+using Terra.Interfaces;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
 
 namespace Terra.Managers
 {
 
-    public class CombatManager : MonoBehaviourSingleton<CombatManager>
+    public class CombatManager : MonoBehaviourSingleton<CombatManager>, IAttachListeners
     {
         private LayerMask _playerLayer;
         [Range(0,100)]private int _basePlayerCritChance = 10; 
@@ -25,6 +28,16 @@ namespace Terra.Managers
         {
             base.Awake();
             _playerLayer = LayerMask.NameToLayer("Player");
+            SetDifficultyMultipler();
+        }
+
+        public void AttachListeners()
+        {
+            EventsAPI.Register<GameDifficultyChangedEvent>(OnGameDifficultyChanged);
+        }
+
+        private void OnGameDifficultyChanged(ref GameDifficultyChangedEvent gameDifficulty)
+        {
             SetDifficultyMultipler();
         }
 
@@ -171,6 +184,11 @@ namespace Terra.Managers
                     break;
             }
             _allPlayerEffects.AddEffects(defaultWeaponEffects);
+        }
+
+        public void DetachListeners()
+        {
+            EventsAPI.Unregister<GameDifficultyChangedEvent>(OnGameDifficultyChanged);
         }
     }
 }
