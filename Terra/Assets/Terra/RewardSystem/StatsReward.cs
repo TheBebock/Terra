@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Terra.Player;
 using Terra.Core.ModifiableValue;
 using System.Collections.Generic;
@@ -80,12 +80,12 @@ namespace Terra.RewardSystem
 
         private void SetUIDescription(ValueModifier valueModifier)
         {
-            char rewardSign = valueModifier.type == StatModType.Flat ? '+' : 'x';
+            char rewardPercentageSign = '%';
             float rewardValue = valueModifier.type == StatModType.Flat ? valueModifier.value : 1 + valueModifier.value;
 
             string text = valueModifier.type == StatModType.Flat ?  
-                $"{rewardSign}{rewardValue}" 
-                : $"{rewardSign}{rewardValue.ToFactor():0.00}";
+                $"{rewardValue}" 
+                : $"{rewardValue}{rewardPercentageSign}";
             rewardDescription = text;
         }
         
