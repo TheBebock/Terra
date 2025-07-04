@@ -65,7 +65,7 @@ namespace Terra.Environment
             VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
               
-            if(_hurtSFX) AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource);
+            if(_hurtSFX) AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);
             PopupDamageManager.Instance?.UsePopup(transform, Quaternion.identity, value);
         }
 

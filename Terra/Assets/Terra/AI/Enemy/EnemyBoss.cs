@@ -166,7 +166,7 @@ namespace Terra.AI.Enemy
             
             CombatManager.Instance.PerformAttack(this, targets, baseDamage: _enemyStats.baseStrength);
             
-            if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource);
+            if(_deafultAttackSFX) AudioManager.Instance?.PlaySFXAtSource(_deafultAttackSFX, _audioSource, true);
             if(Data.normalAttackParticles) VFXController.SpawnParticleInWorld(Data.normalAttackParticles, attackCollider.transform.position, Quaternion.identity, destroyDuration: 1f);
             
             EventsAPI.Invoke<OnBossPerformedNormalAttack>();

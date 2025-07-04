@@ -76,7 +76,7 @@ namespace Terra.Player
             Debug.Log($"{this}: Taking Damage {amount}");
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
-            if(_hurtSound) AudioManager.Instance?.PlaySFXAtSource(_hurtSound, _audioSource);
+            if(_hurtSound) AudioManager.Instance?.PlaySFXAtSource(_hurtSound, _audioSource, true);
             
             VFXcontroller.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);

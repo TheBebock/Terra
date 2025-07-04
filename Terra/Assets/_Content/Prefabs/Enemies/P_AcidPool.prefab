@@ -862,9 +862,9 @@ MonoBehaviour:
   onSpawnParticle:
     particleComponent: {fileID: -5475371912470613344, guid: 60c0993b09b15094e9b658d57535b43a,
       type: 3}
-    offset: {x: 0, y: 0.8, z: 0.5}
+    offset: {x: 0, y: 0.8, z: 0.8}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0.08
+    scaleModifier: 0.05
     destroyDuration: 0
   onHealParticle:
     particleComponent: {fileID: 0}
@@ -938,10 +938,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35363248
+  m_Radius: 0.55
   m_Height: 3.9249406
   m_Direction: 1
-  m_Center: {x: -0.046367526, y: 0.036331892, z: 0}
+  m_Center: {x: -0.046367526, y: 0.036331892, z: 0.15}
 --- !u!54 &8682889680877226252
 Rigidbody:
   m_ObjectHideFlags: 0

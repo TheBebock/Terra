@@ -11,11 +11,16 @@ using UnityEngine;
 
 namespace Terra.Interactions
 {
-    public class ElevatorEngine : InteractableBase, IAttachListeners
+    public class ElevatorEngine : InteractableBase, IAttachListeners, IWithSetUp
     {
         [SerializeField] private Light _redLight;
         [SerializeField] private LightPulse _greenLight;
         [SerializeField] private List<Animator> _animators;
+        
+        public void SetUp()
+        {
+            OnInteractableStateChanged(false);
+        }
         
         public void AttachListeners()
         {
@@ -76,11 +81,16 @@ namespace Terra.Interactions
             ChangeInteractibility(false);
             StopAnimations();
         }
-
+        
         public void DetachListeners()
         {
             EventsAPI.Unregister<WaveEndedEvent>(OnWaveEnded);
             EventsAPI.Unregister<ElevatorGeneratorStoppedEvent>(OnGeneratorStopped);
+        }
+        
+        public void TearDown()
+        {
+            
         }
 
 #if UNITY_EDITOR
@@ -92,5 +102,8 @@ namespace Terra.Interactions
         }
 #endif
 
+
+
+      
     }
 }

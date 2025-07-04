@@ -211,7 +211,7 @@ namespace Terra.AI.Enemy
                 return;
             }
             
-            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource);
+            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);
             
             // Prevent negative damage values
             if (amount < 0) amount = 0;

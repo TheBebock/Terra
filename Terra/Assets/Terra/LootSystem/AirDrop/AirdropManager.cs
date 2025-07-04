@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
@@ -29,7 +31,7 @@ namespace Terra.LootSystem.AirDrop
         private float DifficultyModifier = 1;
 
         private LayerMask _groundLayer;
-
+        private CancellationTokenSource _airdropCts;
         protected override void Awake()
         {
             _groundLayer = LayerMask.NameToLayer("Ground");
@@ -38,20 +40,25 @@ namespace Terra.LootSystem.AirDrop
         public void AttachListeners()
         {
             EventsAPI.Register<GameDifficultyChangedEvent>(OnDifficultyChanged);
+            EventsAPI.Register<OnBossDiedEvent>(OnBossDied);
         }
 
         public void SetUp()
         {
-            SetDifficultyMultipler();
-            _ = AirdropLoop();
+            SetDifficultyMultiplier();
+            StartAirdrop();
         }
 
         private void OnDifficultyChanged(ref GameDifficultyChangedEvent gameDifficulty)
         {
-            SetDifficultyMultipler();
+            SetDifficultyMultiplier();
         }
 
-        private void SetDifficultyMultipler()
+        private void OnBossDied(ref OnBossDiedEvent ev)
+        {
+            StopAirDrop();
+        }
+        private void SetDifficultyMultiplier()
         {
             switch (GameSettings.DefaultDifficultyLevel)
             {
@@ -87,24 +94,46 @@ namespace Terra.LootSystem.AirDrop
             return Random.Range(modifiedMin + DifficultyModifier, modifiedMax + DifficultyModifier);
         }
 
-
-        private async UniTaskVoid AirdropLoop()
+        private void StartAirdrop()
+        {
+            _airdropCts?.Cancel(); // in case there’s an existing loop
+            _airdropCts = new CancellationTokenSource();
+            AirdropLoop(_airdropCts.Token).Forget();
+        }
+        private void StopAirDrop()
+        {
+            if (_airdropCts != null && !_airdropCts.IsCancellationRequested)
+            {
+                _airdropCts.Cancel();
+                _airdropCts.Dispose();
+                _airdropCts = null;
+                Debug.Log("Airdrop stopped.");
+            }
+        }
+        private async UniTaskVoid AirdropLoop(CancellationToken cancellationToken)
         {
             Debug.Log("Airdrop loop started.");
-            while (true)
+            try
             {
-                float spawnDelay = GetModifiedSpawnDelay();
-                await UniTask.WaitForSeconds(spawnDelay, cancellationToken:CancellationToken);
+                while (true)
+                {
+                    float spawnDelay = GetModifiedSpawnDelay();
+                    await UniTask.WaitForSeconds(spawnDelay, cancellationToken: cancellationToken);
 
-                Debug.Log("Dropping flare...");
+                    Debug.Log("Dropping flare...");
 
-                Vector3 dropPos = GetRandomPosition();
-                Debug.Log($"Flare drop position: {dropPos}");
+                    Vector3 dropPos = GetRandomPosition();
+                    Debug.Log($"Flare drop position: {dropPos}");
 
-                _ = HandleDrop(dropPos);
+                    _ = HandleDrop(dropPos);
+                }
             }
-            // ReSharper disable once FunctionNeverReturns
+            catch (OperationCanceledException)
+            {
+                Debug.Log("Airdrop loop canceled.");
+            }
         }
+
 
         private Vector3 GetRandomPosition()
         {
@@ -166,6 +195,7 @@ namespace Terra.LootSystem.AirDrop
         public void DetachListeners()
         {
             EventsAPI.Unregister<GameDifficultyChangedEvent>(OnDifficultyChanged);
+            EventsAPI.Unregister<OnBossDiedEvent>(OnBossDied);
         }
         
         public void TearDown()

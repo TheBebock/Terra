@@ -98,7 +98,7 @@ namespace Terra.Managers
             _sfxSource.PlayOneShot(clip);
         } 
 
-        public void PlaySFXAtSource(AudioClip clip, AudioSource source, float pitch = 1f)
+        public void PlaySFXAtSource(AudioClip clip, AudioSource source, bool repeatSound =false, float pitch = 1f)
         {
             if (source == null)
             {
@@ -110,7 +110,7 @@ namespace Terra.Managers
                 Debug.LogWarning($"{this}: Given clip was null");
                 return;
             }
-            if (source.isPlaying)
+            if (source.isPlaying && !repeatSound)
             {
                 if(source.clip == clip)
                     return;
