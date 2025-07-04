@@ -145,25 +145,25 @@ namespace Terra.RewardSystem
                 Debug.LogError("Given weapons are null");
                 return default;
             }
-            int newWeaponStr = CalculateModifierValue(toCompareWeapon.strengthModifiers);
-            int playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
-            int playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);
-            
-            int newWeaponDex = CalculateModifierValue(toCompareWeapon.dexModifiers);
-            int playerDex = PlayerStatsManager.Instance.PlayerStats.Dexterity;
-            int playerDexWithoutCurrentWeapon = playerDex - CalculateModifierValue(currentWeapon.dexModifiers);
+            var newWeaponStr = CalculateModifierValue(toCompareWeapon.strengthModifiers);
+            var playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
+            var playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);
 
-            int newWeaponMeleeRange = CalculateModifierValue(toCompareWeapon.meleeRangeModifiers);
-            int playerMeleeRange = PlayerStatsManager.Instance.PlayerStats.MeleeRange;
-            int playerMeleeRangeWithoutCurrentWeapon = playerMeleeRange - CalculateModifierValue(currentWeapon.meleeRangeModifiers);
-            
-            int newWeaponSwingSpeed = CalculateModifierValue(toCompareWeapon.swingSpeedModifiers);
-            int playerSwingSpeed = PlayerStatsManager.Instance.PlayerStats.SwingSpeed;
-            int playerSwingSpeedWithoutCurrentWeapon = playerSwingSpeed - CalculateModifierValue(currentWeapon.swingSpeedModifiers);
+            var newWeaponDex = CalculateModifierValue(toCompareWeapon.dexModifiers);
+            var playerDex = PlayerStatsManager.Instance.PlayerStats.Dexterity;
+            var playerDexWithoutCurrentWeapon = playerDex - CalculateModifierValue(currentWeapon.dexModifiers);
 
-            int newWeaponRangeCooldown = CalculateModifierValue(toCompareWeapon.rangeCooldownModifiers);
-            int playerRangeCooldown = PlayerStatsManager.Instance.PlayerStats.RangeCooldown;
-            int playerRangeCooldownWithoutCurrentWeapon = playerRangeCooldown - CalculateModifierValue(currentWeapon.rangeCooldownModifiers);
+            var newWeaponMeleeRange = CalculateModifierValue(toCompareWeapon.meleeRangeModifiers);
+            var playerMeleeRange = PlayerStatsManager.Instance.PlayerStats.MeleeRange;
+            var playerMeleeRangeWithoutCurrentWeapon = playerMeleeRange - CalculateModifierValue(currentWeapon.meleeRangeModifiers);
+
+            var newWeaponSwingSpeed = CalculateModifierValue(toCompareWeapon.swingSpeedModifiers);
+            var playerSwingSpeed = PlayerStatsManager.Instance.PlayerStats.SwingSpeed;
+            var playerSwingSpeedWithoutCurrentWeapon = playerSwingSpeed - CalculateModifierValue(currentWeapon.swingSpeedModifiers);
+
+            var newWeaponRangeCooldown = CalculateModifierValue(toCompareWeapon.rangeCooldownModifiers);
+            var playerRangeCooldown = PlayerStatsManager.Instance.PlayerStats.RangeCooldown;
+            var playerRangeCooldownWithoutCurrentWeapon = playerRangeCooldown - CalculateModifierValue(currentWeapon.rangeCooldownModifiers);
 
 
 
@@ -174,25 +174,25 @@ namespace Terra.RewardSystem
                     isInitialized = true,
 
                     strength = CompareModifiers(currentWeapon.strengthModifiers, toCompareWeapon.strengthModifiers),
-                    strengthValue = playerStrWithoutCurrentWeapon + newWeaponStr,
+                    strengthValue = (int)(playerStrWithoutCurrentWeapon + newWeaponStr),
 
                     maxHealth = CompareModifiers(currentWeapon.maxHealthModifiers, toCompareWeapon.maxHealthModifiers),
                     maxHealthValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.MaxHealth, toCompareWeapon.maxHealthModifiers),
 
                     dexterity = CompareModifiers(currentWeapon.dexModifiers, toCompareWeapon.dexModifiers),
-                    dexterityValue = playerDexWithoutCurrentWeapon + newWeaponDex,
+                    dexterityValue = (int)(playerDexWithoutCurrentWeapon + newWeaponDex),
 
                     luck = CompareModifiers(currentWeapon.luckModifiers, toCompareWeapon.luckModifiers),
                     luckValue = PlayerStatsManager.Instance.GetTempStatValue(StatisticType.Luck, toCompareWeapon.luckModifiers),
 
                     swingSpeed = CompareModifiers(currentWeapon.swingSpeedModifiers, toCompareWeapon.swingSpeedModifiers),
-                    swingSpeedValue = playerSwingSpeedWithoutCurrentWeapon + newWeaponSwingSpeed,
+                    swingSpeedValue = (int)(playerSwingSpeedWithoutCurrentWeapon + newWeaponSwingSpeed),
 
                     meleeRange = CompareModifiers(currentWeapon.meleeRangeModifiers, toCompareWeapon.meleeRangeModifiers),
-                    meleeRangeValue = playerMeleeRangeWithoutCurrentWeapon + newWeaponMeleeRange,
+                    meleeRangeValue = (int)(playerMeleeRangeWithoutCurrentWeapon + newWeaponMeleeRange),
 
                     rangeCooldown = CompareModifiers(currentWeapon.rangeCooldownModifiers, toCompareWeapon.rangeCooldownModifiers),
-                    rangeCooldownValue = playerRangeCooldownWithoutCurrentWeapon + newWeaponRangeCooldown,
+                    rangeCooldownValue = (int)(playerRangeCooldownWithoutCurrentWeapon + newWeaponRangeCooldown),
 
                 }
             };
@@ -224,7 +224,7 @@ namespace Terra.RewardSystem
             return Comparison.Equal;
         }
 
-        public static int CalculateModifierValue(List<ValueModifier> modifiers)
+        public static float CalculateModifierValue(List<ValueModifier> modifiers)
         {
             float finalValue = 0;
             float sumPercentAdd = 0;
@@ -246,14 +246,14 @@ namespace Terra.RewardSystem
 
             if (finalValue == 0)
             {
-                finalValue = sumPercentAdd;
+                finalValue = sumPercentAdd.ToFactor();
             }
             else
             {
                 finalValue *= (1 + sumPercentAdd.ToFactor());
             }
 
-            return (int)Math.Round(finalValue, 4);
+            return (float)Math.Round(finalValue, 4);
         }
     }
 }

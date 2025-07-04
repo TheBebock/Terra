@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Enums;
@@ -124,6 +124,24 @@ namespace Terra.UI.HUD.StatDisplay
 
                     statLabelData.statLabel.SetDescription(comparison.luckValue);
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.luck));
+                    break;
+                case StatisticType.SwingSpeed:
+                    if(comparison.swingSpeedValue == 0) return;
+
+                    statLabelData.statLabel.SetDescription(comparison.swingSpeedValue);
+                    statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.swingSpeed));
+                    break;
+                case StatisticType.MeleeRange:
+                    if (comparison.meleeRangeValue == 0) return;
+
+                    statLabelData.statLabel.SetDescription(comparison.meleeRangeValue);
+                    statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.meleeRange));
+                    break;
+                case StatisticType.RangeCooldown:
+                    if (comparison.rangeCooldownValue == 0) return;
+
+                    statLabelData.statLabel.SetDescription(comparison.rangeCooldownValue);
+                    statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.rangeCooldown));
                     break;
             }
         }

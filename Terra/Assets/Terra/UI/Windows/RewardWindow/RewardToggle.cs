@@ -181,50 +181,64 @@ namespace Terra.UI.Windows.RewardWindow
             if (data.maxHealthModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.maxHealthModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Max Health";
             }
 
             if (data.luckModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.luckModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Luck";
             }
 
             if (data.strengthModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.strengthModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Strength";
             }
 
             if (data.dexModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.dexModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.dexterity, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.dexterity, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Dexterity";
             }
 
             if(data.swingSpeedModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.swingSpeedModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.swingSpeed, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.swingSpeed, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Swing Speed";
             }
 
             if (data.meleeRangeModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.meleeRangeModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.meleeRange, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.meleeRange, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Range";
             }
 
             if (data.rangeCooldownModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.rangeCooldownModifiers);
-                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.rangeCooldown, $"{totalValue}");
+                _rewardDescription.text += MarkStatisticText(currentItemDataComparison.rangeCooldown, $"{CheckAddPercentMark(totalValue)}");
                 _rewardDescription.text += " Cooldown";
+            }
+        }
+
+        private string CheckAddPercentMark(float value)
+        {
+            if (value % 1 != 0)
+            {
+                string stringToMark = (value * 100).ToString();
+                stringToMark += "%";
+                return stringToMark;
+            }
+            else
+            {
+                return value.ToString();
             }
         }
 
@@ -384,6 +398,7 @@ namespace Terra.UI.Windows.RewardWindow
                     LootManager.Instance.LootTable.RemovePassiveItem(_passiveItemReward);
                     break;
             }
+            EconomyManager.Instance.TryToBuy(_rewardCost);
         }
 
         private void ApplyEffectReward(EffectData effectData)
