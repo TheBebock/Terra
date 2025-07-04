@@ -1,7 +1,8 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Player;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -22,7 +23,9 @@ namespace Terra.LootSystem.AirDrop
         [Header("Spawn Area")]
         [SerializeField] private Vector2 _spawnMin;
         [FormerlySerializedAs("spawnMax")] [SerializeField] private Vector2 _spawnMax;
-        
+
+        private float DifficultyModifier = 1;
+
         private LayerMask _groundLayer;
 
         protected override void Awake()
@@ -32,8 +35,20 @@ namespace Terra.LootSystem.AirDrop
 
         public void SetUp()
         {
+            SetDifficultyMultipler();
             _ = AirdropLoop();
         }
+
+        private void SetDifficultyMultipler()
+        {
+            switch (GameSettings.DefaultDifficultyLevel)
+            {
+                case Enums.GameDifficulty.Cyberiada: DifficultyModifier = -20f; break;
+                case Enums.GameDifficulty.Easy: DifficultyModifier = -10f; break;
+                case Enums.GameDifficulty.Normal: DifficultyModifier = 0; break;
+            }
+        }
+
         private float GetModifiedSpawnDelay()
         {
             // Base interval values (in seconds) for airdrop spawn frequency
@@ -57,7 +72,7 @@ namespace Terra.LootSystem.AirDrop
             float modifiedMax = baseMax * luckFactor;
 
             // Return a random value between the modified min and max delay
-            return Random.Range(modifiedMin, modifiedMax);
+            return Random.Range(modifiedMin + DifficultyModifier, modifiedMax + DifficultyModifier);
         }
 
 

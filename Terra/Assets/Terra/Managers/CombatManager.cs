@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terra.Combat;
 using Terra.Player;
 using Terra.Core.Generics;
@@ -6,6 +6,7 @@ using Terra.EffectsSystem.Abstract;
 using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
 using UnityEngine;
+using Terra.Utils;
 
 namespace Terra.Managers
 {
@@ -18,10 +19,23 @@ namespace Terra.Managers
         private static List<IDamageable> _targetsList = new();
         private static EffectsContainer _allPlayerEffects = new();
 
+        private float DifficultyModifier = 1;
+
         protected override void Awake()
         {
             base.Awake();
             _playerLayer = LayerMask.NameToLayer("Player");
+            SetDifficultyMultipler();
+        }
+
+        private void SetDifficultyMultipler()
+        {
+            switch (GameSettings.DefaultDifficultyLevel)
+            {
+                case Enums.GameDifficulty.Cyberiada: DifficultyModifier = 2; break;
+                case Enums.GameDifficulty.Easy: DifficultyModifier = 1.5f; break;
+                case Enums.GameDifficulty.Normal: DifficultyModifier = 1; break;
+            }
         }
         
         public void PlayerPerformAttack(WeaponType weaponType, Entity source, IDamageable target,
@@ -47,7 +61,7 @@ namespace Terra.Managers
             {
                 if (!hitTargets[i].CanBeDamaged) continue;
                 
-                int finalDamage = statsValue;
+                int finalDamage = Mathf.RoundToInt(statsValue * DifficultyModifier);
 
                 if (isCrit && !isPercentage)
                 {
@@ -100,7 +114,7 @@ namespace Terra.Managers
                 if (!hitTargets[i].CanBeDamaged) continue;
 
                 
-                int finalDamage = baseWeaponDamage + playerStrengthValue;
+                int finalDamage = Mathf.RoundToInt((baseWeaponDamage + playerStrengthValue) * DifficultyModifier);
 
                 if (isCrit)
                 {

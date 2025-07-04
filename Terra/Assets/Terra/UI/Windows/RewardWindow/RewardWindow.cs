@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using Terra.Enums;
 using Terra.GameStates;
 using Terra.Managers;
+using Terra.Utils;
 using TMPro;
 using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
@@ -22,12 +23,18 @@ namespace Terra.UI.Windows.RewardWindow
         [SerializeField] private int _rerollCost;
         private static int LeftRerolls = 3;
 
+        private float DifficultyModifier = 1;
+
+        private int modifiedCost = 0;  
+
         [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
         private List<RewardType> _availableRewardTypes = new();
         public override void SetUp()
         {
             base.SetUp();
+
+            SetDifficultyMultipler();
 
             for (int i = 0; i < _rewardToggles.Count; i++)
             {
@@ -46,7 +53,7 @@ namespace Terra.UI.Windows.RewardWindow
             if(_rerollCost != 0)
             {
                 _rerollCostText.gameObject.SetActive(true);
-                _rerollCostText.text = _rerollCost.ToString();
+                _rerollCostText.text = modifiedCost.ToString();
             }
             else
             {
@@ -54,6 +61,16 @@ namespace Terra.UI.Windows.RewardWindow
             }
 
             LoadRewardsData();
+        }
+        private void SetDifficultyMultipler()
+        {
+            switch (GameSettings.DefaultDifficultyLevel)
+            {
+                case Enums.GameDifficulty.Cyberiada: DifficultyModifier = 0.5f; break;
+                case Enums.GameDifficulty.Easy: DifficultyModifier = 0.75f; break;
+                case Enums.GameDifficulty.Normal: DifficultyModifier = 1; break;
+            }
+            modifiedCost = Mathf.RoundToInt(_rerollCost * DifficultyModifier);
         }
 
         private void NotifyRewardSelected(bool value)
@@ -84,7 +101,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             if (_rerollCost != 0)
             {
-                _rerollButton.interactable = EconomyManager.Instance.CanBuy(_rerollCost);
+                _rerollButton.interactable = EconomyManager.Instance.CanBuy(modifiedCost);
             }
             else
             {
@@ -98,7 +115,7 @@ namespace Terra.UI.Windows.RewardWindow
         private void RerollRewards()
         {
             LeftRerolls--;
-            EconomyManager.Instance.TryToBuy(_rerollCost);
+            EconomyManager.Instance.TryToBuy(modifiedCost);
             CheckRerollsAvailability();
 
             if (IsAnyToggleOn())

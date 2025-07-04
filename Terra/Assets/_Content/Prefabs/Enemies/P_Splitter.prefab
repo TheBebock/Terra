@@ -148,7 +148,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 1308285974110481464}
-  _particlesAnchor: {fileID: 0}
+  _particlesAnchor: {fileID: 677287159264096158}
   _model: {fileID: 5902760152611172917}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
@@ -301,7 +301,6 @@ MonoBehaviour:
       _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
-    _isInvincible: 0
     _immuneAfterHit: 0
   _statusContainer:
     _entity: {fileID: 0}
