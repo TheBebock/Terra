@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NaughtyAttributes;
 using Terra.Core.Generics;
@@ -22,6 +23,7 @@ namespace Terra.Itemization.Pickups
         [SerializeField, ReadOnly] private bool _isInitialized;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private float _distanceToPlayerForMagnetism = 3f;
+        [SerializeField] private float _onSpawnDelayBeforePickupable = 0.5f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField, Range(0, 1f)] private float _addSpeedModifier = 0.05f;
         private float _originalSpeed;
@@ -36,6 +38,20 @@ namespace Terra.Itemization.Pickups
             _originalSpeed = _moveSpeed;
         }
 
+        public void Initialize(PickupBase pickup)
+        {
+            _pickup = pickup;
+            VFXcontroller.SetModelSprite(pickup.ItemIcon);
+            VFXcontroller.SetModelMaterial(pickup.ItemMaterial);
+
+            _ = DelayPickupActivation();
+        }
+
+        private async UniTaskVoid DelayPickupActivation()
+        {
+            await UniTask.WaitForSeconds(_onSpawnDelayBeforePickupable, cancellationToken: CancellationToken);
+            _isInitialized = true;
+        }
         private void OnTriggerEnter(Collider collision)
         {
             if (collision.CompareTag("Player") && CanBePickedUp)
@@ -69,13 +85,7 @@ namespace Terra.Itemization.Pickups
         {
             return Vector3.Distance(PlayerManager.Instance.CurrentPosition, transform.position);
         }
-        public void Initialize(PickupBase pickup)
-        {
-            _pickup = pickup;
-            _isInitialized = true;
-            VFXcontroller.SetModelSprite(pickup.ItemIcon);
-            VFXcontroller.SetModelMaterial(pickup.ItemMaterial);
-        }
+
 
         public void PickUp()
         {
