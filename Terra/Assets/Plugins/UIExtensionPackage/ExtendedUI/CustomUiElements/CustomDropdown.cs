@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UIExtensionPackage.ExtendedUI.Base;
 using UIExtensionPackage.ExtendedUI.Enums;

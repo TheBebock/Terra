@@ -264,9 +264,11 @@ namespace Terra.Player
             }
         }
 
-
-        private void OnValidate()
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (_playerStatsData == null)
             {
                 return;
@@ -274,5 +276,7 @@ namespace Terra.Player
 
             _playerStats = new PlayerStats(_playerStatsData);
         }
+#endif
+        
     }
 }

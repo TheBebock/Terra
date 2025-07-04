@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Combat;
@@ -16,8 +15,6 @@ namespace Terra.AI.Enemy
         [SerializeField, ReadOnly] private Collider _collider;
 
         [Foldout("Debug"), ReadOnly][SerializeField] private int _damage;
-        [Foldout("Debug"), ReadOnly][SerializeField] private Entity _entity;
-        [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effectsContainer = null;
         [Foldout("Debug"), ReadOnly][SerializeField] private AudioClip _attackSFX;
         [Foldout("Debug"), ReadOnly][SerializeField] private AudioSource _audioSource;
 
@@ -37,13 +34,11 @@ namespace Terra.AI.Enemy
             _damageTimer.Stop();
         }
         List<IDamageable> _damageables = new();
-        public void Init(Entity entity, int damage, AudioClip attackSFX, AudioSource audioSource, EffectsContainer effectsContainer = null)
+        public void Init(Entity entity, int damage, AudioClip attackSFX, AudioSource audioSource)
         {
-            _entity = entity;
             _damage = damage;
             _attackSFX = attackSFX;
             _audioSource = audioSource;
-            _effectsContainer = effectsContainer;
             _damageTimer = new CountdownTimer(0.25f);
             _damageTimer.OnTimerStop += OnDamageTimerStop;
         }

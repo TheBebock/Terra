@@ -78,11 +78,18 @@ namespace Terra.Components
             }
             
         }
-        protected virtual void OnValidate()
+
+
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (_light == null) _light = GetComponent<Light>();
             _defaultIntensity = _light.intensity;
             _defaultColor = _light.color;
         }
+#endif
     }
 }

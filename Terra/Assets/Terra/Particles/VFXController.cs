@@ -249,22 +249,28 @@ namespace Terra.Particles
             entity.VFXcontroller.RemoveParticle(particleComponent);
         }
         
-        private void OnValidate()
-        {
-            if (!_container)
-            {
-                _container = GetComponent<Transform>();
-            }
-            if (_container)
-            {
-                 _model = _container.GetComponentInChildren<SpriteRenderer>();
-            }
-        }
 
 
         public void DetachListeners()
         {
             ParticleComponent.OnParticleDestroyed -= OnParticleDestroyed;
         }
+        
+#if UNITY_EDITOR
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            
+            if (!_container)
+            {
+                _container = GetComponent<Transform>();
+            }
+            if (_container)
+            {
+                _model = _container.GetComponentInChildren<SpriteRenderer>();
+            }
+        }
+#endif
     }
 }

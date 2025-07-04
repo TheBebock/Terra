@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
-using Terra.Extensions;
 using Terra.Itemization.Items;
 using Terra.Player;
 using Terra.Utils;

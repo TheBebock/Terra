@@ -5,7 +5,8 @@ namespace Terra.Player.PlayerStates
 {
     public class RangedAttackState : PlayerBaseState
     {
-        private int _actualStateHash;
+        private static readonly int RangeCooldown = Animator.StringToHash("RangeCooldown");
+
         public RangedAttackState(PlayerManager player, Animator animator) : base(player, animator)
         {
         }
@@ -19,17 +20,21 @@ namespace Terra.Player.PlayerStates
         private void ApplyAnimationModifiers()
         {
             float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.RangeCooldown);
-            animator.SetFloat("RangeCooldown", Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
+            animator.SetFloat(RangeCooldown, Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
         }
 
         private void ChangeDirectionOfAnimation(FacingDirection playerAttackDirection)
         {
             switch (playerAttackDirection)
             {
-                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, crossFadeDuration); _actualStateHash = RangedAttackUpHash; break;
-                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, crossFadeDuration); _actualStateHash = RangedAttackDownHash; break;
-                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, crossFadeDuration); _actualStateHash = RangedAttackLeftHash; break;
-                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, crossFadeDuration); _actualStateHash = RangedAttackRightHash; break;
+                case FacingDirection.Up: animator.CrossFade(RangedAttackUpHash, crossFadeDuration);
+                    break;
+                case FacingDirection.Down: animator.CrossFade(RangedAttackDownHash, crossFadeDuration);
+                    break;
+                case FacingDirection.Left: animator.CrossFade(RangedAttackLeftHash, crossFadeDuration);
+                    break;
+                case FacingDirection.Right: animator.CrossFade(RangedAttackRightHash, crossFadeDuration);
+                    break;
             }
         }
     }

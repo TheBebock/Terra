@@ -19,8 +19,8 @@ namespace Terra.UI.Windows.RewardWindow
         [FormerlySerializedAs("acceptButton")] [SerializeField] Button _acceptButton;
         [FormerlySerializedAs("rerollButton")] [SerializeField] Button _rerollButton;
         [SerializeField] private TMP_Text _rerollCostText;
-        [SerializeField] private int _rerollCost = 0;
-        public static int leftRerolls = 3;
+        [SerializeField] private int _rerollCost;
+        private static int LeftRerolls = 3;
 
         [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
@@ -88,7 +88,7 @@ namespace Terra.UI.Windows.RewardWindow
             }
             else
             {
-                if (leftRerolls <= 0)
+                if (LeftRerolls <= 0)
                     _rerollButton.interactable = false;
                 else
                     _rerollButton.interactable = true;
@@ -97,7 +97,7 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void RerollRewards()
         {
-            leftRerolls--;
+            LeftRerolls--;
             EconomyManager.Instance.TryToBuy(_rerollCost);
             CheckRerollsAvailability();
 

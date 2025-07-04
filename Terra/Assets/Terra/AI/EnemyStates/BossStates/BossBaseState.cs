@@ -17,7 +17,7 @@ namespace Terra.AI.EnemyStates.BossStates
         protected int postPumpAttackRight = Animator.StringToHash("PostPumpAttackRight");
         public BossBaseState(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator) : base(enemy, navMeshAgent, animator)
         {
-            if (base.enemy is EnemyBoss foundBoss)
+            if (enemy is EnemyBoss foundBoss)
             {
                 boss = foundBoss;
             }

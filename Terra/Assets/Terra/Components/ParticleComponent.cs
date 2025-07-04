@@ -89,8 +89,13 @@ namespace Terra.Components
 
         private bool ShowParticlesDuration => _particles.main.loop;
         
-        private void OnValidate()
+        
+        
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (!_particles)
             {
                 _particles = GetComponent<ParticleSystem>();
@@ -98,6 +103,7 @@ namespace Terra.Components
             
             Identifier = gameObject.name;
         }
+#endif
 
         protected override void CleanUp()
         {

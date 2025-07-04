@@ -193,7 +193,7 @@ namespace Terra.AI.Enemy
         public Vector3 GetNormalisedDirectionToPlayer(Transform sourceTransform = null)
         {
             if(!sourceTransform) sourceTransform = transform;
-            Vector3 dir = (PlayerManager.Instance.transform.position - transform.position).normalized;
+            Vector3 dir = (PlayerManager.Instance.transform.position - sourceTransform.position).normalized;
             return dir;
         }
         protected virtual bool CanAttackPlayer() {

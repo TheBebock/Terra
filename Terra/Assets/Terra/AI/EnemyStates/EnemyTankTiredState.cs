@@ -7,17 +7,8 @@ namespace Terra.AI.EnemyStates
 {
     public class EnemyTankTiredState : EnemyBaseState
     {
-        private EnemyTank _tank;
         public EnemyTankTiredState(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator) : base(enemy, navMeshAgent, animator)
         {
-            if (enemy is EnemyTank tank)
-            {
-                _tank = tank;
-            }
-            else
-            {
-                Debug.LogError($"{enemy.name} is not a {nameof(EnemyTank)}, but has {nameof(EnemyTankTiredState)} assigned");
-            }
         }
 
         public override void OnEnter()

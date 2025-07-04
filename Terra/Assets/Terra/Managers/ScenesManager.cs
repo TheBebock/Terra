@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.GameStates;
 using UnityEngine;
@@ -18,16 +16,14 @@ namespace Terra.Managers
         public const string Loading = "LoadingScene";
         public const string OutroScene = "OutroScene";
     }
-    
+
     /// <summary>
     /// Manages loading and unloading scenes
     /// </summary>
     public class ScenesManager : PersistentMonoSingleton<ScenesManager>
     {
-        [SerializeField, ReadOnly] private List<string> _sceneNames = new ();
-
         public string CurrentSceneName => SceneManager.GetActiveScene().name;
-        
+
         public async void LoadMainMenu()
         {
             await LoadSceneAsync(SceneNames.MainMenu, LoadSceneMode.Single, true);
@@ -42,42 +38,38 @@ namespace Terra.Managers
             {
                 Debug.LogError("Scene index is out of range.");
                 return;
-            } 
-            
+            }
+
             SceneManager.LoadScene(buildIndex);
-        }
-        
-        public void ForceLoadScene(string sceneName)
-        {
-            if (!_sceneNames.Contains(sceneName))
-            {
-                Debug.LogError("Scene name does not exist.");
-                return;
-            } 
-            
-            SceneManager.LoadScene(sceneName);
         }
 
         public async UniTask LoadGameplay()
         {
-            await LoadSceneAsync(SceneNames.Loading, allowSceneActivation:true);
+            await LoadSceneAsync(SceneNames.Loading, allowSceneActivation: true);
             await LoadSceneAsync(SceneNames.Gameplay, activationDelay: 1f);
             GameManager.Instance?.SwitchToGameState<StartOfFloorState>();
         }
-        
-        
+
+        public async UniTask LoadOutro()
+        {
+            await LoadSceneAsync(SceneNames.Loading, allowSceneActivation: true);
+            await LoadSceneAsync(SceneNames.OutroScene, activationDelay: 1f);
+            
+        }
+
         public async UniTask<float> LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single,
             bool allowSceneActivation = false, Action<float> onProgress = null, float activationDelay = 0f)
         {
-            
+
             TimeManager.Instance?.ResumeTime();
-            
+
             AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, mode);
             if (asyncOp == null)
             {
                 Debug.LogError($"{gameObject.name}: Scene not found.");
                 return -1;
             }
+
             asyncOp.allowSceneActivation = allowSceneActivation;
 
             // Track progress (progress goes up to 0.9 before activation)
@@ -90,7 +82,8 @@ namespace Terra.Managers
                 if (asyncOp.progress >= 0.9f && !allowSceneActivation)
                 {
                     if (activationDelay > 0f)
-                        await UniTask.Delay(TimeSpan.FromSeconds(activationDelay), cancellationToken: CancellationToken);
+                        await UniTask.Delay(TimeSpan.FromSeconds(activationDelay),
+                            cancellationToken: CancellationToken);
 
                     asyncOp.allowSceneActivation = true;
                 }
@@ -100,15 +93,6 @@ namespace Terra.Managers
 
             onProgress?.Invoke(1f); // Ensure 100% progress
             return 0;
-        }
-        private void OnValidate()
-        {
-            if (_sceneNames.Count == 0)
-            {
-                _sceneNames.Add(SceneNames.MainMenu);
-                _sceneNames.Add(SceneNames.Gameplay);
-                _sceneNames.Add(SceneNames.Loading);
-            }
         }
     }
 }

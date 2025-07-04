@@ -68,11 +68,11 @@ namespace Terra.EffectsSystem.Abstract.Definitions
                 }
 
 
-                bool effectType = GetType().IsSubclassOf(typeof(StatusEffectData));
+                bool isStatusEffect = GetType().IsSubclassOf(typeof(StatusEffectData));
                 bool incompatibleEffectType = GetType().IsSubclassOf(typeof(StatusEffectData));
-                if (effectType != incompatibleEffectType)
+                if (isStatusEffect != incompatibleEffectType)
                 {
-                    string msg = effectType == true ? $"{nameof(StatusEffectData)}" : $"{nameof(ActionEffectData)}";
+                    string msg = isStatusEffect ? $"{nameof(StatusEffectData)}" : $"{nameof(ActionEffectData)}";
                     Debug.LogError($"{incompatibleEffect} does not inherit from {msg}." +
                                    $"Only effects of type {msg} are supported.");
                     return false;

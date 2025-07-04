@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UIExtensionPackage.ExtendedUI.Base;
 using UIExtensionPackage.ExtendedUI.Enums;
 using UnityEngine;

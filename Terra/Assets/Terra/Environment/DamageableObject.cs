@@ -5,7 +5,6 @@ using Terra.Combat;
 using Terra.Core.Generics;
 using Terra.Core.ModifiableValue;
 using Terra.EffectsSystem;
-using Terra.Interactions;
 using Terra.Interfaces;
 using Terra.Managers;
 using Terra.Particles;

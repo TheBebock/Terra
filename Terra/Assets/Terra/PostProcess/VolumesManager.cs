@@ -46,9 +46,11 @@ namespace Terra.PostProcess
         }
 
 #if UNITY_EDITOR
-        
-        private void OnValidate()
+
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (!_bloom) _bloom = _globalVolume.sharedProfile.TryGet(out Bloom bloom) ?  bloom : null;
             if (!_gamma) _gamma = _globalVolume.sharedProfile.TryGet(out LiftGammaGain gamma) ?  gamma : null;
             

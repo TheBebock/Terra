@@ -132,13 +132,7 @@ namespace Terra.UI.HUD
                 PlayerInventoryManager.Instance.OnMaxAmmoChanged -= HandleMaxAmmoAmountChanged;
             }
         }
-
-        private void OnValidate()
-        {
-            _currentAmmoText.text = _currentAmmoAmount.ToString();
-            _maxAmmoText.text = _maxAmmoAmount.ToString();
-        }
-
+        
         protected override void CleanUp()
         {
             base.CleanUp();
@@ -147,5 +141,16 @@ namespace Terra.UI.HUD
             _animationCts?.Dispose();
             DOTween.KillAll();
         }
+        
+#if UNITY_EDITOR
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            _currentAmmoText.text = _currentAmmoAmount.ToString();
+            _maxAmmoText.text = _maxAmmoAmount.ToString();
+        }
+#endif
+        
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Terra.Enums;
 
 namespace Terra.RewardSystem
 {

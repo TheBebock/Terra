@@ -142,8 +142,12 @@ namespace Terra.Player
             _playerAttackController = null;
         }
 
-        private void OnValidate()
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (_playerEntity == null)
             {
                 if (TryGetComponent(out PlayerEntity playerEntity))
@@ -158,6 +162,8 @@ namespace Terra.Player
 
             if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
+#endif
+        
     }
 }
 

@@ -98,9 +98,6 @@ namespace Terra.Managers
             await tween.AwaitForComplete(cancellationToken: CancellationToken);
         }
 
-
-
-
         private void SetNewVCamTopPriority(ICinemachineCamera vCam)
         {
             if (_cinemachineBrain.ActiveVirtualCamera != null)
@@ -109,12 +106,16 @@ namespace Terra.Managers
             }
             vCam.Priority = TopPriority;
         }
-        
 
-        private void OnValidate()
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (!_mainCamera) _mainCamera = GetComponent<Camera>();
             if(!_cinemachineBrain) _cinemachineBrain = GetComponent<CinemachineBrain>();
         }
+#endif
+        
     }
 }

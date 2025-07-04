@@ -1,4 +1,3 @@
-using System;
 using NaughtyAttributes;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;

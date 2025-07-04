@@ -64,14 +64,21 @@ namespace Terra.Managers
         {
             _maxGold = Mathf.Clamp(amount, 0, Constants.MaximumGoldCapacity);
         }
+        
+#if UNITY_EDITOR
 
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if (_maxGold > Constants.MaximumGoldCapacity)
             {
                 _maxGold = Constants.MaximumGoldCapacity;
                 Debug.LogWarning($"Maximum carry amount of gold exceeded. Maximum capacity allowed is {Constants.MaximumGoldCapacity}");
             }
         }
+
+#endif
+        
     }
 }

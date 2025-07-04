@@ -40,9 +40,12 @@ namespace Terra.Environment
             EventsAPI.Unregister<ElevatorGeneratorStoppedEvent>(OnGeneratorStopped);
         }
 
-        private void OnValidate()
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if(_animators.Count == 0) _animators = GetComponentsInChildren<Animator>().ToList();
         }
+#endif
     }
 }

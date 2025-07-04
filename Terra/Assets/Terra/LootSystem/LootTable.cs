@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
-using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Abstract.Definitions;
 using Terra.Extensions;
 using Terra.Itemization;
@@ -11,7 +10,6 @@ using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
 using Terra.Itemization.Pickups;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Terra.LootSystem
 {

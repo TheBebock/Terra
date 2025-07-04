@@ -1,4 +1,3 @@
-using System;
 using Terra.EffectsSystem.Abstract.Definitions;
 using UnityEngine;
 

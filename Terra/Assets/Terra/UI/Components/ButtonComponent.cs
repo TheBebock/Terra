@@ -20,10 +20,17 @@ namespace Terra.UI.Components
         {
             AudioManager.Instance?.PlaySFX("UI_Interaction");
         }
-    
-        private void OnValidate()
+
+#if UNITY_EDITOR
+
+        protected override void OnValidate()
         {
-            if(_button == null) _button = GetComponent<Button>();
+            base.OnValidate();
+
+            if (_button == null) _button = GetComponent<Button>();
         }
+
+#endif
+
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using NaughtyAttributes;
 using Terra.Combat.Projectiles;
-using Terra.Core.Generics;
 using Terra.EffectsSystem;
 using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Abstract.Definitions;
@@ -57,7 +56,7 @@ namespace Terra.Player
         private OnPlayerMeleeAttackPerformedEvent _meleeEvent;
 
 
-        private Vector3 _rangeShootDirection = new();
+        private Vector3 _rangeShootDirection;
         public PlayerAttackController(AudioSource audioSource, Transform firePoint)
         {
             _audioSource = audioSource;
@@ -158,7 +157,7 @@ namespace Terra.Player
 
         public void AddNewAttackActionEffect(ActionEffectData action)
         {
-            EffectsContainer effectsContainer = null;
+            EffectsContainer effectsContainer;
             switch (action.containerType)
             {
                 case ContainerType.MeleeWeapon: 
@@ -183,7 +182,7 @@ namespace Terra.Player
         
         public void AddNewAttackStatusEffect(StatusEffectData status)
         {
-            EffectsContainer effectsContainer = null;
+            EffectsContainer effectsContainer;
             switch (status.containerType)
             {
                 case ContainerType.MeleeWeapon: 

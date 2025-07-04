@@ -7,8 +7,8 @@ namespace Terra.AI.EnemyStates.BossStates
 {
     public class BossPumpAttack : BossBaseState
     {
-        FacingDirection pumpDirection;
-        private int animationName;
+        FacingDirection _pumpDirection;
+        private int _animationName;
         public BossPumpAttack(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator) : base(enemy, navMeshAgent, animator)
         {
         }
@@ -22,9 +22,9 @@ namespace Terra.AI.EnemyStates.BossStates
             
             boss.UpdateFacingDirection(boss.GetNormalisedDirectionToPlayer());
             boss.PrePumpAttackStart();
-            pumpDirection = enemy.CurrentDirection;
-            animationName = pumpDirection == FacingDirection.Left ? prePumpAttackLeft : pumpAttackRight;
-            animator.CrossFade(animationName, CrossFadeDuration);
+            _pumpDirection = enemy.CurrentDirection;
+            _animationName = _pumpDirection == FacingDirection.Left ? prePumpAttackLeft : pumpAttackRight;
+            animator.CrossFade(_animationName, CrossFadeDuration);
         }
 
         public override void Update()
@@ -32,11 +32,11 @@ namespace Terra.AI.EnemyStates.BossStates
             base.Update();
             
             if(boss.IsInPrePump) return;
-            int previousAnimationName = animationName;
-            animationName = pumpDirection == FacingDirection.Left ? pumpAttackLeft : pumpAttackRight;
-            if(previousAnimationName == animationName) return;
+            int previousAnimationName = _animationName;
+            _animationName = _pumpDirection == FacingDirection.Left ? pumpAttackLeft : pumpAttackRight;
+            if(previousAnimationName == _animationName) return;
             
-            animator.CrossFade(animationName, CrossFadeDuration);
+            animator.CrossFade(_animationName, CrossFadeDuration);
         }
         
     }

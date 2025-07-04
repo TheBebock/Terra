@@ -42,10 +42,18 @@ namespace Terra.LootSystem.AirDrop
              _particles.transform.parent = null;
              _particles.RestartTimer(_smokeDurationAfterHittingGround);
         }
-        private void OnValidate()
+
+#if UNITY_EDITOR
+
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if(!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
             if(!_particles) _particles = GetComponentInChildren<ParticleComponent>(); 
         }
+
+#endif
+       
     }
 }

@@ -8,7 +8,7 @@ namespace Terra.Player.PlayerStates
 {
     public class MeleeAttackState : PlayerBaseState
     {
-        private int _actualStateHash;
+        private static readonly int SwingSpeed = Animator.StringToHash("SwingSpeed");
         List<AnimationEventStateBehaviour> _animationEventStateBehaviours = new List<AnimationEventStateBehaviour>();
         public MeleeAttackState(PlayerManager player, Animator animator) : base(player, animator)
         
@@ -30,7 +30,7 @@ namespace Terra.Player.PlayerStates
         private void ApplyAnimationModifiers()
         {
             float animationSpeedModifier = Mathf.InverseLerp(-100f, 100f, PlayerStatsManager.Instance.PlayerStats.RangeCooldown);
-            animator.SetFloat("SwingSpeed", Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
+            animator.SetFloat(SwingSpeed, Mathf.Lerp(0.8f, 1.6f, animationSpeedModifier));
         }
         
 
@@ -38,10 +38,14 @@ namespace Terra.Player.PlayerStates
         {
             switch (playerAttackDirection)
             {
-                case FacingDirection.Up: animator.CrossFade(MeleeAttackUpHash, crossFadeDuration); _actualStateHash = MeleeAttackUpHash; break;
-                case FacingDirection.Down: animator.CrossFade(MeleeAttackDownHash, crossFadeDuration); _actualStateHash = MeleeAttackDownHash; break;
-                case FacingDirection.Left: animator.CrossFade(MeleeAttackLeftHash, crossFadeDuration); _actualStateHash = MeleeAttackLeftHash; break;
-                case FacingDirection.Right: animator.CrossFade(MeleeAttackRightHash, crossFadeDuration); _actualStateHash = MeleeAttackRightHash; break;
+                case FacingDirection.Up: animator.CrossFade(MeleeAttackUpHash, crossFadeDuration);
+                    break;
+                case FacingDirection.Down: animator.CrossFade(MeleeAttackDownHash, crossFadeDuration);
+                    break;
+                case FacingDirection.Left: animator.CrossFade(MeleeAttackLeftHash, crossFadeDuration);
+                    break;
+                case FacingDirection.Right: animator.CrossFade(MeleeAttackRightHash, crossFadeDuration);
+                    break;
             }
         }
 

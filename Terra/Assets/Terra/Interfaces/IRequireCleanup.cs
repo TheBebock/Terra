@@ -1,6 +1,4 @@
 
-using Terra.EventsSystem.Events;
-
 namespace Terra.Interfaces
 {
     /// <summary>

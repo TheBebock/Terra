@@ -26,6 +26,9 @@ namespace Terra.Interactions
         public override void OnInteraction()
         {
             Debug.Log("Generator OnInteraction");
+            
+            ChangeInteractibility(false);
+            
             StartAnimations();
             _greenLight.StopLightMode();
             EventsAPI.Invoke<ElevatorGeneratorStartedEvent>();

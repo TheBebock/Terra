@@ -7,13 +7,10 @@ namespace Terra.AI.EnemyStates.BossStates
 {
     public class BossNormalAttack : BossBaseState
     {
-        private float _attackDashModifier;
         private int _animationName;
         private int _previousAnimName;
-        public BossNormalAttack(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator, 
-            float attackDashModifier) : base(enemy, navMeshAgent, animator)
+        public BossNormalAttack(EnemyBase enemy, NavMeshAgent navMeshAgent, Animator animator) : base(enemy, navMeshAgent, animator)
         {
-            _attackDashModifier = attackDashModifier;
         }
 
         public override void OnEnter()

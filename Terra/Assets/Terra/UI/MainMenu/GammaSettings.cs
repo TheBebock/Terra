@@ -66,9 +66,14 @@ namespace Terra.UI.MainMenu
             VolumesManager.Instance?.SetGamma(value);
         }
 
-        private void OnValidate()
+#if UNITY_EDITOR
+
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if(!_canvasGroup) _canvasGroup = GetComponent<CanvasGroup>();
         }
+#endif
+
     }
 }

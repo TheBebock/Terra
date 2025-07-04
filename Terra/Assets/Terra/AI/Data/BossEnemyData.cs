@@ -9,8 +9,6 @@ namespace Terra.AI.Data
     [CreateAssetMenu(fileName = "BossEnemy_",menuName = "TheBebocks/AI/Data/BossEnemy")]
     public class BossEnemyData : EnemyData
     {
-        [Min(1f)] public float dashModifier = 2f;
-        
         [BoxGroup("Particles")] public ParticleComponent normalAttackParticles;
         
         [BoxGroup("Cooldowns")][Min(1f)] public float pumpAttackCooldown = 10f;

@@ -131,8 +131,11 @@ namespace Terra.Components
         }
 
 
-        private void OnValidate()
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             _targetVFXControllers.Clear();
 
             for (int i = 0; i < _targetTransforms.Count; i++)
@@ -144,6 +147,7 @@ namespace Terra.Components
                 }
             }
         }
+#endif
 
         public void TearDown()
         {

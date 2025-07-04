@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Terra.Core.Generics;
@@ -188,9 +186,15 @@ namespace Terra.Player
             InputsManager.Instance.PlayerControls.Dash.performed -= OnDashInput;
         }
 
-        private void OnValidate()
+        
+#if UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             if(!_characterController) _characterController = GetComponent<CharacterController>();
         }
+#endif
+
     }
 }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Terra.Managers;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -16,9 +15,9 @@ namespace Terra.UI.IntroScene
 
         
         [SerializeField] private List<UnityEvent> _onVideoEndAction;
-        private float _holdTimer = 0f;
-        private bool _isHolding = false;
-        private bool _invokeFlag = false;
+        private float _holdTimer;
+        private bool _isHolding;
+        private bool _invokeFlag;
         void Start()
         {
             for (int i = 0; i < _onVideoEndAction.Count; i++)

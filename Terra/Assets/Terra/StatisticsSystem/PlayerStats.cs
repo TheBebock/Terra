@@ -2,7 +2,6 @@ using System;
 using Terra.Core.ModifiableValue;
 using Terra.StatisticsSystem.Definitions;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 namespace Terra.StatisticsSystem

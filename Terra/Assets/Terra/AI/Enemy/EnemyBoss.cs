@@ -41,12 +41,12 @@ namespace Terra.AI.Enemy
 
         private AcidPool _instantiadedAcidPool;
         [Foldout("Debug"), ReadOnly][SerializeField] private bool _isIdle = true;
-        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isInPrePump = false;
-        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isInPostPump = false;
-        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isPerformingMeleeAttack = false;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isInPrePump;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isInPostPump;
+        [Foldout("Debug"), ReadOnly][SerializeField]private bool _isPerformingMeleeAttack;
         [Foldout("Debug"), ReadOnly][SerializeField]private bool _canSpit;
         [Foldout("Debug"), ReadOnly][SerializeField]private bool _canPump;
-        [Foldout("Debug"), ReadOnly][SerializeField]private int _currentPumpCycle = 0;
+        [Foldout("Debug"), ReadOnly][SerializeField]private int _currentPumpCycle;
         public bool IsInPrePump => _isInPrePump;
 
         
@@ -56,7 +56,7 @@ namespace Terra.AI.Enemy
         {
             var pumpAttackState = new BossPumpAttack(this, _agent, _animator);
             var spitAttackState = new BossAcidSpitAttack(this, _agent, _animator);
-            var normalAttackState = new BossNormalAttack(this, _agent, _animator, Data.dashModifier);
+            var normalAttackState = new BossNormalAttack(this, _agent, _animator);
             var idleState = new BossIdleState(this, _agent, _animator);
             var chaseState = new EnemyChaseState(this, _agent, _animator, PlayerManager.Instance.transform);
             var postPumpAttackState = new BossPostPumpAttack(this, _agent, _animator);
