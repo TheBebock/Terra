@@ -355,7 +355,7 @@ namespace Terra.UI.Windows.RewardWindow
         private void LoadStatsData()
         {
             _rewardName.text = _statsReward.RewardName;
-            _rewardDescription.text = _statsReward.RewardDescription;
+            _rewardDescription.text = MarkStatisticText(Comparison.Better,_statsReward.RewardDescription);
             _rewardIcon.sprite = GetStatSprite(_statsReward.StatType);
             _statsDataComparison = _statsReward.Comparison;
             _costDisplay.text = GetCostDisplayText(0);
