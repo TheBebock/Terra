@@ -1,4 +1,4 @@
-using Terra.Core.Generics;
+﻿using Terra.Core.Generics;
 using Terra.Itemization.Abstracts;
 using Terra.Itemization.Items;
 using Terra.Itemization.Pickups;

@@ -107,10 +107,10 @@ namespace Terra.UI.Windows.RewardWindow
                 _currentlyActiveToggle = null;
             }
 
-            _rewardToggles[0].RewardType = Enums.RewardType.Stats;
-            _rewardToggles[1].RewardType = Enums.RewardType.Stats;
-            _rewardToggles[2].RewardType = GetRewardType();
-            _rewardToggles[3].RewardType = GetRewardType();
+            _rewardToggles[0].RewardType = GetRewardType(freeStatus: true);
+            _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
+            _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
+            _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
 
             _rewardToggles[0].SetRewardData();
             _rewardToggles[1].SetRewardData();
@@ -120,10 +120,14 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void LoadRewardsData()
         {
-            _rewardToggles[0].RewardType = Enums.RewardType.Stats;
-            _rewardToggles[1].RewardType = Enums.RewardType.Stats;
-            _rewardToggles[2].RewardType = GetRewardType();
-            _rewardToggles[3].RewardType = GetRewardType();
+
+            _rewardToggles[2].SetFreeStatus(false);
+            _rewardToggles[3].SetFreeStatus(false);
+
+            _rewardToggles[0].RewardType = GetRewardType(freeStatus: true);
+            _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
+            _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
+            _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
 
             foreach (var toggle in _rewardToggles)
             {
@@ -131,11 +135,11 @@ namespace Terra.UI.Windows.RewardWindow
             }
         }
         
-        private RewardType GetRewardType()
+        private RewardType GetRewardType(bool freeStatus)
         {
             for (int i = _availableRewardTypes.Count-1; i >= 0; i--)
             {
-                if(IsRewardTypeAvailable(_availableRewardTypes[i])) continue;
+                if(IsRewardTypeAvailable(_availableRewardTypes[i], freeStatus)) continue;
                 
                 _availableRewardTypes.RemoveAt(i);
             }
@@ -147,19 +151,29 @@ namespace Terra.UI.Windows.RewardWindow
             
         }
 
-        private bool IsRewardTypeAvailable(RewardType rewardType)
+        private bool IsRewardTypeAvailable(RewardType rewardType, bool freeStatus)
         {
             switch (rewardType)
             {
                 case RewardType.Stats: return true;
                 case RewardType.PassiveItem:
-                    return LootManager.Instance.LootTable.PassiveItemsCount > 0;
+                    if (freeStatus)
+                        return LootManager.Instance.LootTable.FreePassiveItemsCount > 0;
+                    else
+                        return LootManager.Instance.LootTable.PayPassiveItemsCount > 0;
                 case RewardType.Weapon:
-                    return LootManager.Instance.LootTable.MeleeWeaponsCount 
-                        + LootManager.Instance.LootTable.RangedWeaponsCount > 0;
+                    if (freeStatus)
+                        return LootManager.Instance.LootTable.FreeMeleeWeaponsCount 
+                            + LootManager.Instance.LootTable.FreeRangedWeaponsCount > 0;
+                    else
+                        return LootManager.Instance.LootTable.PayMeleeWeaponsCount
+                            + LootManager.Instance.LootTable.PayRangedWeaponsCount > 0;
                 case RewardType.Effect:
-                    return LootManager.Instance.LootTable.StatusEffectsCount + 
-                        LootManager.Instance.LootTable.ActionEffectsCount > 0;
+                    if (freeStatus)
+                        return false;
+                    else
+                        return LootManager.Instance.LootTable.StatusEffectsCount + 
+                            LootManager.Instance.LootTable.ActionEffectsCount > 0;
                 
                 default: return false;
             }

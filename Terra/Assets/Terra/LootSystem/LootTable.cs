@@ -52,6 +52,17 @@ namespace Terra.LootSystem
         
         [Foldout("Debug"), ReadOnly] [SerializeField] private List<StatusDropData> _statusEffectsPerGame = new ();
         [Foldout("Debug"), ReadOnly] [SerializeField] private List<ActionDropData> _actionEffectsPerGame = new ();
+
+        [Foldout("Free Items"), ReadOnly] [SerializeField] private List<ActiveItem> _freeActiveItems = new();
+        [Foldout("Free Items"), ReadOnly] [SerializeField] private List<PassiveItem> _freePassiveItems = new();
+        [Foldout("Free Items"), ReadOnly] [SerializeField] private List<MeleeWeapon> _freeMeleeWeapons = new();
+        [Foldout("Free Items"), ReadOnly] [SerializeField] private List<RangedWeapon> _freeRangedWeapons = new();
+
+        [Foldout("Pay Items"), ReadOnly] [SerializeField] private List<ActiveItem> _payActiveItems = new();
+        [Foldout("Pay Items"), ReadOnly] [SerializeField] private List<PassiveItem> _payPassiveItems = new();
+        [Foldout("Pay Items"), ReadOnly] [SerializeField] private List<MeleeWeapon> _payMeleeWeapons = new();
+        [Foldout("Pay Items"), ReadOnly] [SerializeField] private List<RangedWeapon> _payRangedWeapons = new();
+
         private bool _isInitialized;
         
         public int PassiveItemsCount => _passiveItems.Count;
@@ -59,6 +70,17 @@ namespace Terra.LootSystem
         public int RangedWeaponsCount => _rangedWeapons.Count;
         public int StatusEffectsCount => _statusEffectsPerGame.Count;
         public int ActionEffectsCount => _actionEffectsPerGame.Count;
+
+        public int FreeActiveItemsCount => _freeActiveItems.Count;
+        public int FreePassiveItemsCount => _freePassiveItems.Count;
+        public int FreeMeleeWeaponsCount => _freeMeleeWeapons.Count;
+        public int FreeRangedWeaponsCount => _freeRangedWeapons.Count;
+
+        public int PayActiveItemsCount => _payActiveItems.Count;
+        public int PayPassiveItemsCount => _payPassiveItems.Count;
+        public int PayMeleeWeaponsCount => _payMeleeWeapons.Count;
+        public int PayRangedWeaponsCount => _payRangedWeapons.Count;
+
 
         public List<ItemBase> GetAllItems()
         {
@@ -105,6 +127,22 @@ namespace Terra.LootSystem
             
             _statusEffectsPerGame.AddRange(_statusEffects);
             _actionEffectsPerGame.AddRange(_actionEffects);
+
+            DivideItemsToPayAndFree(_activeItems, _freeActiveItems, _payActiveItems);
+            DivideItemsToPayAndFree(_passiveItems, _freePassiveItems, _payPassiveItems);
+            DivideItemsToPayAndFree(_meleeWeapons, _freeMeleeWeapons, _payMeleeWeapons);
+            DivideItemsToPayAndFree(_rangedWeapons, _freeRangedWeapons, _payRangedWeapons);
+        }
+
+        private void DivideItemsToPayAndFree<T>(List<T> oryginalItems, List<T> freeItems, List<T> payItems) where T: ItemBase
+        {
+            foreach(T item in oryginalItems)
+            {
+                if(item.ItemCost != 0)
+                    payItems.Add(item);
+                else
+                    freeItems.Add(item);
+            }
         }
 
         private ItemBase CreateNewItem(ItemData data)
@@ -243,9 +281,26 @@ namespace Terra.LootSystem
         {
             return _activeItems.GetRandomElement<ActiveItem>();
         }
+
+        public ActiveItem GetRandomActiveItem(bool freeStatus)
+        {
+            if (freeStatus)
+                return _freeActiveItems.GetRandomElement<ActiveItem>();
+            else
+                return _payActiveItems.GetRandomElement<ActiveItem>();
+        }
+
         public PassiveItem GetRandomPassiveItem()
         {
             return _passiveItems.GetRandomElement<PassiveItem>();
+        }
+
+        public PassiveItem GetRandomPassiveItem(bool freeStatus)
+        {
+            if (freeStatus)
+                return _freePassiveItems.GetRandomElement<PassiveItem>();
+            else
+                return _payPassiveItems.GetRandomElement<PassiveItem>();
         }
 
         public MeleeWeapon GetRandomMeleeWeapon()
@@ -253,9 +308,25 @@ namespace Terra.LootSystem
             return _meleeWeapons.GetRandomElement<MeleeWeapon>();
         }
 
+        public MeleeWeapon GetRandomMeleeWeapon(bool freeStatus)
+        {
+            if (freeStatus)
+                return _freeMeleeWeapons.GetRandomElement<MeleeWeapon>();
+            else
+                return _payMeleeWeapons.GetRandomElement<MeleeWeapon>();
+        }
+
         public RangedWeapon GetRandomRangedWeapon()
         {
             return _rangedWeapons.GetRandomElement<RangedWeapon>();
+        }
+
+        public RangedWeapon GetRandomRangedWeapon(bool freeStatus)
+        {
+            if (freeStatus)
+                return _freeRangedWeapons.GetRandomElement<RangedWeapon>();
+            else
+                return _payRangedWeapons.GetRandomElement<RangedWeapon>();
         }
 
 
@@ -373,20 +444,28 @@ namespace Terra.LootSystem
         public void RemoveActiveItem(ActiveItem activeItem)
         {
             _activeItems.RemoveElement(activeItem);
+            _freeActiveItems.RemoveElement(activeItem);
+            _payActiveItems.RemoveElement(activeItem);
         }
         public void RemovePassiveItem(PassiveItem passiveItem)
         {
             _passiveItems.RemoveElement(passiveItem);
+            _freePassiveItems.RemoveElement(passiveItem);
+            _payPassiveItems.RemoveElement(passiveItem);
         }
 
         public void RemoveMeleeWeapon(MeleeWeapon meleeWeapon)
         {
             _meleeWeapons.RemoveElement(meleeWeapon);
+            _freeMeleeWeapons.RemoveElement(meleeWeapon);
+            _payMeleeWeapons.RemoveElement(meleeWeapon);
         }
 
         public void RemoveRangedWeapon(RangedWeapon rangedWeapon)
         {
             _rangedWeapons.RemoveElement(rangedWeapon);
+            _freeRangedWeapons.RemoveElement(rangedWeapon);
+            _payRangedWeapons.RemoveElement(rangedWeapon);
         }
 
 #endregion
