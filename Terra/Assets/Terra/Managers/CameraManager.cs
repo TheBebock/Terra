@@ -3,16 +3,20 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NaughtyAttributes;
 using Terra.Core.Generics;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
+using Terra.Interfaces;
 using UnityEngine;
 
 namespace Terra.Managers
 {
     
-    public class CameraManager : MonoBehaviourSingleton<CameraManager>
+    public class CameraManager : MonoBehaviourSingleton<CameraManager>, IAttachListeners
     {
         [SerializeField] private GameObject _spriteMask;
         [SerializeField] private CinemachineBrain _cinemachineBrain;
         [SerializeField] private CinemachineVirtualCamera _followPlayerCamera;
+        [SerializeField] private CinemachineVirtualCamera _shakeCamera;
         [SerializeField] private CinemachineVirtualCamera _elevatorCamera;
         [SerializeField] private AnimationCurve _elevatorCurve;
         [SerializeField] private CinemachinePathBase _upwardsPath;
@@ -41,6 +45,16 @@ namespace Terra.Managers
             }
             _startingLevelPosition = _pathTransform.transform.position;
             _elevatorTrackedDolly.m_PathPosition = 0.0f;
+        }
+        
+        public void AttachListeners()
+        {
+            EventsAPI.Register<OnBossCorpseInteractedEvent>(OnBossCorpseInteracted);
+        }
+
+        private void OnBossCorpseInteracted(ref OnBossCorpseInteractedEvent ev)
+        {
+            SetNewVCamTopPriority(_shakeCamera);
         }
         
         public void ChangeToFollowPlayerCamera()
@@ -107,6 +121,11 @@ namespace Terra.Managers
             vCam.Priority = TopPriority;
         }
 
+        public void DetachListeners()
+        {
+            EventsAPI.Unregister<OnBossCorpseInteractedEvent>(OnBossCorpseInteracted);
+        }
+        
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
@@ -116,6 +135,9 @@ namespace Terra.Managers
             if(!_cinemachineBrain) _cinemachineBrain = GetComponent<CinemachineBrain>();
         }
 #endif
-        
+
+      
+
+       
     }
 }

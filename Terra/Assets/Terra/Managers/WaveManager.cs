@@ -74,6 +74,7 @@ namespace Terra.Managers
         public void AttachListeners()
         {
             EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
+            EventsAPI.Register<OnBossDiedEvent>(OnBossDiedEvent);
             if (!TimeManager.Instance) return;
 
             TimeManager.Instance.OnGamePaused += PauseWaves;
@@ -97,7 +98,13 @@ namespace Terra.Managers
             );
             _ = StartSpawningWaves(_linkedCts.Token);
         }
-        public void StopWaves()
+
+        private void OnBossDiedEvent(ref OnBossDiedEvent ev)
+        {
+            StopWaves();
+        }
+        
+        private void StopWaves()
         {
 
             if (_waveCancellationTokenSource != null && !_waveCancellationTokenSource.IsCancellationRequested)
@@ -224,8 +231,11 @@ namespace Terra.Managers
 
         private void OnLevelEnd()
         {
-            EventsAPI.Invoke<WaveEndedEvent>();
-            Debug.Log($"{gameObject.name}: OnWaveEnded event raised");
+            if (_currentActiveEnemies <= 0)
+            {
+                EventsAPI.Invoke<WaveEndedEvent>();
+                Debug.Log($"{gameObject.name}: OnWaveEnded event raised");
+            }
         }
 
         private Vector3 GetRandomSpawnPosition()
@@ -263,8 +273,8 @@ namespace Terra.Managers
 
         public void DetachListeners()
         {
-
             EventsAPI.Unregister<StartOfNewFloorEvent>(OnStartOfNewFloor);
+            EventsAPI.Unregister<OnBossDiedEvent>(OnBossDiedEvent);
 
             if (!TimeManager.Instance) return;
             

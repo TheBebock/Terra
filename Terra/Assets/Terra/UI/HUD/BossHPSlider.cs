@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using NaughtyAttributes;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
@@ -30,6 +32,7 @@ namespace Terra.UI.HUD
             EventsAPI.Register<OnBossSpawnedEvent>(OnBossSpawnedEvent);
             EventsAPI.Register<OnBossStartedMovingEvent>(OnBossStartMovingEvent);
             EventsAPI.Register<OnBossDamagedEvent>(OnBossDamagedEvent);
+            EventsAPI.Register<OnBossDiedEvent>(OnBossDiedEvent);
         }
 
 
@@ -65,6 +68,20 @@ namespace Terra.UI.HUD
             UpdateHpText();
         }
 
+        private void OnBossDiedEvent(ref OnBossDiedEvent deadEvent)
+        {
+            _currentHp =0;
+            _slider.value = 0f;
+            UpdateHpText();
+            _ = OnBossDeadAsync(2f);
+        }
+        private async UniTaskVoid OnBossDeadAsync(float fadeDuration)
+        {
+            await _canvasGroup
+                .DOFade(0, fadeDuration)
+                .WithCancellation(destroyCancellationToken);
+        }
+        
         private void UpdateHpText()
         {
             _hpText.text = $"{_currentHp}/{_maxHp}";
@@ -75,6 +92,8 @@ namespace Terra.UI.HUD
             EventsAPI.Unregister<OnBossSpawnedEvent>(OnBossSpawnedEvent);
             EventsAPI.Unregister<OnBossStartedMovingEvent>(OnBossStartMovingEvent);
             EventsAPI.Unregister<OnBossDamagedEvent>(OnBossDamagedEvent);
+            EventsAPI.Unregister<OnBossDiedEvent>(OnBossDiedEvent);
+
         }
     }
 }

@@ -13052,6 +13052,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3011708763127672821, guid: 8684688ac53222d4e88d713bf3d033fb,
         type: 3}
+      propertyPath: _shakeCamera
+      value: 
+      objectReference: {fileID: 868690035}
+    - target: {fileID: 3011708763127672821, guid: 8684688ac53222d4e88d713bf3d033fb,
+        type: 3}
       propertyPath: _upwardsPath
       value: 
       objectReference: {fileID: 1552052968}

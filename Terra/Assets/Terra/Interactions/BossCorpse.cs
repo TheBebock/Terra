@@ -1,8 +1,12 @@
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Terra.AI.EnemyStates;
 using Terra.Enums;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
+using Terra.GameStates;
+using Terra.Managers;
+using Terra.UI.HUD;
 using UnityEngine;
 
 namespace Terra.Interactions
@@ -10,6 +14,7 @@ namespace Terra.Interactions
     public class BossCorpse : InteractableBase
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private float _fadeInDurationOnInteract = 2.5f;
         private void Awake()
         {
             ChangeInteractibility(false);
@@ -33,6 +38,16 @@ namespace Terra.Interactions
             ChangeInteractibility(false);
             
             EventsAPI.Invoke<OnBossCorpseInteractedEvent>();
+            _ = OnInteractAsync();
+        }
+
+        private async UniTaskVoid OnInteractAsync()
+        {
+            HUDManager.Instance.HideGameplayHUD();
+            GameManager.Instance.SwitchToGameState<DefaultGameState>();
+            await HUDManager.Instance.FadeInDarkScreen(_fadeInDurationOnInteract);
+            AudioManager.Instance.StopMusic(true);
+            await ScenesManager.Instance.LoadOutro();
         }
 
 #if UNITY_EDITOR

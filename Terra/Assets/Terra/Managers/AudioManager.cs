@@ -48,11 +48,7 @@ namespace Terra.Managers
         public void SetUp()
         {
             LoadVolume();   
-        }
-
-        public void SetAudioManagerMusicSourceLooping(bool isLooping)
-        {
-            _musicSource.loop = isLooping;
+            _musicSource.loop = true;
         }
         
         public void PlayMusic(string clip)
@@ -70,9 +66,10 @@ namespace Terra.Managers
             }
         }
 
-        public void StopMusic()
+        public void StopMusic(bool clearAudioClip = false)
         {
             _musicSource.Stop();
+            if(clearAudioClip) _musicSource.clip = null;
         }
         
 

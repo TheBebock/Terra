@@ -16,6 +16,7 @@ namespace Terra.GameStates
             base.OnEnter();
             TimeManager.Instance.ResumeTime();
             InputsManager.Instance.SetAllTimeControlsState(false);
+            InputsManager.Instance.SetPlayerControlsState(false);
         }
     }
 }
