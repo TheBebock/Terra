@@ -68,7 +68,7 @@ namespace Terra.UI.HUD.StatDisplay
             {
                 StatLabel statLabel = Instantiate(_statLabelPrefab, _statLabelContainer);
                 int statValue = PlayerStatsManager.Instance.GetStatValue(_labelSetupData[i].statisticType);
-                statLabel.Init(_labelSetupData[i].statIcon, _labelSetupData[i].statShortName, statValue.ToString());
+                statLabel.Init(_labelSetupData[i].statIcon, _labelSetupData[i].statShortName, ClampStatValue(statValue).ToString());
                 _statLabels.Add(new StatLabelData(_labelSetupData[i].statisticType, statLabel));
             }
 
@@ -170,7 +170,12 @@ namespace Terra.UI.HUD.StatDisplay
             for (int i = 0; i < _statLabels.Count; i++)
             {
                 int statValue = PlayerStatsManager.Instance.GetStatValue(_labelSetupData[i].statisticType);
-                _statLabels[i].statLabel.SetDescription(statValue);
+
+                if (_statLabels[i].statisticType != StatisticType.MaxHealth)
+                    _statLabels[i].statLabel.SetDescription(ClampStatValue(statValue));
+                else
+                    _statLabels[i].statLabel.SetDescription(statValue);
+
                 _statLabels[i].statLabel.SetDescriptionColor(_stdTextColor);
             }
         }
