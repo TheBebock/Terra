@@ -59,7 +59,7 @@ MonoBehaviour:
     spawnValue: 15
   - enemy: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665, type: 3}
     spawnValue: 10
-  _waveToSpawnBoss: 0
+  _waveToSpawnBoss: 5
   _bossPrefab: {fileID: 2317127295530148372, guid: 84990e5cd79ba924bb3c4f890b90197d,
     type: 3}
   _delayBeforeFirstWave: 5
