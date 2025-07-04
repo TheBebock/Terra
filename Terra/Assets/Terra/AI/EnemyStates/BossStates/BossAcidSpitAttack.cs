@@ -14,9 +14,16 @@ namespace Terra.AI.EnemyStates.BossStates
         public override void OnEnter()
         {
             base.OnEnter();
+            navMeshAgent.velocity = Vector3.zero;
+            navMeshAgent.isStopped = true;
             int animHash = boss.CurrentDirection == FacingDirection.Left ? rangeAttackLeft : rangeAttackRight;
             animator.CrossFade(animHash, CrossFadeDuration);
         }
 
+        public override void OnExit()
+        {
+            base.OnExit();
+            navMeshAgent.isStopped = false;
+        }
     }
 }
