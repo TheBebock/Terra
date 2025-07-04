@@ -57,6 +57,9 @@ namespace Terra.UI.Windows.RewardWindow
         private OnRewardSelected _onRewardSelected;
         [SerializeField, ReadOnly] private RewardType _rewardType;
 
+        [SerializeField, ReadOnly] private bool _freeStatus = true;
+        public bool FreeStatus => _freeStatus;
+
         private int _rewardCost = 0;
         public RewardType RewardType { get { return _rewardType; } set { _rewardType = value; } }
 
@@ -89,6 +92,12 @@ namespace Terra.UI.Windows.RewardWindow
 
             SetToggleInteractable();
         }
+
+        public void SetFreeStatus(bool freeStatus)
+        {
+            _freeStatus = freeStatus;
+        }
+
         private void TurnOffToggle()
         {
             gameObject.SetActive(false);
@@ -141,7 +150,7 @@ namespace Terra.UI.Windows.RewardWindow
         {
             if(rewardType == RewardType.ActiveItem)
             {
-                _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem();
+                _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem(_freeStatus);
                 if(_activeItemReward == null)
                 {
                     SetNewRewardType();
@@ -156,7 +165,7 @@ namespace Terra.UI.Windows.RewardWindow
             }
             else if(rewardType == RewardType.PassiveItem)
             {
-                _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem();
+                _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem(_freeStatus);
                 if (_passiveItemReward == null)
                 {
                     SetNewRewardType();
@@ -303,14 +312,14 @@ namespace Terra.UI.Windows.RewardWindow
             
             if (rand == 0)
             {
-                var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon();
+                var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon(_freeStatus);
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.MeleeWeapon = randomWeapon;
             }
             else
             {
-                var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon();
+                var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon(_freeStatus);
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.RangedWeapon = randomWeapon;

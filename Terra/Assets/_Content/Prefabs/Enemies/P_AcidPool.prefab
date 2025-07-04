@@ -885,7 +885,7 @@ MonoBehaviour:
     scaleModifier: 0
     destroyDuration: 0
   _container: {fileID: 421963227697533553}
-  _particlesAnchor: {fileID: 0}
+  _particlesAnchor: {fileID: 499242892083157924}
   _model: {fileID: 4857311646396969843}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
