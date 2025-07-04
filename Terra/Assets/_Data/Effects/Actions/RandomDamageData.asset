@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityID: -1
   effectIcon: {fileID: 0}
-  effectName: 
+  effectName: Random
   effectDescription: 
-  effectCost: 50
+  effectCost: 200
   effectParticle: {fileID: 0}
-  containerType: 0
+  containerType: 2
   incompatibleEffects: []
   damageRange: {x: 0, y: 50}

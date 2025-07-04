@@ -28,6 +28,6 @@ MonoBehaviour:
   swingSpeedModifiers: []
   meleeRangeModifiers: []
   rangeCooldownModifiers:
-  - value: -2
+  - value: -10
     type: 100
     sourceID: 1549832268

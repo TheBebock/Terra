@@ -26,7 +26,7 @@ MonoBehaviour:
     sourceID: -177915187
   luckModifiers: []
   swingSpeedModifiers:
-  - value: -2
+  - value: -5
     type: 100
     sourceID: -177915187
   meleeRangeModifiers: []

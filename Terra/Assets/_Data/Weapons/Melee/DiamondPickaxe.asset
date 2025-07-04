@@ -18,7 +18,10 @@ MonoBehaviour:
   itemSprite: {fileID: 0}
   canBeRemoved: 1
   itemCost: 50
-  strengthModifiers: []
+  strengthModifiers:
+  - value: 0
+    type: 100
+    sourceID: 185320851
   maxHealthModifiers: []
   dexModifiers: []
   luckModifiers: []
@@ -27,6 +30,8 @@ MonoBehaviour:
   rangeCooldownModifiers: []
   effects:
     statuses: []
-    actions: []
-  attackSFX: {fileID: 0}
-  attackPrefab: {fileID: 0}
+    actions:
+    - {fileID: 11400000, guid: 07f648b3da1789e4b8b8682a51ff7421, type: 2}
+  attackSFX: {fileID: 8300000, guid: 12d75895461f34342b45c2df053c683a, type: 3}
+  attackPrefab: {fileID: 8613042151254537667, guid: 8d9bf7f8ae9fec641abf863efbefa942,
+    type: 3}
