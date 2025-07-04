@@ -17,7 +17,7 @@ MonoBehaviour:
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 8f12ae71233b6b74c99364a427a619a7, type: 3}
   canBeRemoved: 1
-  itemCost: 50
+  itemCost: 0
   strengthModifiers: []
   maxHealthModifiers: []
   dexModifiers: []
