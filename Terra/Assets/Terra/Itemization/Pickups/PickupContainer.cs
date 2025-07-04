@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Interfaces;
 using Terra.Itemization.Abstracts;
+using Terra.Managers;
 using Terra.Player;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Terra.Itemization.Pickups
 
         [SerializeField, ReadOnly] private PickupBase _pickup;
         [SerializeField, ReadOnly] private bool _isInitialized;
-
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private float _distanceToPlayerForMagnetism = 3f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField, Range(0, 1f)] private float _addSpeedModifier = 0.05f;
@@ -80,6 +81,10 @@ namespace Terra.Itemization.Pickups
         public void PickUp()
         {
             if (!CanBePickedUp) return;
+            if (_pickup.PickupSound && _audioSource)
+            {
+                AudioManager.Instance?.PlaySFXAtSource(_pickup.PickupSound, _audioSource);
+            }
             _pickup.OnPickUp();
             Destroy(gameObject);
         }

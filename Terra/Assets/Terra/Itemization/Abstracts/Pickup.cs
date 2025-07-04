@@ -21,6 +21,7 @@ namespace Terra.Itemization.Abstracts
     public class PickupBase
     {
         public virtual string PickupName => throw new NotImplementedException();
+        public virtual AudioClip PickupSound => throw new NotImplementedException();
         public virtual PickupType PickupType => throw new NotImplementedException();
         public virtual Sprite ItemIcon => throw new NotImplementedException();
         public virtual Material ItemMaterial => throw new NotImplementedException();
@@ -40,6 +41,7 @@ namespace Terra.Itemization.Abstracts
         [SerializeField] private TData _data;
         public TData Data => _data;
 
+        public sealed override AudioClip PickupSound => _data.pickupSound;
         public sealed override float DropRate => _data.dropRateChance;
         public sealed override string PickupName => _data.pickupName;
         public sealed override Sprite ItemIcon => _data.pickupSprite;

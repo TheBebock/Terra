@@ -696,12 +696,12 @@ PrefabInstance:
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
       propertyPath: _isEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
       propertyPath: _waveToSpawnBoss
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7979982011955827882, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
@@ -3724,6 +3724,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 251934167059348343, guid: 84990e5cd79ba924bb3c4f890b90197d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3848772399654846776, guid: 84990e5cd79ba924bb3c4f890b90197d,
         type: 3}

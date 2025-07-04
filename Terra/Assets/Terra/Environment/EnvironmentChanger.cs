@@ -35,9 +35,12 @@ namespace Terra.Environment
             EventsAPI.Unregister<EndOfElevatorAnimationEvent>(OnEndOfFloorAnimEnd);
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             _currentEnvironment = _enviroLevels[0];
         }
+#endif
+        
     }
 }
