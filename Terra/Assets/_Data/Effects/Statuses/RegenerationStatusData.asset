@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityID: -1
   effectIcon: {fileID: 21300000, guid: ac820612c6b83e044b0976413baf8a0d, type: 3}
-  effectName: 
+  effectName: Regeneration
   effectDescription: 
   effectCost: 120
   effectParticle: {fileID: 7716638365138479202, guid: 0a56cebf3ef8fa24b995e755f5c14270,
