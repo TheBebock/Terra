@@ -15,8 +15,7 @@ MonoBehaviour:
   _id: 185320851
   itemName: DiamondPickaxe
   itemDescription: 
-  itemSprite: {fileID: 0}
-  canBeRemoved: 1
+  itemSprite: {fileID: 21300000, guid: 9b29123130ef6b14082517f51e2d0734, type: 3}
   itemCost: 200
   strengthModifiers:
   - value: 0
