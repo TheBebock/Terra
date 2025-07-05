@@ -507,6 +507,7 @@ MonoBehaviour:
   _rerollCostText: {fileID: 8339100624736487970}
   _rerollCost: 50
   _currentlyActiveToggle: {fileID: 0}
+  _availableRewardTypes: 
 --- !u!114 &6790220197464283819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,12 +618,17 @@ PrefabInstance:
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_SizeDelta.x
+      value: 223.54999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 136.775
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
@@ -875,12 +881,17 @@ PrefabInstance:
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_SizeDelta.x
+      value: 223.54999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 136.775
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
@@ -1414,12 +1425,17 @@ PrefabInstance:
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_SizeDelta.x
+      value: 223.54999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 136.775
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
@@ -1582,6 +1598,21 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 36
       objectReference: {fileID: 0}
+    - target: {fileID: 6822025770372773886, guid: 1e2d90728c17d7947ad8eac24226f06e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5471698
+      objectReference: {fileID: 0}
+    - target: {fileID: 6822025770372773886, guid: 1e2d90728c17d7947ad8eac24226f06e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5471698
+      objectReference: {fileID: 0}
+    - target: {fileID: 6822025770372773886, guid: 1e2d90728c17d7947ad8eac24226f06e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.5471698
+      objectReference: {fileID: 0}
     - target: {fileID: 7394604482410177201, guid: 1e2d90728c17d7947ad8eac24226f06e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1691,6 +1722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSizeMax
       value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9050521976242321515, guid: 1e2d90728c17d7947ad8eac24226f06e,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1811,12 +1847,17 @@ PrefabInstance:
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_SizeDelta.x
+      value: 223.54999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 136.775
       objectReference: {fileID: 0}
     - target: {fileID: 5472221577212954632, guid: 1e451623c144977449e3046fd8cd0b6d,
         type: 3}
