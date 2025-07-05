@@ -29,7 +29,7 @@ namespace Terra.UI.Windows.RewardWindow
 
         [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
-        private List<RewardType> _availableRewardTypes = new();
+        [Foldout("Debug")] [SerializeField] private List<RewardType> _availableRewardTypes = new();
         public override void SetUp()
         {
             base.SetUp();
@@ -40,11 +40,8 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 _rewardToggles[i].Toggle.onValueChanged.AddListener(NotifyRewardSelected);
             }
-            _availableRewardTypes.Clear();
-            _availableRewardTypes.Add(RewardType.PassiveItem);
-            _availableRewardTypes.Add(RewardType.Weapon);
-            _availableRewardTypes.Add(RewardType.Effect);
-            
+            ReAssigneAvailableRewardTypes();
+
             _acceptButton.onClick.AddListener(ApplyReward);
             _rerollButton.onClick.AddListener(RerollRewards);
 
@@ -90,7 +87,6 @@ namespace Terra.UI.Windows.RewardWindow
         {
             if (!IsAnyToggleOn()) return;
             
-            // TODO: Apply reward for player
             _currentlyActiveToggle.ApplyReward();
             _currentlyActiveToggle.Toggle.isOn = false;
             GameManager.Instance.SwitchToGameState<StartOfFloorState>();
@@ -145,11 +141,19 @@ namespace Terra.UI.Windows.RewardWindow
             _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
             _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
             _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
-
+            
             foreach (var toggle in _rewardToggles)
             {
                 toggle?.Init();
             }
+        }
+
+        private void ReAssigneAvailableRewardTypes()
+        {
+            _availableRewardTypes.Clear();
+            _availableRewardTypes.Add(RewardType.PassiveItem);
+            _availableRewardTypes.Add(RewardType.Weapon);
+            _availableRewardTypes.Add(RewardType.Effect);
         }
         
         private RewardType GetRewardType(bool freeStatus)
@@ -163,9 +167,12 @@ namespace Terra.UI.Windows.RewardWindow
             if(_availableRewardTypes.Count == 0) return RewardType.Stats;
             
             int random = Random.Range(0, _availableRewardTypes.Count);
-            
-            return _availableRewardTypes[random];
-            
+
+            RewardType rewardType = _availableRewardTypes[random];
+
+            ReAssigneAvailableRewardTypes();
+
+            return rewardType;
         }
 
         private bool IsRewardTypeAvailable(RewardType rewardType, bool freeStatus)
