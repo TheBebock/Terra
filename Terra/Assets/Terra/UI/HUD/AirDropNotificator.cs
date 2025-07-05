@@ -2,12 +2,15 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
 using Terra.Core.Generics;
+using Terra.EventsSystem;
+using Terra.EventsSystem.Events;
+using Terra.Interfaces;
 using TMPro;
 using UnityEngine;
 
 namespace Terra.UI.HUD
 {
-    public class AirDropNotificator: InGameMonobehaviour
+    public class AirDropNotificator: InGameMonobehaviour, IAttachListeners
     {
         [SerializeField] private GameObject _airDropNotificatorContainer;
         [SerializeField] private TMP_Text _notificatorText;
@@ -16,6 +19,20 @@ namespace Terra.UI.HUD
         
 
         private int _timeDelay = 5;
+
+        private void Awake()
+        {
+            EventsAPI.Register<OnAirDropSetSpawnDelayEvent>(OnAirDropSetSpawnDelay);
+        }
+        public void AttachListeners()
+        {
+            
+        }
+
+        private void OnAirDropSetSpawnDelay(ref OnAirDropSetSpawnDelayEvent ev)
+        {
+            AssignCounting(ev.time);
+        }
 
         public void SetNotificatorTimeText(float time)
         {
@@ -79,6 +96,12 @@ namespace Terra.UI.HUD
                 StartNewCounting(_assignedTimes[0]);
         }
 
+        
 
+
+        public void DetachListeners()
+        {
+            EventsAPI.Unregister<OnAirDropSetSpawnDelayEvent>(OnAirDropSetSpawnDelay);
+        }
     }
 }

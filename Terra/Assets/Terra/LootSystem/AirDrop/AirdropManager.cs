@@ -19,7 +19,6 @@ namespace Terra.LootSystem.AirDrop
         [FormerlySerializedAs("flarePrefab")] [SerializeField] private FlareLandingNotifier _flarePrefab;
         [FormerlySerializedAs("cratePrefab")] [SerializeField] private GameObject _cratePrefab;
         [FormerlySerializedAs("dropContainer")] [SerializeField] private Transform _dropContainer;
-        [SerializeField] private AirDropNotificator _notificator;
         
         [FormerlySerializedAs("dropIntervalRange")] [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
         [FormerlySerializedAs("crateDelay")] [SerializeField] private float _crateDelay = 5f;
@@ -121,7 +120,11 @@ namespace Terra.LootSystem.AirDrop
                 while (true)
                 {
                     float spawnDelay = GetModifiedSpawnDelay();
-                    _notificator.AssignCounting(spawnDelay);
+
+                    OnAirDropSetSpawnDelayEvent ev = new();
+                    ev.time = spawnDelay;
+                    EventsAPI.Invoke(ref ev);
+
                     await UniTask.WaitForSeconds(spawnDelay, cancellationToken: cancellationToken);
 
                     Debug.Log("Dropping flare...");

@@ -981,7 +981,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 15
+        scalar: 5
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -4906,7 +4906,7 @@ MonoBehaviour:
   Identifier: RegenerationParticle
   _isDestroyable: 0
   _fadeParticlesAfterDuration: 0
-  _duration: 0.5
+  _duration: -1
   _particles: {fileID: 1153499242046813231}
   _timer:
     initialTime: 0
