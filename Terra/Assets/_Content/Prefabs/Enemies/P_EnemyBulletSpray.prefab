@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 9039359411945397687}
   - component: {fileID: 1945754477671924366}
-  - component: {fileID: 167767852919785825}
   - component: {fileID: 3510145170188003397}
+  - component: {fileID: 5356766296949679702}
+  - component: {fileID: 1847137184813920683}
   m_Layer: 17
-  m_Name: P_EnemyBullet
+  m_Name: P_EnemyBulletSpray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,39 +63,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &167767852919785825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31574584213284941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327f6b93ada505c43b6566de75f15007, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 1380208981087161323}
-  _rigidbody: {fileID: 1945754477671924366}
-  _animator: {fileID: 876622528808538028}
-  _acidBulletSplash: {fileID: 5356766296949679702, guid: cf3469637f06015439a558bd9eb84a58,
-    type: 3}
-  _particleComponentData:
-    particleComponent: {fileID: 526896165021770385, guid: f394eee8f95e5a84eb7e4456e60c477c,
-      type: 3}
-    offset: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
-    destroyDuration: 0
-  _penetrationTargets: 0
-  _damage: 0
-  _origin: {fileID: 0}
-  _originLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _effects:
-    statuses: []
-    actions: []
 --- !u!136 &3510145170188003397
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -118,6 +86,48 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5356766296949679702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31574584213284941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4173bcc908d72ab448ca1ae816be2f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 876622528808538028}
+--- !u!114 &1847137184813920683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31574584213284941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ce3437a73c46b08cb5d5dcf4630ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationEvents:
+  - eventName: OnAnimationEnd
+    onAnimationEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5356766296949679702}
+          m_TargetAssemblyTypeName: Terra.AI.Enemy.AcidBulletSplashComponent, Terra
+          m_MethodName: OnAnimationEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &913983658692005065
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +207,7 @@ SpriteRenderer:
   m_SortingLayerID: 1484355073
   m_SortingLayer: 7
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2b87b494c8b17c042a395602b292776a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da507186a1c87074db8f3d242d38334c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -241,7 +251,7 @@ Animator:
   m_GameObject: {fileID: 913983658692005065}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 85e0f26a24ce49c469750f8c186d59ff, type: 2}
+  m_Controller: {fileID: 9100000, guid: 762c6321cbefe1b4b8947aa13f765714, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

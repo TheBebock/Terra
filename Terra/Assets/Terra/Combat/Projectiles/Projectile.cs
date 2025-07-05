@@ -1,4 +1,5 @@
 ﻿using NaughtyAttributes;
+using Terra.AI.Enemy;
 using Terra.AI.EnemyStates;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
@@ -19,7 +20,11 @@ namespace Terra.Combat.Projectiles
         [Foldout("References")][SerializeField] private SpriteRenderer _spriteRenderer;
         [Foldout("References")][SerializeField] private Rigidbody _rigidbody;
         [Foldout("References")][SerializeField] private Animator _animator;
+        [Foldout("References")][SerializeField] private AcidBulletSplashComponent _acidBulletSplash;
+        
+        
         [Foldout("Particles")][SerializeField] private ParticleComponentData _particleComponentData;
+        
         
         [Foldout("Debug"), ReadOnly][SerializeField] private int _penetrationTargets;
         [Foldout("Debug"), ReadOnly][SerializeField] private int _damage;
@@ -28,6 +33,7 @@ namespace Terra.Combat.Projectiles
         [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effects;
         
         private LayerMask _playerLayer;
+        private Vector3 _direction;
 
         private void Awake()
         {
@@ -47,13 +53,14 @@ namespace Terra.Combat.Projectiles
             _originLayer = origin.gameObject.layer;
             _rigidbody.velocity = direction.normalized * (data.bulletSpeed * bulletSpeedModifier);
             transform.forward  = direction.normalized;
+            _direction = direction.normalized;
             if (origin.gameObject.layer == _playerLayer)
             {
                 PlayerProjectileInitialization();
             }
             else
             {
-                EnemyProjectileInitialization(direction);
+                EnemyProjectileInitialization(_direction);
             }
             Destroy(gameObject, 20f);
         }
@@ -77,26 +84,32 @@ namespace Terra.Combat.Projectiles
         private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.layer == _originLayer) return;
-
+            bool isPlayer = _originLayer == _playerLayer;
           
             if (other.TryGetComponent<IDamageable>(out var target))
             {
-                if (_originLayer == _playerLayer)
+                if (isPlayer)
                 {
                     CombatManager.Instance.PlayerPerformAttack(WeaponType.Ranged, _origin, target, _effects);
                 }
                 else
                 {
                     CombatManager.Instance.PerformAttack(_origin, target, _effects,  _damage);
-                    _particleComponentData.offset = transform.position;
-                    VFXController.SpawnParticleInWorld(_particleComponentData);
                 }
             }
-
-            Debug.Log($"{gameObject.name}: collided with {other.gameObject.name}");
-            _penetrationTargets--;
             
-            if(_penetrationTargets <0) Destroy(gameObject);
+            _penetrationTargets--;
+
+            if (_penetrationTargets < 0)
+            {
+                if (!isPlayer)
+                {
+                    _particleComponentData.offset = transform.position;
+                    Instantiate(_acidBulletSplash, transform.position, Quaternion.identity).Init(_direction);
+                    VFXController.SpawnParticleInWorld(_particleComponentData);
+                }
+                Destroy(gameObject);
+            }
         }
 
         private void OnValidate()

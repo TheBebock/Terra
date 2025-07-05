@@ -322,7 +322,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 4666863935166176619}
   _id: -1
-  _canBeInteractedWith: 0
   _maxHealth:
     _baseValue: 5
     _statModifiers: []
@@ -361,13 +360,12 @@ MonoBehaviour:
       _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
-    _isInvincible: 0
     _immuneAfterHit: 0
   _statusContainer:
     _entity: {fileID: 0}
     _statuses: []
   _hurtSFX: {fileID: 0}
-  _destroySfx: {fileID: 0}
+  _destroySfx: {fileID: 8300000, guid: 69973a1c794842046a079397a6e21462, type: 3}
   _leftEmissiveTexture: {fileID: 2800000, guid: 20a74cf7052da0b41b274642026309f0,
     type: 3}
   _rightEmissiveTexture: {fileID: 2800000, guid: 27cc61f5a78da354fb39d8c0f3c2f3c5,
@@ -411,7 +409,8 @@ AudioSource:
   m_GameObject: {fileID: 2099422661064001895}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -5023877878523301070, guid: 5300a84c237af2e41893c0069fdefe98,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
