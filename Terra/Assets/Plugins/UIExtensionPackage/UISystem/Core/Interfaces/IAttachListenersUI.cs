@@ -1,6 +1,6 @@
 namespace UIExtensionPackage.UISystem.Core.Interfaces
 {
-    public interface IAttachListeners
+    public interface IAttachListenersUI
     {
 
         /// <summary>

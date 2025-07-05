@@ -10,7 +10,7 @@ namespace UIExtensionPackage.UISystem.UI.Elements
     /// Represents a dropdown UI element.
     /// </summary>
     [RequireComponent(typeof(TMP_Dropdown))]
-    public abstract class UIDropdown : UIElement, IWithSetup
+    public abstract class UIDropdown : UIElement, IWithSetupUI
     {
         /// <summary>
         /// Wrapper for Unity dropdown component

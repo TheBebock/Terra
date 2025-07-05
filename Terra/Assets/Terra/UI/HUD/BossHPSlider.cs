@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
-    public class BossHpSlider : UIObject, IAttachListeners
+    public class BossHpSlider : UIObject, IAttachListenersUI
     {
         [SerializeField] private Slider _slider;
         [SerializeField] private CanvasGroup _canvasGroup;

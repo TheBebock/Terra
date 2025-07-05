@@ -12,7 +12,7 @@ namespace UIExtensionPackage.UISystem.UI.Samples.Templates
     /// All logic is supposed to be done through the Inspector.
     /// </summary>
     /// <remarks>For more advanced logic, implement new class that inherits from <see cref="HoldableElementUI"/>.</remarks>
-    internal sealed class HoldableWithSliderTemplate : HoldableElementUI, IAttachListeners
+    internal sealed class HoldableWithSliderTemplate : HoldableElementUI, IAttachListenersUI
     {
         [Foldout("General")] [SerializeField] private Image sliderFillImage;
 

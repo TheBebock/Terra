@@ -31,12 +31,12 @@ namespace UIExtensionPackage.UISystem.Core.Base
             if (IsInitialized) return;
             IsInitialized = true;
             
-            if (this is IWithSetup setup)
+            if (this is IWithSetupUI setup)
             {
                 setup.SetUp();
             }
 
-            if (this is IAttachListeners attachListeners)
+            if (this is IAttachListenersUI attachListeners)
             {
                 attachListeners.AttachListeners();
             }
@@ -102,12 +102,12 @@ namespace UIExtensionPackage.UISystem.Core.Base
         {
             CleanUp();
             
-            if (this is IWithSetup setup)
+            if (this is IWithSetupUI setup)
             {
                 setup.TearDown();
             }
 
-            if (this is IAttachListeners attachListeners)
+            if (this is IAttachListenersUI attachListeners)
             {
                 attachListeners.DetachListeners();
             }

@@ -16,7 +16,7 @@ using UnityEngine;
 namespace Terra.UI.HUD.StatDisplay
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class StatsDisplayGUI : UIObject, IWithSetup, IAttachListeners, IShowHide
+    public class StatsDisplayGUI : UIObject, IWithSetupUI, IAttachListenersUI, IShowHide
     {
         [Serializable]
         internal struct LabelSetupData

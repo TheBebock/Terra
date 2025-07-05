@@ -11,7 +11,7 @@ namespace UIExtensionPackage.UISystem.UI.Elements
     /// Class represents UI elements that follow the pointer.
     /// </summary>
     [RequireComponent(typeof(FollowPointerUIComponent))]
-    public abstract class FollowPointerUIElement : UIElement, IWithSetup
+    public abstract class FollowPointerUIElement : UIElement, IWithSetupUI
     {
 
         [Foldout("Config")] [SerializeField] private bool destroyComponentOnClick = true;

@@ -12,7 +12,7 @@ namespace UIExtensionPackage.UISystem.UI.Elements
     /// Represents base class for draggable UI elements.
     /// </summary>
     [RequireComponent(typeof(DraggableUIComponent))]
-    public abstract class DraggableUIElement : SelectableUIElement<DraggableUIElement>, IWithSetup
+    public abstract class DraggableUIElement : SelectableUIElement<DraggableUIElement>, IWithSetupUI
     {
 
         [Foldout("Config")] [SerializeField] private bool resetPositionOnDragEnd = true;

@@ -14,7 +14,7 @@ using UnityEngine.UI;
 namespace Terra.UI.HUD.PassiveItemsDisplay
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class PassiveItemsGUI : UIObject, IWithSetup, IAttachListeners, IShowHide
+    public class PassiveItemsGUI : UIObject, IWithSetupUI, IAttachListenersUI, IShowHide
     {
 
         [SerializeField] private Image _iconPrefab;

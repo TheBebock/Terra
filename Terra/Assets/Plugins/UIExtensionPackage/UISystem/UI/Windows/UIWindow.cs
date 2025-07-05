@@ -15,7 +15,7 @@ namespace UIExtensionPackage.UISystem.UI.Windows
     /// Class represents an instance of UI Window.
     /// </summary>
     [RequireComponent(typeof(Canvas), typeof(CanvasGroup), typeof(GraphicRaycaster))]
-    public abstract class UIWindow : UIObject, IClickable, IWindow, IWithSetup
+    public abstract class UIWindow : UIObject, IClickable, IWindow, IWithSetupUI
     {
         [Foldout("Config")][SerializeField] private RenderMode canvasRenderMode = RenderMode.ScreenSpaceOverlay;
         [Foldout("Config")][SerializeField] private Canvas canvas;

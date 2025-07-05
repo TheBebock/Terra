@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
-    public class HealthUI : UIElement, IWithSetup, IAttachListeners
+    public class HealthUI : UIElement, IWithSetupUI, IAttachListenersUI
     {
         [FormerlySerializedAs("heartPrefab")] [SerializeField] private GameObject _heartPrefab; 
         [FormerlySerializedAs("heartSprite")] [SerializeField] private Sprite _heartSprite;    

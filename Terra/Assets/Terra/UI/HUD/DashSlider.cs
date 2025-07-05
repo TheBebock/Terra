@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Terra.UI.HUD
 {
     [RequireComponent(typeof(Slider))]
-    public class DashSlider : UIObject, IAttachListeners
+    public class DashSlider : UIObject, IAttachListenersUI
     {
         [SerializeField] private Slider _dashSlider;
         [SerializeField] private Image _dashReadyMask;
