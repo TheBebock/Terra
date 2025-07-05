@@ -17,6 +17,8 @@ namespace Terra.StatisticsSystem
         public int SwingSpeed => _swingSpeed.Value;
         public int MeleeRange => _meleeRange.Value;
         public int RangeCooldown => _rangeCooldown.Value;
+        public ModifiableValue MaxHealthValue => base.ModifiableMaxHealth;
+
         
         public PlayerStats(int baseStrength, int baseMaxHealth, int baseSpeed, int baseLuck,
             int swingSpeed, int meleeRange, int rangeCooldown) : base(baseStrength,baseMaxHealth,baseSpeed)
