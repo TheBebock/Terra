@@ -436,9 +436,14 @@ namespace Terra.LootSystem
         public void RemoveActionEffect(ActionEffectData actionEffect)
         {
             int index = _actionEffectsPerGame.FindIndex(actionDrop => actionDrop.actionEffect == actionEffect);
-            if(index >= 0)
-                _statusEffectsPerGame.RemoveAt(index);
+            if (index >= 0)
+            {
+                _actionEffectsPerGame.RemoveAt(index);
+                if (index < _statusEffectsPerGame.Count)
+                    _statusEffectsPerGame.RemoveAt(index);
+            }
         }
+
         public void RemoveActiveItem(ActiveItem activeItem)
         {
             _activeItems.RemoveElement(activeItem);
