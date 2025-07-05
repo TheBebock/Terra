@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PoisonStatusData_
   m_EditorClassIdentifier: 
   entityID: -1
-  effectIcon: {fileID: 21300000, guid: 858708d0a081004479579094b128b90a, type: 3}
+  effectIcon: {fileID: 21300000, guid: c6e126f20aa59f34695296cfb07e6d1e, type: 3}
   effectName: Poison
   effectDescription: 
   effectCost: 50

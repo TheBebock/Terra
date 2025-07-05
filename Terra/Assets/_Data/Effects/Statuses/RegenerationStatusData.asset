@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RegenerationStatusData
   m_EditorClassIdentifier: 
   entityID: -1
-  effectIcon: {fileID: 21300000, guid: f0c892b33bd14fa4d97f5bd71abb9a44, type: 3}
+  effectIcon: {fileID: 21300000, guid: ac820612c6b83e044b0976413baf8a0d, type: 3}
   effectName: 
   effectDescription: 
   effectCost: 120
