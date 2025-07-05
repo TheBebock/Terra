@@ -23,7 +23,7 @@ namespace Terra.Combat
         private int _previousMaxHealth;
         private static float _invincibilityTimeAfterHit = 0.2f;
         private static float _invincibilityTimeAfterSpawn = 0.5f;
-        public bool CanBeHealed => _canBeHealed;
+        public bool CanBeHealed => _canBeHealed && CurrentHealth < MaxHealth;
         public int MaxHealth => _maxHealth.Value;
         public int CurrentHealth => _currentHealth;
         public bool IsImmuneAfterHit => _immuneAfterHit;

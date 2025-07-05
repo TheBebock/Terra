@@ -72,7 +72,7 @@ namespace Terra.Player
 
         public void TakeDamage(int amount, bool isPercentage = false)
         {
-            if (!CanBeDamaged) return;
+            if (!CanBeDamaged || amount <= 0) return;
             Debug.Log($"{this}: Taking Damage {amount}");
             _healthController.TakeDamage(amount, isPercentage);
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
@@ -84,7 +84,7 @@ namespace Terra.Player
 
         public void Heal(int amount, bool isPercentage = false)
         {
-            if(!CanBeHealed) return;
+            if(!CanBeHealed || amount <=0) return;
             _healthController.Heal(amount, isPercentage);
             bool isCrit = amount >= _healthController.MaxHealth/2 - 1;
             PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, isHeal: true, isCrit);

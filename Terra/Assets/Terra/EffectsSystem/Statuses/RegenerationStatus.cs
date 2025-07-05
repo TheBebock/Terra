@@ -2,6 +2,7 @@ using Terra.Attributes;
 using Terra.Combat;
 using Terra.EffectsSystem.Abstract;
 using Terra.EffectsSystem.Statuses.Data;
+using UnityEngine;
 
 namespace Terra.EffectsSystem.Statuses
 {
@@ -15,6 +16,10 @@ namespace Terra.EffectsSystem.Statuses
             if (entity.TryGetComponent(out IHealable healable))
             {
                 _healable = healable;
+            }
+            else
+            {
+                Debug.LogError($"Not found {nameof(IHealable)} on entity {entity.gameObject.name}");
             }
         }
 

@@ -42,18 +42,19 @@ namespace Terra.EffectsSystem.Abstract
         protected override void OnUpdate()
         {
             _tickTimer.Tick(Time.deltaTime);
+            
             if (!IsInfinite)
             {
                 _durationTimer.Tick(Time.deltaTime);
+                
+                // Check for end of status duration
+                if (_durationTimer.GetTime() >= Data.statusDuration)
+                {
+                    _durationTimer.Stop();
+                    return;
+                }
             }
-
-            // Check for end of status duration
-            if (_durationTimer.GetTime() >= Data.statusDuration)
-            {
-                _durationTimer.Stop();
-                return;
-            }
-
+            
             if (!_tickTimer.IsFinished) return;
 
             // Restart timer for another status tick
