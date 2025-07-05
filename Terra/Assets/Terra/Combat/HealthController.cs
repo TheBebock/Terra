@@ -20,7 +20,7 @@ namespace Terra.Combat
         [SerializeField] private bool _canBeHealed;
 
         [SerializeField] private bool _immuneAfterHit;
-        
+        private int _previousMaxHealth;
         private static float _invincibilityTimeAfterHit = 0.2f;
         private static float _invincibilityTimeAfterSpawn = 0.5f;
         public bool CanBeHealed => _canBeHealed;
@@ -43,6 +43,7 @@ namespace Terra.Combat
         {
             _maxHealth = modifiableValue;
             _currentHealth = _maxHealth.Value;
+            _previousMaxHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
             _maxHealth.OnValueChanged += OnMaxHealthChanged;
@@ -52,8 +53,10 @@ namespace Terra.Combat
         {
             _maxHealth = new ModifiableValue(maxHealthValue);
             _currentHealth = _maxHealth.Value;
+            _previousMaxHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
+            _maxHealth.OnValueChanged += OnMaxHealthChanged;
             
             _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
         }
@@ -132,14 +135,26 @@ namespace Terra.Combat
         
         private void OnMaxHealthChanged(int newMaxHealth)
         {
-            if (_currentHealth > newMaxHealth)
+            int delta = newMaxHealth - _previousMaxHealth;
+
+            if (delta > 0)
+            {
+                _currentHealth += delta;
+                OnHealed?.Invoke(delta);
+            }
+            else if (_currentHealth > newMaxHealth)
             {
                 _currentHealth = newMaxHealth;
-                OnHealthChanged?.Invoke(_currentHealth);
             }
+
+            _previousMaxHealth = newMaxHealth;
+
+            OnHealthChanged?.Invoke(_currentHealth);
             OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
         }
 
+
+        
         /// <summary>
         /// Change healable state
         /// </summary>
