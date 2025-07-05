@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Codice.Client.BaseCommands;
 using Terra.Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,6 +12,7 @@ namespace Terra.Core.ModifiableValue
    {
       [FormerlySerializedAs("baseValue")] [SerializeField] private int _baseValue;
       [FormerlySerializedAs("StatModifiers")] [SerializeField] protected List<ValueModifier> _statModifiers = new();
+      public event Action<int> OnValueChanged;
 
 
       protected bool isDirty = true;
@@ -23,8 +25,12 @@ namespace Terra.Core.ModifiableValue
             if (isDirty || _baseValue != lastBaseValue)
             {
                lastBaseValue = _baseValue;
+               int oldValue = value;
                value = CalculateFinalValue();
                isDirty = false;
+               
+               if (value != oldValue)
+                   OnValueChanged?.Invoke(value);
             }
 
             return value;

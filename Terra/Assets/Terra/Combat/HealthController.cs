@@ -45,6 +45,7 @@ namespace Terra.Combat
             _currentHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
+            _maxHealth.OnValueChanged += OnMaxHealthChanged;
             _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
         }
         public HealthController(int maxHealthValue, CancellationToken cancellationToken, bool canBeHealed = false)
@@ -127,6 +128,16 @@ namespace Terra.Combat
             }
             // Percentage value of max health
             return Mathf.RoundToInt(MaxHealth * amount.ToFactor());
+        }
+        
+        private void OnMaxHealthChanged(int newMaxHealth)
+        {
+            if (_currentHealth > newMaxHealth)
+            {
+                _currentHealth = newMaxHealth;
+                OnHealthChanged?.Invoke(_currentHealth);
+            }
+            OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
         }
 
         /// <summary>
