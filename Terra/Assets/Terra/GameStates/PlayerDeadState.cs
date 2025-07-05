@@ -8,6 +8,7 @@ namespace Terra.GameStates
         {
             base.OnEnter();
             InputsManager.Instance?.SetPlayerControlsState(false);
+            InputsManager.Instance?.SetAllTimeControlsState(false);
         }
     }
 }
