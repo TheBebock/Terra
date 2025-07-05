@@ -188,7 +188,6 @@ namespace Terra.UI.HUD.StatDisplay
         {
             _opacityPercent = Mathf.Clamp01(opacityPercent);
             ForceSetObjectOpacity(_opacityPercent);
-            GameSettings.DefaultStatsOpacity = _opacityPercent;
         }
                 
         private void ForceSetObjectOpacity(float opacity)

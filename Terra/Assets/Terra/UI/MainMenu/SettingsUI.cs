@@ -14,8 +14,9 @@ namespace Terra.UI.MainMenu
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField, ReadOnly] private bool _isInMainMenu = true;
-        [SerializeField] private Button _closeButton;
-        [SerializeField] private Image _darkScreen;
+        [SerializeField] private Button _closeButton;        
+        [SerializeField] private Image _gameplayBackground;
+        [SerializeField] private Image _mainMenuBackground;
         [BoxGroup("Audio")] [SerializeField] private  Slider _masterSlider;
         [BoxGroup("Audio")] [SerializeField] private  Slider _sfxSlider;
         [BoxGroup("Audio")] [SerializeField] private  Slider _musicSlider;
@@ -25,7 +26,7 @@ namespace Terra.UI.MainMenu
 
         [BoxGroup("Gameplay")][SerializeField] private Slider _itemsOpacitySlider;
         [BoxGroup("Gameplay")][SerializeField] private Slider _statsOpacitySlider;
-        [BoxGroup("Graphics")] [SerializeField] private Vector2 _opacityRange = new(-0.2f, 0.5f);
+        [BoxGroup("Gameplay")] [SerializeField] private Vector2 _opacityRange = new(0f, 1f);
 
         [BoxGroup("Graphics")] [SerializeField] private Button _brightnessButton;
         [BoxGroup("Graphics")] [SerializeField] private GammaSettings _gammaSettings;
@@ -51,8 +52,31 @@ namespace Terra.UI.MainMenu
         {
             _gammaSettings.SetSettingsPanel(this);
         }
-        
 
+        public void SetEnable(bool isEnable)
+        {
+            if (isEnable)
+            {
+                gameObject.SetActive(true);
+                if (_isInMainMenu)
+                {
+                    _mainMenuBackground.gameObject.SetActive(true);
+                    _gameplayBackground.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _mainMenuBackground.gameObject.SetActive(false);
+                    _gameplayBackground.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                gameObject.SetActive(false);
+
+            }
+        }
+        
+        
         private void OnBackButtonClicked()
         {
             gameObject.SetActive(false);
@@ -126,12 +150,14 @@ namespace Terra.UI.MainMenu
         private void OnItemsOpacityChanged(float value)
         {
             _itemsOpacityChangedEvent.alfa = value;
+            GameSettings.DefaultItemsOpacity = value;
             EventsAPI.Invoke(ref _itemsOpacityChangedEvent);
         }
         
         private void OnStatsOpacityChanged(float value)
         {
             _statsOpacityChangedEvent.alfa = value;
+            GameSettings.DefaultStatsOpacity = value;
             EventsAPI.Invoke(ref _statsOpacityChangedEvent);
         }
         
@@ -148,10 +174,11 @@ namespace Terra.UI.MainMenu
         }
 
 
-        public void SetDarkScreenOpacity(float value)
+        public void SetBackgroundOpacity(float value)
         {
             value = Mathf.Clamp01(value);
-            _darkScreen.color = new Color(_darkScreen.color.r, _darkScreen.color.g, _darkScreen.color.b, value);
+            Image background = _isInMainMenu ? _mainMenuBackground : _gameplayBackground;
+            background.color = new Color(background.color.r, background.color.g, background.color.b, value);
         }
         private void PlayTestSFX()
         {
@@ -164,7 +191,7 @@ namespace Terra.UI.MainMenu
         
         private void OnDisable()
         {
-            SetDarkScreenOpacity(1);
+            SetBackgroundOpacity(1);
             EventsAPI.Invoke<SettingsClosedEvent>();
         }
         

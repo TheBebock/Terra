@@ -32,7 +32,7 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
                 }
             }
             
-            _opacityPercent = GameSettings.DefaultStatsOpacity;
+            _opacityPercent = GameSettings.DefaultItemsOpacity;
         }
 
         public void AttachListeners()
@@ -62,7 +62,6 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
         {
             _opacityPercent = Mathf.Clamp01(opacityPercent);
             ForceSetObjectOpacity(_opacityPercent);
-            GameSettings.DefaultItemsOpacity = _opacityPercent;
         }
                 
         private void ForceSetObjectOpacity(float opacity)

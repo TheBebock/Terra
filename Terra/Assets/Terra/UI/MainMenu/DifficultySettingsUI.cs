@@ -43,6 +43,8 @@ namespace Terra.UI.MainMenu
             {
                 _difficultyButtonRight.interactable = false;
             }
+            
+            UpdateCurrentDifficulty();
         }
 
         private void OnLeftButtonClicked()

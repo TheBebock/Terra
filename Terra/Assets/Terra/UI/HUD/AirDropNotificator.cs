@@ -1,10 +1,7 @@
-﻿using Codice.Client.Common;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
-using NUnit.Framework;
 using System.Collections.Generic;
 using Terra.Core.Generics;
-using Terra.Utils;
 using TMPro;
 using UnityEngine;
 
@@ -22,6 +19,8 @@ namespace Terra.UI.HUD
 
         public void SetNotificatorTimeText(float time)
         {
+            if(_notificatorText == null) return;
+            
             if (time < 15)
                 _airDropNotificatorContainer.SetActive(true);
             else

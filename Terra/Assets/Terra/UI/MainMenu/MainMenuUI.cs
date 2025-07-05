@@ -24,22 +24,30 @@ namespace Terra.UI.MainMenu
             if(_creditsPanel) _creditsPanel?.SetActive(false);
             
             _startGameButton?.onClick.AddListener(StartGameplayScene);
-            _helpButton?.onClick.AddListener(() => _helpPanel?.SetActive(false));
-            _creditsButton?.onClick.AddListener(() => _creditsPanel?.SetActive(false));
+            _helpButton?.onClick.AddListener(OnHelpBtnClicked);
+            _settingsButton?.onClick.AddListener(ShowSettings);
+            _creditsButton?.onClick.AddListener(OnCreditsBtnClicked);
             _exitGameButton?.onClick.AddListener(QuitGame);
         }
         
         
-        public void ShowSettings()
+        private void ShowSettings()
         {
+            if(!_settingsPanel) return;
+            
             _settingsPanel.IsInMainMenu = true;
-            _settingsPanel.gameObject.SetActive(true);
+            _settingsPanel.SetEnable(true);
         }
-        public void ShowHelp()
+
+        private void OnHelpBtnClicked()
         {
-            _helpPanel?.SetActive(true);
+            if(_helpPanel) _helpPanel?.SetActive(true);
         }
         
+        private void OnCreditsBtnClicked()
+        {
+            if(_creditsPanel) _creditsPanel?.SetActive(true);
+        }
         private void StartGameplayScene()
         {
             _ = ScenesManager.Instance.LoadGameplay();

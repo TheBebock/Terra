@@ -19,16 +19,19 @@ namespace Terra.UI.MainMenu
         private void Start()
         {
             _backButton.onClick.AddListener(OnBackButtonClicked);
+            
             if (VolumesManager.Instance)
             {
                 InitSliderValues(VolumesManager.Instance.GammaRange);
-                _gammaSlider.value = GameSettings.DefaultGamma;
-                _gammaSlider.onValueChanged.AddListener(OnSliderValueChanged);
             }
             else
             {
                 Debug.LogError($"{this} Volumes Manager is missing, something went horribly wrong");
             }
+            
+            _gammaSlider.value = GameSettings.DefaultGamma;
+            _gammaSlider.onValueChanged.AddListener(OnSliderValueChanged);
+
         }
 
         public void SetSettingsPanel(SettingsUI settingsPanel) => _settingsPanel = settingsPanel;
@@ -63,7 +66,7 @@ namespace Terra.UI.MainMenu
         }
         private void OnSliderValueChanged(float value)
         {
-            VolumesManager.Instance?.SetGamma(value);
+            VolumesManager.Instance?.SetGamma(value, true);
         }
 
 #if UNITY_EDITOR

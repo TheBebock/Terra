@@ -15,7 +15,6 @@ namespace Terra.UI.Windows
         [SerializeField] Button _exitToMenuButton;
         [SerializeField] CanvasGroup _buttonsCanvasGroup;
         [SerializeField] SettingsUI _settingsPanel;
-        [SerializeField,Range(0,1f)] private float _settingsDarkScreenOpacity = 0.9f;
         public override void SetUp()
         {
             base.SetUp();
@@ -47,9 +46,8 @@ namespace Terra.UI.Windows
         private void OpenSettings()
         {
             HideButtons();
-            _settingsPanel.gameObject.SetActive(true);
             _settingsPanel.IsInMainMenu = false;
-            _settingsPanel.SetDarkScreenOpacity(_settingsDarkScreenOpacity);
+            _settingsPanel.SetEnable(true);
         }
         private void ExitToMenu()
         {
