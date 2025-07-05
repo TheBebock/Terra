@@ -41,10 +41,11 @@ namespace Terra.EffectsSystem.Abstract
 
         protected override void OnUpdate()
         {
-            if(IsInfinite) return;
-            
             _tickTimer.Tick(Time.deltaTime);
-            _durationTimer.Tick(Time.deltaTime);
+            if (!IsInfinite)
+            {
+                _durationTimer.Tick(Time.deltaTime);
+            }
 
             // Check for end of status duration
             if (_durationTimer.GetTime() >= Data.statusDuration)
@@ -58,7 +59,7 @@ namespace Terra.EffectsSystem.Abstract
             // Restart timer for another status tick
             _tickTimer.Restart();
         }
-
+        
         protected override void OnReset()
         {
             _durationTimer.Reset();
@@ -68,6 +69,7 @@ namespace Terra.EffectsSystem.Abstract
 
         protected override void OnRemove()
         {
+            _durationTimer.Stop();
             _tickTimer.OnTimerStop -= OnStatusTick;
         }
     }

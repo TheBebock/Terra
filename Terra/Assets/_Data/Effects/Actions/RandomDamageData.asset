@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityID: -1
   effectIcon: {fileID: 0}
-  effectName: Random
+  effectName: Random Damage
   effectDescription: 
   effectCost: 200
   effectParticle: {fileID: 0}

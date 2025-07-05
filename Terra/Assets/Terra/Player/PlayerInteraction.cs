@@ -91,6 +91,8 @@ namespace Terra.Player
             {
                 Debug.Log("Interakcja z: " + _currentInteractable);
                 _currentInteractable.Interact();
+                _nearbyInteractables.Remove(_currentInteractable);
+                _currentInteractable = null;
             }
             else
             {

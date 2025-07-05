@@ -316,6 +316,7 @@ namespace Terra.UI.Windows.RewardWindow
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.MeleeWeapon = randomWeapon;
+                _weaponReward.WeaponType = WeaponType.Melee;
             }
             else
             {
@@ -323,6 +324,7 @@ namespace Terra.UI.Windows.RewardWindow
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.RangedWeapon = randomWeapon;
+                _weaponReward.WeaponType = WeaponType.Ranged;
             }
         }
 

@@ -28,12 +28,16 @@ namespace Terra.Itemization.Items
 
         //NOTE: isSlotTaken == false means that EquippedItem is null, and it will throw a null reference if checked.
         //That's why it just returns false
-        public bool CanItemBeRemoved => IsSlotTaken ? EquippedItem.CanBeRemoved : false;
+        // NOTE: All items can be removed
+        public bool CanItemBeRemoved => true;
 
 
         public override bool CanEquip()
         {
-            return IsSlotTaken ? EquippedItem.CanBeRemoved : true;
+            //return IsSlotTaken ? EquippedItem.CanBeRemoved : true;
+
+            //NOTE: All items can be removed, so all items can be equipped
+            return true;
         }
 
         public override bool Swap(TItem item)

@@ -15,8 +15,7 @@ MonoBehaviour:
   _id: 1967579987
   itemName: ranged_test
   itemDescription: 
-  itemSprite: {fileID: 21300000, guid: 02919fb39b7fa2740af3fe9d9b2685fc, type: 3}
-  canBeRemoved: 0
+  itemSprite: {fileID: 21300000, guid: aa8626fc518e58240b7985724d9611eb, type: 3}
   itemCost: 50
   strengthModifiers: []
   maxHealthModifiers: []

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7648631588216878980}
   - component: {fileID: 7754915034031940339}
   - component: {fileID: 1368070334944388938}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: P_ItemContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,14 +50,14 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 196608
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 7
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7648631588216878980
@@ -76,7 +76,7 @@ MonoBehaviour:
   _id: -1
   _interactionIconObject: {fileID: 4166640865539908907}
   _showInteractionIconWithoutPlayerNearby: 0
-  _canBeInteractedWith: 0
+  _canBeInteractedWith: 1
   _isInitialized: 0
   _itemRenderer: {fileID: 8213990560137699798}
 --- !u!114 &7754915034031940339
@@ -154,7 +154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 234342035530698077}
   - component: {fileID: 8213990560137699798}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: ItemIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
