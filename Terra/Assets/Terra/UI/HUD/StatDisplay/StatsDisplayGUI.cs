@@ -103,45 +103,39 @@ namespace Terra.UI.HUD.StatDisplay
             switch (statLabelData.statisticType)
             {
                 case StatisticType.Strength:
+                    statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.strength));
                     if(comparison.strengthValue == 0) return;
                     statLabelData.statLabel.SetDescription(ClampStatValue(comparison.strengthValue));
-                    statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.strength));
                     break;
                 case StatisticType.MaxHealth:
-                    if(comparison.maxHealthValue == 0) return;
-
-                    statLabelData.statLabel.SetDescription(comparison.maxHealthValue);
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.maxHealth));
+                    if(comparison.maxHealthValue == 0) return;
+                    statLabelData.statLabel.SetDescription(comparison.maxHealthValue);
                     break;
                 case StatisticType.Dexterity:
-                    if(comparison.dexterityValue == 0) return;
-
-                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.dexterityValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.dexterity));
+                    if(comparison.dexterityValue == 0) return;
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.dexterityValue));
                     break;
                 case StatisticType.Luck:
-                    if(comparison.luckValue == 0) return;
-
-                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.luckValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.luck));
+                    if(comparison.luckValue == 0) return;
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.luckValue));
                     break;
                 case StatisticType.SwingSpeed:
-                    if(comparison.swingSpeedValue == 0) return;
-
-                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.swingSpeedValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.swingSpeed));
+                    if(comparison.swingSpeedValue == 0) return;
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.swingSpeedValue));
                     break;
                 case StatisticType.MeleeRange:
-                    if (comparison.meleeRangeValue == 0) return;
-
-                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.meleeRangeValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.meleeRange));
+                    if (comparison.meleeRangeValue == 0) return;
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.meleeRangeValue));
                     break;
                 case StatisticType.RangeCooldown:
-                    if (comparison.rangeCooldownValue == 0) return;
-
-                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.rangeCooldownValue));
                     statLabelData.statLabel.SetDescriptionColor(GetColorBasedOnComparison(comparison.rangeCooldown));
+                    if (comparison.rangeCooldownValue == 0) return;
+                    statLabelData.statLabel.SetDescription(ClampStatValue(comparison.rangeCooldownValue));
                     break;
             }
         }

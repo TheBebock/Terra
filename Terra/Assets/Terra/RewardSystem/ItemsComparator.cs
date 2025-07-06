@@ -145,25 +145,25 @@ namespace Terra.RewardSystem
                 Debug.LogError("Given weapons are null");
                 return default;
             }
-            var newWeaponStr = CalculateModifierValue(toCompareWeapon.strengthModifiers);
-            var playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
-            var playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);
+            float newWeaponStr = CalculateModifierValue(toCompareWeapon.strengthModifiers);
+            float playerStr = PlayerStatsManager.Instance.PlayerStats.Strength;
+            float playerStrWithoutCurrentWeapon = playerStr - CalculateModifierValue(currentWeapon.strengthModifiers);
 
-            var newWeaponDex = CalculateModifierValue(toCompareWeapon.dexModifiers);
-            var playerDex = PlayerStatsManager.Instance.PlayerStats.Dexterity;
-            var playerDexWithoutCurrentWeapon = playerDex - CalculateModifierValue(currentWeapon.dexModifiers);
+            float newWeaponDex = CalculateModifierValue(toCompareWeapon.dexModifiers);
+            float playerDex = PlayerStatsManager.Instance.PlayerStats.Dexterity;
+            float playerDexWithoutCurrentWeapon = playerDex - CalculateModifierValue(currentWeapon.dexModifiers);
 
-            var newWeaponMeleeRange = CalculateModifierValue(toCompareWeapon.meleeRangeModifiers);
-            var playerMeleeRange = PlayerStatsManager.Instance.PlayerStats.MeleeRange;
-            var playerMeleeRangeWithoutCurrentWeapon = playerMeleeRange - CalculateModifierValue(currentWeapon.meleeRangeModifiers);
+            float newWeaponMeleeRange = CalculateModifierValue(toCompareWeapon.meleeRangeModifiers);
+            float playerMeleeRange = PlayerStatsManager.Instance.PlayerStats.MeleeRange;
+            float playerMeleeRangeWithoutCurrentWeapon = playerMeleeRange - CalculateModifierValue(currentWeapon.meleeRangeModifiers);
 
-            var newWeaponSwingSpeed = CalculateModifierValue(toCompareWeapon.swingSpeedModifiers);
-            var playerSwingSpeed = PlayerStatsManager.Instance.PlayerStats.SwingSpeed;
-            var playerSwingSpeedWithoutCurrentWeapon = playerSwingSpeed - CalculateModifierValue(currentWeapon.swingSpeedModifiers);
+            float newWeaponSwingSpeed = CalculateModifierValue(toCompareWeapon.swingSpeedModifiers);
+            float playerSwingSpeed = PlayerStatsManager.Instance.PlayerStats.SwingSpeed;
+            float playerSwingSpeedWithoutCurrentWeapon = playerSwingSpeed - CalculateModifierValue(currentWeapon.swingSpeedModifiers);
 
-            var newWeaponRangeCooldown = CalculateModifierValue(toCompareWeapon.rangeCooldownModifiers);
-            var playerRangeCooldown = PlayerStatsManager.Instance.PlayerStats.RangeCooldown;
-            var playerRangeCooldownWithoutCurrentWeapon = playerRangeCooldown - CalculateModifierValue(currentWeapon.rangeCooldownModifiers);
+            float newWeaponRangeCooldown = CalculateModifierValue(toCompareWeapon.rangeCooldownModifiers);
+            float playerRangeCooldown = PlayerStatsManager.Instance.PlayerStats.RangeCooldown;
+            float playerRangeCooldownWithoutCurrentWeapon = playerRangeCooldown - CalculateModifierValue(currentWeapon.rangeCooldownModifiers);
 
 
 
@@ -203,15 +203,15 @@ namespace Terra.RewardSystem
 
         private static Comparison CompareModifiers(int valueToCompareTo, List<ValueModifier> compareModifiers)
         {
-            var modifiersValue = CalculateModifierValue(compareModifiers);
+            float modifiersValue = CalculateModifierValue(compareModifiers);
             
             return CompareValue(valueToCompareTo, modifiersValue);
         }
 
         private static Comparison CompareModifiers(List<ValueModifier> modifiersToCompareTo, List<ValueModifier> compareModifiers)
         {
-            var firstModifiersValue = CalculateModifierValue(modifiersToCompareTo);
-            var secondModifiersValue = CalculateModifierValue(compareModifiers);
+            float firstModifiersValue = CalculateModifierValue(modifiersToCompareTo);
+            float secondModifiersValue = CalculateModifierValue(compareModifiers);
 
             return CompareValue(firstModifiersValue, secondModifiersValue);
         }
