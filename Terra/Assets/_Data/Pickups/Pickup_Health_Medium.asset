@@ -17,4 +17,4 @@ MonoBehaviour:
   pickupName: Health
   pickupSprite: {fileID: 21300000, guid: dd3db097ecb539147b3ba8e5ec69fb17, type: 3}
   pickupMaterial: {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
-  maxHealthHealAmount: 25
+  maxHealthHealAmount: 50

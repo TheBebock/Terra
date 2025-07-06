@@ -70,20 +70,19 @@ namespace Terra.Player
             // Set states
             IdleState idleState = new IdleState(this, _playerAnimator);
             LocomotionState locomotionState = new LocomotionState(this, _playerAnimator);
-            StunState stunState = new StunState(this, _playerAnimator);
             DashState dashState = new DashState(this, _playerAnimator);
             _deathState = new DeathState(this, _playerAnimator);
             MeleeAttackState meleeAttackState = new MeleeAttackState(this, _playerAnimator);
             RangedAttackState rangedAttackState = new RangedAttackState(this, _playerAnimator);
 
             // Set transitions
-            _stateMachine.AddTransition(stunState, locomotionState, new FuncPredicate(() => _playerMovement.CanPlayerMove));
+
             _stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => _playerMovement.IsDashing));
             _stateMachine.AddTransition(dashState, locomotionState, new FuncPredicate(() => !_playerMovement.IsDashing));
             _stateMachine.AddTransition(idleState, locomotionState, new FuncPredicate(() => _playerMovement.IsTryingMove));
             _stateMachine.AddTransition(locomotionState, idleState, new FuncPredicate(() => !_playerMovement.IsTryingMove));
             
-
+            
             _stateMachine.AddTransition(locomotionState, meleeAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(locomotionState, rangedAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformDistanceAttack));
             _stateMachine.AddTransition(idleState, meleeAttackState, new FuncPredicate(() => _playerAttackController.IsTryingPerformMeleeAttack));
@@ -91,8 +90,7 @@ namespace Terra.Player
 
             _stateMachine.AddTransition(meleeAttackState, idleState, new FuncPredicate(() => !_playerAttackController.IsTryingPerformMeleeAttack));
             _stateMachine.AddTransition(rangedAttackState, idleState, new FuncPredicate(() => !_playerAttackController.IsTryingPerformDistanceAttack));
-            
-            _stateMachine.AddAnyTransition(stunState, new FuncPredicate(() => !_playerMovement.CanPlayerMove && !IsPlayerDead));
+
             _stateMachine.AddAnyTransition(_deathState, new FuncPredicate(() => IsPlayerDead));
             
             _stateMachine.SetState(idleState);

@@ -57,12 +57,9 @@ namespace Terra.UI.Windows.RewardWindow
         private ActiveItem _activeItemReward;
         private PassiveItem _passiveItemReward;
 
-        [SerializeField, ReadOnly]
-        private WeaponDataComparison _weaponDataComparison;
-        [SerializeField, ReadOnly]
-        private StatsDataComparison _itemDataComparison;
-        [SerializeField, ReadOnly]
-        private StatsDataComparison _statsDataComparison;
+        [SerializeField, ReadOnly] private WeaponDataComparison _weaponDataComparison;
+        [SerializeField, ReadOnly] private StatsDataComparison _itemDataComparison;
+        [SerializeField, ReadOnly] private StatsDataComparison _statsDataComparison;
         private OnRewardSelected _onRewardSelected;
         [SerializeField, ReadOnly] private RewardType _rewardType;
 
