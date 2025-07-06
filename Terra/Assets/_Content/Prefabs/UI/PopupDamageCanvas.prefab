@@ -149,43 +149,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5667398009381574359}
     m_Modifications:
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 6255e2bf4fa20aa4d91884ccf3a25d48,
-        type: 2}
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.11764705
-      objectReference: {fileID: 0}
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.30339536
-      objectReference: {fileID: 0}
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.93333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 355320196399755015, guid: 6255e2bf4fa20aa4d91884ccf3a25d48,
-        type: 2}
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4280176110
-      objectReference: {fileID: 0}
-    - target: {fileID: 210476848760919022, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6448465233260915433, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
         type: 3}
       propertyPath: m_Pivot.x
@@ -285,11 +248,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6448465233260915433, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149087950282470739, guid: 96dac1fdb9adc2040b2cd9a4b65f66b1,
         type: 3}
