@@ -208,49 +208,49 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.maxHealthModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.maxHealth, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Max Health";
+                _rewardDescription.text += " Max Health\n";
             }
 
             if (data.luckModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.luckModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.luck, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Luck";
+                _rewardDescription.text += " Luck\n";
             }
 
             if (data.strengthModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.strengthModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.strength, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Strength";
+                _rewardDescription.text += " Strength\n";
             }
 
             if (data.dexModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.dexModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.dexterity, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Dexterity";
+                _rewardDescription.text += " Dexterity\n";
             }
 
             if(data.swingSpeedModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.swingSpeedModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.swingSpeed, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Swing Speed";
+                _rewardDescription.text += " Swing Speed\n";
             }
 
             if (data.meleeRangeModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.meleeRangeModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.meleeRange, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Range";
+                _rewardDescription.text += " Range\n";
             }
 
             if (data.rangeCooldownModifiers.Count > 0)
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.rangeCooldownModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.rangeCooldown, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Cooldown";
+                _rewardDescription.text += " Cooldown\n";
             }
         }
 
@@ -357,7 +357,7 @@ namespace Terra.UI.Windows.RewardWindow
 
             if (data.effects.actions.Count > 0 || data.effects.statuses.Count > 0)
             {
-                _rewardDescription.text += $"\nEffects: ";
+                _rewardDescription.text += $"Effects: ";
 
                 for (int i = 0; i < data.effects.actions.Count; i++)
                 {
@@ -406,9 +406,9 @@ namespace Terra.UI.Windows.RewardWindow
             string newTextWithMark = "";
             switch (comparedStatistic)
             {
-                case Comparison.Worse: newTextWithMark += $"\n<color={ItemsComparator.WorseItemColor}>"; break;
-                case Comparison.Equal: newTextWithMark += "\n"; break;
-                case Comparison.Better: newTextWithMark += $"\n<color={ItemsComparator.BetterItemColor}>+"; break;
+                case Comparison.Worse: newTextWithMark += $"<color={ItemsComparator.WorseItemColor}>"; break;
+                case Comparison.Equal: newTextWithMark += ""; break;
+                case Comparison.Better: newTextWithMark += $"<color={ItemsComparator.BetterItemColor}>+"; break;
             }
             newTextWithMark += $"{textToMark}";
             newTextWithMark += "</color>";
