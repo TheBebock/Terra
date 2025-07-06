@@ -16,9 +16,9 @@ MonoBehaviour:
   effectIcon: {fileID: 21300000, guid: 0abb3f22d0497f7488fe577e4011c281, type: 3}
   effectName: Smelling Salts
   effectDescription: 
-  effectCost: 50
+  effectCost: 120
   effectParticle: {fileID: 0}
   containerType: 0
   incompatibleEffects: []
-  amount: 80
-  isPercentage: 0
+  amount: 100
+  isPercentage: 1

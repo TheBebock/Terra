@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using Terra.Managers;
+using Terra.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,14 +17,16 @@ namespace Terra.UI.MainMenu
         [SerializeField] private SettingsUI _settingsPanel;
         [SerializeField] private GameObject _helpPanel;
         [SerializeField] private GameObject _creditsPanel;
+        [SerializeField] private GameObject _chooseDifficultyPanel;
 
         private void Awake()
         {
             if(_settingsPanel)_settingsPanel?.gameObject.SetActive(false);
             if(_helpPanel) _helpPanel?.SetActive(false);
             if(_creditsPanel) _creditsPanel?.SetActive(false);
+            if(_chooseDifficultyPanel) _chooseDifficultyPanel.SetActive(false);
             
-            _startGameButton?.onClick.AddListener(StartGameplayScene);
+            _startGameButton?.onClick.AddListener(OnPlayBtnClicked);
             _helpButton?.onClick.AddListener(OnHelpBtnClicked);
             _settingsButton?.onClick.AddListener(ShowSettings);
             _creditsButton?.onClick.AddListener(OnCreditsBtnClicked);
@@ -48,8 +51,14 @@ namespace Terra.UI.MainMenu
         {
             if(_creditsPanel) _creditsPanel?.SetActive(true);
         }
-        private void StartGameplayScene()
+        private void OnPlayBtnClicked()
         {
+            if (GameSettings.IsFirstEverGame)
+            {
+                _chooseDifficultyPanel?.SetActive(true);
+                return;
+            }
+            
             _ = ScenesManager.Instance.LoadGameplay();
         }
 

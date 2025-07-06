@@ -13,6 +13,7 @@ namespace Terra.Utils
         public static float DefaultMasterVolume = 1.0f;
         public static float DefaultSFXVolume = 1.0f;
         public static float DefaultMusicVolume = 1.0f;
+        public static bool IsFirstEverGame = true;
         public static GameDifficulty DefaultDifficultyLevel = GameDifficulty.Normal;
 
         private static string SettingsFilePath => Path.Combine(Application.persistentDataPath, "settings.json");
@@ -26,6 +27,7 @@ namespace Terra.Utils
             public float MasterVolume;
             public float SFXVolume;
             public float MusicVolume;
+            public bool IsFirstEverGame;
         }
 
         public static void TryLoadingGameSettings()
@@ -41,6 +43,7 @@ namespace Terra.Utils
                 DefaultMasterVolume = data.MasterVolume;
                 DefaultSFXVolume = data.SFXVolume;
                 DefaultMusicVolume = data.MusicVolume;
+                IsFirstEverGame = data.IsFirstEverGame;
 
                 Debug.Log($"Loaded game settings from {SettingsFilePath}");
             }
