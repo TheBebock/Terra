@@ -14,9 +14,13 @@ namespace Terra.AI.EnemyStates
         public override void OnEnter()
         {
             base.OnEnter();
-            
-            navMeshAgent.isStopped = true;
-            navMeshAgent.velocity = Vector3.zero;
+
+            if (navMeshAgent)
+            {
+                navMeshAgent.isStopped = true;
+                navMeshAgent.velocity = Vector3.zero;
+            }
+           
             
             int animationName = enemy.CurrentDirection == FacingDirection.Left ? AnimationHashes.IdleLeft : AnimationHashes.IdleRight;
             animator.CrossFade(animationName, CrossFadeDuration);
@@ -25,7 +29,7 @@ namespace Terra.AI.EnemyStates
         public override void OnExit()
         {
             base.OnExit();
-            navMeshAgent.isStopped = false;
+            if(navMeshAgent) navMeshAgent.isStopped = false;
         }
     }
 }

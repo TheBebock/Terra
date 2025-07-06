@@ -17,7 +17,7 @@ namespace Terra.Itemization.Pickups
     public sealed class PickupContainer : Entity, IPickupable, IRequireCleanup
     {
 
-        public bool CanBePickedUp => _isInitialized && _pickup != null && _pickup.CanBePickedUp();
+        public bool CanBePickedUp => _isInitialized && _pickup.CanBePickedUp();
 
         [SerializeField, ReadOnly] private PickupBase _pickup;
         [SerializeField, ReadOnly] private bool _isInitialized;
@@ -52,8 +52,9 @@ namespace Terra.Itemization.Pickups
             await UniTask.WaitForSeconds(_onSpawnDelayBeforePickupable, cancellationToken: CancellationToken);
             _isInitialized = true;
         }
-        private void OnTriggerEnter(Collider collision)
+        private void OnTriggerStay(Collider collision)
         {
+            if(_pickup == null) return;
             if (collision.CompareTag("Player") && CanBePickedUp)
             {
                 PickUp();
@@ -62,6 +63,8 @@ namespace Terra.Itemization.Pickups
 
         private void Update()
         {
+            if(_pickup == null) return;
+            
             if(!CanBePickedUp) return;
             
             if (GetDistanceToPlayer() < _distanceToPlayerForMagnetism)
@@ -80,6 +83,7 @@ namespace Terra.Itemization.Pickups
             position.y = transform.position.y;
             transform.position = position;
             _moveSpeed += _addSpeedModifier;
+            _moveSpeed = Mathf.Clamp(_moveSpeed, _originalSpeed, _originalSpeed *3);
         }
         private float GetDistanceToPlayer()
         {
@@ -89,6 +93,7 @@ namespace Terra.Itemization.Pickups
 
         public void PickUp()
         {
+            if(_pickup == null) return;
             if (!CanBePickedUp) return;
             if (_pickup.PickupSound && _audioSource)
             {

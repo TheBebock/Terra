@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: RegenerationStatusData
   m_EditorClassIdentifier: 
   entityID: -1
-  effectIcon: {fileID: 21300000, guid: ac820612c6b83e044b0976413baf8a0d, type: 3}
+  effectIcon: {fileID: 21300000, guid: ccdad1bba04227a43b0d97b29bd94ba9, type: 3}
   effectName: Regeneration
-  effectDescription: 
+  effectDescription: Regenerate health over time
   effectCost: 120
   effectParticle: {fileID: 7716638365138479202, guid: 0a56cebf3ef8fa24b995e755f5c14270,
     type: 3}

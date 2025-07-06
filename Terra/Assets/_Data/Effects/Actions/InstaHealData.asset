@@ -15,7 +15,7 @@ MonoBehaviour:
   entityID: -1
   effectIcon: {fileID: 21300000, guid: 0abb3f22d0497f7488fe577e4011c281, type: 3}
   effectName: Smelling Salts
-  effectDescription: 
+  effectDescription: Fully heals player
   effectCost: 120
   effectParticle: {fileID: 0}
   containerType: 0

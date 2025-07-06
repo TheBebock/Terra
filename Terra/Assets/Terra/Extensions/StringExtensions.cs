@@ -12,5 +12,14 @@ namespace Terra.Extensions
         {
             return string.IsNullOrWhiteSpace(value);
         }
+        
+        public static string AddSpacesBeforeCapitals(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            var regex = new Regex("(?<!^)([A-Z])", RegexOptions.Compiled);
+            return regex.Replace(input, " $1");
+        }
     }
 }

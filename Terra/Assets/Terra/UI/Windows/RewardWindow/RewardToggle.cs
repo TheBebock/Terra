@@ -17,6 +17,7 @@ using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
 using UnityEngine.UI;
+using StringExtensions = Terra.Extensions.StringExtensions;
 
 namespace Terra.UI.Windows.RewardWindow
 {
@@ -190,7 +191,9 @@ namespace Terra.UI.Windows.RewardWindow
 
         private void LoadItemData(ItemData data)
         {
-            _rewardName.text = data.itemName;
+            string itemName = data.itemName;
+            itemName = StringExtensions.AddSpacesBeforeCapitals(itemName);
+            _rewardName.text = itemName;
             _rewardDescription.text = data.itemDescription;
 
             _costDisplay.text = GetCostDisplayText(data.itemCost);
