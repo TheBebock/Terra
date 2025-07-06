@@ -33,11 +33,13 @@ namespace Terra.Combat.Projectiles
         [Foldout("Debug"), ReadOnly][SerializeField] private EffectsContainer _effects;
         
         private LayerMask _playerLayer;
+        private LayerMask _rangeBoundsLayer;
         private Vector3 _direction;
 
         private void Awake()
         {
             _playerLayer = LayerMask.NameToLayer("Player");
+            _rangeBoundsLayer = LayerMask.NameToLayer("RangeBounds");
         }
         
         /// <summary>
@@ -102,7 +104,7 @@ namespace Terra.Combat.Projectiles
 
             if (_penetrationTargets < 0)
             {
-                if (!isPlayer)
+                if (!isPlayer && other.gameObject.layer != _rangeBoundsLayer)
                 {
                     _particleComponentData.offset = transform.position;
                     Instantiate(_acidBulletSplash, transform.position, Quaternion.identity).Init(_direction);

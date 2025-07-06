@@ -18,7 +18,7 @@ namespace Terra.Particles
         private static readonly int EmissiveIntensity = Shader.PropertyToID("_EmissiveIntensity");
         private static readonly int EmissiveMask = Shader.PropertyToID("_EmissiveMask");
         private static readonly int ColorID = Shader.PropertyToID("_Color");
-        
+
         [Foldout("Particles")][SerializeField] public ParticleComponentData onSpawnParticle;
         [Foldout("Particles")][SerializeField] public ParticleComponentData onHealParticle;
         [Foldout("Particles")][SerializeField] public ParticleComponentData onHitParticle;
@@ -112,15 +112,28 @@ namespace Terra.Particles
 
             float emissiveIntensityClamped = Mathf.Clamp(endValue, 0, _modelMaterial.GetFloat(EmissiveIntensity));
             
-            DOTween.To(
-                () => _modelMaterial.GetFloat(EmissiveIntensity),
-                x => _modelMaterial.SetFloat(EmissiveIntensity, x),
-                emissiveIntensityClamped,
-                duration/2
-            ).SetEase(curve)
-            .WithCancellation(_fadeCts.Token);
+          _ = DoFadeAsync(endValue, emissiveIntensityClamped, duration, curve);
             
-            _modelMaterial.DOFade(endValue, duration).SetEase(curve);
+        }
+
+        private async UniTaskVoid DoFadeAsync(float fadeEndValue, float emissiveEndValue, float duration, AnimationCurve curve = null)
+        {
+            DOTween.To(
+                    () => _modelMaterial.GetFloat(EmissiveIntensity),
+                    x => _modelMaterial.SetFloat(EmissiveIntensity, x),
+                    emissiveEndValue,
+                    duration/2
+                ).SetEase(curve)
+                .WithCancellation(_fadeCts.Token);
+            
+            _modelMaterial.DOFade(fadeEndValue, duration).SetEase(curve);
+
+            //Disable shadows
+            await UniTask.WaitForSeconds((duration*0.6f), cancellationToken: CancellationToken);
+            if (_modelMaterial.GetColor(ColorID).a < 0.8f)
+            {
+                _model.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
         }
 
         public void BlinkModelsColor(Color color, float fadeInDuration, float pauseDuration,
