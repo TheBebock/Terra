@@ -56,18 +56,18 @@ namespace Terra.AI.Enemy
             {
                 if (other.TryGetComponent(out Entity entity))
                 {
-                    _targets.AddUnique(new EntityDamageableData() { entity = entity, damageable = damageable });
+                    _targets.Add(new EntityDamageableData() { entity = entity, damageable = damageable });
                 }
             }
         }
 
-        private EntityDamageableData GetEntityDamageableData(Entity entity)
+        private int GetEntityDamageableDataIndex(Entity entity)
         {
             for (int i = 0; i < _targets.Count; i++)
             {
-                if(_targets[i].entity == entity) return _targets[i];
+                if(_targets[i].entity == entity) return i;
             }
-            return default;
+            return -1;
         }
         private void OnTriggerExit(Collider other)
         {
@@ -75,15 +75,21 @@ namespace Terra.AI.Enemy
             {
                 if (other.TryGetComponent(out Entity entity))
                 {
-                    _targets.RemoveElement(GetEntityDamageableData(entity));
+                    int index = GetEntityDamageableDataIndex(entity);
+                    if (index < 0)
+                    {
+                        Debug.LogWarning($"{this} given entity {entity.name} is not in the list. Skipping it");
+                        return;
+                    }
+                    _targets.RemoveAt(index);
                 }
             }
         }
 
         private void Update()
         {
-            CheckDistance();
             _damageTimer.Tick(Time.deltaTime);
+            CheckDistance();
         }
 
         private void CheckDistance()
@@ -97,7 +103,7 @@ namespace Terra.AI.Enemy
                 }
 
                 if (Vector3.Distance(transform.position, _targets[i].entity.transform.position) >
-                    _collider.radius + 0.2f)
+                   _collider.radius + 1f)
                 {
                     _targets.RemoveAt(i);
                 }
