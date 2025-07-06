@@ -160,6 +160,9 @@ namespace Terra.UI.HUD
         protected override void CleanUp()
         {
             base.CleanUp();
+            
+            _darkSequence?.Kill();
+            
             EventsAPI.Unregister<LevelIncreasedEvent>(OnLevelIncreased);
             EventsAPI.Unregister<WaveEndedEvent>(OnWaveEnded);
             EventsAPI.Unregister<OnWeaponsChangedEvent>(OnWeaponsChanged);
