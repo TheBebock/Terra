@@ -17,4 +17,4 @@ MonoBehaviour:
   pickupName: Crystal
   pickupSprite: {fileID: 21300000, guid: 6eb3605eaee10754490a172a8e3aa7ed, type: 3}
   pickupMaterial: {fileID: 2100000, guid: 0d3dcdbf4c98b4940b9aa56b01cdece1, type: 2}
-  crystalAmount: 5
+  crystalAmount: 3
