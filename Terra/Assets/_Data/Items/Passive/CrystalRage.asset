@@ -18,12 +18,12 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: c4fd4c14456548f4599bddd6fe2827c3, type: 3}
   itemCost: 50
   strengthModifiers:
-  - value: 30
+  - value: 25
     type: 100
     sourceID: 1629481781
   maxHealthModifiers:
-  - value: -40
-    type: 100
+  - value: -50
+    type: 300
     sourceID: 1629481781
   dexModifiers: []
   luckModifiers: []
