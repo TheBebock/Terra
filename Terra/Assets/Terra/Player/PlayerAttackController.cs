@@ -56,6 +56,7 @@ namespace Terra.Player
         public PlayerInventoryManager PlayerInventory => PlayerInventoryManager.Instance;
         private OnPlayerMeleeAttackPerformedEvent _meleeEvent;
 
+        private OnEffectAddedToPlayer _onEffectAddedToPlayer;
 
         private Vector3 _rangeShootDirection;
         public PlayerAttackController(AudioSource audioSource, Transform firePoint)
@@ -63,6 +64,7 @@ namespace Terra.Player
             _audioSource = audioSource;
             _firePoint = firePoint;
             _meleeEvent = new();
+            _onEffectAddedToPlayer = new();
             if (PlayerInventoryManager.Instance)
             {
                 _meleeAttackSFX = PlayerInventory.MeleeWeapon.Data.attackSFX;
@@ -168,6 +170,11 @@ namespace Terra.Player
         public void AddNewAttackActionEffect(ActionEffectData action)
         {
             EffectsContainer effectsContainer;
+            
+            _onEffectAddedToPlayer.effectSprite = action.effectIcon;
+            
+            EventsAPI.Invoke(ref _onEffectAddedToPlayer);
+            
             switch (action.containerType)
             {
                 case ContainerType.MeleeWeapon: 
@@ -193,6 +200,10 @@ namespace Terra.Player
         public void AddNewAttackStatusEffect(StatusEffectData status)
         {
             EffectsContainer effectsContainer;
+            _onEffectAddedToPlayer.effectSprite = status.effectIcon;
+
+            EventsAPI.Invoke(ref _onEffectAddedToPlayer);
+
             switch (status.containerType)
             {
                 case ContainerType.MeleeWeapon: 

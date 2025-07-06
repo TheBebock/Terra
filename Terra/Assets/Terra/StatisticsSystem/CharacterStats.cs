@@ -25,9 +25,9 @@ namespace Terra.StatisticsSystem
     public class CharacterStats
     {
         
-        [FormerlySerializedAs("strength")] [Foldout("Debug")][SerializeField] private ModifiableValue _strength;
-        [FormerlySerializedAs("maxHealth")] [Foldout("Debug")][SerializeField] private ModifiableValue _maxHealth;
-        [FormerlySerializedAs("dexterity")] [Foldout("Debug")][SerializeField] private ModifiableValue _dexterity;
+        [FormerlySerializedAs("strength")] [Foldout("Debug")][SerializeField] protected ModifiableValue _strength;
+        [FormerlySerializedAs("maxHealth")] [Foldout("Debug")][SerializeField] protected ModifiableValue _maxHealth;
+        [FormerlySerializedAs("dexterity")] [Foldout("Debug")][SerializeField] protected ModifiableValue _dexterity;
         
         public CharacterStats(int baseStrength, int baseMaxHealth, int baseSpeed)
         {

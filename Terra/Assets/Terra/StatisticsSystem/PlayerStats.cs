@@ -1,6 +1,8 @@
 using System;
 using Terra.Core.ModifiableValue;
+using Terra.Enums;
 using Terra.StatisticsSystem.Definitions;
+using Terra.Utils;
 using UnityEngine;
 
 
@@ -28,10 +30,25 @@ namespace Terra.StatisticsSystem
             _meleeRange = new ModifiableValue(meleeRange);
             _rangeCooldown = new ModifiableValue(rangeCooldown);
         }
- 
+
         public PlayerStats(PlayerStatsDefinition data)
             : this(data.baseStrength, data.baseMaxHealth, data.baseDexterity, data.baseLuck,
-                data.baseSwingSpeed, data.baseMeleeRange, data.baseRangeCooldown){}
+                data.baseSwingSpeed, data.baseMeleeRange, data.baseRangeCooldown)
+        {
+
+            int modifier = 1;
+            switch (GameSettings.DefaultDifficultyLevel)
+            {
+                case GameDifficulty.Easy : 
+                    modifier = 2;
+                    break;
+                case GameDifficulty.Cyberiada : 
+                    modifier = 3;
+                    break;
+            }
+            _maxHealth = new ModifiableValue(data.baseMaxHealth * modifier);
+                
+        }
         
 
         // Luck

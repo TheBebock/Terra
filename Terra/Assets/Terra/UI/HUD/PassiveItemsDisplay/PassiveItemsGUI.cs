@@ -38,9 +38,16 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
         public void AttachListeners()
         {
             PlayerInventoryManager.Instance.OnPassiveItemAdded += OnPassiveItemAdded;
+            EventsAPI.Register<OnEffectAddedToPlayer>(OnEffectAddedToPlayer);
             EventsAPI.Register<ItemsOpacityChangedEvent>(OnOpacityChanged);
         }
 
+        private void OnEffectAddedToPlayer(ref OnEffectAddedToPlayer ev)
+        {
+            Image newIcon = Instantiate(_iconPrefab, _itemsIconsContainer);
+            newIcon.sprite = ev.effectSprite;
+            _itemIcons.Add(newIcon);
+        }
 
         private void OnPassiveItemAdded(PassiveItem passiveItem)
         {
@@ -81,6 +88,7 @@ namespace Terra.UI.HUD.PassiveItemsDisplay
         public void DetachListeners()
         {
             EventsAPI.Unregister<ItemsOpacityChangedEvent>(OnOpacityChanged);
+            EventsAPI.Unregister<OnEffectAddedToPlayer>(OnEffectAddedToPlayer);
 
             if (PlayerInventoryManager.Instance)
             {
