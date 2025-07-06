@@ -72,7 +72,7 @@ namespace Terra.AnimationEvent
 
         private async UniTaskVoid ResetAfterDelay()
         {
-            await UniTask.WaitForSeconds(0.1f);
+            await UniTask.WaitForEndOfFrame(cancellationToken: _receiver.destroyCancellationToken);
             ResetState();
         }
         public void ResetState()
