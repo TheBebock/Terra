@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PushbackData
   m_EditorClassIdentifier: 
   entityID: -1
-  effectIcon: {fileID: 21300000, guid: 2b4c25c246186544dac1c058437515b7, type: 3}
-  effectName: Pushback
+  effectIcon: {fileID: 21300000, guid: 3459b3ad065177e438b1001d306c2b8e, type: 3}
+  effectName: Knockback
   effectDescription: Push back enemies on attack
-  effectCost: 80
+  effectCost: 120
   effectParticle: {fileID: 0}
-  containerType: 1
+  containerType: 2
   incompatibleEffects: []
   force: 10
