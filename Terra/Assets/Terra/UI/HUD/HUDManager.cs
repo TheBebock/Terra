@@ -5,6 +5,7 @@ using Terra.Core.Generics;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
+using Terra.Itemization.Abstracts.Definitions;
 using Terra.Managers;
 using Terra.UI.HUD.PassiveItemsDisplay;
 using Terra.UI.HUD.StatDisplay;
@@ -24,6 +25,10 @@ namespace Terra.UI.HUD
         [SerializeField] private Image _darkScreen;
         [SerializeField] private StatsDisplayGUI _statsDisplay;
         [SerializeField] private PassiveItemsGUI _passiveItemsGUI;
+        
+        [BoxGroup("Weapons")] [SerializeField] private CanvasGroup _weaponsCanvasGroup;
+        [BoxGroup("Weapons")] [SerializeField] private Image _meleeIcon;
+        [BoxGroup("Weapons")] [SerializeField] private Image _rangeIcon;
         [BoxGroup("FloorEndText")][SerializeField] private TMP_Text _floorEndText;
         [BoxGroup("FloorEndText")][SerializeField] private float _floorEndFadeDuration = 1f;
         
@@ -43,6 +48,7 @@ namespace Terra.UI.HUD
             base.Awake();
             EventsAPI.Register<LevelIncreasedEvent>(OnLevelIncreased);
             EventsAPI.Register<WaveEndedEvent>(OnWaveEnded);
+            EventsAPI.Register<OnWeaponsChangedEvent>(OnWeaponsChanged);
         }
 
         public void ForceSetDarkScreenAlpha(float alpha)
@@ -83,12 +89,33 @@ namespace Terra.UI.HUD
                 .SetLoops(2, LoopType.Yoyo)
                 .WithCancellation(CancellationToken);
         }
-        
+
+        private void OnWeaponsChanged(ref OnWeaponsChangedEvent ev)
+        {
+            if (ev.itemType == WeaponType.Melee)
+            {
+                _meleeIcon.sprite = ev.weaponSprite;
+            }
+            else
+            {
+                _rangeIcon.sprite = ev.weaponSprite;
+            }
+        }
         public void ShowGameplayHUD()
         {
             _gameplayHUDCanvasGroup.alpha = 1;
             ShowCrystalCounter();
             ShowAmmoCounter();
+            ShowWeapons();
+        }
+
+        public void ShowUpgradeHUD()
+        {
+            StatsDisplay.Show();
+            PassiveItemsDisplay.Show();
+            ShowWeapons();
+            ShowAmmoCounter();
+            ShowCrystalCounter();
         }
         
         public void HideGameplayHUD()
@@ -96,24 +123,38 @@ namespace Terra.UI.HUD
             _gameplayHUDCanvasGroup.alpha = 0;
             HideCrystalCounter();
             HideAmmoCounter();
+            HideWeapons();
             StatsDisplay.Hide();
             PassiveItemsDisplay.Hide();
         }
-        public void ShowCrystalCounter()
+        private void ShowCrystalCounter()
         {
             _crystalCanvasGroup.alpha = 1;
         }
-        public void HideCrystalCounter()
+
+        private void HideCrystalCounter()
         {
             _crystalCanvasGroup.alpha = 0; 
         }
-        public void ShowAmmoCounter()
+        
+        private void ShowAmmoCounter()
         {
             _ammoCanvasGroup.alpha = 1;
         }
-        public void HideAmmoCounter()
+        
+        private void HideAmmoCounter()
         {
             _ammoCanvasGroup.alpha = 0;
+        }
+
+        private void ShowWeapons()
+        {
+            _weaponsCanvasGroup.alpha = 1;
+        }
+        
+        private void HideWeapons()
+        {
+            _weaponsCanvasGroup.alpha = 0;
         }
 
         protected override void CleanUp()
@@ -121,6 +162,8 @@ namespace Terra.UI.HUD
             base.CleanUp();
             EventsAPI.Unregister<LevelIncreasedEvent>(OnLevelIncreased);
             EventsAPI.Unregister<WaveEndedEvent>(OnWaveEnded);
+            EventsAPI.Unregister<OnWeaponsChangedEvent>(OnWeaponsChanged);
+
         }
     }
 }

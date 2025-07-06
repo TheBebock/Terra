@@ -37,10 +37,14 @@ namespace Terra.Player
         public event Action<RangedWeapon> OnRangedWeaponChanged;
         public event Action<int> OnCurrentAmmoChanged;  
         public event Action<int> OnMaxAmmoChanged;  
+        
+        private OnWeaponsChangedEvent _onWeaponsChanged;
 
         protected override void Awake()
         {
             base.Awake();
+            
+            _onWeaponsChanged = new OnWeaponsChangedEvent();
             
             InitEquipmentSlots();
 
@@ -153,9 +157,15 @@ namespace Terra.Player
                     break;
                 case MeleeWeapon meleeWeapon:
                     OnMeleeWeaponChanged?.Invoke(meleeWeapon);
+                    _onWeaponsChanged.itemType = WeaponType.Melee;
+                    _onWeaponsChanged.weaponSprite = meleeWeapon.ItemIcon;
+                    EventsAPI.Invoke(ref _onWeaponsChanged);
                     break;
                 case RangedWeapon ranged:
                     OnRangedWeaponChanged?.Invoke(ranged);
+                    _onWeaponsChanged.itemType = WeaponType.Ranged;
+                    _onWeaponsChanged.weaponSprite = item.ItemIcon;
+                    EventsAPI.Invoke(ref _onWeaponsChanged);
                     break;
             }
         }

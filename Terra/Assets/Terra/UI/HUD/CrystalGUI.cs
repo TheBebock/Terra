@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Terra.UI.HUD
 {
-    public class CrystalPickupUI : InGameMonobehaviour, IAttachListeners
+    public class CrystalPickupUI : InGameMonobehaviour, IAttachListeners, IWithSetUp
     {
         [SerializeField] private TMP_Text _counterText;
         [SerializeField] private TMP_Text _tempValueText;
@@ -35,6 +35,8 @@ namespace Terra.UI.HUD
             _tempValueTextOriginalScale = _tempValueText.transform.localScale;
         }
         
+        
+        
         public void AttachListeners()
         {
             if (EconomyManager.Instance != null)
@@ -43,6 +45,13 @@ namespace Terra.UI.HUD
             }
         }
         
+        public void SetUp()
+        {
+            if(!EconomyManager.Instance) return;
+
+            _currentCounterAmount = EconomyManager.Instance.CurrentGold;
+            _counterText.text = _currentCounterAmount.ToString();
+        }
         
         private void HandleGoldChanged(int currentGold)
         {
@@ -129,6 +138,13 @@ namespace Terra.UI.HUD
             _linkedCts?.Dispose();
             _animationCts?.Dispose();
             DOTween.KillAll();
+        }
+
+
+
+        public void TearDown()
+        {
+            
         }
     }
 }

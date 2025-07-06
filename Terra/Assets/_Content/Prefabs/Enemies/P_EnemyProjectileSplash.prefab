@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 876622528808538028}
-  _splashSFX: {fileID: 8300000, guid: 1f75706e460aa5345946bf626d8a40e2, type: 3}
+  _splashSFX: {fileID: 8300000, guid: e2e5d7381075ea642ad801c6ab7b81a5, type: 3}
   _audioSource: {fileID: 4173012718404424916}
 --- !u!114 &1847137184813920683
 MonoBehaviour:

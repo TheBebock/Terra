@@ -13,9 +13,7 @@ namespace Terra.GameStates
             TimeManager.Instance.AddPauseLock(this);
             TimeManager.Instance.PauseTime();
             UIWindowManager.Instance.OpenWindow<RewardWindow>();
-            HUDManager.Instance.StatsDisplay.Show();
-            HUDManager.Instance.ShowAmmoCounter();
-            HUDManager.Instance.ShowCrystalCounter();
+            HUDManager.Instance.ShowUpgradeHUD();
         }
 
         public override void OnExit()
