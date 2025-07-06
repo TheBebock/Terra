@@ -64,7 +64,9 @@ namespace Terra.UI.Windows.RewardWindow
         public RewardType RewardType { get { return _rewardType; } set { _rewardType = value; } }
 
         private static List<int> _availableRewards = new();
-        
+
+        private System.Random randomValue = new System.Random();
+
         public void Init()
         {
             SetRewardData();
@@ -93,6 +95,13 @@ namespace Terra.UI.Windows.RewardWindow
             SetToggleInteractable();
         }
 
+        private void ClearComparisons()
+        {
+            _weaponDataComparison = new();
+            _itemDataComparison = new();
+            _statsDataComparison = new();
+        }
+
         public void SetFreeStatus(bool freeStatus)
         {
             _freeStatus = freeStatus;
@@ -119,7 +128,8 @@ namespace Terra.UI.Windows.RewardWindow
         }
         private void ChooseRewardData()
         {
-            switch(_rewardType)
+            ClearComparisons();
+            switch (_rewardType)
             {
                 case RewardType.Stats: 
                     _statsReward.AddRandomStat();
@@ -270,8 +280,8 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 _availableRewards.Add(1);
             }
-            int rand = UnityEngine.Random.Range(0, _availableRewards.Count);
-            
+            int rand = randomValue.Next(0, _availableRewards.Count);
+
             switch (rand)
             {
                 case 0: 
@@ -308,8 +318,11 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 _availableRewards.Add(1);
             }
-            int rand = UnityEngine.Random.Range(0, _availableRewards.Count);
+
+
             
+            int rand = randomValue.Next(0, _availableRewards.Count);
+
             if (rand == 0)
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon(_freeStatus);
@@ -341,11 +354,10 @@ namespace Terra.UI.Windows.RewardWindow
 
             _costDisplay.text = GetCostDisplayText(data.itemCost);
             LoadModifiersUIText(data);
-            _rewardDescription.text += "\n";
 
             if (data.effects.actions.Count > 0 || data.effects.statuses.Count > 0)
             {
-                _rewardDescription.text += $"\nEffects: \n";
+                _rewardDescription.text += $"\nEffects: ";
 
                 for (int i = 0; i < data.effects.actions.Count; i++)
                 {
