@@ -43,7 +43,8 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioClip _meleeAttackSFX;
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioClip _rangedAttackSFX;
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioSource _audioSource;
-        
+        [Foldout("Debug"), ReadOnly] [SerializeField] private bool _isDashing = false;
+
         public EffectsContainer MeleeEffectContainer => _meleeEffectContainer;
         public EffectsContainer RangeEffectContainer => _rangeEffectContainer;
         public bool IsTryingPerformMeleeAttack => _isTryingPerformMeleeAttack;
@@ -74,6 +75,8 @@ namespace Terra.Player
         }
         public void AttachListeners()
         {
+            EventsAPI.Register<OnPlayerDashStartedEvent>(OnDashStarted);
+            EventsAPI.Register<OnPlayerDashEndedEvent>(OnDashEnded);
             InputsManager.Instance.PlayerControls.MeleeAttack.started += OnMeleeAttackInput;
             InputsManager.Instance.PlayerControls.RangeAttack.started += OnRangeAttackInput;
             PlayerInventory.OnMeleeWeaponChanged += OnMeleeWeaponChanged;
@@ -213,9 +216,21 @@ namespace Terra.Player
         
         public void OnMeleeAnimationEnd() => _isTryingPerformMeleeAttack = false;
         public void OnRangeAnimationEnd() => _isTryingPerformDistanceAttack = false;
-        
+
+        private void OnDashStarted(ref OnPlayerDashStartedEvent dashEvent)
+        {
+            _isDashing = true;
+        }
+
+        private void OnDashEnded(ref OnPlayerDashEndedEvent dashEvent)
+        {
+            _isDashing = false;
+        }
         public void DetachListeners()
         {
+            EventsAPI.Unregister<OnPlayerDashStartedEvent>(OnDashStarted);
+            EventsAPI.Unregister<OnPlayerDashEndedEvent>(OnDashEnded);
+            
             if (InputsManager.Instance)
             {
                 InputsManager.Instance.PlayerControls.MeleeAttack.started -= OnMeleeAttackInput;
