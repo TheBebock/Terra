@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f82ca8eaca80e4990f544a15f3c8a6, type: 3}
   m_Name: EnemyStats_Tank
   m_EditorClassIdentifier: 
-  baseStrength: 5
+  baseStrength: 10
   baseMaxHealth: 100
   baseDexterity: 6

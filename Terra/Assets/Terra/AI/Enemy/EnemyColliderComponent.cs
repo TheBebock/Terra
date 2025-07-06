@@ -33,12 +33,12 @@ namespace Terra.AI.Enemy
             _damageTimer.Stop();
         }
         List<IDamageable> _damageables = new();
-        public void Init(Entity entity, int damage, AudioClip attackSFX, AudioSource audioSource)
+        public void Init(Entity entity, int damage, float _timeBetweenDealingDamage, AudioClip attackSFX, AudioSource audioSource)
         {
             _damage = damage;
             _attackSFX = attackSFX;
             _audioSource = audioSource;
-            _damageTimer = new CountdownTimer(0.25f);
+            _damageTimer = new CountdownTimer(_timeBetweenDealingDamage);
             _damageTimer.OnTimerStop += OnDamageTimerStop;
         }
 

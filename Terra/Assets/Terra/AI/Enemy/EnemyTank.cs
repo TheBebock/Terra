@@ -32,7 +32,7 @@ namespace Terra.AI.Enemy
         {
             base.Awake();
             _targetLayer = LayerMask.NameToLayer("Ground");
-            _attackCollider.Init(this, _enemyStats.baseStrength, _deafultAttackSFX, _audioSource);
+            _attackCollider.Init(this, _enemyStats.baseStrength, _data.timeBetweenDealingDamage,  _deafultAttackSFX, _audioSource);
             _attackCollider.DisableCollider();
         }
 

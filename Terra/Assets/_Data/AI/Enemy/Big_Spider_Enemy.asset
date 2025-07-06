@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a66813826cfb141950c61f3d9fa0c0, type: 3}
   m_Name: Big_Spider_Enemy
   m_EditorClassIdentifier: 
-  attackCooldown: 1
-  attackRange: 2.5
+  normalAttackRange: 2.5
+  dashModifier: 1.1
   attackRadius: 3
