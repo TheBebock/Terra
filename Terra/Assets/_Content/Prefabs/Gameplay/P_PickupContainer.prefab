@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 4868003405091978973}
   - component: {fileID: 2061838132432818342}
   - component: {fileID: 436673621153902555}
+  - component: {fileID: 8901818259388096331}
   m_Layer: 12
   m_Name: P_PickupContainer
   m_TagString: Untagged
@@ -158,7 +159,9 @@ MonoBehaviour:
   _vfxController: {fileID: 436673621153902555}
   _id: -1
   _isInitialized: 0
+  _audioSource: {fileID: 0}
   _distanceToPlayerForMagnetism: 4.5
+  _onSpawnDelayBeforePickupable: 0.5
   _moveSpeed: 4
   _addSpeedModifier: 0.05
 --- !u!114 &2061838132432818342
@@ -226,3 +229,30 @@ MonoBehaviour:
   _modelMaterial: {fileID: 0}
   _activeParticles: []
   _defaultColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!54 &8901818259388096331
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5363400591803542837}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0

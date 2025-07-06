@@ -99,7 +99,8 @@ namespace Terra.Player
         
         private void DropItemOnGround(ItemBase item)
         {
-            LootManager.Instance?.SpawnItemContainer(item, PlayerManager.Instance.CurrentPosition);
+            //NOTE: Disabled spawning item container 
+            //LootManager.Instance?.SpawnItemContainer(item, PlayerManager.Instance.CurrentPosition);
         }
 
         public bool TryToEquipItem<TItem>(TItem newItem)

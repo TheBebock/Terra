@@ -693,16 +693,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
-        type: 3}
-      propertyPath: _isEnabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
-        type: 3}
-      propertyPath: _waveToSpawnBoss
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7979982011955827882, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
       propertyPath: m_Name
@@ -7176,6 +7166,8 @@ MonoBehaviour:
   _enviroLevels:
   - {fileID: 917092126}
   - {fileID: 308595489}
+  - {fileID: 308595489}
+  - {fileID: 394531634}
   - {fileID: 394531634}
   - {fileID: 1602239558}
   _currentEnvironment: {fileID: 917092126}
@@ -8023,6 +8015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42705cfa16b4743b2f5788e01ab795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: -1
 --- !u!1001 &1342869208
 PrefabInstance:
   m_ObjectHideFlags: 0
