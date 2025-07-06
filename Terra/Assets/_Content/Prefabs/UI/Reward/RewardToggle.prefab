@@ -710,12 +710,17 @@ PrefabInstance:
     - target: {fileID: 2928814628114037334, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}
       propertyPath: m_text
-      value: Statistics
+      value: Statisticsaaa
       objectReference: {fileID: 0}
     - target: {fileID: 2928814628114037334, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}
       propertyPath: m_margin.w
       value: -0.09806824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2928814628114037334, guid: 891ac4a2ae12c7d4bb10b0225482feff,
+        type: 3}
+      propertyPath: m_margin.z
+      value: -11.705009
       objectReference: {fileID: 0}
     - target: {fileID: 5555299411657732846, guid: 891ac4a2ae12c7d4bb10b0225482feff,
         type: 3}

@@ -354,11 +354,10 @@ namespace Terra.UI.Windows.RewardWindow
 
             _costDisplay.text = GetCostDisplayText(data.itemCost);
             LoadModifiersUIText(data);
-            _rewardDescription.text += "\n";
 
             if (data.effects.actions.Count > 0 || data.effects.statuses.Count > 0)
             {
-                _rewardDescription.text += $"\nEffects: \n";
+                _rewardDescription.text += $"\nEffects: ";
 
                 for (int i = 0; i < data.effects.actions.Count; i++)
                 {
