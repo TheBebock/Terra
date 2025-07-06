@@ -68,15 +68,35 @@ namespace Terra.Player
         
         public void AttachListeners()
         {
+          
             EventsAPI.Register<OnPlayerDashStartedEvent>(OnPlayerDashStarted);
             EventsAPI.Register<OnPlayerDashEndedEvent>(OnPlayerDashEnded);
+            if (PlayerStatsManager.Instance)
+            {
+                PlayerStatsManager.Instance.OnMaxHealthChanged += OnMaxHealthChanged;
+            }
         }
-
+        
         private void Update()
         {
             StatusContainer.UpdateEffects();
         }
 
+        private void OnMaxHealthChanged(int newMaxHealth)
+        {
+            int difference = newMaxHealth - _healthController.PreviousMaxHealth;
+            _healthController.SetPreviousMaxHealth(newMaxHealth);
+
+            if (difference > 0)
+            {
+                _healthController.Heal(difference, isSilent:true);
+            }
+            else
+            {
+                _healthController.TakeDamage(-difference, false, isSilent:true);
+            }
+        }
+        
         public void TakeDamage(int amount, bool isCrit = false, bool isPercentage = false)
         {
             if (!CanBeDamaged || amount <= 0) return;
@@ -139,11 +159,15 @@ namespace Terra.Player
             _healthController.OnDamaged -= OnDamaged;
             _healthController.OnHealed -= OnHealed;
         }
-        
+
         public void DetachListeners()
         {
             EventsAPI.Unregister<OnPlayerDashStartedEvent>(OnPlayerDashStarted);
             EventsAPI.Unregister<OnPlayerDashEndedEvent>(OnPlayerDashEnded);
+            if (PlayerStatsManager.Instance)
+            {
+                PlayerStatsManager.Instance.OnMaxHealthChanged -= OnMaxHealthChanged;
+            }
         }
 
 #if UNITY_EDITOR

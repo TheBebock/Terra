@@ -28,7 +28,7 @@ namespace Terra.Combat
         public int CurrentHealth => _currentHealth;
         public bool IsImmuneAfterHit => _immuneAfterHit;
         public float NormalizedCurrentHealth => (float)_currentHealth / _maxHealth.Value;
-        public float PreviousMaxHealth => _previousMaxHealth;
+        public int PreviousMaxHealth => _previousMaxHealth;
         public bool IsDead => _currentHealth <= 0;
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
@@ -57,6 +57,11 @@ namespace Terra.Combat
             _cancellationToken = cancellationToken;
             
             _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
+        }
+
+        public void SetPreviousMaxHealth(int previousMaxHealth)
+        {
+            _previousMaxHealth = previousMaxHealth;
         }
 
         /// <summary>
@@ -101,7 +106,7 @@ namespace Terra.Combat
         /// </summary>
         /// <param name="amount">Heal amount</param>
         /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as a percentage</param>
-        public void Heal(int amount, bool isPercentage = false)
+        public void Heal(int amount, bool isPercentage = false, bool isSilent = false)
         {
             int calculatedValue = CalculateValue(amount, isPercentage);
             
@@ -110,9 +115,13 @@ namespace Terra.Combat
 
             // Clamp to max health
             _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth.Value);
+
+            if (!isSilent)
+            {
+                OnHealed?.Invoke(calculatedValue);
+            }
             
             // Invoke event
-            OnHealed?.Invoke(calculatedValue);
             OnHealthChanged?.Invoke(_currentHealth);
             OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
         }
