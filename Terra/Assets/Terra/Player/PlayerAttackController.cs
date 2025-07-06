@@ -138,12 +138,15 @@ namespace Terra.Player
             
             if (!_isTryingPerformDistanceAttack && !_isTryingPerformMeleeAttack)
             {
-                _isTryingPerformDistanceAttack = true;
-                _lastRangeAttackTime = currentTime;
                 
                 Vector3 direction = MouseRaycastManager.Instance.
                     GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
                 ChangeAttackDirection(direction);
+                
+                _isTryingPerformDistanceAttack = true;
+                _lastRangeAttackTime = currentTime;
+                
+
                 
                 _rangeShootDirection =
                     MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position, _raycastOffset);
@@ -175,7 +178,7 @@ namespace Terra.Player
         
         private void ChangeAttackDirection(Vector3 direction)
         {
-            if(_isTryingPerformMeleeAttack) return;
+            //if(_isTryingPerformMeleeAttack) return;
             
             if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
             {
