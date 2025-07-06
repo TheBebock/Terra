@@ -20,4 +20,4 @@ MonoBehaviour:
   effectParticle: {fileID: 0}
   containerType: 2
   incompatibleEffects: []
-  healAmount: 2
+  healAmount: 1
