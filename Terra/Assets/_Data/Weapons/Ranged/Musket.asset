@@ -16,8 +16,7 @@ MonoBehaviour:
   itemName: Musket
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: 6ca72889f0d52644e900c77a568506cc, type: 3}
-  canBeRemoved: 1
-  itemCost: 50
+  itemCost: 80
   strengthModifiers: []
   maxHealthModifiers: []
   dexModifiers:

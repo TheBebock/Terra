@@ -19,7 +19,5 @@ MonoBehaviour:
   effectCost: 80
   effectParticle: {fileID: 0}
   containerType: 1
-  incompatibleEffects:
-  - {fileID: 0}
-  - {fileID: 0}
+  incompatibleEffects: []
   force: 10

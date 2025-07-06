@@ -21,6 +21,6 @@ MonoBehaviour:
     type: 3}
   containerType: 2
   incompatibleEffects: []
-  statusDuration: 5
+  statusDuration: 4
   tickTime: 1
   damagePerTick: 3

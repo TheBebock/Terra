@@ -16,7 +16,6 @@ MonoBehaviour:
   itemName: Lamp
   itemDescription: 
   itemSprite: {fileID: 21300000, guid: f20edf6247681614fbd55b9a6245852e, type: 3}
-  canBeRemoved: 1
   itemCost: 0
   strengthModifiers:
   - value: -5
@@ -24,7 +23,7 @@ MonoBehaviour:
     sourceID: 1337554462
   maxHealthModifiers: []
   dexModifiers:
-  - value: 20
+  - value: 10
     type: 300
     sourceID: 1337554462
   luckModifiers: []

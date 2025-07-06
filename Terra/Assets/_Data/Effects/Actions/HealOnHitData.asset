@@ -16,7 +16,7 @@ MonoBehaviour:
   effectIcon: {fileID: 21300000, guid: 3df4f8276ccd259468a9f3c8bdb8fd26, type: 3}
   effectName: Leech Life
   effectDescription: 
-  effectCost: 50
+  effectCost: 100
   effectParticle: {fileID: 0}
   containerType: 2
   incompatibleEffects: []
