@@ -428,6 +428,7 @@ namespace Terra.LootSystem
 
         public void RemoveStatusEffect(StatusEffectData statusEffect)
         {
+            if(statusEffect == null || _statusEffectsPerGame.Count <= 0) return;
             int index = _statusEffectsPerGame.FindIndex(statusDrop => statusDrop.statusEffect == statusEffect);
             if (index >= 0)
                 _statusEffectsPerGame.RemoveAt(index);
@@ -435,12 +436,11 @@ namespace Terra.LootSystem
 
         public void RemoveActionEffect(ActionEffectData actionEffect)
         {
+            if(actionEffect == null || _actionEffectsPerGame.Count <= 0) return;
             int index = _actionEffectsPerGame.FindIndex(actionDrop => actionDrop.actionEffect == actionEffect);
             if (index >= 0)
             {
                 _actionEffectsPerGame.RemoveAt(index);
-                if (index < _statusEffectsPerGame.Count)
-                    _statusEffectsPerGame.RemoveAt(index);
             }
         }
 
