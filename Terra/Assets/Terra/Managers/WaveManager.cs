@@ -61,20 +61,23 @@ namespace Terra.Managers
         private CancellationTokenSource _waveCancellationTokenSource;
         private CancellationTokenSource _linkedCts;
         private LayerMask _groundLayer;
-        
+        private LevelIncreasedEvent _levelIncreasedEvent;
         public int CurrentLevel => _currentLevel;
         
         protected override void Awake()
         {
             base.Awake();
             _groundLayer = LayerMask.NameToLayer("Ground");
+            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
+            EventsAPI.Register<OnBossDiedEvent>(OnBossDiedEvent);
+            
+            _levelIncreasedEvent = new LevelIncreasedEvent();
         }
 
         
         public void AttachListeners()
         {
-            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfNewFloor);
-            EventsAPI.Register<OnBossDiedEvent>(OnBossDiedEvent);
+           
             if (!TimeManager.Instance) return;
 
             TimeManager.Instance.OnGamePaused += PauseWaves;
@@ -120,6 +123,9 @@ namespace Terra.Managers
         private void OnStartOfNewFloor(ref StartOfNewFloorEvent dummy)
         {
             _currentLevel++;
+            _levelIncreasedEvent.level = _currentLevel;
+            EventsAPI.Invoke(ref _levelIncreasedEvent);
+            
             TrySpawningBoss();
         }
 

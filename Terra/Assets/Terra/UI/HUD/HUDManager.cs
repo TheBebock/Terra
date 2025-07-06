@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace Terra.UI.HUD
 {
-    public class HUDManager : MonoBehaviourSingleton<HUDManager>, IAttachListeners
+    public class HUDManager : MonoBehaviourSingleton<HUDManager>
     {
         [SerializeField] private CanvasGroup _gameplayHUDCanvasGroup;
         [SerializeField] private CanvasGroup _crystalCanvasGroup;
@@ -37,10 +37,11 @@ namespace Terra.UI.HUD
         public PassiveItemsGUI PassiveItemsDisplay => _passiveItemsGUI;
         
         private Sequence _darkSequence;
-        
-        public void AttachListeners()
+
+        protected override void Awake()
         {
-            EventsAPI.Register<StartOfNewFloorEvent>(OnStartOfFloor);
+            base.Awake();
+            EventsAPI.Register<LevelIncreasedEvent>(OnLevelIncreased);
             EventsAPI.Register<WaveEndedEvent>(OnWaveEnded);
         }
 
@@ -70,7 +71,7 @@ namespace Terra.UI.HUD
             ).WithCancellation(CancellationToken);
         }
 
-        private void OnStartOfFloor(ref StartOfNewFloorEvent dummy)
+        private void OnLevelIncreased(ref LevelIncreasedEvent dummy)
         {
             int floor = WaveManager.Instance.CurrentLevel;
             _floorCounter?.SetText($"{_floorCounterText} {floor}");
@@ -114,9 +115,11 @@ namespace Terra.UI.HUD
         {
             _ammoCanvasGroup.alpha = 0;
         }
-        public void DetachListeners()
+
+        protected override void CleanUp()
         {
-            EventsAPI.Unregister<StartOfNewFloorEvent>(OnStartOfFloor);
+            base.CleanUp();
+            EventsAPI.Unregister<LevelIncreasedEvent>(OnLevelIncreased);
             EventsAPI.Unregister<WaveEndedEvent>(OnWaveEnded);
         }
     }

@@ -9,20 +9,13 @@ namespace Terra.Player.PlayerStates
     public class MeleeAttackState : PlayerBaseState
     {
         private static readonly int SwingSpeed = Animator.StringToHash("SwingSpeed");
-        List<AnimationEventStateBehaviour> _animationEventStateBehaviours = new List<AnimationEventStateBehaviour>();
         public MeleeAttackState(PlayerManager player, Animator animator) : base(player, animator)
-        
         {
-            _animationEventStateBehaviours = animator.GetBehaviours<AnimationEventStateBehaviour>().ToList();
 
         }
 
         public override void OnEnter()
         {
-            foreach (var b in _animationEventStateBehaviours)
-            {
-                b.ResetState();
-            }
             ApplyAnimationModifiers();
             ChangeDirectionOfAnimation(player.PlayerAttackController.CurrentPlayerAttackDirection); 
         }
@@ -48,15 +41,6 @@ namespace Terra.Player.PlayerStates
                     break;
             }
         }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-            
-            foreach (var b in _animationEventStateBehaviours)
-            {
-                b.ResetState();
-            }
-        }
+        
     }
 }

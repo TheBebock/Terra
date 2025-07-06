@@ -4,4 +4,9 @@ namespace Terra.EventsSystem.Events
     {
         
     }
+
+    public struct LevelIncreasedEvent : IEvent
+    {
+        public int level;
+    }
 }
