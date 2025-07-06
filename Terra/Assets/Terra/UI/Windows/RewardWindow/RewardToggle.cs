@@ -40,6 +40,7 @@ namespace Terra.UI.Windows.RewardWindow
         [SerializeField, ReadOnly] private Toggle _rewardToggle;
         private RewardData _rewardData;
 
+        public TMP_Text RewardName => _rewardName;
         public Toggle Toggle => _rewardToggle;
         
         private WeaponReward _weaponReward = new();

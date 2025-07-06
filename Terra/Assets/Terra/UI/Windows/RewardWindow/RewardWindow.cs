@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Enums;
+using Terra.Extensions;
 using Terra.GameStates;
 using Terra.Managers;
 using Terra.Utils;
@@ -25,7 +26,9 @@ namespace Terra.UI.Windows.RewardWindow
 
         private float DifficultyModifier = 1;
 
-        private int modifiedCost = 0;  
+        private int modifiedCost = 0;
+
+        private System.Random randomValue = new System.Random();
 
         [SerializeField, ReadOnly] RewardToggle _currentlyActiveToggle;
 
@@ -108,6 +111,16 @@ namespace Terra.UI.Windows.RewardWindow
             }
         }
 
+        private void CheckRewardDuplication(RewardToggle firstToggle, RewardToggle secondToggle, bool freeStatus)
+        {
+            if (firstToggle.RewardName.text.Equals(secondToggle.RewardName.text))
+            {
+                _availableRewardTypes.RemoveElement(firstToggle.RewardType);
+                secondToggle.RewardType = GetRewardType(freeStatus);
+                secondToggle.SetRewardData();
+            }
+        }
+
         private void RerollRewards()
         {
             _leftRerolls--;
@@ -121,12 +134,22 @@ namespace Terra.UI.Windows.RewardWindow
             }
 
             _rewardToggles[0].RewardType = GetRewardType(freeStatus: true);
+            ReAssigneAvailableRewardTypes();
+
             _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
+            CheckRewardDuplication(_rewardToggles[0], _rewardToggles[1], freeStatus: true);
+            ReAssigneAvailableRewardTypes();
+
             _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
+            ReAssigneAvailableRewardTypes();
+
             _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
+            CheckRewardDuplication(_rewardToggles[2], _rewardToggles[3], freeStatus: false);
+            ReAssigneAvailableRewardTypes();
 
             _rewardToggles[0].SetRewardData();
             _rewardToggles[1].SetRewardData();
+
             _rewardToggles[2].SetRewardData();
             _rewardToggles[3].SetRewardData();
         }
@@ -138,10 +161,19 @@ namespace Terra.UI.Windows.RewardWindow
             _rewardToggles[3].SetFreeStatus(false);
 
             _rewardToggles[0].RewardType = GetRewardType(freeStatus: true);
+            ReAssigneAvailableRewardTypes();
+
             _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
+            CheckRewardDuplication(_rewardToggles[0], _rewardToggles[1], freeStatus: true);
+            ReAssigneAvailableRewardTypes();
+
             _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
+            ReAssigneAvailableRewardTypes();
+
             _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
-            
+            CheckRewardDuplication(_rewardToggles[2], _rewardToggles[3], freeStatus: false);
+            ReAssigneAvailableRewardTypes();
+
             foreach (var toggle in _rewardToggles)
             {
                 toggle?.Init();
@@ -166,11 +198,11 @@ namespace Terra.UI.Windows.RewardWindow
             }
             if(_availableRewardTypes.Count == 0) return RewardType.Stats;
             
-            int random = Random.Range(0, _availableRewardTypes.Count);
+            int random = randomValue.Next(0, _availableRewardTypes.Count);
 
             RewardType rewardType = _availableRewardTypes[random];
 
-            ReAssigneAvailableRewardTypes();
+            //ReAssigneAvailableRewardTypes();
 
             return rewardType;
         }
