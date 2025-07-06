@@ -35,6 +35,7 @@ namespace Terra.Environment
         [SerializeField] private Color _damageColor = Color.white;
         [SerializeField] private Color _critDamageColor = Color.yellow;
 
+        [SerializeField] private Color _onDamagedModelColor = Color.red;
         
         [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _hurtSFX;
         [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _destroySfx;
@@ -73,7 +74,7 @@ namespace Terra.Environment
         {
             if(_propAnimator) _propAnimator?.SetTrigger(AnimationHashes.OnDamaged);
 
-            VFXcontroller.BlinkModelsColor(Color.white, 0.15f, 0.1f, 0.15f);
+            VFXcontroller.BlinkModelsColor(_onDamagedModelColor, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
               
             if(_hurtSFX) AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);

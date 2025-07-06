@@ -368,6 +368,7 @@ MonoBehaviour:
     _statuses: []
   _damageColor: {r: 1, g: 1, b: 1, a: 1}
   _critDamageColor: {r: 1, g: 1, b: 0, a: 1}
+  _onDamagedModelColor: {r: 1, g: 1, b: 1, a: 1}
   _hurtSFX: {fileID: 0}
   _destroySfx: {fileID: 8300000, guid: 69973a1c794842046a079397a6e21462, type: 3}
   _leftEmissiveTexture: {fileID: 2800000, guid: 20a74cf7052da0b41b274642026309f0,
