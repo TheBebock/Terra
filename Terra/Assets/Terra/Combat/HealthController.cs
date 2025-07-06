@@ -28,7 +28,7 @@ namespace Terra.Combat
         public int CurrentHealth => _currentHealth;
         public bool IsImmuneAfterHit => _immuneAfterHit;
         public float NormalizedCurrentHealth => (float)_currentHealth / _maxHealth.Value;
-
+        public float PreviousMaxHealth => _previousMaxHealth;
         public bool IsDead => _currentHealth <= 0;
         public event Action OnDeath;
         public event Action<bool> OnInvincibilityChanged;
@@ -46,7 +46,6 @@ namespace Terra.Combat
             _previousMaxHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
-            _maxHealth.OnValueChanged += OnMaxHealthChanged;
             _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
         }
         public HealthController(int maxHealthValue, CancellationToken cancellationToken, bool canBeHealed = false)
@@ -56,7 +55,6 @@ namespace Terra.Combat
             _previousMaxHealth = _maxHealth.Value;
             _canBeHealed = canBeHealed;
             _cancellationToken = cancellationToken;
-            _maxHealth.OnValueChanged += OnMaxHealthChanged;
             
             _ = ImmunityTimer(_invincibilityTimeAfterSpawn);
         }
