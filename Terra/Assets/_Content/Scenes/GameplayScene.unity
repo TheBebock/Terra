@@ -693,11 +693,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
-        type: 3}
-      propertyPath: _enemiesPerWaveGain
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7979982011955827882, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
       propertyPath: m_Name
