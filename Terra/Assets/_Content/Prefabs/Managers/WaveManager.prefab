@@ -60,12 +60,12 @@ MonoBehaviour:
   - enemy: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665, type: 3}
     spawnValue: 15
   _firstFloorEnemies:
-  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
-    spawnValue: 5
-  - enemy: {fileID: 1649519561073000870, guid: 50758ea60ae192a4b976d8b1db0553e1, type: 3}
-    spawnValue: 15
   - enemy: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b, type: 3}
     spawnValue: 1
+  - enemy: {fileID: 1649519561073000870, guid: 50758ea60ae192a4b976d8b1db0553e1, type: 3}
+    spawnValue: 15
+  - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
+    spawnValue: 5
   _waveToSpawnBoss: 7
   _bossPrefab: {fileID: 2317127295530148372, guid: 84990e5cd79ba924bb3c4f890b90197d,
     type: 3}
@@ -75,8 +75,8 @@ MonoBehaviour:
   _wavesGainPerLevel: 0.5
   _startingSpawnPoints: 25
   _spawnPointsGain: 75
-  _enemiesToSpawnPerWave: 1.35
-  _enemiesPerWaveGain: 1.35
+  _enemiesToSpawnPerWave: 2
+  _enemiesPerWaveGain: 1.5
   _spawnTimeInterval: 0.25
   _raycastLayerMask:
     serializedVersion: 2
