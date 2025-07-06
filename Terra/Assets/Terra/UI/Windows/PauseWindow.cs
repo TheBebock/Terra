@@ -13,6 +13,7 @@ namespace Terra.UI.Windows
         [SerializeField] Button _resumeButton;
         [SerializeField] Button _helpButton;
         [SerializeField] Button _settingsButton;
+        [SerializeField] Button _restartButton;
         [SerializeField] Button _exitToMenuButton;
         [SerializeField] CanvasGroup _buttonsCanvasGroup;
         [SerializeField] SettingsUI _settingsPanel;
@@ -24,7 +25,9 @@ namespace Terra.UI.Windows
             _resumeButton?.onClick.AddListener(Resume);
             _helpButton?.onClick.AddListener(OnHelpButtonClicked);
             _settingsButton?.onClick.AddListener(OpenSettings);
+            _restartButton?.onClick.AddListener(OnRestartButtonClicked);
             _exitToMenuButton?.onClick.AddListener(ExitToMenu);
+            
             _settingsPanel?.CloseButton.onClick.AddListener(ShowButtons);
             
             if(_settingsPanel) _settingsPanel.gameObject.SetActive(false);
@@ -37,6 +40,10 @@ namespace Terra.UI.Windows
             Close();
         }
 
+        private void OnRestartButtonClicked()
+        {
+            ScenesManager.Instance?.LoadGameplay();
+        }
         private void OnHelpButtonClicked()
         {
             _helpPanel?.SetActive(true);

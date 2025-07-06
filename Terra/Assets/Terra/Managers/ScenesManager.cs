@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
 using Terra.GameStates;
+using UIExtensionPackage.UISystem.UI.Windows;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,7 @@ namespace Terra.Managers
 
         public async void LoadMainMenu()
         {
+            UIWindowManager.Instance?.CloseAllWindows();
             await LoadSceneAsync(SceneNames.MainMenu, LoadSceneMode.Single, true);
             GameManager.Instance?.SwitchToGameState<DefaultGameState>();
             AudioManager.Instance?.PlayMusic("main_menu");
@@ -44,6 +46,7 @@ namespace Terra.Managers
 
         public async UniTask LoadGameplay()
         {
+            UIWindowManager.Instance?.CloseAllWindows();
             await LoadSceneAsync(SceneNames.Loading, allowSceneActivation: true);
             await LoadSceneAsync(SceneNames.Gameplay, activationDelay: 1f);
             GameManager.Instance?.SwitchToGameState<StartOfFloorState>();
@@ -51,6 +54,7 @@ namespace Terra.Managers
 
         public async UniTask LoadOutro()
         {
+            UIWindowManager.Instance?.CloseAllWindows();
             await LoadSceneAsync(SceneNames.Loading, allowSceneActivation: true);
             await LoadSceneAsync(SceneNames.OutroScene, activationDelay: 1f);
             

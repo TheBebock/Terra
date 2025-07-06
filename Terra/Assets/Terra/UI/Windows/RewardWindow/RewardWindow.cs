@@ -37,6 +37,9 @@ namespace Terra.UI.Windows.RewardWindow
         {
             base.SetUp();
 
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
+            
             SetDifficultyMultipler();
 
             for (int i = 0; i < _rewardToggles.Count; i++)

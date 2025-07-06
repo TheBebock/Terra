@@ -366,6 +366,7 @@ GameObject:
   - component: {fileID: 7149467267901446324}
   - component: {fileID: 819990627029470164}
   - component: {fileID: 2787626331708429860}
+  - component: {fileID: 5532141377860037460}
   m_Layer: 5
   m_Name: RewardToggle
   m_TagString: Untagged
@@ -528,6 +529,18 @@ MonoBehaviour:
     rangeCooldownValue: 0
   _rewardType: 0
   _freeStatus: 1
+--- !u!225 &5532141377860037460
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7222571591495856674}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1001 &1560624879716971052
 PrefabInstance:
   m_ObjectHideFlags: 0

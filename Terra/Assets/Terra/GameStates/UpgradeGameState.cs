@@ -1,3 +1,4 @@
+using Terra.InputSystem;
 using Terra.Managers;
 using Terra.UI.HUD;
 using Terra.UI.Windows.RewardWindow;
@@ -10,8 +11,9 @@ namespace Terra.GameStates
         public override void OnEnter()
         {
             base.OnEnter();
-            TimeManager.Instance.AddPauseLock(this);
             TimeManager.Instance.PauseTime();
+            TimeManager.Instance.AddPauseLock(this);
+            InputsManager.Instance.SetAllTimeControlsState(true);
             UIWindowManager.Instance.OpenWindow<RewardWindow>();
             HUDManager.Instance.ShowUpgradeHUD();
         }
@@ -19,6 +21,8 @@ namespace Terra.GameStates
         public override void OnExit()
         {
             base.OnExit();
+            
+            InputsManager.Instance.SetAllTimeControlsState(false);
             TimeManager.Instance.RemovePauseLock(this);
             TimeManager.Instance.ResumeTime();
         }

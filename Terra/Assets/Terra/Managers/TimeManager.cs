@@ -26,34 +26,52 @@ namespace Terra.Managers
         private List<object> _pauseLocks = new ();
     
         public bool CanBePaused => !IsGamePaused && _pauseLocks.Count <= 0;
+        private bool PauseLocks => _pauseLocks.Count <= 0;
         public event Action OnGamePaused;
         public event Action OnGameResumed;
         
         public void AttachListeners()
         {
-            if(InputsManager.Instance) InputsManager.Instance.AllTimeControls.Pause.performed += OnPauseInput;
+            if(InputsManager.Instance) InputsManager.Instance.AllTimeControls.Pause.started += OnPauseInput;
             else Debug.LogError(this + " Input Manager is null");
         }
-        
-        private void OnPauseInput(InputAction.CallbackContext context) => ChangePauseState();
+
+        private void OnPauseInput(InputAction.CallbackContext context)
+        {
+            ChangePauseState();
+          
+        }
         
         
         public void ChangePauseState()
         {
-        
-            bool pauseState = !_isGamePaused;
-            
-        
-            if(pauseState) PauseGame();
-            else ResumeGame();
+            if (!_isGamePaused)
+            {
+                if (UIWindowManager.Instance.TryGetWindowFromStacks(out PauseWindow window))
+                {
+                    window.Close();
+                }
+                else
+                {
+                    UIWindowManager.Instance?.OpenWindow<PauseWindow>();
+                }
+
+                PauseGame();
+            }
+            else
+            {
+                if (UIWindowManager.Instance.TryGetWindowFromStacks(out PauseWindow window))
+                {
+                    window.Close();
+                }
+                ResumeGame();
+            }
         }
         
         public void PauseGame()
         {
             // Check can game be paused
             if(!CanBePaused) return;
-
-            UIWindowManager.Instance?.OpenWindow<PauseWindow>();
             
             // Set paused game flag
             _isGamePaused = true;
@@ -87,6 +105,8 @@ namespace Terra.Managers
 
         private void ChangeTimeScale(float timeScale)
         {
+            if(PauseLocks) return;
+            
             Time.timeScale = timeScale;
             _isGamePaused = timeScale == 0;
         }
@@ -95,7 +115,7 @@ namespace Terra.Managers
         public void DetachListeners()
         {
             if(InputsManager.Instance)
-                InputsManager.Instance.AllTimeControls.Pause.performed -= OnPauseInput;
+                InputsManager.Instance.AllTimeControls.Pause.started -= OnPauseInput;
         }
     }
 }
