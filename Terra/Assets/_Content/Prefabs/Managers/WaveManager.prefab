@@ -81,8 +81,8 @@ MonoBehaviour:
   _raycastLayerMask:
     serializedVersion: 2
     m_Bits: 101888
-  _spawnMin: {x: 81, y: 90}
-  _spawnMax: {x: 119, y: 108}
+  _spawnMin: {x: 83, y: 91.5}
+  _spawnMax: {x: 117, y: 106.5}
   _isPaused: 0
   _currentSpawnPoints: 0
   _currentWaveIndex: 0
