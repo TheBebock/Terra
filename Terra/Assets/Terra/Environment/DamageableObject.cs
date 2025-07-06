@@ -84,7 +84,7 @@ namespace Terra.Environment
             if(_destroySfx) AudioManager.Instance?.PlaySFXAtSource(_destroySfx, _audioSource);
             _propShadow?.DOFade(0, _deathFadeDuration).SetEase(_deathFadeCurve);
             VFXcontroller.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);
-            VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onDeathParticle);
+            VFXController.SpawnParticleInWorld(VFXcontroller.onDeathParticle.particleComponent, transform.position, Quaternion.identity);
 
             Destroy(gameObject, _deathFadeDuration + 0.5f);
         }

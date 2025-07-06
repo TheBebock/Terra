@@ -327,7 +327,7 @@ MonoBehaviour:
   _maxHealth:
     _baseValue: 5
     _statModifiers: []
-  _deathFadeDuration: 2.5
+  _deathFadeDuration: 1.25
   _deathFadeCurve:
     serializedVersion: 2
     m_Curve:
