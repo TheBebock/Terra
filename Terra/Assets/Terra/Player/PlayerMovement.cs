@@ -82,7 +82,7 @@ namespace Terra.Player
             inputActions.Movement.canceled += OnMovementInputCanceled;
 
             // Dash
-            inputActions.Dash.performed += OnDashInput;
+            inputActions.Dash.started += OnDashInput;
         }
         
         
@@ -217,7 +217,7 @@ namespace Terra.Player
             InputsManager.Instance.PlayerControls.Movement.performed -= OnMovementInput;
             InputsManager.Instance.PlayerControls.Movement.canceled -= OnMovementInput;
             InputsManager.Instance.PlayerControls.Movement.canceled -= OnMovementInputCanceled;
-            InputsManager.Instance.PlayerControls.Dash.performed -= OnDashInput;
+            InputsManager.Instance.PlayerControls.Dash.started -= OnDashInput;
         }
 
         

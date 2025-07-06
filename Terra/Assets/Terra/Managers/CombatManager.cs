@@ -15,19 +15,21 @@ namespace Terra.Managers
 
     public class CombatManager : MonoBehaviourSingleton<CombatManager>, IAttachListeners
     {
+        [SerializeField][Range(0,100)]private int _basePlayerCritChance = 5;
+        [SerializeField, Min(1f)] private float _critDamageMultiplier = 2f;
+
         private LayerMask _playerLayer;
-        [Range(0,100)]private int _basePlayerCritChance = 5; 
-        private float _critDamageMultiplier = 2f;
+
         private static List<IDamageable> _targetsList = new();
         private static EffectsContainer _allPlayerEffects = new();
 
-        private float DifficultyModifier = 1;
+        private float _difficultyModifier = 1;
 
         protected override void Awake()
         {
             base.Awake();
             _playerLayer = LayerMask.NameToLayer("Player");
-            SetDifficultyMultipler();
+            SetDifficultyMultiplier();
         }
 
         public void AttachListeners()
@@ -37,16 +39,16 @@ namespace Terra.Managers
 
         private void OnGameDifficultyChanged(ref GameDifficultyChangedEvent gameDifficulty)
         {
-            SetDifficultyMultipler();
+            SetDifficultyMultiplier();
         }
 
-        private void SetDifficultyMultipler()
+        private void SetDifficultyMultiplier()
         {
             switch (GameSettings.DefaultDifficultyLevel)
             {
-                case Enums.GameDifficulty.Cyberiada: DifficultyModifier = 2; break;
-                case Enums.GameDifficulty.Easy: DifficultyModifier = 1.5f; break;
-                case Enums.GameDifficulty.Normal: DifficultyModifier = 1; break;
+                case Enums.GameDifficulty.Cyberiada: _difficultyModifier = 2; break;
+                case Enums.GameDifficulty.Easy: _difficultyModifier = 1.5f; break;
+                case Enums.GameDifficulty.Normal: _difficultyModifier = 1; break;
             }
         }
         
@@ -73,7 +75,7 @@ namespace Terra.Managers
             {
                 if (!hitTargets[i].CanBeDamaged) continue;
                 
-                int finalDamage = Mathf.RoundToInt(statsValue * DifficultyModifier);
+                int finalDamage = Mathf.RoundToInt(statsValue * _difficultyModifier);
 
                 if (isCrit && !isPercentage)
                 {
@@ -83,7 +85,7 @@ namespace Terra.Managers
 
                 ComputePlayerEffects(weaponType, effectsContainer);
                 
-                hitTargets[i].TakeDamage(finalDamage, isPercentage);
+                hitTargets[i].TakeDamage(finalDamage, isCrit, isPercentage);
                 _allPlayerEffects?.ExecuteActions(source, hitTargets[i] as Entity);
                 _allPlayerEffects?.ApplyStatuses(hitTargets[i]);
                 _allPlayerEffects?.Clear();
@@ -126,7 +128,7 @@ namespace Terra.Managers
                 if (!hitTargets[i].CanBeDamaged) continue;
 
                 
-                int finalDamage = Mathf.RoundToInt((baseWeaponDamage + playerStrengthValue) * DifficultyModifier);
+                int finalDamage = Mathf.RoundToInt((baseWeaponDamage + playerStrengthValue) * _difficultyModifier);
 
                 if (isCrit)
                 {
@@ -139,7 +141,7 @@ namespace Terra.Managers
                 
                 tempEffectsContainer.statuses.AddRange(effectsContainer.statuses);
                 
-                hitTargets[i].TakeDamage(finalDamage, isPercentage);
+                hitTargets[i].TakeDamage(finalDamage, isCrit, isPercentage);
                 effectsContainer?.ExecuteActions(source, hitTargets[i] as Entity);
                 effectsContainer?.ApplyStatuses(hitTargets[i]);
             }
@@ -150,7 +152,7 @@ namespace Terra.Managers
         {
             for (int i = 0; i < hitTargets.Count; i++)
             {
-                hitTargets[i].TakeDamage(damage, isPercentage);
+                hitTargets[i].TakeDamage(damage, false, isPercentage);
 
                 if (!hitTargets[i].CanBeDamaged) continue;
                 effectsContainer?.ExecuteActions(source, hitTargets[i] as Entity);
@@ -165,7 +167,7 @@ namespace Terra.Managers
             float baseCritChance = _basePlayerCritChance;
 
             float totalCritChance = baseCritChance + luck;
-            float roll = Random.Range(0, 101);
+            float roll = Random.Range(0, 100);
 
             return roll <= totalCritChance;
         }

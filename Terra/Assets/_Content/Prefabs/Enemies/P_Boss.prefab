@@ -156,6 +156,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 6983760377835395327}
   _id: -1
+  _onDamagedColor: {r: 1, g: 1, b: 1, a: 1}
+  _onDamagedCritColor: {r: 1, g: 1, b: 0, a: 1}
   _destroyOnDeath: 1
   _deathFadeDuration: 0
   _deathFadeCurve:
@@ -196,7 +198,6 @@ MonoBehaviour:
       _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
-    _isInvincible: 0
     _immuneAfterHit: 0
   _statusContainer:
     _entity: {fileID: 0}

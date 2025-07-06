@@ -79,7 +79,6 @@ namespace Terra.AI.Enemy
             
             _pumpAttackCooldownTimer.OnTimerStop += OnPumpAttackCooldownTimerFinished;
             _spitAttackCooldownTimer.OnTimerStop += OnSpitAttackCooldownTimerFinished;
-            HealthController.OnDamaged += OnDamaged;
 
             _onBossDamaged = new OnBossDamagedEvent();
             
@@ -92,9 +91,11 @@ namespace Terra.AI.Enemy
             EventsAPI.Register<OnBossStartedMovingEvent>(OnBossStartMovingEvent);
         }
         
-        private void OnDamaged(int value)
+        protected override void OnDamaged(int amount, bool isCrit = false)
         {
-            _onBossDamaged.damage = value;
+            base.OnDamaged(amount, isCrit);
+            
+            _onBossDamaged.damage = amount;
             _onBossDamaged.normalizedDamage = HealthController.NormalizedCurrentHealth;
             
             EventsAPI.Invoke(ref _onBossDamaged);
@@ -306,7 +307,6 @@ namespace Terra.AI.Enemy
         protected override void CleanUp()
         {
             base.CleanUp();
-            HealthController.OnDamaged -= OnDamaged;
             _pumpAttackCooldownTimer.OnTimerStop -= OnPumpAttackCooldownTimerFinished;
             _spitAttackCooldownTimer.OnTimerStop -= OnSpitAttackCooldownTimerFinished;
         }

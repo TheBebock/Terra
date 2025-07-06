@@ -40,7 +40,10 @@ namespace Terra.AI.Enemy
     /// </summary>
     public abstract class EnemyBase : Entity, IDamageable, IAttachListeners
     {
-        
+
+        [SerializeField] private Color _onDamagedColor = Color.white;
+        [SerializeField] private Color _onDamagedCritColor = Color.yellow;
+
         [BoxGroup("Death")][SerializeField] private bool _destroyOnDeath = true;
         [BoxGroup("Death")][SerializeField] private float _deathFadeDuration = 4;
         [BoxGroup("Death")][SerializeField] private AnimationCurve _deathFadeCurve;
@@ -113,6 +116,7 @@ namespace Terra.AI.Enemy
 
         public virtual void AttachListeners()
         {
+            _healthController.OnDamaged += OnDamaged;
             _healthController.OnDeath += (this as IDamageable).OnDeath;
             EventsAPI.Register<OnBossDiedEvent>(OnBossDiedEvent);
         }
@@ -203,26 +207,28 @@ namespace Terra.AI.Enemy
         /// <summary>
         /// Applies damage, triggers visual feedback and damage popup.
         /// </summary>
-        public void TakeDamage(int amount, bool isPercentage = false)
+        public void TakeDamage(int amount, bool isCrit = false, bool isPercentage = false)
         {
-            if (!CanBeDamaged)
+            if (!CanBeDamaged || amount <= 0)
             {
                 Debug.Log("Enemy is invincible and cannot take damage.");
                 return;
             }
             
-            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);
-            
-            // Prevent negative damage values
-            if (amount < 0) amount = 0;
+            _healthController.TakeDamage(amount, isCrit, isPercentage);
+         
+        }
 
-            _healthController.TakeDamage(amount, isPercentage);
-            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
+        protected virtual void OnDamaged(int amount, bool isCrit = false)
+        {
+            AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);
+
+            Color color = isCrit ? _onDamagedCritColor : _onDamagedColor;
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, color);
             
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
             VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
         }
-
         public void Kill(bool isSilent = true) => _healthController.Kill(isSilent);
 
         void IDamageable.OnDeath()
@@ -282,6 +288,7 @@ namespace Terra.AI.Enemy
         public virtual void DetachListeners()
         {
             EventsAPI.Unregister<OnBossDiedEvent>(OnBossDiedEvent);
+            _healthController.OnDamaged -= OnDamaged;
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
         }
 

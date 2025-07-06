@@ -527,6 +527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 5428209396498942137}
   _id: -1
+  _onDamagedColor: {r: 1, g: 1, b: 1, a: 1}
+  _onDamagedCritColor: {r: 1, g: 1, b: 0, a: 1}
   _destroyOnDeath: 1
   _deathFadeDuration: 0
   _deathFadeCurve:

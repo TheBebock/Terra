@@ -35,7 +35,7 @@ namespace Terra.Combat
         public event Action<bool> OnCanBeHealedChanged;
         public event Action<float> OnHealthChangedNormalized;
         public event Action<int> OnHealthChanged;
-        public event Action<int> OnDamaged;
+        public event Action<int, bool> OnDamaged;
         public event Action<int> OnHealed;
         
         CancellationToken _cancellationToken;
@@ -67,7 +67,7 @@ namespace Terra.Combat
         /// <param name="amount">Amount of damage</param>
         /// <param name="isPercentage">If marked as true, <see cref="amount"/> will be treated as a percentage</param>
         /// <param name="isSilent">If marked as true, <see cref="OnDamaged"/> won't be called</param>
-        public void TakeDamage(int amount, bool isPercentage = false, bool isSilent = false)
+        public void TakeDamage(int amount, bool isCrit,  bool isPercentage = false, bool isSilent = false)
         {
 
             if (IsDead || IsImmuneAfterHit) return;
@@ -83,7 +83,7 @@ namespace Terra.Combat
             
             if (!isSilent)
             {
-                OnDamaged?.Invoke(calculatedValue);
+                OnDamaged?.Invoke(calculatedValue, isCrit);
             }
 
             
@@ -154,8 +154,6 @@ namespace Terra.Combat
             OnHealthChanged?.Invoke(_currentHealth);
             OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
         }
-
-
         
         /// <summary>
         /// Change healable state
@@ -189,7 +187,7 @@ namespace Terra.Combat
         /// <param name="isSilent">Does not proke damage VFX when true</param>
         public void Kill(bool isSilent = false)
         {
-            TakeDamage(MaxHealth, isSilent: isSilent);
+            TakeDamage(MaxHealth, false, isSilent: isSilent);
         }
 
         private async UniTask ImmunityTimer(float time)

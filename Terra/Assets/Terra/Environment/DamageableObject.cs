@@ -29,7 +29,12 @@ namespace Terra.Environment
         [Foldout("References")] [SerializeField] protected Collider _collider;
         
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
-        [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;
+
+        [Foldout("Debug"), ReadOnly] [SerializeField]  private StatusContainer _statusContainer;
+        
+        [SerializeField] private Color _damageColor = Color.white;
+        [SerializeField] private Color _critDamageColor = Color.yellow;
+
         
         [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _hurtSFX;
         [FormerlySerializedAs("destroySfx")] [Foldout("SFX")] [SerializeField] private AudioClip _destroySfx;
@@ -46,19 +51,25 @@ namespace Terra.Environment
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(_maxHealth, CancellationToken);
         }
-
+        
+        public virtual void AttachListeners()
+        {
+            _healthController.OnDamaged += OnDamaged;
+            _healthController.OnDeath += (this as IDamageable).OnDeath;
+        }
+        
         protected virtual void Update()
         {
             StatusContainer.UpdateEffects();
         }
 
-        public void TakeDamage(int amount, bool isPercentage = false)
+        public void TakeDamage(int amount, bool isCrit = false, bool isPercentage = false)
         {
-            if (!CanBeDamaged) return;
-            _healthController.TakeDamage(amount, isPercentage);
+            if (!CanBeDamaged || amount <= 0) return;
+            _healthController.TakeDamage(amount, isCrit, isPercentage);
         }
 
-        protected virtual void OnDamaged(int value)
+        protected virtual void OnDamaged(int value, bool isCrit)
         {
             if(_propAnimator) _propAnimator?.SetTrigger(AnimationHashes.OnDamaged);
 
@@ -66,7 +77,8 @@ namespace Terra.Environment
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
               
             if(_hurtSFX) AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);
-            PopupDamageManager.Instance?.UsePopup(transform, Quaternion.identity, value);
+            Color color = isCrit? _critDamageColor : _damageColor;
+            PopupDamageManager.Instance?.UsePopup(transform, Quaternion.identity, value, color);
         }
 
         public void Kill(bool isSilent = false) => _healthController.Kill(isSilent);
@@ -75,6 +87,7 @@ namespace Terra.Environment
         {
             OnDeath();
         }
+        
         protected virtual void OnDeath() 
         {
             if(_collider) _collider.enabled = false;
@@ -88,14 +101,7 @@ namespace Terra.Environment
 
             Destroy(gameObject, _deathFadeDuration + 0.5f);
         }
-
-        public virtual void AttachListeners()
-        {
-            _healthController.OnDeath += (this as IDamageable).OnDeath;
-            _healthController.OnDamaged += OnDamaged;
-
-        }
-
+        
         public virtual void DetachListeners()
         {
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
@@ -108,6 +114,7 @@ namespace Terra.Environment
             base.CleanUp();
             _doSequence?.Kill();
         }
+        
 #if UNITY_EDITOR
         
         protected override void OnValidate()
@@ -116,6 +123,7 @@ namespace Terra.Environment
             if(!_collider) _collider = GetComponent<Collider>();
             if(!_audioSource) _audioSource = GetComponent<AudioSource>();
         }
+        
 #endif
 
     }

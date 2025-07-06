@@ -15,7 +15,7 @@ namespace Terra.Combat
         /// <summary>
         ///     Method for damaging entity
         /// </summary>
-        public void TakeDamage(int amount, bool isPercentage = false);
+        public void TakeDamage(int amount, bool isCrit = false, bool isPercentage = false);
 
         /// <summary>
         ///     Instantly kills entity

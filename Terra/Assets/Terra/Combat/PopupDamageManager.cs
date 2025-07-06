@@ -18,10 +18,7 @@ namespace Terra.Combat
         [FormerlySerializedAs("popupOffset")] [SerializeField] private Vector3 _popupOffset;
         [FormerlySerializedAs("randomizerdPosition")] [SerializeField] private Vector3 _randomizerdPosition;
 
-        [SerializeField] private Color _damageColor = Color.red;
-        [SerializeField] private Color _critDamageColor = Color.red;
-        [SerializeField] private Color _healColor = Color.green;
-        [SerializeField] private Color _critHealColor = Color.green;
+
         [FormerlySerializedAs("pooledPopups")] [Foldout("Debug")][SerializeField, ReadOnly] private List<PopupDamageCanvas> _pooledPopups = new();
         [FormerlySerializedAs("amountToPool")] [SerializeField] private int _amountToPool;
 
@@ -47,7 +44,7 @@ namespace Terra.Combat
             return null;
         }
 
-        public void UsePopup(Transform position, Quaternion rotation, float value,bool isHeal = false,  bool isCritical = false)
+        public void UsePopup(Transform position, Quaternion rotation, float value, Color color)
         {
             PopupDamageCanvas popupCanvas = GetPooledPopup();
             TMP_Text popup = popupCanvas.popupDamage;
@@ -57,7 +54,7 @@ namespace Terra.Combat
                 SetupAdditionalPositionPopup(popupCanvas);
 
                 popup.text = System.Math.Round(value,2).ToString(CultureInfo.InvariantCulture);
-                popup.color = GetTextColor(isHeal, isCritical);
+                popup.color = color;
                 popupCanvas.gameObject.SetActive(true);
 
                 _ = ReturnToPoolCoroutine(popupCanvas);
@@ -84,18 +81,7 @@ namespace Terra.Combat
             await UniTask.WaitForSeconds(_destroyTime, cancellationToken: CancellationToken);
             ReturnToPool(popup);
         }
-
-        private Color GetTextColor(bool isHeal, bool isCritical)
-        {
-            if (isCritical)
-            {
-                return isHeal ? _critHealColor : _critDamageColor;
-            }
-            else
-            {
-                return isHeal ? _healColor : _damageColor;
-            }
-        }
+        
         public void ReturnToPool(PopupDamageCanvas popup)
         {
             popup.target = null;

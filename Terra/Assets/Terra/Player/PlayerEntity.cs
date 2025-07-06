@@ -23,6 +23,10 @@ namespace Terra.Player
         [SerializeField] private AudioClip _deathSound;
         [SerializeField] private AudioClip _dashSound;
         
+        [Header("Pop up colors")]
+        [SerializeField] private Color _onDamagedColor = Color.red;
+        [SerializeField] private Color _onHealedColor = Color.green;
+        
         [Foldout("References")] [SerializeField]
         private Collider _collider;        
         [Foldout("References")] [SerializeField]
@@ -57,6 +61,8 @@ namespace Terra.Player
             _statusContainer = new StatusContainer(this);
             _healthController = new HealthController(PlayerStatsManager.Instance.PlayerStats.MaxHealthValue, CancellationToken, true);
             _healthController.OnDeath += (this as IDamageable).OnDeath;
+            _healthController.OnDamaged += OnDamaged;
+            _healthController.OnHealed += OnHealed;
             HUDManager.Instance.HpSlider.Init(_healthController.CurrentHealth, _healthController.MaxHealth);
         }
         
@@ -71,24 +77,30 @@ namespace Terra.Player
             StatusContainer.UpdateEffects();
         }
 
-        public void TakeDamage(int amount, bool isPercentage = false)
+        public void TakeDamage(int amount, bool isCrit = false, bool isPercentage = false)
         {
             if (!CanBeDamaged || amount <= 0) return;
             Debug.Log($"{this}: Taking Damage {amount}");
-            _healthController.TakeDamage(amount, isPercentage);
-            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount);
+            _healthController.TakeDamage(amount, isCrit, isPercentage);
+        }
+
+        private void OnDamaged(int amount, bool isCrit = false)
+        {
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, _onDamagedColor);
             if(_hurtSound) AudioManager.Instance?.PlaySFXAtSource(_hurtSound, _audioSource, true);
             
             VFXcontroller.BlinkModelsColor(Color.red, 0.1f,0.1f,0.1f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
         }
-
         public void Heal(int amount, bool isPercentage = false)
         {
             if(!CanBeHealed || amount <=0) return;
             _healthController.Heal(amount, isPercentage);
-            bool isCrit = amount >= _healthController.MaxHealth/2 - 1;
-            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, isHeal: true, isCrit);
+        }
+
+        private void OnHealed(int amount)
+        {
+            PopupDamageManager.Instance.UsePopup(transform, Quaternion.identity, amount, _onHealedColor);
             
             VFXcontroller.BlinkModelsColor(Color.green, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHealParticle);
@@ -124,6 +136,8 @@ namespace Terra.Player
         public void TearDown()
         {
             _healthController.OnDeath -= (this as IDamageable).OnDeath;
+            _healthController.OnDamaged -= OnDamaged;
+            _healthController.OnHealed -= OnHealed;
         }
         
         public void DetachListeners()

@@ -283,6 +283,8 @@ MonoBehaviour:
   _hurtSound: {fileID: 8300000, guid: f408b5213bacc4f408d5a1f706bf0a89, type: 3}
   _deathSound: {fileID: 8300000, guid: 8b5cc27dea3b59540a2ba62424855804, type: 3}
   _dashSound: {fileID: 8300000, guid: 3e74124b4930bd94e8fb8af52137e553, type: 3}
+  _onDamagedColor: {r: 1, g: 0, b: 0, a: 1}
+  _onHealedColor: {r: 0, g: 0.6603774, b: 0.10412187, a: 1}
   _collider: {fileID: 6608576668348398462}
   _audioSource: {fileID: 1189192986816225722}
   _healthController:
