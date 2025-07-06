@@ -50,9 +50,9 @@ MonoBehaviour:
   _cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
     type: 3}
   _dropContainer: {fileID: 0}
-  _dropIntervalRange: {x: 60, y: 90}
+  _dropIntervalRange: {x: 45, y: 60}
   _crateDelay: 5
-  _crateHeightSpawnOffset: 10
+  _crateHeightSpawnOffset: 20
   _raycastLayerMask:
     serializedVersion: 2
     m_Bits: 36608

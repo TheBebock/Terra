@@ -82,7 +82,7 @@ MonoBehaviour:
   - difficulty: 0
     description: 'let me make it to the end\ndisclaimer: not balanced'
   - difficulty: 1
-    description: make your venture easier
+    description: make your venture\na little bit easier
   - difficulty: 2
     description: recommended difficulty
   _gameDifficulty: 2
@@ -622,7 +622,7 @@ PrefabInstance:
     - target: {fileID: 4494138725681202515, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 435.4951
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 4494138725681202515, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
@@ -697,7 +697,7 @@ PrefabInstance:
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
       propertyPath: m_text
-      value: recommended difficulty
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
         type: 3}
@@ -718,6 +718,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VerticalAlignment
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7622967882562534482, guid: f41eafe29e75dd841b60d78803632ddf,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

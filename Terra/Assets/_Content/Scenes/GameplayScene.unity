@@ -10517,16 +10517,6 @@ PrefabInstance:
       propertyPath: _dropContainer
       value: 
       objectReference: {fileID: 1553924743}
-    - target: {fileID: 2654306062946660249, guid: 034e2f64ade75854eb594c43d407183a,
-        type: 3}
-      propertyPath: _dropIntervalRange.x
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 2654306062946660249, guid: 034e2f64ade75854eb594c43d407183a,
-        type: 3}
-      propertyPath: _dropIntervalRange.y
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 2821981408182063527, guid: 034e2f64ade75854eb594c43d407183a,
         type: 3}
       propertyPath: m_Name
