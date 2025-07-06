@@ -53,7 +53,7 @@ namespace Terra.UI.MainMenu
         }
         private void OnPlayBtnClicked()
         {
-            if (GameSettings.IsFirstEverGame)
+            if (GameSettings.DefaultIsFirstEverGame)
             {
                 _chooseDifficultyPanel?.SetActive(true);
                 return;

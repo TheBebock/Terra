@@ -83,6 +83,8 @@ namespace Terra.Player
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
+            if(TimeManager.Instance.IsGamePaused) return;
+            
             if (!_isTryingPerformMeleeAttack && !_isTryingPerformDistanceAttack)
             {
                 Vector3 direction = MouseRaycastManager.Instance.
@@ -100,6 +102,8 @@ namespace Terra.Player
 
         private void OnRangeAttackInput(InputAction.CallbackContext context)
         {
+            if(TimeManager.Instance.IsGamePaused) return;
+
             if (_firePoint == null)
             {
                 Debug.LogError($"{this} tried to performed range attack without assigend fire point. Hash: {this.GetHashCode()}");

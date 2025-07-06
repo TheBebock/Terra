@@ -11,15 +11,18 @@ namespace Terra.UI.Windows
         public override bool AllowMultiple { get; } = false;
         
         [SerializeField] Button _resumeButton;
+        [SerializeField] Button _helpButton;
         [SerializeField] Button _settingsButton;
         [SerializeField] Button _exitToMenuButton;
         [SerializeField] CanvasGroup _buttonsCanvasGroup;
         [SerializeField] SettingsUI _settingsPanel;
+        [SerializeField] GameObject _helpPanel;
         public override void SetUp()
         {
             base.SetUp();
             
             _resumeButton?.onClick.AddListener(Resume);
+            _helpButton?.onClick.AddListener(OnHelpButtonClicked);
             _settingsButton?.onClick.AddListener(OpenSettings);
             _exitToMenuButton?.onClick.AddListener(ExitToMenu);
             _settingsPanel?.CloseButton.onClick.AddListener(ShowButtons);
@@ -32,6 +35,11 @@ namespace Terra.UI.Windows
         {
             TimeManager.Instance?.ResumeGame();
             Close();
+        }
+
+        private void OnHelpButtonClicked()
+        {
+            _helpPanel?.SetActive(true);
         }
 
         public void HideButtons()

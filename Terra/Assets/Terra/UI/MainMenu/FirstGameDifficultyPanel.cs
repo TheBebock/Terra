@@ -49,6 +49,8 @@ namespace Terra.UI.MainMenu
         {
             if (value)
             {
+                _easyToggle.SetIsOnWithoutNotify(false);
+                _normalToggle.SetIsOnWithoutNotify(false);
                 UpdateCurrentDifficulty(GameDifficulty.Cyberiada);
             }
             else
@@ -65,6 +67,8 @@ namespace Terra.UI.MainMenu
         {
             if (value)
             {
+                _cyberiadaToggle.SetIsOnWithoutNotify(false);
+                _normalToggle.SetIsOnWithoutNotify(false);
                 UpdateCurrentDifficulty(GameDifficulty.Easy);
             }
             else
@@ -80,6 +84,8 @@ namespace Terra.UI.MainMenu
         {
             if (value)
             {
+                _cyberiadaToggle.SetIsOnWithoutNotify(false);
+                _easyToggle.SetIsOnWithoutNotify(false);
                 UpdateCurrentDifficulty(GameDifficulty.Normal);
             }
             else
@@ -115,7 +121,7 @@ namespace Terra.UI.MainMenu
         private void OnConfirmButtonClicked()
         {
             GameSettings.DefaultDifficultyLevel = _gameDifficulty;
-            GameSettings.IsFirstEverGame = false;
+            GameSettings.DefaultIsFirstEverGame = false;
             GameSettings.SaveGameSettings();
             EventsAPI.Invoke(ref _gameDifficultyChanged);
             
