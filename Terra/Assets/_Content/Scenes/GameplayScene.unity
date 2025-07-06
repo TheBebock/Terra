@@ -6199,6 +6199,8 @@ MonoBehaviour:
       actionEffect: {fileID: 11400000, guid: 7044c4e7f76de0c408a2ef93c5042011, type: 2}
     - dropChance: 0
       actionEffect: {fileID: 11400000, guid: e20f02b04ab7d344383011f7a8c2d739, type: 2}
+    - dropChance: 0
+      actionEffect: {fileID: 11400000, guid: 3e989c3f9eaaaf94bbb5c4f69c24abc4, type: 2}
     _statusEffectsPerGame: []
     _actionEffectsPerGame: []
     _freeActiveItems: []
