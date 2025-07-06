@@ -84,8 +84,12 @@ namespace Terra.Managers
         
         public void PauseTime() => ChangeTimeScale(0f);
         public void ResumeTime() => ChangeTimeScale(1f);
-        public void ChangeTimeScale(float timeScale) => Time.timeScale = timeScale;
-        
+
+        private void ChangeTimeScale(float timeScale)
+        {
+            Time.timeScale = timeScale;
+            _isGamePaused = timeScale == 0;
+        }
 
 
         public void DetachListeners()
