@@ -16,7 +16,7 @@ namespace Terra.Environment
         [SerializeField] List<GameObject> _enviroLevels = new();
 
         [SerializeField, ReadOnly] GameObject _currentEnvironment;
-        private int _enviroLevelIndex;
+        private int _enviroLevelIndex = 0;
         public void AttachListeners()
         {
             EventsAPI.Register<LevelIncreasedEvent>(OnEndOfFloorAnimEnd);
@@ -26,7 +26,7 @@ namespace Terra.Environment
         {
             _currentEnvironment.SetActive(false);
             _enviroLevelIndex++;
-            _currentEnvironment = _enviroLevels[_enviroLevelIndex];
+            _currentEnvironment = _enviroLevels[_enviroLevelIndex-1];
             _currentEnvironment.SetActive(true);
         }
 

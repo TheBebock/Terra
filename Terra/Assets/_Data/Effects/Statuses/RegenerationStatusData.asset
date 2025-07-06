@@ -23,4 +23,4 @@ MonoBehaviour:
   incompatibleEffects: []
   statusDuration: -1
   tickTime: 2
-  healPerTick: 1
+  healPerTick: 3

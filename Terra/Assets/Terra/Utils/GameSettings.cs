@@ -1,4 +1,3 @@
-
 using System.IO;
 using Terra.Enums;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Terra.Utils
         public static float DefaultSFXVolume = 1.0f;
         public static float DefaultMusicVolume = 1.0f;
         public static bool DefaultIsFirstEverGame = true;
-        public static GameDifficulty DefaultDifficultyLevel = GameDifficulty.Normal;
+        public static GameDifficulty DefaultDifficultyLevel = GameDifficulty.Cyberiada;
 
         private static string SettingsFilePath => Path.Combine(Application.persistentDataPath, "settings.json");
 

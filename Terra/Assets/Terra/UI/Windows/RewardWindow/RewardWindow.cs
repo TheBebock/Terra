@@ -121,15 +121,6 @@ namespace Terra.UI.Windows.RewardWindow
             }
         }
 
-        private void SetExplicity(RewardToggle rewardToggleFromExplicit, RewardToggle rewardToggleToExplicit)
-        {
-            RewardToggle.ExplicedRewardData explicedData;
-            explicedData.type = rewardToggleFromExplicit.RewardType;
-            explicedData.rewardName = rewardToggleFromExplicit.RewardName.text;
-
-            rewardToggleToExplicit.SetExplicedReward(explicedData);
-        }
-
         private void RerollRewards()
         {
             _leftRerolls--;
@@ -146,23 +137,21 @@ namespace Terra.UI.Windows.RewardWindow
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
+            CheckRewardDuplication(_rewardToggles[0], _rewardToggles[1], freeStatus: true);
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
+            CheckRewardDuplication(_rewardToggles[2], _rewardToggles[3], freeStatus: false);
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[0].SetRewardData();
-            SetExplicity(_rewardToggles[0], _rewardToggles[1]);
             _rewardToggles[1].SetRewardData();
-            CheckRewardDuplication(_rewardToggles[0], _rewardToggles[1], freeStatus: true);
 
             _rewardToggles[2].SetRewardData();
-            SetExplicity(_rewardToggles[2], _rewardToggles[3]);
             _rewardToggles[3].SetRewardData();
-            CheckRewardDuplication(_rewardToggles[2], _rewardToggles[3], freeStatus: false);
         }
 
         private void LoadRewardsData()
@@ -175,28 +164,20 @@ namespace Terra.UI.Windows.RewardWindow
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[1].RewardType = GetRewardType(freeStatus: true);
+            CheckRewardDuplication(_rewardToggles[0], _rewardToggles[1], freeStatus: true);
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[2].RewardType = GetRewardType(freeStatus: false);
             ReAssigneAvailableRewardTypes();
 
             _rewardToggles[3].RewardType = GetRewardType(freeStatus: false);
+            CheckRewardDuplication(_rewardToggles[2], _rewardToggles[3], freeStatus: false);
             ReAssigneAvailableRewardTypes();
 
             foreach (var toggle in _rewardToggles)
             {
                 toggle?.Init();
             }
-
-            _rewardToggles[0].SetRewardData();
-            SetExplicity(_rewardToggles[0], _rewardToggles[1]);
-            _rewardToggles[1].SetRewardData();
-            CheckRewardDuplication(_rewardToggles[0], _rewardToggles[1], freeStatus: true);
-
-            _rewardToggles[2].SetRewardData();
-            SetExplicity(_rewardToggles[2], _rewardToggles[3]);
-            _rewardToggles[3].SetRewardData();
-            CheckRewardDuplication(_rewardToggles[2], _rewardToggles[3], freeStatus: false);
         }
 
         private void ReAssigneAvailableRewardTypes()

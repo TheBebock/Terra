@@ -16,6 +16,7 @@ using Terra.StatisticsSystem;
 using TMPro;
 using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using StringExtensions = Terra.Extensions.StringExtensions;
 
@@ -30,13 +31,6 @@ namespace Terra.UI.Windows.RewardWindow
             public StatisticType type;
             public Sprite sprite;
         }
-
-        public struct ExplicedRewardData
-        {
-            public RewardType type;
-            public string rewardName;
-        }
-
         [SerializeField] RandomStatSpriteData[] _spriteData;
         [SerializeField] private TMP_Text _rewardName;
         [SerializeField] private TMP_Text _rewardDescription;
@@ -44,6 +38,9 @@ namespace Terra.UI.Windows.RewardWindow
         [SerializeField] private Image _rewardIcon;
         [SerializeField] private string _freeText = "FREE!";
         
+        
+        [SerializeField, ReadOnly] private RectTransform _textsContainer;
+
         [SerializeField, ReadOnly] private Toggle _rewardToggle;
         private RewardData _rewardData;
 
@@ -57,9 +54,12 @@ namespace Terra.UI.Windows.RewardWindow
         private ActiveItem _activeItemReward;
         private PassiveItem _passiveItemReward;
 
-        [SerializeField, ReadOnly] private WeaponDataComparison _weaponDataComparison;
-        [SerializeField, ReadOnly] private StatsDataComparison _itemDataComparison;
-        [SerializeField, ReadOnly] private StatsDataComparison _statsDataComparison;
+        [SerializeField, ReadOnly]
+        private WeaponDataComparison _weaponDataComparison;
+        [SerializeField, ReadOnly]
+        private StatsDataComparison _itemDataComparison;
+        [SerializeField, ReadOnly]
+        private StatsDataComparison _statsDataComparison;
         private OnRewardSelected _onRewardSelected;
         [SerializeField, ReadOnly] private RewardType _rewardType;
 
@@ -71,14 +71,12 @@ namespace Terra.UI.Windows.RewardWindow
 
         private static List<int> _availableRewards = new();
 
-        private ExplicedRewardData _explicedRewardData;
-
         private System.Random randomValue = new System.Random();
 
         public void Init()
         {
-            //SetRewardData();
-            
+            SetRewardData();
+            _textsContainer = (_costDisplay.transform as RectTransform);
             _rewardToggle.onValueChanged.AddListener(OnToggle);
         }
 
@@ -113,11 +111,6 @@ namespace Terra.UI.Windows.RewardWindow
         public void SetFreeStatus(bool freeStatus)
         {
             _freeStatus = freeStatus;
-        }
-
-        public void SetExplicedReward(ExplicedRewardData explicedRewardData)
-        {
-            _explicedRewardData = explicedRewardData;
         }
 
         private void TurnOffToggle()
@@ -174,11 +167,7 @@ namespace Terra.UI.Windows.RewardWindow
             if(rewardType == RewardType.ActiveItem)
             {
                 _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem(_freeStatus);
-
-                while(CheckExplicity(_activeItemReward.Data.itemName))
-                    _activeItemReward = LootManager.Instance.LootTable.GetRandomActiveItem(_freeStatus);
-
-                if (_activeItemReward == null)
+                if(_activeItemReward == null)
                 {
                     SetNewRewardType();
                     return;
@@ -193,16 +182,12 @@ namespace Terra.UI.Windows.RewardWindow
             else if(rewardType == RewardType.PassiveItem)
             {
                 _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem(_freeStatus);
-
-                while(CheckExplicity(_passiveItemReward.Data.itemName))
-                    _passiveItemReward = LootManager.Instance.LootTable.GetRandomPassiveItem(_freeStatus);
-
                 if (_passiveItemReward == null)
                 {
                     SetNewRewardType();
                     return;
                 }
-
+                
                 _itemDataComparison = ItemsComparator.CompareItems(_passiveItemReward.Data);
                 
                 LoadItemData(_passiveItemReward.Data);
@@ -220,6 +205,8 @@ namespace Terra.UI.Windows.RewardWindow
             LoadModifiersUIText(data);
 
             _rewardIcon.sprite = data.itemSprite;
+            
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_textsContainer);
         }
 
         private void LoadModifiersUIText(ItemData data)
@@ -277,16 +264,6 @@ namespace Terra.UI.Windows.RewardWindow
             }
         }
 
-        private bool CheckExplicity(string rewardName)
-        {
-            if(rewardName == null) return false;
-
-            if (_rewardType != _explicedRewardData.type) return false;
-
-            if (rewardName.Equals(_explicedRewardData.rewardName)) return true;
-            else return false;
-        }
-
         private string CheckAddPercentMark(float value)
         {
             if (value % 1 != 0)
@@ -319,9 +296,6 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 case 0: 
                     _effectReward = LootManager.Instance.LootTable.GetRandomActionEffect();
-                    while(CheckExplicity(_effectReward.effectName))
-                        _effectReward = LootManager.Instance.LootTable.GetRandomActionEffect();
-
                     if (_effectReward != null)
                         _effectType = typeof(ActionEffectData);
                     else
@@ -329,10 +303,7 @@ namespace Terra.UI.Windows.RewardWindow
                     break;
                 case 1:
                     _effectReward = LootManager.Instance.LootTable.GetRandomStatusEffect();
-                    while(CheckExplicity(_effectReward.effectName))
-                        _effectReward = LootManager.Instance.LootTable.GetRandomActionEffect();
-
-                    if (_effectReward != null)
+                    if(_effectReward != null)
                         _effectType = typeof(StatusEffectData);
                     else
                         TurnOffToggle();
@@ -365,9 +336,6 @@ namespace Terra.UI.Windows.RewardWindow
             if (rand == 0)
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon(_freeStatus);
-                while(CheckExplicity(randomWeapon.Data.itemName))
-                    randomWeapon = LootManager.Instance.LootTable.GetRandomMeleeWeapon(_freeStatus);
-
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.MeleeWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.MeleeWeapon = randomWeapon;
@@ -376,9 +344,6 @@ namespace Terra.UI.Windows.RewardWindow
             else
             {
                 var randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon(_freeStatus);
-                while (CheckExplicity(randomWeapon.Data.itemName))
-                    randomWeapon = LootManager.Instance.LootTable.GetRandomRangedWeapon(_freeStatus);
-
                 _weaponDataComparison = ItemsComparator.CompareWeapons(PlayerInventoryManager.Instance.RangedWeapon.Data, randomWeapon?.Data);
                 LoadWeaponData(randomWeapon?.Data);
                 _weaponReward.RangedWeapon = randomWeapon;
