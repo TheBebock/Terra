@@ -33,6 +33,7 @@ namespace Terra.LootSystem.AirDrop
 
         private LayerMask _groundLayer;
         private CancellationTokenSource _airdropCts;
+        private CancellationTokenSource _linkedCts;
         protected override void Awake()
         {
             _groundLayer = LayerMask.NameToLayer("Ground");
@@ -97,19 +98,20 @@ namespace Terra.LootSystem.AirDrop
 
         private void StartAirdrop()
         {
-            _airdropCts?.Cancel(); // in case there’s an existing loop
+            StopAirDrop();
             _airdropCts = new CancellationTokenSource();
-            AirdropLoop(_airdropCts.Token).Forget();
+            _linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_airdropCts.Token, CancellationToken);
+            _ = AirdropLoop(_linkedCts.Token);
         }
         private void StopAirDrop()
         {
-            if (_airdropCts != null && !_airdropCts.IsCancellationRequested)
+            if (_airdropCts is { IsCancellationRequested: false })
             {
-                _airdropCts.Cancel();
-                _airdropCts.Dispose();
-                _airdropCts = null;
-                Debug.Log("Airdrop stopped.");
+                _airdropCts?.Cancel();
             }
+            
+            _linkedCts?.Dispose();
+            _airdropCts?.Dispose();
         }
         private async UniTaskVoid AirdropLoop(CancellationToken cancellationToken)
         {
@@ -186,7 +188,7 @@ namespace Terra.LootSystem.AirDrop
             }
             
 
-            await UniTask.WaitUntil( ()=> landed, cancellationToken:CancellationToken);
+            await UniTask.WaitUntil( ()=> landed || CancellationToken.IsCancellationRequested, cancellationToken:CancellationToken);
             
 
             await UniTask.WaitForSeconds(_crateDelay, cancellationToken:CancellationToken);
@@ -206,7 +208,8 @@ namespace Terra.LootSystem.AirDrop
         
         public void TearDown()
         {
-            
+            _linkedCts?.Dispose();
+            _airdropCts?.Dispose();
         }
 
     }

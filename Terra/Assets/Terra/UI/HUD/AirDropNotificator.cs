@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using Terra.Core.Generics;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
-using Terra.Interfaces;
 using TMPro;
 using UnityEngine;
 
 namespace Terra.UI.HUD
 {
-    public class AirDropNotificator: InGameMonobehaviour, IAttachListeners
+    public class AirDropNotificator: InGameMonobehaviour
     {
         [SerializeField] private GameObject _airDropNotificatorContainer;
         [SerializeField] private TMP_Text _notificatorText;
@@ -23,10 +22,7 @@ namespace Terra.UI.HUD
         private void Awake()
         {
             EventsAPI.Register<OnAirDropSetSpawnDelayEvent>(OnAirDropSetSpawnDelay);
-        }
-        public void AttachListeners()
-        {
-            
+            _airDropNotificatorContainer?.SetActive(false);
         }
 
         private void OnAirDropSetSpawnDelay(ref OnAirDropSetSpawnDelayEvent ev)
@@ -88,7 +84,7 @@ namespace Terra.UI.HUD
                 _assignedTimes[0] = time;
                 SetNotificatorTimeText(time);
                 
-                await UniTask.WaitForSeconds(1f);
+                await UniTask.WaitForSeconds(1f, cancellationToken: CancellationToken);
             }
             _assignedTimes.RemoveAt(0);
 
@@ -96,11 +92,10 @@ namespace Terra.UI.HUD
                 StartNewCounting(_assignedTimes[0]);
         }
 
-        
 
-
-        public void DetachListeners()
+        protected override void CleanUp()
         {
+            base.CleanUp();
             EventsAPI.Unregister<OnAirDropSetSpawnDelayEvent>(OnAirDropSetSpawnDelay);
         }
     }

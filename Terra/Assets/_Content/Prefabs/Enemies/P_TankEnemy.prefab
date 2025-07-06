@@ -349,10 +349,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 7421223248194925679}
   _damage: 0
-  _entity: {fileID: 0}
-  _effectsContainer:
-    statuses: []
-    actions: []
   _attackSFX: {fileID: 0}
   _audioSource: {fileID: 0}
 --- !u!136 &7421223248194925679
@@ -532,7 +528,7 @@ MonoBehaviour:
   _vfxController: {fileID: 5428209396498942137}
   _id: -1
   _destroyOnDeath: 1
-  _deathFadeDuration: 4
+  _deathFadeDuration: 0
   _deathFadeCurve:
     serializedVersion: 2
     m_Curve:

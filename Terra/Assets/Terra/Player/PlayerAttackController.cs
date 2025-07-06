@@ -215,7 +215,11 @@ namespace Terra.Player
             if (InputsManager.Instance)
             {
                 InputsManager.Instance.PlayerControls.MeleeAttack.started -= OnMeleeAttackInput;
-                InputsManager.Instance.PlayerControls.Dash.started -= OnRangeAttackInput;
+                InputsManager.Instance.PlayerControls.RangeAttack.started -= OnRangeAttackInput;
+            }
+            else
+            {
+                Debug.LogError($"Player Attack controller couldnt detach inputs listeners, as there is no inputs manager");
             }
 
             if (PlayerInventoryManager.Instance)

@@ -129,7 +129,7 @@ MonoBehaviour:
   _vfxController: {fileID: 9160366533650034702}
   _id: -1
   _destroyOnDeath: 1
-  _deathFadeDuration: 2
+  _deathFadeDuration: 0
   _deathFadeCurve:
     serializedVersion: 2
     m_Curve:

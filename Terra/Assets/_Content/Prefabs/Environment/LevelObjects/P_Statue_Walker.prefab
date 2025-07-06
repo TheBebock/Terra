@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5659058994321955493}
   - component: {fileID: 4196527001876395458}
   - component: {fileID: 2834245433352713858}
+  - component: {fileID: 2598428009339410731}
+  - component: {fileID: 8498526422823003449}
   - component: {fileID: 6824060451537205053}
   m_Layer: 10
   m_Name: P_Statue_Walker
@@ -52,8 +54,7 @@ MonoBehaviour:
   _lookAtType: 1
   _targetTransforms:
   - {fileID: 4902561909052374769}
-  _targetVFXControllers:
-  - {fileID: 8079279174553817661}
+  _targetVFXControllers: []
   _lockX: 0
   _lockY: 1
   _lockZ: 1
@@ -73,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74787af7e8b72c34195a66a2eb61abc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vfxController: {fileID: 8079279174553817661}
+  _vfxController: {fileID: 2598428009339410731}
   _id: -1
   _maxHealth:
     _baseValue: 5
@@ -103,7 +104,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _propAnimator: {fileID: 0}
+  _propAnimator: {fileID: 8498526422823003449}
   _propShadow: {fileID: 4564371000549275268}
   _audioSource: {fileID: 6824060451537205053}
   _collider: {fileID: 2834245433352713858}
@@ -153,6 +154,72 @@ CapsuleCollider:
   m_Height: 1.613945
   m_Direction: 1
   m_Center: {x: -0.15, y: 0.5, z: -0.4}
+--- !u!114 &2598428009339410731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982465700934888733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHealParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHitParticle:
+    particleComponent: {fileID: 687843509746966031, guid: bfca3f814fc803a478f44f869a205a0b,
+      type: 3}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onDeathParticle:
+    particleComponent: {fileID: 687843509746966031, guid: bfca3f814fc803a478f44f869a205a0b,
+      type: 3}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  _container: {fileID: 7889322403991344603}
+  _particlesAnchor: {fileID: 0}
+  _model: {fileID: 2928413566856010481}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!95 &8498526422823003449
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982465700934888733}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39ca0f3a63f5da14cba177830370671a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &6824060451537205053
 AudioSource:
   m_ObjectHideFlags: 0
@@ -511,7 +578,7 @@ Transform:
   m_GameObject: {fileID: 4127026030974039446}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.088, y: -0.28399986, z: -0.677}
+  m_LocalPosition: {x: 0.17, y: -0.28399986, z: -0.826}
   m_LocalScale: {x: 0.7, y: 0.17899103, z: 0.30574283}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -698,7 +765,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4902561909052374769}
   - component: {fileID: 2928413566856010481}
-  - component: {fileID: 8079279174553817661}
   m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
@@ -778,47 +844,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8079279174553817661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6293002743506845930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSpawnParticle:
-    particleComponent: {fileID: 0}
-    offset: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
-    destroyDuration: 0
-  onHealParticle:
-    particleComponent: {fileID: 0}
-    offset: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
-    destroyDuration: 0
-  onHitParticle:
-    particleComponent: {fileID: 687843509746966031, guid: bfca3f814fc803a478f44f869a205a0b,
-      type: 3}
-    offset: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
-    destroyDuration: 0
-  onDeathParticle:
-    particleComponent: {fileID: 687843509746966031, guid: bfca3f814fc803a478f44f869a205a0b,
-      type: 3}
-    offset: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scaleModifier: 0
-    destroyDuration: 0
-  _container: {fileID: 7889322403991344603}
-  _particlesAnchor: {fileID: 0}
-  _model: {fileID: 2928413566856010481}
-  _modelMaterial: {fileID: 0}
-  _activeParticles: []
-  _defaultColor: {r: 0, g: 0, b: 0, a: 0}

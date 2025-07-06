@@ -23,10 +23,10 @@ namespace Terra.Environment
         [SerializeField] private float _deathFadeDuration = 2.5f;
         [SerializeField] private AnimationCurve _deathFadeCurve;
         
-        [Foldout("References")][SerializeField] private Animator _propAnimator;
-        [Foldout("References")][SerializeField] private SpriteRenderer _propShadow;
+        [Foldout("References")][SerializeField] protected Animator _propAnimator;
+        [Foldout("References")][SerializeField] protected SpriteRenderer _propShadow;
         [Foldout("References")] [SerializeField] protected AudioSource _audioSource;
-        [Foldout("References")] [SerializeField] private Collider _collider;
+        [Foldout("References")] [SerializeField] protected Collider _collider;
         
         [Foldout("Debug"), ReadOnly] [SerializeField] private HealthController _healthController;
         [Foldout("Debug"), ReadOnly] [SerializeField] private StatusContainer _statusContainer;

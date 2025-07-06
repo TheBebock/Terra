@@ -14,7 +14,6 @@ namespace Terra.Managers
 
         public void AttachListeners()
         {
-            Debug.Log($"{gameObject.name} test listener attached on entity cleaner manager");
             EventsAPI.Register<PerformCleanupEvent>(OnPerformCleanupEvent);
         }
         

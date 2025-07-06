@@ -1,3 +1,4 @@
+using Terra.AI.EnemyStates;
 using Terra.Enums;
 using Terra.Managers;
 using Terra.Utils;
@@ -17,19 +18,23 @@ namespace Terra.Environment
         int _targetLayerIndex;
 
         
-        public void Init(FacingDirection facingDirection)
+        public void Init(FacingDirection facingDirection, AudioClip deathSFX)
         {
             switch (facingDirection)
             {
                 case FacingDirection.Left:
                     VFXcontroller.SetMaterialEmissiveMap(_leftEmissiveTexture);
                     VFXcontroller.SetModelSprite(_leftSprite);
+                    _propAnimator.CrossFade(AnimationHashes.DeathLeft, 0.1f);
                     break;
                 case FacingDirection.Right:
                     VFXcontroller.SetMaterialEmissiveMap(_rightEmissiveTexture);
                     VFXcontroller.SetModelSprite(_rightSprite);
+                    _propAnimator.CrossFade(AnimationHashes.DeathRight, 0.1f);
                     break;
             }
+            
+            // AudioManager.Instance?.PlaySFXAtSource(deathSFX, _audioSource);
         }
         
         protected override void OnDeath()

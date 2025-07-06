@@ -112,10 +112,10 @@ namespace Terra.AI.Enemy
             switch (CurrentDirection)
             {
                 case FacingDirection.Left:
-                    Instantiate(_tankStatue, _statueSpawnPointLeft.position, Quaternion.identity).Init(CurrentDirection);
+                    Instantiate(_tankStatue, _statueSpawnPointLeft.position, Quaternion.identity).Init(CurrentDirection, _deathSFX);
                     break;
                 case FacingDirection.Right:
-                    Instantiate(_tankStatue, _statueSpawnPointRight.position, Quaternion.identity).Init(CurrentDirection);
+                    Instantiate(_tankStatue, _statueSpawnPointRight.position, Quaternion.identity).Init(CurrentDirection, _deathSFX);
                     break;
             }
         }
