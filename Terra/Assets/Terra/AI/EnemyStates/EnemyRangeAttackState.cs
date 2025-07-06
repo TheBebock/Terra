@@ -44,9 +44,7 @@ namespace Terra.AI.EnemyStates {
             if (Time.time - _lastAttackTime >= AttackCooldownTime && IsPathClearToPlayer()) {
                 // If there's no obstacle, perform the attack
                 enemy.AttemptAttack();
-                _lastAttackTime = Time.time;  // Update the last attack time
-            } else {
-                Debug.Log("Path is blocked or cooldown not finished, cannot attack.");  // Log if the path is blocked or cooldown is active
+                _lastAttackTime = Time.time;
             }
         }
 
@@ -54,7 +52,7 @@ namespace Terra.AI.EnemyStates {
         private bool IsPlayerInRange() {
             float distanceToPlayer = Vector3.Distance(enemy.transform.position, player.transform.position);
             
-            return distanceToPlayer <= enemy.NormalAttackRange;  // Return true if the player is within range
+            return distanceToPlayer <= enemy.NormalAttackRange;
         }
 
         // Check if there is an unobstructed path to the player

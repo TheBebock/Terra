@@ -21,6 +21,7 @@ namespace Terra.Player
         [Header("SFX")]
         [SerializeField] private AudioClip _hurtSound;
         [SerializeField] private AudioClip _deathSound;
+        [SerializeField] private AudioClip _dashSound;
         
         [Foldout("References")] [SerializeField]
         private Collider _collider;        
@@ -108,6 +109,7 @@ namespace Terra.Player
         private void OnPlayerDashStarted(ref OnPlayerDashStartedEvent dashEvent)
         {
             _collider.enabled = false;
+            AudioManager.Instance?.PlaySFXAtSource(_dashSound, _audioSource);
         }
         
         private void OnPlayerDashEnded(ref OnPlayerDashEndedEvent dashEvent)

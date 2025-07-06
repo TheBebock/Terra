@@ -92,7 +92,7 @@ namespace Terra.Player
                 PlayerManager.Instance.PlayerMovement.PushPlayerInDirection(direction, PlayerManager.Instance.PushPlayerForce);
                 
                 _isTryingPerformMeleeAttack = true;
-                AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource);
+                AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource, true);
                 _meleeEvent.facingDirection = _currentPlayerAttackDirection;
                 EventsAPI.Invoke(ref _meleeEvent);
             }
@@ -123,7 +123,7 @@ namespace Terra.Player
         {
             if(!_isTryingPerformDistanceAttack) return;
             
-            AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource);
+            AudioManager.Instance.PlaySFXAtSource(_rangedAttackSFX, _audioSource, true);
             EventsAPI.Invoke<OnPlayerRangeAttackPerformedEvent>();
                 
             ProjectileFactory.CreateProjectile(

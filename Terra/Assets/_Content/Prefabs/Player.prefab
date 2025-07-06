@@ -165,6 +165,7 @@ MonoBehaviour:
   _canPlayerMove: 1
   _moveDirection: {x: 0, y: 0, z: 0}
   _movementInput: {x: 0, y: 0}
+  _isPlayerActionBlockingMovement: 0
 --- !u!114 &2252586331894191306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +282,7 @@ MonoBehaviour:
   _id: -1
   _hurtSound: {fileID: 8300000, guid: f408b5213bacc4f408d5a1f706bf0a89, type: 3}
   _deathSound: {fileID: 8300000, guid: 8b5cc27dea3b59540a2ba62424855804, type: 3}
+  _dashSound: {fileID: 8300000, guid: 3e74124b4930bd94e8fb8af52137e553, type: 3}
   _collider: {fileID: 6608576668348398462}
   _audioSource: {fileID: 1189192986816225722}
   _healthController:
@@ -289,7 +291,6 @@ MonoBehaviour:
       _statModifiers: []
     _currentHealth: 0
     _canBeHealed: 0
-    _isInvincible: 0
     _immuneAfterHit: 0
   _statusContainer:
     _entity: {fileID: 0}
