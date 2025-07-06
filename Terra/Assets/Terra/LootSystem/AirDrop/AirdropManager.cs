@@ -6,7 +6,6 @@ using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
 using Terra.Player;
-using Terra.UI.HUD;
 using Terra.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;

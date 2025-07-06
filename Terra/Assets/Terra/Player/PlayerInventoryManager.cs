@@ -10,7 +10,6 @@ using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Interfaces;
 using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
-using Terra.Managers;
 using UnityEngine;
 
 namespace Terra.Player

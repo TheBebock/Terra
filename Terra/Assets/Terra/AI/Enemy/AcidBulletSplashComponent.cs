@@ -1,4 +1,3 @@
-using System;
 using JetBrains.Annotations;
 using Terra.AI.EnemyStates;
 using Terra.Enums;

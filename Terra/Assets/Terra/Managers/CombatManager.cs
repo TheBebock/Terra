@@ -3,7 +3,6 @@ using Terra.Combat;
 using Terra.Player;
 using Terra.Core.Generics;
 using Terra.EffectsSystem.Abstract;
-using Terra.Extensions;
 using Terra.Itemization.Abstracts.Definitions;
 using UnityEngine;
 using Terra.Utils;

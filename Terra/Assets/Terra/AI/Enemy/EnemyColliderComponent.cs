@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Combat;
 using Terra.Core.Generics;
-using Terra.EffectsSystem.Abstract;
 using Terra.Extensions;
 using Terra.Managers;
 using Terra.Utils;
