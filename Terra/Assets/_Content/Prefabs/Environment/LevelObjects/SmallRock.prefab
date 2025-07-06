@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3742377997820160880}
   - component: {fileID: 4000484343556539434}
   - component: {fileID: 792311953771493301}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 7715272286740481250}
   - component: {fileID: 7415960516866961481}
   - component: {fileID: 1080672111734417062}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1484355073
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: be120df1ee2d57b4b95eb657f87acbf4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -225,11 +225,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88040e0b5a3efe498573fb94a4f444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtType: 1
-  targetTransforms: []
-  lockX: 0
-  lockY: 1
-  lockZ: 1
+  _lookAtType: 1
+  _targetTransforms: []
+  _targetVFXControllers: []
+  _lockX: 0
+  _lockY: 1
+  _lockZ: 1
+  _fadeIfCloseToCamera: 0
+  _fadeValue: 0.1
+  _fadeDuration: 0.25
+  _maxDistanceFromCamera: 5
 --- !u!1 &7639769153858270112
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 122203779252313590}
   - component: {fileID: 5874778137424897652}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: shadows_white_56px
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +308,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -166815195
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3d1836506a5ea944cb64a0a27e7744f1, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.9411765}
@@ -325,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 793445025754345082}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SmallRock
   m_TagString: EntityObject
   m_Icon: {fileID: 0}

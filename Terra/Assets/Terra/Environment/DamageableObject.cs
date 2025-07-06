@@ -73,7 +73,7 @@ namespace Terra.Environment
         {
             if(_propAnimator) _propAnimator?.SetTrigger(AnimationHashes.OnDamaged);
 
-            VFXcontroller.BlinkModelsColor(Color.red, 0.15f, 0.1f, 0.15f);
+            VFXcontroller.BlinkModelsColor(Color.white, 0.15f, 0.1f, 0.15f);
             VFXController.SpawnAndAttachParticleToEntity(this, VFXcontroller.onHitParticle);
               
             if(_hurtSFX) AudioManager.Instance.PlaySFXAtSource(_hurtSFX, _audioSource, true);

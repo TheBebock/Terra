@@ -376,6 +376,10 @@ MonoBehaviour:
     type: 3}
   _leftSprite: {fileID: 21300000, guid: 99ee4d79c61ca0346b458824325d77d4, type: 3}
   _rightSprite: {fileID: 21300000, guid: 435e16eb3d18e724cbdceef33c6fb41e, type: 3}
+  _destroyedLeftSprite: {fileID: 21300000, guid: 080ee03a257c6c24eb1cc66ba3166021,
+    type: 3}
+  _destroyedRightSprite: {fileID: 21300000, guid: 31018f762d71aa54f978af6ff1cbfb10,
+    type: 3}
   _amountOfCrystalsToSpawn: 4
   _maxSpawnRadius: 2
   _obstacleMask:

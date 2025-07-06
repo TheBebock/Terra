@@ -12,14 +12,18 @@ namespace Terra.Environment
         [SerializeField] private Texture _rightEmissiveTexture;
         [SerializeField] private Sprite _leftSprite;
         [SerializeField] private Sprite _rightSprite;
+        
+        [SerializeField] private Sprite _destroyedLeftSprite;
+        [SerializeField] private Sprite _destroyedRightSprite;
         [SerializeField] private int _amountOfCrystalsToSpawn = 4;
         [SerializeField] private float _maxSpawnRadius = 2f;
         [SerializeField] LayerMask _obstacleMask;
         int _targetLayerIndex;
-
+        FacingDirection _facingDirection;
         
         public void Init(FacingDirection facingDirection, AudioClip deathSFX)
         {
+            _facingDirection = facingDirection;
             switch (facingDirection)
             {
                 case FacingDirection.Left:
@@ -41,6 +45,14 @@ namespace Terra.Environment
         {
             base.OnDeath();
 
+            if (_facingDirection == FacingDirection.Left)
+            {
+                VFXcontroller.SetModelSprite(_destroyedLeftSprite);
+            }
+            else
+            {
+                VFXcontroller.SetModelSprite(_destroyedRightSprite);
+            }
             _targetLayerIndex = LayerMask.NameToLayer("Ground");
             for (int i = 0; i < _amountOfCrystalsToSpawn; i++)
             {
