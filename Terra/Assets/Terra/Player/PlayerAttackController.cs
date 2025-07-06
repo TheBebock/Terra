@@ -40,6 +40,7 @@ namespace Terra.Player
         [Foldout("Debug"), ReadOnly] [SerializeField]
         private EffectsContainer _rangeEffectContainer = new ();
         
+        
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioClip _meleeAttackSFX;
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioClip _rangedAttackSFX;
         [Foldout("Debug"), ReadOnly] [SerializeField] private AudioSource _audioSource;
@@ -58,6 +59,9 @@ namespace Terra.Player
 
         private OnEffectAddedToPlayer _onEffectAddedToPlayer;
 
+        private float _lastMeleeAttackTime = -Mathf.Infinity;
+        private float _lastRangeAttackTime = -Mathf.Infinity;
+        
         private Vector3 _rangeShootDirection;
         public PlayerAttackController(AudioSource audioSource, Transform firePoint)
         {
@@ -88,17 +92,27 @@ namespace Terra.Player
 
         private void OnMeleeAttackInput(InputAction.CallbackContext context)
         {
+            
+            
             if(TimeManager.Instance.IsGamePaused) return;
+            
+            float currentTime = Time.time;
+            if (currentTime - _lastMeleeAttackTime < 0.2f)
+            {
+                return;
+            }
             
             if (!_isTryingPerformMeleeAttack && !_isTryingPerformDistanceAttack)
             {
+                _isTryingPerformMeleeAttack = true;
+                _lastMeleeAttackTime = currentTime;
+                
                 Vector3 direction = MouseRaycastManager.Instance.
                     GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
                 ChangeAttackDirection(direction);
 
                 PlayerManager.Instance.PlayerMovement.PushPlayerInDirection(direction, PlayerManager.Instance.PushPlayerForce);
                 
-                _isTryingPerformMeleeAttack = true;
                 AudioManager.Instance.PlaySFXAtSource(_meleeAttackSFX, _audioSource, true);
                 _meleeEvent.facingDirection = _currentPlayerAttackDirection;
                 EventsAPI.Invoke(ref _meleeEvent);
@@ -109,6 +123,12 @@ namespace Terra.Player
         {
             if(TimeManager.Instance.IsGamePaused) return;
 
+            float currentTime = Time.time;
+            if (currentTime - _lastRangeAttackTime < 0.2f)
+            {
+                return;
+            }
+            
             if (_firePoint == null)
             {
                 Debug.LogError($"{this} tried to performed range attack without assigend fire point. Hash: {this.GetHashCode()}");
@@ -118,11 +138,13 @@ namespace Terra.Player
             
             if (!_isTryingPerformDistanceAttack && !_isTryingPerformMeleeAttack)
             {
+                _isTryingPerformDistanceAttack = true;
+                _lastRangeAttackTime = currentTime;
+                
                 Vector3 direction = MouseRaycastManager.Instance.
                     GetDirectionTowardsMousePosition(PlayerInventory.transform.position, _raycastOffset);
                 ChangeAttackDirection(direction);
                 
-                _isTryingPerformDistanceAttack = true;
                 _rangeShootDirection =
                     MouseRaycastManager.Instance.GetDirectionTowardsMousePosition(_firePoint.position, _raycastOffset);
             }
