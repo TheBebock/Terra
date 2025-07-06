@@ -695,6 +695,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
+      propertyPath: _spawnMax.x
+      value: 117
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
+      propertyPath: _spawnMin.x
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
+      propertyPath: _spawnMin.y
+      value: 91.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
       propertyPath: _spawnPointsGain
       value: 75
       objectReference: {fileID: 0}
@@ -8503,6 +8518,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1769706458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1769706459}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1769706459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769706458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 116.81, y: 98.661354, z: 91.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1774337075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7340341517023883031, guid: 24e11add1aea77d4ca5cff00026a7a87,
@@ -11996,3 +12042,4 @@ SceneRoots:
   - {fileID: 162784709}
   - {fileID: 700205828}
   - {fileID: 5380569433733987900}
+  - {fileID: 1769706459}

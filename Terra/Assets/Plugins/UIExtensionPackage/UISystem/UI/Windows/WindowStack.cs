@@ -252,7 +252,7 @@ namespace UIExtensionPackage.UISystem.UI.Windows
                 // If window should be ignored, skip
                 if(window is TWindowType) continue;
                 // Destroy window
-                window.DestroyWindow();
+                window?.DestroyWindow();
             }
 
             // Clear stack - remove all null windows

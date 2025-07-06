@@ -64,7 +64,7 @@ namespace Terra.Managers
             bool allowSceneActivation = false, Action<float> onProgress = null, float activationDelay = 0f)
         {
 
-            TimeManager.Instance?.ResumeTime();
+            TimeManager.Instance?.RemovePauseLocksAndResume();
 
             AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName, mode);
             if (asyncOp == null)

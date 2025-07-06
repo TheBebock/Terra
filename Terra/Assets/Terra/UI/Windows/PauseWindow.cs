@@ -1,3 +1,4 @@
+using Terra.GameStates;
 using Terra.Managers;
 using Terra.UI.MainMenu;
 using UIExtensionPackage.UISystem.UI.Windows;
@@ -36,6 +37,12 @@ namespace Terra.UI.Windows
 
         private void Resume()
         {
+            if (GameManager.Instance.IsCurrentState<UpgradeGameState>())
+            {
+                Close();
+                return;
+            }
+            
             TimeManager.Instance?.ResumeGame();
             Close();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.Extensions;
+using Terra.GameStates;
 using Terra.InputSystem;
 using Terra.Interfaces;
 using Terra.UI.Windows;
@@ -26,7 +27,7 @@ namespace Terra.Managers
         private List<object> _pauseLocks = new ();
     
         public bool CanBePaused => !IsGamePaused && _pauseLocks.Count <= 0;
-        private bool PauseLocks => _pauseLocks.Count <= 0;
+        private bool PauseLocks => _pauseLocks.Count > 0;
         public event Action OnGamePaused;
         public event Action OnGameResumed;
         
@@ -38,14 +39,13 @@ namespace Terra.Managers
 
         private void OnPauseInput(InputAction.CallbackContext context)
         {
+            InUpgradePanelWindow();
             ChangePauseState();
-          
         }
-        
-        
-        public void ChangePauseState()
+
+        private void InUpgradePanelWindow()
         {
-            if (!_isGamePaused)
+            if (GameManager.Instance.IsCurrentState<UpgradeGameState>())
             {
                 if (UIWindowManager.Instance.TryGetWindowFromStacks(out PauseWindow window))
                 {
@@ -53,17 +53,19 @@ namespace Terra.Managers
                 }
                 else
                 {
-                    UIWindowManager.Instance?.OpenWindow<PauseWindow>();
+                    UIWindowManager.Instance.OpenWindow<PauseWindow>();
                 }
+            }
+        }
+        public void ChangePauseState()
+        {
 
+            if (!_isGamePaused)
+            {
                 PauseGame();
             }
             else
             {
-                if (UIWindowManager.Instance.TryGetWindowFromStacks(out PauseWindow window))
-                {
-                    window.Close();
-                }
                 ResumeGame();
             }
         }
@@ -71,12 +73,14 @@ namespace Terra.Managers
         public void PauseGame()
         {
             // Check can game be paused
-            if(!CanBePaused) return;
+            if(PauseLocks) return;
             
             // Set paused game flag
             _isGamePaused = true;
             // Pause time
             PauseTime();
+            
+            UIWindowManager.Instance?.OpenWindow<PauseWindow>();
             
             // Invoke events
             OnGamePaused?.Invoke();
@@ -84,6 +88,7 @@ namespace Terra.Managers
 
         public void ResumeGame()
         {
+            if (PauseLocks) return;
             // Set paused game flag
             _isGamePaused = false;
             // Resume time
@@ -103,12 +108,17 @@ namespace Terra.Managers
         public void PauseTime() => ChangeTimeScale(0f);
         public void ResumeTime() => ChangeTimeScale(1f);
 
+        public void RemovePauseLocksAndResume()
+        {
+            _pauseLocks.Clear();
+            _isGamePaused = false;
+            ResumeTime();
+        } 
         private void ChangeTimeScale(float timeScale)
         {
             if(PauseLocks) return;
             
             Time.timeScale = timeScale;
-            _isGamePaused = timeScale == 0;
         }
 
 
