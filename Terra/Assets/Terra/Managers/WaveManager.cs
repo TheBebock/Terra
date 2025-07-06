@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -30,6 +30,7 @@ namespace Terra.Managers
         [SerializeField] private bool _isEnabled = true;
         
         [SerializeField] private List<EnemySpawnData> _enemies;
+        [SerializeField] private List<EnemySpawnData> _firstFloorEnemies;
 
         [BoxGroup("Boss Settings")] [SerializeField]
         private int _waveToSpawnBoss;
@@ -207,10 +208,21 @@ namespace Terra.Managers
             // Default enemy to spawn
             List<EnemySpawnData> possibleEnemies = new() { _enemies[0] };
 
-            for (int i = 1; i < _enemies.Count; i++)
+            if(_currentLevel == 1)
             {
-                if(_enemies[i].spawnValue > _currentSpawnPoints) continue;   
-                possibleEnemies.Add(_enemies[i]);
+                for (int i = 1; i < _firstFloorEnemies.Count; i++)
+                {
+                    if (_firstFloorEnemies[i].spawnValue > _currentSpawnPoints) continue;
+                    possibleEnemies.Add(_firstFloorEnemies[i]);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < _enemies.Count; i++)
+                {
+                    if(_enemies[i].spawnValue > _currentSpawnPoints) continue;   
+                    possibleEnemies.Add(_enemies[i]);
+                }
             }
 
             EnemySpawnData enemyData = possibleEnemies.GetRandomElement<EnemySpawnData>();
