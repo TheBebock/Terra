@@ -397,7 +397,7 @@ namespace Terra.UI.Windows.RewardWindow
             if(data.WeaponType == WeaponType.Ranged)
             {
                 _rewardDescription.text += $"Max Ammo: {(data as RangedWeaponData).ammoCapacity}\n";
-                _rewardDescription.text += $"Penetration: {(data as RangedWeaponData).bulletData.penetrationPower}\n";
+                //_rewardDescription.text += $"Penetration: {(data as RangedWeaponData).bulletData.penetrationPower}\n";
             }
 
             _costDisplay.text = GetCostDisplayText(data.itemCost);
