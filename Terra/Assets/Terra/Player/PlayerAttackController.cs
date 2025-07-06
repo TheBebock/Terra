@@ -97,7 +97,7 @@ namespace Terra.Player
             if(TimeManager.Instance.IsGamePaused) return;
             
             float currentTime = Time.time;
-            if (currentTime - _lastMeleeAttackTime < 0.2f)
+            if (currentTime - _lastMeleeAttackTime < 0.1f)
             {
                 return;
             }
@@ -124,7 +124,7 @@ namespace Terra.Player
             if(TimeManager.Instance.IsGamePaused) return;
 
             float currentTime = Time.time;
-            if (currentTime - _lastRangeAttackTime < 0.2f)
+            if (currentTime - _lastRangeAttackTime < 0.1f)
             {
                 return;
             }
