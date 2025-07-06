@@ -64,8 +64,8 @@ namespace Terra.LootSystem
         private bool _isInitialized;
         
         public int PassiveItemsCount => _passiveItems.Count;
-        public int MeleeWeaponsCount => _meleeWeapons.Count;
-        public int RangedWeaponsCount => _rangedWeapons.Count;
+        public int MeleeWeaponsCount => _freeMeleeWeapons.Count + _payMeleeWeapons.Count;
+        public int RangedWeaponsCount => _freeRangedWeapons.Count + _payRangedWeapons.Count;
         public int StatusEffectsCount => _statusEffectsPerGame.Count;
         public int ActionEffectsCount => _actionEffectsPerGame.Count;
 

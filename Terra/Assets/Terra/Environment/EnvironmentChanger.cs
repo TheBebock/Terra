@@ -19,10 +19,10 @@ namespace Terra.Environment
         private int _enviroLevelIndex;
         public void AttachListeners()
         {
-            EventsAPI.Register<EndOfElevatorAnimationEvent>(OnEndOfFloorAnimEnd);
+            EventsAPI.Register<LevelIncreasedEvent>(OnEndOfFloorAnimEnd);
         }
 
-        private void OnEndOfFloorAnimEnd(ref EndOfElevatorAnimationEvent dummy)
+        private void OnEndOfFloorAnimEnd(ref LevelIncreasedEvent dummy)
         {
             _currentEnvironment.SetActive(false);
             _enviroLevelIndex++;
@@ -32,12 +32,13 @@ namespace Terra.Environment
 
         public void DetachListeners()
         {
-            EventsAPI.Unregister<EndOfElevatorAnimationEvent>(OnEndOfFloorAnimEnd);
+            EventsAPI.Unregister<LevelIncreasedEvent>(OnEndOfFloorAnimEnd);
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
             _currentEnvironment = _enviroLevels[0];
         }
 #endif
