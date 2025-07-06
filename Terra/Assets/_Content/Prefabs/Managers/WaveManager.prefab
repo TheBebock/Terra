@@ -63,13 +63,13 @@ MonoBehaviour:
   _bossPrefab: {fileID: 2317127295530148372, guid: 84990e5cd79ba924bb3c4f890b90197d,
     type: 3}
   _delayBeforeFirstWave: 5
-  _timeBetweenWaves: 7
-  _startingWavesToSpawn: 5
-  _wavesGainPerLevel: 0.75
-  _startingSpawnPoints: 100
-  _spawnPointsGain: 50
-  _enemiesToSpawnPerWave: 4
-  _enemiesPerWaveGain: 0.5
+  _timeBetweenWaves: 10
+  _startingWavesToSpawn: 1
+  _wavesGainPerLevel: 0.5
+  _startingSpawnPoints: 25
+  _spawnPointsGain: 75
+  _enemiesToSpawnPerWave: 2
+  _enemiesPerWaveGain: 1.5
   _spawnTimeInterval: 0.25
   _raycastLayerMask:
     serializedVersion: 2

@@ -695,6 +695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
+      propertyPath: _spawnPointsGain
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
       propertyPath: _timeBetweenWaves
       value: 10
       objectReference: {fileID: 0}
@@ -705,13 +710,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
+      propertyPath: _enemiesPerWaveGain
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
+      propertyPath: _startingSpawnPoints
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
+        type: 3}
       propertyPath: _startingWavesToSpawn
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4507523037526553645, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
       propertyPath: _enemiesToSpawnPerWave
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7979982011955827882, guid: 27c7571229249a14cbe9e2ea29423ecc,
         type: 3}
