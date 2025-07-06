@@ -80,17 +80,19 @@ namespace Terra.Combat
 
             OnHealthChanged?.Invoke(_currentHealth);
             OnHealthChangedNormalized?.Invoke(NormalizedCurrentHealth);
+            
+            if (!isSilent)
+            {
+                OnDamaged?.Invoke(calculatedValue);
+            }
 
+            
             if (_currentHealth <= 0f)
             {
                 OnDeath?.Invoke();
                 return;
             }
 
-            if (!isSilent)
-            {
-                OnDamaged?.Invoke(calculatedValue);
-            }
 
             _ = ImmunityTimer(_invincibilityTimeAfterHit).AttachExternalCancellation(_cancellationToken);
         }

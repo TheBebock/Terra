@@ -50,27 +50,27 @@ MonoBehaviour:
   - enemy: {fileID: 2276162231350725899, guid: ff4296a24b8d72c4c807d2fad32a9a1b, type: 3}
     spawnValue: 1
   - enemy: {fileID: 808408188259601979, guid: 3b693d8a2271b204aab13d130d84df61, type: 3}
-    spawnValue: 10
+    spawnValue: 20
   - enemy: {fileID: 1649519561073000870, guid: 50758ea60ae192a4b976d8b1db0553e1, type: 3}
     spawnValue: 15
   - enemy: {fileID: 1986148890957680752, guid: 1afdc10da17970346ac71ef0d8e601c3, type: 3}
     spawnValue: 5
   - enemy: {fileID: 1206317967071570289, guid: 7942ad101bcb95f49b0a3bfd84106a35, type: 3}
-    spawnValue: 15
+    spawnValue: 30
   - enemy: {fileID: 663473054464363876, guid: 4d0eaea6f0c919a4cbc179ed0ead1665, type: 3}
-    spawnValue: 10
+    spawnValue: 15
   _waveToSpawnBoss: 7
   _bossPrefab: {fileID: 2317127295530148372, guid: 84990e5cd79ba924bb3c4f890b90197d,
     type: 3}
   _delayBeforeFirstWave: 5
-  _timeBetweenWaves: 10
-  _startingWavesToSpawn: 2
-  _wavesGainPerLevel: 0.5
+  _timeBetweenWaves: 7
+  _startingWavesToSpawn: 5
+  _wavesGainPerLevel: 0.75
   _startingSpawnPoints: 100
   _spawnPointsGain: 50
-  _enemiesToSpawnPerWave: 1
-  _enemiesPerWaveGain: 0.4
-  _spawnTimeInterval: 1.5
+  _enemiesToSpawnPerWave: 4
+  _enemiesPerWaveGain: 0.5
+  _spawnTimeInterval: 0.25
   _raycastLayerMask:
     serializedVersion: 2
     m_Bits: 101888
