@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnemyStats_Boss
   m_EditorClassIdentifier: 
   baseStrength: 15
-  baseMaxHealth: 250
+  baseMaxHealth: 750
   baseDexterity: 5
