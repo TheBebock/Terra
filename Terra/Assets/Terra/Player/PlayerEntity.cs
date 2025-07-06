@@ -93,7 +93,10 @@ namespace Terra.Player
             }
             else
             {
-                _healthController.TakeDamage(-difference, false, isSilent:true);
+                if (_healthController.CurrentHealth > _healthController.MaxHealth)
+                {
+                    _healthController.ResetHealth();
+                }
             }
         }
         

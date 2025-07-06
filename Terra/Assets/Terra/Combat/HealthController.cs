@@ -180,13 +180,7 @@ namespace Terra.Combat
         /// <param name="isSilent">Does not proke heal VFX when true</param>
         public void ResetHealth(bool isSilent = true)
         {
-            if (isSilent)
-            {
-                _currentHealth = MaxHealth;
-                return;
-            }     
-            
-            Heal(MaxHealth);
+            Heal(MaxHealth, isSilent);
         }
         /// <summary>
         /// KIll target
