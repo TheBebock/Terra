@@ -406,9 +406,9 @@ namespace Terra.UI.Windows.RewardWindow
             string newTextWithMark = "";
             switch (comparedStatistic)
             {
-                case Comparison.Worse: newTextWithMark += $"<color={ItemsComparator.WorseItemColor}>\n"; break;
+                case Comparison.Worse: newTextWithMark += $"\n<color={ItemsComparator.WorseItemColor}>"; break;
                 case Comparison.Equal: newTextWithMark += "\n"; break;
-                case Comparison.Better: newTextWithMark += $"<color={ItemsComparator.BetterItemColor}>\n+"; break;
+                case Comparison.Better: newTextWithMark += $"\n<color={ItemsComparator.BetterItemColor}>+"; break;
             }
             newTextWithMark += $"{textToMark}";
             newTextWithMark += "</color>";
