@@ -18,7 +18,7 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: 476c09d0b1b493c4aabd1df1324884b9, type: 3}
   itemCost: 100
   strengthModifiers:
-  - value: 10
+  - value: 15
     type: 100
     sourceID: -1
   maxHealthModifiers:
