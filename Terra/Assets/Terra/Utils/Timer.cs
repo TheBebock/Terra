@@ -29,8 +29,10 @@ namespace Terra.Utils {
             }
         }
 
-        public void Stop() {
-            if (IsRunning) {
+        public void Stop(bool force = false) 
+        {
+            if (IsRunning || force) 
+            {
                 IsRunning = false;
                 OnTimerStop?.Invoke();
             }

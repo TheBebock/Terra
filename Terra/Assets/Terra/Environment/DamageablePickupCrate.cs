@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Terra.Environment
 {
-    public class DamageableCrate : DamageableObject
+    public class DamageablePickupCrate : DamageableObject
     {
         
         [SerializeField, MaxValue(-0.1f)] private float _spawnItemOffsetOnZ =-1f;

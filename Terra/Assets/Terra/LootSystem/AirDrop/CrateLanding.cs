@@ -10,25 +10,20 @@ namespace Terra.LootSystem.AirDrop
 {
     public class CrateLanding : MonoBehaviour
     {
+        [SerializeField] private bool _killOnDrop = false;
         [SerializeField] private AudioClip _dropSound;
         [SerializeField] private LayerMask _setToLayerAfterHit;
+        [SerializeField] private ParticleComponent _particles;
+
         [SerializeField, ReadOnly] private AudioSource _audioSource;
         [SerializeField, ReadOnly] private Rigidbody _rb;
-        [SerializeField] private ParticleComponent _particles;
-        private AirdropDamageHandler _damageHandler;
+        [SerializeField, ReadOnly]private AirdropDamageHandler _damageHandler;
         private IDamageable _selfDamageable;
         private bool _isHit;
         
         private void Awake()
         { 
-            _damageHandler = GetComponentInChildren<AirdropDamageHandler>();           
             _selfDamageable = GetComponent<IDamageable>();
-
-            if (!_damageHandler)
-            {
-                Debug.LogError($"{nameof(AirdropDamageHandler)} not found as a child of a {gameObject.name}");
-            }
-            
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -44,17 +39,18 @@ namespace Terra.LootSystem.AirDrop
             _rb.isKinematic = true;
             Destroy(_damageHandler.gameObject);
             
-            if (_isHit)
+            if (_isHit || _killOnDrop)
             {
-                _selfDamageable.Kill(false);
+                _selfDamageable.Kill();
             }
             else
             {
                 gameObject.SetLayer(_setToLayerAfterHit, true);
-                if (_dropSound) AudioManager.Instance.PlaySFXAtSourceOnce(_dropSound, _audioSource);
-                if (_particles) VFXController.SpawnParticleInWorld(_particles, transform.position, Quaternion.Euler(-90,0,0));
             }
-
+            
+            if (_dropSound) AudioManager.Instance.PlaySFXAtSourceOnce(_dropSound, _audioSource);
+            if (_particles) VFXController.SpawnParticleInWorld(_particles, transform.position, Quaternion.Euler(-90,0,0));
+            
             Destroy(this);
         }
 
@@ -62,10 +58,15 @@ namespace Terra.LootSystem.AirDrop
         {
             _isHit = true;
         }
+#if UNITY_EDITOR
+        
         private void OnValidate()
         {
             if(!_rb) _rb = GetComponent<Rigidbody>();
             if(!_audioSource) _audioSource = GetComponent<AudioSource>();
+            if (!_damageHandler) _damageHandler = GetComponentInChildren<AirdropDamageHandler>();           
         }
+#endif
+        
     }
 }

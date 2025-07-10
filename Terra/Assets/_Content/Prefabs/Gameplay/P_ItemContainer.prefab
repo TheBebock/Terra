@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 1368070334944388938}
   _id: -1
-  _interactionIconObject: {fileID: 4166640865539908907}
+  _interactionIconObject: {fileID: 1014495450078958668}
   _showInteractionIconWithoutPlayerNearby: 0
   _canBeInteractedWith: 1
   _isInitialized: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
     destroyDuration: 0
   _container: {fileID: 7628190372051845592}
   _particlesAnchor: {fileID: 0}
-  _model: {fileID: 7963791860339996198}
+  _model: {fileID: 8213990560137699798}
   _modelMaterial: {fileID: 0}
   _activeParticles: []
   _defaultColor: {r: 0, g: 0, b: 0, a: 0}
@@ -243,6 +243,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionIcon
       objectReference: {fileID: 0}
+    - target: {fileID: 2920750728628858206, guid: a028e607605ef794e8ff2be2cff2269e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8802971066803256334, guid: a028e607605ef794e8ff2be2cff2269e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -298,12 +303,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a028e607605ef794e8ff2be2cff2269e, type: 3}
---- !u!212 &7963791860339996198 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 7853772484462118962, guid: a028e607605ef794e8ff2be2cff2269e,
+--- !u!114 &1014495450078958668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 895953314122345048, guid: a028e607605ef794e8ff2be2cff2269e,
     type: 3}
   m_PrefabInstance: {fileID: 178779450088652308}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb845f35f7470446aea8f4950219016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8669791562700751386 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8802971066803256334, guid: a028e607605ef794e8ff2be2cff2269e,

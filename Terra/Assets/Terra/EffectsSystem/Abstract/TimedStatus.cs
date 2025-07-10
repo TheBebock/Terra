@@ -39,6 +39,12 @@ namespace Terra.EffectsSystem.Abstract
             _durationTimer.Start();
         }
 
+        public override void Reset()
+        {
+            _durationTimer.Reset();
+            _tickTimer.ResetTime();
+        }
+
         protected override void OnUpdate()
         {
             _tickTimer.Tick(Time.deltaTime);

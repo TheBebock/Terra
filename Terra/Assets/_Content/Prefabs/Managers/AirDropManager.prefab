@@ -47,7 +47,9 @@ MonoBehaviour:
   _id: -1
   _flarePrefab: {fileID: 3421784659982580509, guid: 37a5edc52f1503344857ccd293adfcb0,
     type: 3}
-  _cratePrefab: {fileID: 1097873109363800671, guid: 89126689bffc37a47ba458b5b4d568c4,
+  _pickupPickupCratePrefab: {fileID: -7630435035549966089, guid: 89126689bffc37a47ba458b5b4d568c4,
+    type: 3}
+  _gunCratePrefab: {fileID: 9205467673773657516, guid: df3793449f1da4f488be74b39942a814,
     type: 3}
   _dropContainer: {fileID: 0}
   _dropIntervalRange: {x: 45, y: 60}
@@ -56,5 +58,8 @@ MonoBehaviour:
   _raycastLayerMask:
     serializedVersion: 2
     m_Bits: 36608
+  _objectsLayerMask:
+    serializedVersion: 2
+    m_Bits: 36352
   _spawnMin: {x: 82, y: 92}
   _spawnMax: {x: 117, y: 106}

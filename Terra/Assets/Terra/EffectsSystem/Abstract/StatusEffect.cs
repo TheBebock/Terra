@@ -37,9 +37,8 @@ namespace Terra.EffectsSystem.Abstract
            return InternalRemove(force);
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
-            
         }
         protected virtual void InternalApply()
         {

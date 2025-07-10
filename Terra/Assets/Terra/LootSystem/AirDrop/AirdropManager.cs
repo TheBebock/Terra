@@ -2,9 +2,11 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Terra.Core.Generics;
+using Terra.Environment;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Interfaces;
+using Terra.Itemization.Abstracts;
 using Terra.Player;
 using Terra.Utils;
 using UnityEngine;
@@ -16,13 +18,15 @@ namespace Terra.LootSystem.AirDrop
     public class AirdropManager : MonoBehaviourSingleton<AirdropManager>, IWithSetUp, IAttachListeners
     {
         [FormerlySerializedAs("flarePrefab")] [SerializeField] private FlareLandingNotifier _flarePrefab;
-        [FormerlySerializedAs("cratePrefab")] [SerializeField] private GameObject _cratePrefab;
+        [FormerlySerializedAs("_pickupCratePrefab")] [FormerlySerializedAs("cratePrefab")] [SerializeField] private DamageablePickupCrate _pickupPickupCratePrefab;
+        [FormerlySerializedAs("cratePrefab")] [SerializeField] private DamageableGunCrate _gunCratePrefab;
         [FormerlySerializedAs("dropContainer")] [SerializeField] private Transform _dropContainer;
         
         [FormerlySerializedAs("dropIntervalRange")] [SerializeField] private Vector2 _dropIntervalRange = new(60f, 90f);
         [FormerlySerializedAs("crateDelay")] [SerializeField] private float _crateDelay = 5f;
         [FormerlySerializedAs("crateHeightSpawnOffset")] [SerializeField] private float _crateHeightSpawnOffset = 10f;
         [FormerlySerializedAs("raycastLayerMask")] [SerializeField] private LayerMask _raycastLayerMask;
+        [FormerlySerializedAs("raycastLayerMask")] [SerializeField] private LayerMask _objectsLayerMask;
         [FormerlySerializedAs("spawnMin")]
         [Header("Spawn Area")]
         [SerializeField] private Vector2 _spawnMin;
@@ -31,6 +35,7 @@ namespace Terra.LootSystem.AirDrop
 
         private float DifficultyModifier = 1;
 
+        private Collider[] _colliders = new Collider[64];
         private LayerMask _groundLayer;
         private CancellationTokenSource _airdropCts;
         private CancellationTokenSource _linkedCts;
@@ -92,8 +97,10 @@ namespace Terra.LootSystem.AirDrop
             float modifiedMin = baseMin * luckFactor;
             float modifiedMax = baseMax * luckFactor;
 
+            float finalMin = Mathf.Max(1, modifiedMin + DifficultyModifier);
+            float finalMax = Mathf.Max(3, modifiedMax + DifficultyModifier);
             // Return a random value between the modified min and max delay
-            return Random.Range(modifiedMin + DifficultyModifier, modifiedMax + DifficultyModifier);
+            return Random.Range(finalMin, finalMax);
         }
 
         private void StartAirdrop()
@@ -158,7 +165,12 @@ namespace Terra.LootSystem.AirDrop
                     if (hit.transform.gameObject.layer == _groundLayer)
                     {
                         Debug.Log($"Found ground at: {hit.point}");
-                        return hit.point;
+                        
+                        var size = Physics.OverlapSphereNonAlloc(hit.point, 2f, _colliders, _groundLayer);
+                        if( size <= 0 )
+                        {
+                            return hit.point;
+                        }
                     }
                 }
                 atempts--;
@@ -170,13 +182,16 @@ namespace Terra.LootSystem.AirDrop
             return new Vector3(x, 100, z);
         }
 
-        private async UniTaskVoid HandleDrop(Vector3 groundPosition)
+        private async UniTaskVoid HandleDrop(Vector3 groundPosition, ItemBase item = null)
         {
-            Vector3 airPosition = groundPosition + Vector3.up * 100f;
+            Vector3 airPosition = groundPosition + Vector3.up * 20f;
             Debug.Log($"Instantiating flare at: {airPosition}");
 
             FlareLandingNotifier flare = Instantiate(_flarePrefab, airPosition, Quaternion.identity, _dropContainer);
-            
+            if (item != null)
+            {
+                flare.Init(Color.green);
+            }
             bool landed = flare.HasLanded;
             if (!landed)
             {
@@ -196,10 +211,23 @@ namespace Terra.LootSystem.AirDrop
             groundPosition.y += _crateHeightSpawnOffset;
             
             Debug.Log($"Instantiating crate at: {groundPosition}");
-            
-            Instantiate(_cratePrefab, groundPosition, Quaternion.identity, _dropContainer);
+
+            if (item != null)
+            {
+                Instantiate(_gunCratePrefab, groundPosition, Quaternion.identity, _dropContainer).Init(item);
+            }
+            else
+            {
+                Instantiate(_pickupPickupCratePrefab, groundPosition, Quaternion.identity, _dropContainer);
+            }
         }
-        
+
+        public void DropSelectedItem(ItemBase item)
+        {
+            Vector3 groundPosition = GetRandomPosition();
+            
+            _ = HandleDrop(groundPosition, item);
+        }
         public void DetachListeners()
         {
             EventsAPI.Unregister<GameDifficultyChangedEvent>(OnDifficultyChanged);

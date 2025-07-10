@@ -9,6 +9,7 @@ using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
 using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
+using Terra.LootSystem.AirDrop;
 using Terra.Managers;
 using Terra.Player;
 using Terra.RewardSystem;
@@ -479,14 +480,14 @@ namespace Terra.UI.Windows.RewardWindow
                     break;
                 case RewardType.ActiveItem:
                     PlayerInventoryManager.Instance?.TryToEquipItem(_activeItemReward);
-                    LootManager.Instance.LootTable.RemoveActiveItem(_activeItemReward);
+                    LootManager.Instance?.LootTable.RemoveActiveItem(_activeItemReward);
                     break;
                 case RewardType.PassiveItem:
                     PlayerInventoryManager.Instance?.TryToEquipItem(_passiveItemReward);
-                    LootManager.Instance.LootTable.RemovePassiveItem(_passiveItemReward);
+                    LootManager.Instance?.LootTable.RemovePassiveItem(_passiveItemReward);
                     break;
             }
-            EconomyManager.Instance.TryToBuy(_rewardCost);
+            EconomyManager.Instance?.TryToBuy(_rewardCost);
         }
 
         private void ApplyEffectReward(EffectData effectData)

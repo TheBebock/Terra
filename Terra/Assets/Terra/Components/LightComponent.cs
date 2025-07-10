@@ -22,6 +22,12 @@ namespace Terra.Components
 
         public abstract void StopLightMode();
         
+
+        protected void Update()
+        {
+            OnUpdate();
+        }
+        
         protected void ResetColor()
         {
             _light.color = _defaultColor;
@@ -31,10 +37,10 @@ namespace Terra.Components
         {
             _light.intensity = _defaultIntensity;
         }
-        
-        protected void Update()
+
+        public void SetColor(Color newColor)
         {
-            OnUpdate();
+            _light.color = newColor;
         }
         
         public void DoFadeIntensity(float endValue, float duration)

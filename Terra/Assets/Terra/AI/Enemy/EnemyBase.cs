@@ -243,13 +243,14 @@ namespace Terra.AI.Enemy
         {
             if (isDead) return;
             
-            AudioManager.Instance.PlaySFXAtSource(_deathSFX, _audioSource);
+            AudioManager.Instance?.PlaySFXAtSource(_deathSFX, _audioSource);
             isDead = true;
             _enemyCollider.enabled = false;
             _agent.isStopped = true;
             _agent.velocity = Vector3.zero;
             _agent.enabled = false;
             _enemyRigidBody.isKinematic = true;
+            VFXController.KillAllParticlesOnEntity(this);
             
             if(_shadow) _shadow.DOFade(0, _deathFadeDuration);
             VFXcontroller.DoFadeModel(0, _deathFadeDuration, _deathFadeCurve);

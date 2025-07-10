@@ -12,16 +12,23 @@ namespace Terra.EffectsSystem.Abstract
         protected override bool CanBeRemoved => _usagesLeft == 0 && !IsInfinite;
 
         private int _usagesLeft;
+        private int _originalUsageValue;
         private bool IsInfinite => _usagesLeft == -1;
         public int UsagesLeft => _usagesLeft;
         public float NormalizedUsage => ((float)UsagesLeft / Data.amountOfUsages) * 100; 
         protected override void OnApply()
         {
             _usagesLeft = Data.amountOfUsages;
+            _originalUsageValue = Data.amountOfUsages;
             SubscribeToTrigger();
         }
 
-         protected sealed override void OnUpdate()
+        public override void Reset()
+        {
+            _usagesLeft = _originalUsageValue;
+        }
+
+        protected sealed override void OnUpdate()
         {
             //Noop
         }

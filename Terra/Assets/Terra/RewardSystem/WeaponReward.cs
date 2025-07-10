@@ -1,8 +1,7 @@
 ﻿using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Items;
+using Terra.LootSystem.AirDrop;
 using Terra.Managers;
-using Terra.Player;
-using UnityEngine;
 
 namespace Terra.RewardSystem
 {
@@ -16,12 +15,14 @@ namespace Terra.RewardSystem
         {
             if (WeaponType == WeaponType.Melee)
             {
-                Debug.Log($"New Item Swap Status: {PlayerInventoryManager.Instance.TryToEquipItem(MeleeWeapon)}");
+                //Debug.Log($"New Item Swap Status: {PlayerInventoryManager.Instance.TryToEquipItem(MeleeWeapon)}");
+                AirdropManager.Instance.DropSelectedItem(MeleeWeapon);
                 LootManager.Instance.LootTable.RemoveMeleeWeapon(MeleeWeapon);
             }
             else if (WeaponType == WeaponType.Ranged)
             {
-                PlayerInventoryManager.Instance.TryToEquipItem(RangedWeapon);
+                //PlayerInventoryManager.Instance.TryToEquipItem(RangedWeapon);
+                AirdropManager.Instance.DropSelectedItem(RangedWeapon);
                 LootManager.Instance.LootTable.RemoveRangedWeapon(RangedWeapon);
             }
         }

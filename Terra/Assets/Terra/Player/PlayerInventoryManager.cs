@@ -10,6 +10,7 @@ using Terra.Itemization.Abstracts.Definitions;
 using Terra.Itemization.Interfaces;
 using Terra.Itemization.Items;
 using Terra.Itemization.Items.Definitions;
+using Terra.Managers;
 using UnityEngine;
 
 namespace Terra.Player
@@ -102,8 +103,7 @@ namespace Terra.Player
         
         private void DropItemOnGround(ItemBase item)
         {
-            //NOTE: Disabled spawning item container 
-            //LootManager.Instance?.SpawnItemContainer(item, PlayerManager.Instance.CurrentPosition);
+            LootManager.Instance?.SpawnItemContainer(item, PlayerManager.Instance.CurrentPosition);
         }
 
         public bool TryToEquipItem<TItem>(TItem newItem)

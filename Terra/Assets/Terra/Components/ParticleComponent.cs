@@ -32,7 +32,6 @@ namespace Terra.Components
         public void Initialize(float newDuration = 0f)
         {
             _particles.Play();
-            if(!_isDestroyable) return;
             
             if(newDuration > 0f) _duration = newDuration;
             if (_particles.main.loop)
@@ -44,19 +43,27 @@ namespace Terra.Components
                 _timer = new CountdownTimer(_particles.main.duration); 
             }
             // If _duration is -1, it means that particles should exist infinitely
-            if(!Mathf.Approximately(_duration, -1f)) _timer.Start();
+            if(!Mathf.Approximately(_duration, -1f) && !IsDestroyable) _timer.Start();
             _timer.OnTimerStop += OnTimerStop;
         }
+        
+        public void SetParticlesStartColor(Color newColor)
+        {
+            var main = _particles.main;
+            main.startColor = newColor; 
+        }
 
+
+        
         private void OnTimerStop()
         {
            _ = StopParticles();
         }
         private async UniTaskVoid StopParticles()
         {
+            _particles.Stop();
             if (_fadeParticlesAfterDuration)
             {
-                _particles.Stop();
                 await UniTask.WaitForSeconds(_particles.main.duration + 0.5f);
             }
             if(_isDestroyable) Destroy(gameObject);
@@ -80,7 +87,7 @@ namespace Terra.Components
 
         public void KillParticles()
         {
-            _timer.Stop();
+            _timer.Stop(true);
         }
         private void Update()
         {

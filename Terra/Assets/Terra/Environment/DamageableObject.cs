@@ -94,7 +94,7 @@ namespace Terra.Environment
             if(_collider) _collider.enabled = false;
             if(_propAnimator) _propAnimator.SetTrigger(AnimationHashes.Death);
 
-            
+            VFXController.KillAllParticlesOnEntity(this);
             if(_destroySfx) AudioManager.Instance?.PlaySFXAtSource(_destroySfx, _audioSource);
             _propShadow?.DOFade(0, _deathFadeDuration).SetEase(_deathFadeCurve);
             VFXcontroller.DoFadeModel(0f, _deathFadeDuration, _deathFadeCurve);

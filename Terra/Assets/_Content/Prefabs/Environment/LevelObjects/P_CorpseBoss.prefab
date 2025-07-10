@@ -195,10 +195,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 1998975484920484623}
   _id: -1
-  _interactionIconObject: {fileID: 7914443648079885975}
+  _interactionIconObject: {fileID: 5274356223630619025}
   _showInteractionIconWithoutPlayerNearby: 1
   _canBeInteractedWith: 0
   _animator: {fileID: 6649297514460004976}
+  _fadeInDurationOnInteract: 2.5
 --- !u!114 &1998975484920484623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,9 +1116,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4998247646411299785}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7914443648079885975 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2920750728628858206, guid: a028e607605ef794e8ff2be2cff2269e,
+--- !u!114 &5274356223630619025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 895953314122345048, guid: a028e607605ef794e8ff2be2cff2269e,
     type: 3}
   m_PrefabInstance: {fileID: 4998247646411299785}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb845f35f7470446aea8f4950219016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

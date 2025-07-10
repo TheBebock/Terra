@@ -69,6 +69,11 @@ namespace Terra.Particles
             _modelMaterial = material;
             _model.material = material;
         }
+
+        public void SetModelColor(Color color)
+        {
+            _modelMaterial.SetColor(ColorID, color);
+        }
         public void SetModelTransparency(float value)
         {
             value = Mathf.Clamp01(value);
@@ -233,6 +238,7 @@ namespace Terra.Particles
                 destroyDuration: particleComponentData.destroyDuration);
         }
 
+       
         private void RemoveParticle(ParticleComponent particles)
         {
             foreach (var p in _activeParticles)
@@ -240,11 +246,30 @@ namespace Terra.Particles
                 if (p.Identifier.Equals(particles.Identifier, StringComparison.OrdinalIgnoreCase))
                 {
                     p.KillParticles();
+                    
                     return;
                 }
             }
             
             Debug.LogWarning($"{this}: Tried to remove particle {particles.Identifier}, but it doesn't exist.");
+        }
+
+        private void KillAllParticles()
+        {
+            foreach (var particle in _activeParticles)
+            {
+                particle.KillParticles();
+            }
+        }
+        public static void KillAllParticlesOnEntity(Entity entity)
+        {
+            if (!entity)
+            {
+                Debug.LogError($"Entity to remove from was null");
+                return;
+            }
+            
+            entity.VFXcontroller.KillAllParticles();
         }
         public static void RemoveParticleFromEntity(Entity entity, ParticleComponent particleComponent)
         {

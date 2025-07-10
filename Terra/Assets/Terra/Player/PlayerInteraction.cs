@@ -46,6 +46,7 @@ namespace Terra.Player
         {
             if (_nearbyInteractables.Count == 0)
             {
+                _currentInteractable?.StopVisualization();
                 _currentInteractable = null;
                 return;
             }

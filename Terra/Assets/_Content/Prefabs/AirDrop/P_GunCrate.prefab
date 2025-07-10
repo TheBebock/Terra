@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 8685751326370930998}
   - component: {fileID: 572302987269411827}
-  - component: {fileID: -7630435035549966089}
+  - component: {fileID: 9205467673773657516}
   - component: {fileID: 7518012061475541776}
   - component: {fileID: 7547797932186449365}
   - component: {fileID: 5259803077617614644}
   - component: {fileID: 8454795406954784286}
   - component: {fileID: 3738220313931052250}
   m_Layer: 16
-  m_Name: P_Crate
+  m_Name: P_GunCrate
   m_TagString: EntityObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   _fadeValue: 0.1
   _fadeDuration: 0.25
   _maxDistanceFromCamera: 5
---- !u!114 &-7630435035549966089
+--- !u!114 &9205467673773657516
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1097873109363800671}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69f2eb59348b6dc448e578f6ec108f57, type: 3}
+  m_Script: {fileID: 11500000, guid: a51ddceceb8ed694cbeb06a67b911a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _vfxController: {fileID: 4589782945551762997}
@@ -131,7 +131,8 @@ MonoBehaviour:
     _entity: {fileID: 0}
     _statuses: []
   _damageColor: {r: 1, g: 1, b: 1, a: 1}
-  _critDamageColor: {r: 1, g: 1, b: 0, a: 1}
+  _critDamageColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _onDamagedModelColor: {r: 1, g: 0, b: 0, a: 1}
   _hurtSFX: {fileID: 0}
   _destroySfx: {fileID: 8300000, guid: 7dc44a9198e5c7c4b9960cf1b1022bbe, type: 3}
   _spawnItemOffsetOnZ: -1
@@ -147,14 +148,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd21e51b337aee4788af369085bb4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _killOnDrop: 1
   _dropSound: {fileID: 0}
   _setToLayerAfterHit:
     serializedVersion: 2
     m_Bits: 1024
-  _audioSource: {fileID: 3738220313931052250}
-  _rb: {fileID: 8454795406954784286}
   _particles: {fileID: 3983852379560932045, guid: a928fd7bae5851640b71d3f2c8c5ff9d,
     type: 3}
+  _audioSource: {fileID: 3738220313931052250}
+  _rb: {fileID: 8454795406954784286}
+  _damageHandler: {fileID: 4413700297619225873}
 --- !u!65 &7547797932186449365
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -538,7 +541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collisionDamage: 15
-  _object: {fileID: -7630435035549966089}
+  _object: {fileID: 9205467673773657516}
+  _crateLanding: {fileID: 7518012061475541776}
 --- !u!1 &8787745343714061282
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ namespace Terra.Interactions
     public abstract class InteractableBase : Entity, IInteractable
     {
 
-        [SerializeField] private GameObject _interactionIconObject;
+        [SerializeField] private InteractionIcon _interactionIconObject;
         [SerializeField] private bool _showInteractionIconWithoutPlayerNearby;
         [SerializeField] private bool _canBeInteractedWith;
         public virtual bool CanBeInteractedWith => _canBeInteractedWith;
@@ -48,7 +48,7 @@ namespace Terra.Interactions
         {
             if (CanBeInteractedWith)
             {
-                _interactionIconObject.SetActive(true);
+                _interactionIconObject.gameObject.SetActive(true);
                 OnShowVisualization();
             }
         }
@@ -58,14 +58,14 @@ namespace Terra.Interactions
         {
             if (force)
             {
-                _interactionIconObject.SetActive(false);
+                _interactionIconObject.gameObject.SetActive(false);
                 OnStopVisualization();
                 return;
             }
 
             if (_showInteractionIconWithoutPlayerNearby == false)
             {
-                _interactionIconObject.SetActive(false);
+                _interactionIconObject.gameObject.SetActive(false);
                 OnStopVisualization();
             }
         }

@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f741a1adf93c7844c9807522e385fd4e, type: 2}
+  - {fileID: 2100000, guid: b0f682254422b2649b145ed41e3551a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5092,6 +5092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c7c25d7af663846b8ece033fadbbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: Particle System
   _isDestroyable: 1
   _fadeParticlesAfterDuration: 1
   _duration: 20
@@ -5112,6 +5113,7 @@ GameObject:
   - component: {fileID: 8071504688529136924}
   - component: {fileID: 6602071480513227518}
   - component: {fileID: 3421784659982580509}
+  - component: {fileID: 6046016241371496228}
   m_Layer: 9
   m_Name: Flare
   m_TagString: Flare
@@ -5197,6 +5199,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4800b79bab2b74e961e651323f641a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _color: {r: 1, g: 0, b: 0, a: 1}
   _smokeDurationAfterHittingGround: 6
+  _vfxController: {fileID: 6046016241371496228}
+  _light: {fileID: 8504528141744330700}
   _rigidbody: {fileID: 8071504688529136924}
   _particles: {fileID: 5497935527809948967}
+--- !u!114 &6046016241371496228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7813380913943337015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61dcc0928a12c0498abf423ba880367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawnParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHealParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onHitParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  onDeathParticle:
+    particleComponent: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scaleModifier: 0
+    destroyDuration: 0
+  _container: {fileID: 5435242259263366146}
+  _particlesAnchor: {fileID: 0}
+  _model: {fileID: 4203982484337168083}
+  _modelMaterial: {fileID: 0}
+  _activeParticles: []
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
