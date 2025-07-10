@@ -60,6 +60,6 @@ MonoBehaviour:
     m_Bits: 36608
   _objectsLayerMask:
     serializedVersion: 2
-    m_Bits: 36352
+    m_Bits: 35328
   _spawnMin: {x: 82, y: 92}
   _spawnMax: {x: 117, y: 106}

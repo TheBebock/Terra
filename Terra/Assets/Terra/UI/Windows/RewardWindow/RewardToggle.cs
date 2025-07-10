@@ -277,7 +277,7 @@ namespace Terra.UI.Windows.RewardWindow
             {
                 float totalValue = ItemsComparator.CalculateModifierValue(data.rangeCooldownModifiers);
                 _rewardDescription.text += MarkStatisticText(currentItemDataComparison.rangeCooldown, $"{CheckAddPercentMark(totalValue)}");
-                _rewardDescription.text += " Cooldown\n";
+                _rewardDescription.text += " Fire Rate\n";
             }
         }
 
