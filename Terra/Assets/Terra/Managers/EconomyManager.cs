@@ -3,15 +3,14 @@ using Terra.Core.Generics;
 using NaughtyAttributes;
 using Terra.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Terra.Managers
 {
     public class EconomyManager : MonoBehaviourSingleton<EconomyManager>
     {
         
-        [FormerlySerializedAs("maxGold")] [Foldout("Config")] [SerializeField] private int _maxGold = 200;
-        [FormerlySerializedAs("initialGold")] [Foldout("Config")] [SerializeField] private int _initialGold;
+        [SerializeField] private int _maxGold = 100000;
+        [SerializeField] private int _initialGold;
         [Foldout("Debug")] [SerializeField, ReadOnly] private int _currentGold;
 
         public int CurrentGold => _currentGold;
