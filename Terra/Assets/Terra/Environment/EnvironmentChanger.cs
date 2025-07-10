@@ -3,7 +3,6 @@ using NaughtyAttributes;
 using Terra.Core.Generics;
 using Terra.EventsSystem;
 using Terra.EventsSystem.Events;
-using Terra.Interfaces;
 using UnityEngine;
 
 namespace Terra.Environment
@@ -11,13 +10,14 @@ namespace Terra.Environment
     /// <summary>
     /// Handles changing of the levels
     /// </summary>
-    public class EnvironmentChanger : InGameMonobehaviour, IAttachListeners
+    public class EnvironmentChanger : InGameMonobehaviour
     {
         [SerializeField] List<GameObject> _enviroLevels = new();
 
         [SerializeField, ReadOnly] GameObject _currentEnvironment;
-        private int _enviroLevelIndex = 0;
-        public void AttachListeners()
+        [SerializeField] private int _enviroLevelIndex = -1;
+
+        private void Awake()
         {
             EventsAPI.Register<LevelIncreasedEvent>(OnEndOfFloorAnimEnd);
         }
@@ -26,22 +26,15 @@ namespace Terra.Environment
         {
             _currentEnvironment.SetActive(false);
             _enviroLevelIndex++;
-            _currentEnvironment = _enviroLevels[_enviroLevelIndex-1];
+            _enviroLevelIndex = Mathf.Clamp(_enviroLevelIndex, 0, _enviroLevels.Count - 1);
+            _currentEnvironment = _enviroLevels[_enviroLevelIndex];
             _currentEnvironment.SetActive(true);
         }
 
-        public void DetachListeners()
+        protected override void CleanUp()
         {
+            base.CleanUp();
             EventsAPI.Unregister<LevelIncreasedEvent>(OnEndOfFloorAnimEnd);
         }
-
-#if UNITY_EDITOR
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            _currentEnvironment = _enviroLevels[0];
-        }
-#endif
-        
     }
 }
