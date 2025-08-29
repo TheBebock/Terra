@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Terra.Extensions;
 using Terra.Managers;
 using UIExtensionPackage.UISystem.Core.Base;
 using UnityEngine;
@@ -11,23 +10,27 @@ namespace Terra.UI.HUD
 {
     public class ElevatorDoors : UIObject
     {
+        [SerializeField] private RectTransform _leftDoorTransform;
+        [SerializeField] private RectTransform _rightDoorTransform;
         [SerializeField] private Image _leftDoor;
         [SerializeField] private Image _rightDoor;
         [SerializeField] private AudioClip _doorsSound;
-        [SerializeField] private float _doorsOffset = 480;
+        [SerializeField] private float _doorsSize;
         [SerializeField] private float _animationDuration = 2f;
         [SerializeField] private AnimationCurve _openAnimationCurve;
         [FormerlySerializedAs("_animationCurve")][SerializeField] private AnimationCurve _closeAnimationCurve;
 
         private Sequence _doorSequence;
 
-        public void ForceSetDoorOpenPercentage(float openPercentage)
+        private void Awake()
         {
-            openPercentage = Mathf.Clamp(openPercentage, 0f, 100f);
-            float newOffset = openPercentage.ToFactor() * _doorsOffset;
-            
-            _leftDoor.rectTransform.DOMoveX(-newOffset + _doorsOffset , 0.1f);
-            _rightDoor.rectTransform.DOMoveX(newOffset + _doorsOffset*3, 0.1f);
+            _doorsSize = _leftDoorTransform.rect.width;
+        }
+
+        public void SetDoorsClosed()
+        {
+            _leftDoorTransform.DOAnchorPosX(_doorsSize, 0.1f);
+            _rightDoorTransform.DOAnchorPosX(-_doorsSize, 0.1f);
         }
         
         public async UniTask OpenDoors() 
@@ -39,13 +42,13 @@ namespace Terra.UI.HUD
             _doorSequence?.Kill();
             _doorSequence = DOTween.Sequence();
 
-            _doorSequence.Append(_leftDoor.rectTransform
-                    .DOMoveX(-_doorsOffset, _animationDuration)
+            _doorSequence.Append(_leftDoorTransform
+                    .DOAnchorPosX(0, _animationDuration)
                     .SetEase(_openAnimationCurve)
             );
                 
-            _doorSequence.Join(_rightDoor.rectTransform
-                .DOMoveX(_doorsOffset*5, _animationDuration)
+            _doorSequence.Join(_rightDoorTransform
+                .DOAnchorPosX(0, _animationDuration)
                 .SetEase(_openAnimationCurve)
             );
             
@@ -62,13 +65,13 @@ namespace Terra.UI.HUD
             _doorSequence?.Kill();
             _doorSequence = DOTween.Sequence();
             
-            _doorSequence.Append(_leftDoor.rectTransform
-                .DOMoveX(_doorsOffset, _animationDuration)
+            _doorSequence.Append(_leftDoorTransform
+                .DOAnchorPosX(_doorsSize, _animationDuration)
                 .SetEase(_closeAnimationCurve)
             );
             
-            _doorSequence.Join(_rightDoor.rectTransform
-                    .DOMoveX(_doorsOffset*3, _animationDuration)
+            _doorSequence.Join(_rightDoorTransform
+                    .DOAnchorPosX(-_doorsSize, _animationDuration)
                     .SetEase(_closeAnimationCurve)
             );
 

@@ -166,7 +166,7 @@ namespace Terra.LootSystem.AirDrop
                     {
                         Debug.Log($"Found ground at: {hit.point}");
                         
-                        var size = Physics.OverlapSphereNonAlloc(hit.point, 4f, _colliders, _groundLayer);
+                        var size = Physics.OverlapSphereNonAlloc(hit.point, 5f, _colliders, _objectsLayerMask);
                         if( size <= 0 )
                         {
                             return hit.point;

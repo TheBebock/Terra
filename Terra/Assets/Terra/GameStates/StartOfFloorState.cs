@@ -24,7 +24,7 @@ namespace Terra.GameStates
             HUDManager.Instance.HideGameplayHUD();
             
             HUDManager.Instance.ForceSetDarkScreenAlpha(1f);
-            HUDManager.Instance.ElevatorDoors.ForceSetDoorOpenPercentage(0);
+            HUDManager.Instance.ElevatorDoors.SetDoorsClosed();
             CameraManager.Instance.ChangeToElevatorCamera();
             
             string audioClipName;
